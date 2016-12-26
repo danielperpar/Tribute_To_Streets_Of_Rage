@@ -5,10 +5,11 @@
 #include <iostream>
 #include <list>
 
+class Animation;
 class JSONDataLoader {
 
 public:
-	static void Load(const char *json_file, const char *sprite_owner, std::list<int*> &rect_sprites_list)
+	static void Load(const char *json_file, const char *sprite_owner, std::list<int*> &rect_sprites_list, Animation& animation)
 	{
 		JSON_Value *root_value = nullptr;
 		JSON_Array *sprites = nullptr;
@@ -58,6 +59,17 @@ public:
 
 		/* cleanup code */
 		json_value_free(root_value);
+		sprites_list.clear();
+
+
+		for (std::list<int*>::iterator it = rect_sprites_list.begin(); it != rect_sprites_list.end(); it++)
+		{
+			int x = **it;
+			int y = *(*it + 1);
+			int w = *(*it + 2);
+			int h = *(*it + 3);
+			animation.frames.push_back({ x, y, w, h });
+		}
 
 	}
 
