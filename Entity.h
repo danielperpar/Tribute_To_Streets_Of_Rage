@@ -25,7 +25,7 @@ public:
 	entity_type m_type;
 	iPoint m_position;
 	int m_depth;
-	SDL_Texture *texture = nullptr;
+	SDL_Texture *m_texture = nullptr;
 };
 
 

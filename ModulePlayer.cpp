@@ -39,11 +39,11 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/ship.png");
+	graphics = App->textures->Load("assets/spritesheets/axel.png");
 	
 	//Debug test
-	player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, {771, 100}, 0);
-	EntityManager::DestroyEntity(player);
+	player = (Player*)EntityManager::CreateEntity(graphics, "Axel", entity_type::PLAYER, {771, 100}, 0);
+	player->m_current_animation = &(player->m_player_idle_right);
 	
 
 	/*SDL_Rect colliderRect = SDL_Rect();
@@ -92,8 +92,19 @@ update_status ModulePlayer::Update()
 		//}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
+		if(player->m_face_right == true)
+			player->m_face_right = false;
+		
+		player->m_position.x -= (int)player->m_speed;
+
+		if (player->m_current_animation != &(player->m_player_walk_left))
+		{
+			player->m_player_walk_left.Reset();
+			player->m_current_animation = &(player->m_player_walk_left);
+		}
+
 		//position.y -= speed;
 		//if(current_animation != &up)
 		//{
@@ -102,25 +113,92 @@ update_status ModulePlayer::Update()
 		//}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
+		if(player->m_face_right == false)
+			player->m_face_right = true;
+		
+		player->m_position.x += (int)player->m_speed;
+		
+		if (player->m_current_animation != &(player->m_player_walk_right))
+		{
+			player->m_player_walk_right.Reset();
+			player->m_current_animation = &(player->m_player_walk_right);
+		}
+
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		player->m_position.y -= (int)player->m_speed;
+
+		if (player->m_face_right)
+		{
+			if (player->m_current_animation != &(player->m_player_walk_right))
+			{
+				player->m_player_walk_right.Reset();
+				player->m_current_animation = &(player->m_player_walk_right);
+			}
+		}
+		else
+		{
+			if (player->m_current_animation != &(player->m_player_walk_left))
+			{
+				player->m_player_walk_left.Reset();
+				player->m_current_animation = &(player->m_player_walk_left);
+			}
+		}
+	}
+
+	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		player->m_position.y += (int)player->m_speed;
+		
+		if (player->m_face_right)
+		{
+			if (player->m_current_animation != &(player->m_player_walk_right))
+			{
+				player->m_player_walk_right.Reset();
+				player->m_current_animation = &(player->m_player_walk_right);
+			}
+		}
+		else
+		{
+			if (player->m_current_animation != &(player->m_player_walk_left))
+			{
+				player->m_player_walk_left.Reset();
+				player->m_current_animation = &(player->m_player_walk_left);
+			}
+		}
+		
+		
 		// TODO 6: Shoot a laser using the particle system
 
  		//App->particles->AddParticle(*(App->particles->laserParticle), App->player->position.x + 30, App->player->position.y, collider_type::LASER);
 		//App->audio->PlayFx(App->particles->fxLaser, 0);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE &&
+		App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&
+		App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE &&
+		App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE &&
+		App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_IDLE &&
+		App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE &&
+		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
-	}//&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
-		//current_animation = &idle;
+		if (player->m_face_right)
+			player->m_current_animation = &(player->m_player_idle_right);
+		else
+			player->m_current_animation = &(player->m_player_idle_left);
+	}
+		
 
 
 	//playerCollider->SetPos(position.x, position.y);
 
 	// Draw everything --------------------------------------
 	
-		//App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+		App->renderer->Blit(player->m_texture, player->m_position.x, player->m_position.y, &(player->m_current_animation->GetCurrentFrame()));
 		
 	
 

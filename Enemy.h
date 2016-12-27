@@ -35,7 +35,7 @@ public:
 	Animation m_player_grab_air_combo_left;
 
 private:
-	std::list<int*> animation_list;
+	std::list<int*> m_animation_list;
 
 };
 

@@ -19,28 +19,30 @@ public:
 	
 	bool m_dead;
 	int m_life;
-	Animation player_idle_right;
-	Animation player_walk_right;
-	Animation player_jump_right;
-	Animation player_punch_combo_right;
-	Animation player_back_punch_right;
-	Animation player_air_kick_right;
-	Animation player_grab_kick_head_combo_right;
-	Animation player_grab_air_combo_right;
+	bool m_face_right;
+	float m_speed;
+	Animation m_player_idle_right;
+	Animation m_player_walk_right;
+	Animation m_player_jump_right;
+	Animation m_player_punch_combo_right;
+	Animation m_player_back_punch_right;
+	Animation m_player_air_kick_right;
+	Animation m_player_grab_kick_head_combo_right;
+	Animation m_player_grab_air_combo_right;
 
-	Animation player_idle_left;
-	Animation player_walk_left;
-	Animation player_jump_left;
-	Animation player_punch_combo_left;
-	Animation player_back_punch_left;
-	Animation player_air_kick_left;
-	Animation player_grab_kick_head_combo_left;
-	Animation player_grab_air_combo_left;
+	Animation m_player_idle_left;
+	Animation m_player_walk_left;
+	Animation m_player_jump_left;
+	Animation m_player_punch_combo_left;
+	Animation m_player_back_punch_left;
+	Animation m_player_air_kick_left;
+	Animation m_player_grab_kick_head_combo_left;
+	Animation m_player_grab_air_combo_left;
 
-	Animation *current_animation;
+	Animation *m_current_animation;
 	
 private:
-	std::list<int*> animation_list;
+	std::list<int*> m_animation_list;
 
 };
 
