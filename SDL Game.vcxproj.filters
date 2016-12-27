@@ -79,6 +79,27 @@
     <ClInclude Include="Utilities.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DestroyableItem.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Food.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -127,6 +148,30 @@
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="parson.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="DestroyableItem.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="JSONDataLoader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>

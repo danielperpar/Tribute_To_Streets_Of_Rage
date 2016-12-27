@@ -25,6 +25,7 @@ bool ModuleSceneRound1::Start()
 	background = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_background_neon_out.png");
 	foreground = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_foreground.png");
 	shop_neons = App->textures->Load("assets/spritesheets/neones.png");
+	gui = App->textures->Load("assets/spritesheets/gui.png");
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "neonPinEPot", animation_list, neonPinEPot);
 	neonPinEPot.loop = true;
@@ -110,30 +111,31 @@ update_status ModuleSceneRound1::Update()
 	//App->renderer->camera.x -= 3;
 
 	// Draw everything --------------------------------------
-	App->renderer->Blit(background, 0, 0, NULL);
+	App->renderer->Blit(background, 0, 32, NULL);
 
-	App->renderer->Blit(shop_neons, 768, 0, &(neonPinEPot.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 3605, 0, &(neonPinEPot.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 768, 32, &(neonPinEPot.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 3605, 32, &(neonPinEPot.GetCurrentFrame()));
 
-	App->renderer->Blit(shop_neons, 1028, -1, &(neonBreakfastDiner.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 1604, -1, &(neonBreakfastDiner.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 1028, 31, &(neonBreakfastDiner.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 1604, 31, &(neonBreakfastDiner.GetCurrentFrame()));
 	
-	App->renderer->Blit(shop_neons, 1334, 0, &(neonLDevo.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 1846, 0, &(neonLDevo.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 1338, 32, &(neonLDevo.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 1850, 32, &(neonLDevo.GetCurrentFrame()));
 	
-	App->renderer->Blit(shop_neons, 0, 0, &(neonRachShop.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 2053, 0, &(neonRachShop.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 0, 32, &(neonRachShop.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 2053, 32, &(neonRachShop.GetCurrentFrame()));
 	
-	App->renderer->Blit(shop_neons, 567, 0, &(neonAbcShop.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 2875, 0, &(neonAbcShop.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 567, 32, &(neonAbcShop.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 2875, 32, &(neonAbcShop.GetCurrentFrame()));
 
-	App->renderer->Blit(shop_neons, 132, 64, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 1864, 64, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 2440, 64, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 3128, 16, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 3224, 16, &(neonCafeRestaurant.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 132, 96, &(neonCafeRestaurant.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 1864, 96, &(neonCafeRestaurant.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 2440, 96, &(neonCafeRestaurant.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 3128, 48, &(neonCafeRestaurant.GetCurrentFrame()));
+	App->renderer->Blit(shop_neons, 3224, 48, &(neonCafeRestaurant.GetCurrentFrame()));
 
-	App->renderer->Blit(foreground, 0, 0, NULL);
+	App->renderer->Blit(foreground, 0, 32, NULL);
+	App->renderer->Blit(gui, 0, 0, NULL, 0.0f);
 
 	return UPDATE_CONTINUE;
 }

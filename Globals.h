@@ -54,8 +54,8 @@ typedef unsigned int uint;
 // Configuration -----------
 #define CAMERA_STARTING_POS_X -771
 #define SCREEN_SIZE 3
-#define SCREEN_WIDTH 321
-#define SCREEN_HEIGHT 192
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 224
 #define FULLSCREEN false
 #define VSYNC true
 #define TITLE "Tribute to Streets of Rage"

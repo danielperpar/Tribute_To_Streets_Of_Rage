@@ -9,11 +9,12 @@ public:
 	{
 		for (std::list<int*>::iterator it = rect_list.begin(); it != rect_list.end(); it++)
 		{
-			delete[] *it;
+			delete[] * it;
 		}
 
 		rect_list.clear();
 	}
 };
+
 
 #endif // __UTILITIES_H__

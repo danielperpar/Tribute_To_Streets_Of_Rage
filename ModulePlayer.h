@@ -5,8 +5,10 @@
 #include "Animation.h"
 #include "Point.h"
 #include "ModuleCollision.h"
+#include "Player.h"
 
 struct SDL_Texture;
+
 
 class ModulePlayer : public Module
 {
@@ -19,14 +21,12 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider* collider1, Collider* collider2);
 
-	SDL_Texture* graphics = nullptr;
-	Animation* current_animation = nullptr;
-	Animation idle;
-	Animation up;
-	Animation down;
-	iPoint position;
-	bool destroyed = false;
+	SDL_Texture *graphics;
+	Player *player = nullptr;
 	Collider* playerCollider;
+
+	
+	
 };
 
 #endif

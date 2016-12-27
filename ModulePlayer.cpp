@@ -8,25 +8,27 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 #include "ModuleAudio.h"
+#include "EntityManager.h"
+#include "Entity.h"
 
 
 ModulePlayer::ModulePlayer(bool active) : Module(active)
 {
-	// idle animation (just the ship)
-	idle.frames.push_back({66, 1, 32, 14});
+	//// idle animation (just the ship)
+	//idle.frames.push_back({66, 1, 32, 14});
 
-	// move upwards
-	up.frames.push_back({100, 1, 32, 14});
-	up.frames.push_back({132, 0, 32, 14});
-	up.loop = false;
-	up.speed = 0.1f;
+	//// move upwards
+	//up.frames.push_back({100, 1, 32, 14});
+	//up.frames.push_back({132, 0, 32, 14});
+	//up.loop = false;
+	//up.speed = 0.1f;
 
-	// Move down
-	down.frames.push_back({33, 1, 32, 14});
-	down.frames.push_back({0, 1, 32, 14});
-	down.loop = false;
-	down.speed = 0.1f;
-
+	//// Move down
+	//down.frames.push_back({33, 1, 32, 14});
+	//down.frames.push_back({0, 1, 32, 14});
+	//down.loop = false;
+	//down.speed = 0.1f;
+	
 }
 
 ModulePlayer::~ModulePlayer()
@@ -38,18 +40,19 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	graphics = App->textures->Load("rtype/ship.png");
+	
+	//Debug test
+	player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, {771, 100}, 0);
+	EntityManager::DestroyEntity(player);
+	
 
-	destroyed = false;
-	position.x = 150;
-	position.y = 120;
-
-	SDL_Rect colliderRect = SDL_Rect();
+	/*SDL_Rect colliderRect = SDL_Rect();
 	colliderRect.x = 0;
 	colliderRect.y = 0;
 	colliderRect.w = 32;
 	colliderRect.h = 14;
 	playerCollider = App->collision->AddCollider(colliderRect, nullptr, collider_type::PLAYER);
-	playerCollider->SetPos(position.x, position.y);
+	playerCollider->SetPos(position.x, position.y);*/
 
 	return true;
 }
@@ -71,52 +74,53 @@ update_status ModulePlayer::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		position.x -= speed;
+		//position.x -= speed;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		position.x += speed;
+		//position.x += speed;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		position.y += speed;
-		if(current_animation != &down)
-		{
-			down.Reset();
-			current_animation = &down;
-		}
+		//position.y += speed;
+		//if(current_animation != &down)
+		//{
+		//	down.Reset();
+		//	current_animation = &down;
+		//}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
-		position.y -= speed;
-		if(current_animation != &up)
-		{
-			up.Reset();
-			current_animation = &up;
-		}
+		//position.y -= speed;
+		//if(current_animation != &up)
+		//{
+		//	up.Reset();
+		//	current_animation = &up;
+		//}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		// TODO 6: Shoot a laser using the particle system
 
- 		App->particles->AddParticle(*(App->particles->laserParticle), App->player->position.x + 30, App->player->position.y, collider_type::LASER);
-		App->audio->PlayFx(App->particles->fxLaser, 0);
+ 		//App->particles->AddParticle(*(App->particles->laserParticle), App->player->position.x + 30, App->player->position.y, collider_type::LASER);
+		//App->audio->PlayFx(App->particles->fxLaser, 0);
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-	   && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
-		current_animation = &idle;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+	{
+	}//&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
+		//current_animation = &idle;
 
 
-	playerCollider->SetPos(position.x, position.y);
+	//playerCollider->SetPos(position.x, position.y);
 
 	// Draw everything --------------------------------------
-	if (destroyed == false)
-		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+	
+		//App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 		
 	
 
@@ -131,7 +135,7 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(Collider* collider1, Collider* collider2)
 {
-	Collider* laserCollider = nullptr;
+	/*Collider* laserCollider = nullptr;
 	Collider* playerCollider = nullptr;
 	Collider* wallCollider = nullptr;
 
@@ -175,5 +179,5 @@ void ModulePlayer::OnCollision(Collider* collider1, Collider* collider2)
 		App->particles->AddParticle(*(App->particles->explosionParticle), playerCollider->rect.x, playerCollider->rect.y, collider_type::EXPLOSION);
 
 		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
-	}
+	}*/
 }

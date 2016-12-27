@@ -20,6 +20,7 @@ public:
 	SDL_Texture* background = nullptr;
 	SDL_Texture* foreground = nullptr;
 	SDL_Texture* shop_neons = nullptr;
+	SDL_Texture* gui = nullptr;
 	
 	Animation neonPinEPot;
 	Animation neonBreakfastDiner;

@@ -2,8 +2,8 @@
 #define __APPLICATION_CPP__
 
 #include<list>
-#include "Globals.h"
 #include "Module.h"
+#include "Globals.h"
 
 class ModuleRender;
 class ModuleWindow;
@@ -19,6 +19,8 @@ class ModulePlayer;
 class ModuleSceneIntro;
 class ModuleSceneSpace;
 class ModuleSceneRound1;
+
+class Entity;
 
 class Application
 {
@@ -46,6 +48,8 @@ public:
 	ModuleSceneIntro* scene_intro;
 	ModuleSceneSpace* scene_space;
 	ModuleSceneRound1* scene_round1;
+
+	std::list<Entity*> entities;
 
 private:
 
