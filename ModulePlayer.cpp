@@ -117,11 +117,17 @@ update_status ModulePlayer::Update()
 
 			if (player->m_face_right)
 			{
-				player->m_current_animation = &(player->m_player_jump_right2);
+				if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+					player->m_current_animation = &(player->m_player_air_kick_right);
+				else	
+					player->m_current_animation = &(player->m_player_jump_right2);
 			}
 			else
 			{
-				player->m_current_animation = &(player->m_player_jump_left2);
+				if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+					player->m_current_animation = &(player->m_player_air_kick_left);
+				else	
+					player->m_current_animation = &(player->m_player_jump_left2);
 			}
 
 			if (player->m_jump_up)
@@ -192,15 +198,15 @@ update_status ModulePlayer::Update()
 
 	
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
+	//if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	//{
 		//position.y += speed;
 		//if(current_animation != &down)
 		//{
 		//	down.Reset();
 		//	current_animation = &down;
 		//}
-	}
+	//}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
@@ -315,7 +321,7 @@ update_status ModulePlayer::Update()
 		App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
-		if (player->m_jumping == false && player->m_attacking == false)
+		if (player->m_jumping == false  && player->m_attacking == false)
 		{
 			if (player->m_face_right)
 				player->m_current_animation = &(player->m_player_idle_right);
@@ -329,11 +335,9 @@ update_status ModulePlayer::Update()
 	//playerCollider->SetPos(position.x, position.y);
 
 	// Draw everything --------------------------------------
-	
-		App->renderer->Blit(player->m_texture, player->m_position.x, player->m_position.y, &(player->m_current_animation->GetCurrentFrame()));
-		
-	
 
+	App->renderer->Blit(player->m_texture, player->m_position.x, player->m_position.y, &(player->m_current_animation->GetCurrentFrame()));
+		
 	return UPDATE_CONTINUE;
 }
 

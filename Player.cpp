@@ -44,9 +44,14 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 	m_player_jump_left2.speed = 0.1f;
 	Utilities::free_list(m_animation_list);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "playerPunchComboRight", m_animation_list, m_player_punch_combo_right);
-	m_player_punch_combo_right.loop = true;
-	m_player_punch_combo_right.speed = 0.1f;
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerAirKickRight", m_animation_list, m_player_air_kick_right);
+	m_player_air_kick_right.loop = true;
+	m_player_air_kick_right.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerAirKickLeft", m_animation_list, m_player_air_kick_left);
+	m_player_air_kick_left.loop = true;
+	m_player_air_kick_left.speed = 0.1f;
 	Utilities::free_list(m_animation_list);
 
 }

@@ -209,6 +209,18 @@
 		  "sprite" : [{"x" : 738},{"y" : 96},{"w" : 41},{"h" : 66}]
 		}
 	],
+	"playerAirKickRight" :
+	[
+		{
+		  "sprite" : [{"x" : 317},{"y" : 98},{"w" : 47},{"h" : 64}]
+		}
+	],
+	"playerAirKickLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 677},{"y" : 98},{"w" : 49},{"h" : 64}]
+		}
+	],
 	"playerPunchComboRight" :
 	[
 		{
