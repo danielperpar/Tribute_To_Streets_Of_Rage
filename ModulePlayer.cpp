@@ -77,10 +77,120 @@ update_status ModulePlayer::Update()
 		//position.x -= speed;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
-		//position.x += speed;
+		if (player->m_jumping == false)
+		{
+			player->m_jumping = true;
+			player->m_jump_up = true;
+			player->m_jump_start_pos = player->m_position;
+			
+
+			if (player->m_face_right)
+			{
+				player->m_current_animation = &(player->m_player_jump_right1);
+			}
+			else
+				player->m_current_animation = &(player->m_player_jump_left1);
+		}
 	}
+	
+	if (player->m_jumping == true)
+	{
+		if (player->m_refresh_now1)
+		{
+			player->m_timer_now = player->m_timer_count;
+			player->m_refresh_now1 = false;
+		}
+
+		player->m_timer_count += player->m_timer_speed;
+			
+		if (player->m_timer_count - player->m_timer_now >= 10.0f) 
+		{
+			player->m_continue_animation1 = true;
+			
+		}
+		
+
+		if (player->m_continue_animation1)
+		{
+
+			if (player->m_face_right)
+			{
+				player->m_current_animation = &(player->m_player_jump_right2);
+			}
+			else
+			{
+				player->m_current_animation = &(player->m_player_jump_left2);
+			}
+
+			if (player->m_jump_up)
+			{
+				player->m_position.y -= player->m_jump_speed;
+				if (player->m_jump_start_pos.y - player->m_position.y >= player->m_max_jump_height)
+					player->m_jump_up = false;
+			}
+			else
+			{
+				player->m_position.y += player->m_jump_speed;
+				if (player->m_jump_start_pos.y - player->m_position.y <= 0)
+				{
+					player->m_position = player->m_jump_start_pos;
+
+					if (player->m_face_right)
+					{
+						player->m_current_animation = &(player->m_player_jump_right1);
+					}
+					else
+					{
+						player->m_current_animation = &(player->m_player_jump_left1);
+					}
+						
+						
+					if (player->m_refresh_now2)
+					{
+						player->m_timer_now = player->m_timer_count;
+						player->m_refresh_now2 = false;
+					}
+					if (player->m_timer_count - player->m_timer_now >= 10.0f)
+					{
+						player->m_continue_animation2 = true;
+					}
+
+				}
+					
+					
+				if (player->m_continue_animation2)
+				{
+					if (player->m_face_right)
+					{
+						player->m_current_animation = &(player->m_player_idle_right);							
+						player->m_jumping = false;
+						player->m_timer_count = 0.0f;
+						player->m_continue_animation1 = false;
+						player->m_continue_animation2 = false;
+						player->m_refresh_now1 = true;
+						player->m_refresh_now2 = true;
+					}
+					else
+					{
+						player->m_current_animation = &(player->m_player_idle_left);
+						player->m_jumping = false;
+						player->m_timer_count = 0.0f;
+						player->m_continue_animation1 = false;
+						player->m_continue_animation2 = false;
+						player->m_refresh_now1 = true;
+						player->m_refresh_now2 = true;
+					}
+	
+				}
+					
+			}
+		}
+	}
+
+
+	
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
@@ -94,83 +204,102 @@ update_status ModulePlayer::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		if(player->m_face_right == true)
-			player->m_face_right = false;
-		
-		player->m_position.x -= (int)player->m_speed;
-
-		if (player->m_current_animation != &(player->m_player_walk_left))
+		if (player->m_jumping == true || player->m_attacking == true)
 		{
-			player->m_player_walk_left.Reset();
-			player->m_current_animation = &(player->m_player_walk_left);
-		}
+			if (player->m_face_right == true)
+				player->m_face_right = false;
 
-		//position.y -= speed;
-		//if(current_animation != &up)
-		//{
-		//	up.Reset();
-		//	current_animation = &up;
-		//}
+			player->m_position.x -= (int)player->m_speed;
+			player->m_jump_start_pos.x = player->m_position.x;
+		}
+		else
+		{
+			if (player->m_face_right == true)
+				player->m_face_right = false;
+
+			player->m_position.x -= (int)player->m_speed;
+
+			if (player->m_current_animation != &(player->m_player_walk_left))
+			{
+				player->m_player_walk_left.Reset();
+				player->m_current_animation = &(player->m_player_walk_left);
+			}
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		if(player->m_face_right == false)
-			player->m_face_right = true;
-		
-		player->m_position.x += (int)player->m_speed;
-		
-		if (player->m_current_animation != &(player->m_player_walk_right))
+		if (player->m_jumping == true || player->m_attacking == true)
 		{
-			player->m_player_walk_right.Reset();
-			player->m_current_animation = &(player->m_player_walk_right);
-		}
+			if (player->m_face_right == false)
+				player->m_face_right = true;
 
+			player->m_position.x += (int)player->m_speed;
+			player->m_jump_start_pos.x = player->m_position.x;
+		}
+		else
+		{
+			if (player->m_face_right == false)
+				player->m_face_right = true;
+
+			player->m_position.x += (int)player->m_speed;
+
+			if (player->m_current_animation != &(player->m_player_walk_right))
+			{
+				player->m_player_walk_right.Reset();
+				player->m_current_animation = &(player->m_player_walk_right);
+			}
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		player->m_position.y -= (int)player->m_speed;
+		if(player->m_jumping == false && player->m_attacking == false)
+		{
+			player->m_position.y -= (int)player->m_speed;
 
-		if (player->m_face_right)
-		{
-			if (player->m_current_animation != &(player->m_player_walk_right))
+			if (player->m_face_right)
 			{
-				player->m_player_walk_right.Reset();
-				player->m_current_animation = &(player->m_player_walk_right);
+				if (player->m_current_animation != &(player->m_player_walk_right))
+				{
+					player->m_player_walk_right.Reset();
+					player->m_current_animation = &(player->m_player_walk_right);
+				}
 			}
-		}
-		else
-		{
-			if (player->m_current_animation != &(player->m_player_walk_left))
+			else
 			{
-				player->m_player_walk_left.Reset();
-				player->m_current_animation = &(player->m_player_walk_left);
+				if (player->m_current_animation != &(player->m_player_walk_left))
+				{
+					player->m_player_walk_left.Reset();
+					player->m_current_animation = &(player->m_player_walk_left);
+				}
 			}
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		player->m_position.y += (int)player->m_speed;
-		
-		if (player->m_face_right)
+		if (player->m_jumping == false && player->m_attacking == false)
 		{
-			if (player->m_current_animation != &(player->m_player_walk_right))
+			player->m_position.y += (int)player->m_speed;
+
+			if (player->m_face_right)
 			{
-				player->m_player_walk_right.Reset();
-				player->m_current_animation = &(player->m_player_walk_right);
+				if (player->m_current_animation != &(player->m_player_walk_right))
+				{
+					player->m_player_walk_right.Reset();
+					player->m_current_animation = &(player->m_player_walk_right);
+				}
+			}
+			else
+			{
+				if (player->m_current_animation != &(player->m_player_walk_left))
+				{
+					player->m_player_walk_left.Reset();
+					player->m_current_animation = &(player->m_player_walk_left);
+				}
 			}
 		}
-		else
-		{
-			if (player->m_current_animation != &(player->m_player_walk_left))
-			{
-				player->m_player_walk_left.Reset();
-				player->m_current_animation = &(player->m_player_walk_left);
-			}
-		}
-		
 		
 		// TODO 6: Shoot a laser using the particle system
 
@@ -186,10 +315,13 @@ update_status ModulePlayer::Update()
 		App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
-		if (player->m_face_right)
-			player->m_current_animation = &(player->m_player_idle_right);
-		else
-			player->m_current_animation = &(player->m_player_idle_left);
+		if (player->m_jumping == false && player->m_attacking == false)
+		{
+			if (player->m_face_right)
+				player->m_current_animation = &(player->m_player_idle_right);
+			else
+				player->m_current_animation = &(player->m_player_idle_left);
+		}
 	}
 		
 

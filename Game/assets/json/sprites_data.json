@@ -185,13 +185,28 @@
 		  "sprite" : [{"x" : 861},{"y" : 96},{"w" : 37},{"h" : 63}]
 		}
 	],
-	"playerJumpRight" :
+	"playerJumpRight1" :
 	[
 		{
-		  "sprite" : [{"x" : 214},{"y" : 104},{"w" : 36},{"h" : 54}]
-		},
+		  "sprite" : [{"x" : 214},{"y" : 96},{"w" : 36},{"h" : 62}]
+		}
+	],	
+	"playerJumpRight2" :
+	[
 		{
 		  "sprite" : [{"x" : 262},{"y" : 96},{"w" : 38},{"h" : 66}]	
+		}
+	],
+	"playerJumpLeft1" :
+	[
+		{
+		  "sprite" : [{"x" : 782},{"y" : 96},{"w" : 43},{"h" : 62}]
+		}
+	],
+	"playerJumpLeft2" :
+	[
+		{
+		  "sprite" : [{"x" : 738},{"y" : 96},{"w" : 41},{"h" : 66}]
 		}
 	],
 	"playerPunchComboRight" :

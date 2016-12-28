@@ -17,13 +17,33 @@ public:
 
 public:
 	
-	bool m_dead;
-	int m_life;
-	bool m_face_right;
-	float m_speed;
+	bool m_dead = false;
+	int m_life = 100;
+	bool m_face_right = true;
+	float m_speed = 1.0f;
+	bool m_jumping = false;
+	bool m_attacking = false;
+	bool m_jump_up = true;
+	iPoint m_jump_start_pos;
+	int m_jump_speed = 1;
+	int m_max_jump_height = 36;
+	
+	bool m_timer_activated = false;
+	float m_timer_count = 0.0f;
+	float m_timer_speed = 1.0f;
+	float m_timer_now = -1.0f;
+	bool m_refresh_now1 = true;
+	bool m_refresh_now2 = true;
+
+	bool m_continue_animation1 = false;
+	bool m_continue_animation2 = false;
+
 	Animation m_player_idle_right;
 	Animation m_player_walk_right;
-	Animation m_player_jump_right;
+	Animation m_player_jump_right1;
+	Animation m_player_jump_right2;
+	Animation m_player_jump_left1;
+	Animation m_player_jump_left2;
 	Animation m_player_punch_combo_right;
 	Animation m_player_back_punch_right;
 	Animation m_player_air_kick_right;
