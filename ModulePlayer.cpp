@@ -43,7 +43,7 @@ bool ModulePlayer::Start()
 	
 	//Debug test
 	player = (Player*)EntityManager::CreateEntity(graphics, "Axel", entity_type::PLAYER, {771, 100}, 0);
-	player->m_current_animation = &(player->m_player_idle_right);
+	player->m_current_animation = &(player->m_player_idle_right1);
 	
 
 	/*SDL_Rect colliderRect = SDL_Rect();
@@ -84,7 +84,8 @@ update_status ModulePlayer::Update()
 			player->m_jumping = true;
 			player->m_jump_up = true;
 			player->m_jump_start_pos = player->m_position;
-			
+			player->m_refresh_now1 = true;
+			player->m_refresh_now2 = true;
 
 			if (player->m_face_right)
 			{
@@ -170,7 +171,7 @@ update_status ModulePlayer::Update()
 				{
 					if (player->m_face_right)
 					{
-						player->m_current_animation = &(player->m_player_idle_right);							
+						player->m_current_animation = &(player->m_player_idle_right1);							
 						player->m_jumping = false;
 						player->m_timer_count = 0.0f;
 						player->m_continue_animation1 = false;
@@ -180,7 +181,7 @@ update_status ModulePlayer::Update()
 					}
 					else
 					{
-						player->m_current_animation = &(player->m_player_idle_left);
+						player->m_current_animation = &(player->m_player_idle_left1);
 						player->m_jumping = false;
 						player->m_timer_count = 0.0f;
 						player->m_continue_animation1 = false;
@@ -197,16 +198,12 @@ update_status ModulePlayer::Update()
 
 
 	
-
-	//if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	//{
-		//position.y += speed;
-		//if(current_animation != &down)
-		//{
-		//	down.Reset();
-		//	current_animation = &down;
-		//}
-	//}
+	if(!player->m_jumping)
+		if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		{
+			//controlar el tiempo que se muestra la animación y que solo pegue una vez al apretar la S
+			player->m_current_animation = &(player->m_player_punch_combo_right1);
+		}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
@@ -323,10 +320,67 @@ update_status ModulePlayer::Update()
 	{
 		if (player->m_jumping == false  && player->m_attacking == false)
 		{
+			
 			if (player->m_face_right)
-				player->m_current_animation = &(player->m_player_idle_right);
+			{
+				if (player->m_restart_animation)
+				{
+					player->m_current_animation = &(player->m_player_idle_right1);
+					player->m_restart_animation = false;
+				}
+				
+				if (player->m_current_animation == &(player->m_player_idle_right1))
+				{
+					if (player->m_refresh_now1)
+					{
+						player->m_last_time = SDL_GetTicks();
+						player->m_refresh_now1 = false;
+					}
+					player->m_current_time = SDL_GetTicks();
+					if (player->m_current_time >= player->m_last_time + player->m_idle_right1_duration)
+					{
+						player->m_current_animation = &(player->m_player_idle_right2);
+						player->m_refresh_now1 = true;
+					}
+				}
+				
+				if (player->m_current_animation == &(player->m_player_idle_right2))
+				{
+					if (player->m_refresh_now1)
+					{
+						player->m_last_time = SDL_GetTicks();
+						player->m_refresh_now1 = false;
+					}
+					player->m_current_time = SDL_GetTicks();
+					if (player->m_current_time >= player->m_last_time + player->m_idle_right2_duration)
+					{
+						player->m_current_animation = &(player->m_player_idle_right3);
+						player->m_refresh_now1 = true;
+					}
+				}
+
+				if (player->m_current_animation == &(player->m_player_idle_right3))
+				{
+					if (player->m_refresh_now1)
+					{
+						player->m_last_time = SDL_GetTicks();
+						player->m_refresh_now1 = false;
+					}
+					player->m_current_time = SDL_GetTicks();
+					if (player->m_current_time >= player->m_last_time + player->m_idle_right3_duration)
+					{
+						player->m_current_animation = &(player->m_player_idle_right1);
+						player->m_refresh_now1 = true;
+						player->m_restart_animation = true;
+					}
+				}
+	
+			}
+			//face left
 			else
-				player->m_current_animation = &(player->m_player_idle_left);
+			{
+				
+			}
 		}
 	}
 		
