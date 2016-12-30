@@ -2,36 +2,37 @@
 #include "JSONDataLoader.h"
 #include "Utilities.h"
 
+
 Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth) : Entity(texture, name, type, position, depth){
 	
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerIdleRight1", m_animation_list, m_player_idle_right1);
-	m_player_idle_right1.loop = true;
-	m_player_idle_right1.speed = 0.01f;
+	m_player_idle_right1.loop = false;
+	m_player_idle_right1.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerIdleRight2", m_animation_list, m_player_idle_right2);
-	m_player_idle_right2.loop = true;
-	m_player_idle_right2.speed = 0.01f;
+	m_player_idle_right2.loop = false;
+	m_player_idle_right2.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerIdleRight3", m_animation_list, m_player_idle_right3);
-	m_player_idle_right3.loop = true;
-	m_player_idle_right3.speed = 0.01f;
+	m_player_idle_right3.loop = false;
+	m_player_idle_right3.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerIdleLeft1", m_animation_list, m_player_idle_left1);
-	m_player_idle_left1.loop = true;
-	m_player_idle_left1.speed = 0.01f;
+	m_player_idle_left1.loop = false;
+	m_player_idle_left1.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerIdleLeft2", m_animation_list, m_player_idle_left2);
-	m_player_idle_left2.loop = true;
-	m_player_idle_left2.speed = 0.01f;
+	m_player_idle_left2.loop = false;
+	m_player_idle_left2.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerIdleLeft3", m_animation_list, m_player_idle_left3);
-	m_player_idle_left3.loop = true;
-	m_player_idle_left3.speed = 0.01f;
+	m_player_idle_left3.loop = false;
+	m_player_idle_left3.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerWalkRight", m_animation_list, m_player_walk_right);
@@ -91,21 +92,15 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 
 }
 
-void Player::AdvanceAnimation(Animation *src_anim, size_t src_duration, Animation *dst_anim, bool restart_animation)
+void Player::AdvanceAnimation(Animation *initial_anim_sprite, size_t initial_sprite_duration, Animation *next_anim_sprite, bool restart_animation)
 {
-	if (m_current_animation == src_anim)
+	m_timer_count += m_timer_speed;
+				
+	if (m_timer_count >=  initial_sprite_duration)
 	{
-		if (m_refresh_now1)
-		{
-			m_last_time = SDL_GetTicks();
-			m_refresh_now1 = false;
-		}
-		m_current_time = SDL_GetTicks();
-		if (m_current_time >= m_last_time + src_duration)
-		{
-			m_current_animation = dst_anim;
-			m_refresh_now1 = true;
-			m_restart_animation = true;
-		}
+		m_current_animation = next_anim_sprite;
+		m_refresh_now1 = true;
+		m_restart_animation = restart_animation;
+		m_timer_count = 0.0f;
 	}
 }

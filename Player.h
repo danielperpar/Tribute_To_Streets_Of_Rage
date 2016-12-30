@@ -7,6 +7,18 @@
 #include "Point.h"
 
 
+enum class state
+{
+	START,
+	IDLE,
+	WALKING,
+	JUMPING,
+	ATTACKING
+};
+
+
+
+
 struct SDL_Texture;
 class Player : public Entity{
 
@@ -19,11 +31,10 @@ public:
 	int m_life = 100;
 	bool m_face_right = true;
 	float m_speed = 1.0f;
-	bool m_jumping = false;
-	bool m_attacking = false;
+
 	bool m_jump_up = true;
 	iPoint m_jump_start_pos;
-	int m_jump_speed = 1;
+	float m_jump_speed = 1.5f;
 	int m_max_jump_height = 36;
 	
 	bool m_timer_activated = false;
@@ -40,26 +51,33 @@ public:
 	bool m_continue_animation2 = false;
 	bool m_restart_animation = true;
 	
+	bool m_jumping = false;
+	bool m_attacking = false;
+	bool m_idle = false;
+	bool m_walking = false;
+	state state = state::START;
 
 	Animation m_player_idle_right1;
-	size_t m_idle_right1_duration = 5000;
+	size_t m_idle_right1_duration = 150;
 	Animation m_player_idle_right2;
-	size_t m_idle_right2_duration = 1000;
+	size_t m_idle_right2_duration = 25;
 	Animation m_player_idle_right3;
-	size_t m_idle_right3_duration = 1000;
+	size_t m_idle_right3_duration = 25;
 	Animation m_player_idle_left1;
-	size_t m_idle_left1_duration = 5000;
+	size_t m_idle_left1_duration = 150;
 	Animation m_player_idle_left2;
-	size_t m_idle_left2_duration = 1000;
+	size_t m_idle_left2_duration = 25;
 	Animation m_player_idle_left3;
-	size_t m_idle_left3_duration = 1000;
+	size_t m_idle_left3_duration = 25;
 
 	Animation m_player_walk_right;
 	Animation m_player_walk_left;
 
 	Animation m_player_jump_right1;
+	size_t m_jump_right1_duration = 10;
 	Animation m_player_jump_right2;
 	Animation m_player_jump_left1;
+	size_t m_jump_left1_duration = 10;
 	Animation m_player_jump_left2;
 
 	Animation m_player_air_kick_right;
@@ -79,7 +97,7 @@ public:
 
 	Animation *m_current_animation;
 
-	void AdvanceAnimation(Animation *src_anim_sprite, size_t src_duration,  Animation *dst_anim_sprite, bool restart_animation);
+	void AdvanceAnimation(Animation *initial_anim_sprite, size_t initial_sprite_duration,  Animation *next_anim_sprite, bool restart_animation);
 	
 private:
 	std::list<int*> m_animation_list;
