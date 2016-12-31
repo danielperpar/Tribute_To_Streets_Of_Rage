@@ -43,7 +43,7 @@ bool ModulePlayer::Start()
 	
 	//Debug test
 	player = (Player*)EntityManager::CreateEntity(graphics, "Axel", entity_type::PLAYER, {771, 100}, 0);
-	player->m_current_animation = &(player->m_player_idle_right1);
+	player->m_current_animation = &(player->m_idle_right1);
 	
 
 	/*SDL_Rect colliderRect = SDL_Rect();
@@ -96,46 +96,46 @@ update_status ModulePlayer::Update()
 		if (player->m_restart_animation)
 		{
 			if(player->m_face_right)
-				player->m_current_animation = &(player->m_player_jump_right1);
+				player->m_current_animation = &(player->m_jump_right1);
 			else
-				player->m_current_animation = &(player->m_player_jump_left1);
+				player->m_current_animation = &(player->m_jump_left1);
 				
 			player->m_restart_animation = false;
 		}
 
-		if (player->m_current_animation == &(player->m_player_jump_right1))
+		if (player->m_current_animation == &(player->m_jump_right1))
 		{
 			if(player->m_jumping)
-				player->AdvanceAnimation(&(player->m_player_jump_right1), player->m_jump_right1_duration, &(player->m_player_jump_right2), false);
+				player->AdvanceAnimation(player->m_jump1_duration, &(player->m_jump_right2), false);
 			else
-				player->AdvanceAnimation(&(player->m_player_jump_right1), player->m_jump_right1_duration, &(player->m_player_idle_right1), true);
+				player->AdvanceAnimation(player->m_jump1_duration, &(player->m_idle_right1), true);
 		}
 
-		if (player->m_current_animation == &(player->m_player_jump_left1))
+		if (player->m_current_animation == &(player->m_jump_left1))
 		{
 			if(player->m_jumping)
-				player->AdvanceAnimation(&(player->m_player_jump_left1), player->m_jump_left1_duration, &(player->m_player_jump_left2), false);
+				player->AdvanceAnimation(player->m_jump1_duration, &(player->m_jump_left2), false);
 			else
-				player->AdvanceAnimation(&(player->m_player_jump_left1), player->m_jump_left1_duration, &(player->m_player_idle_left1), true);
+				player->AdvanceAnimation(player->m_jump1_duration, &(player->m_idle_left1), true);
 		}
 					
-		if (player->m_current_animation == &(player->m_player_jump_right2) || player->m_current_animation == &(player->m_player_jump_left2)|| 
-			player->m_current_animation == &(player->m_player_air_kick_right) || player->m_current_animation == &(player->m_player_air_kick_left))
+		if (player->m_current_animation == &(player->m_jump_right2) || player->m_current_animation == &(player->m_jump_left2)|| 
+			player->m_current_animation == &(player->m_air_kick_right) || player->m_current_animation == &(player->m_air_kick_left))
 		{
 				
 			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 			{
 				if(player->m_face_right)
-					player->m_current_animation = &(player->m_player_air_kick_right);
+					player->m_current_animation = &(player->m_air_kick_right);
 				else
-					player->m_current_animation = &(player->m_player_air_kick_left);
+					player->m_current_animation = &(player->m_air_kick_left);
 			}
 			else
 			{
 				if(player->m_face_right)
-					player->m_current_animation = &(player->m_player_jump_right2);
+					player->m_current_animation = &(player->m_jump_right2);
 				else
-					player->m_current_animation = &(player->m_player_jump_left2);
+					player->m_current_animation = &(player->m_jump_left2);
 			}
 				
 				
@@ -154,12 +154,12 @@ update_status ModulePlayer::Update()
 						
 					if (player->m_face_right)
 					{
-						player->m_current_animation = &(player->m_player_jump_right1);
+						player->m_current_animation = &(player->m_jump_right1);
 						player->m_jumping = false;
 					}
 					else
 					{ 
-						player->m_current_animation = &(player->m_player_jump_left1);
+						player->m_current_animation = &(player->m_jump_left1);
 						player->m_jumping = false;
 					}
 						
@@ -167,7 +167,7 @@ update_status ModulePlayer::Update()
 			}
 		}
 
-		if (player->m_current_animation == &(player->m_player_idle_right1) || player->m_current_animation == &(player->m_player_idle_left1)) {
+		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
 			player->state = state::IDLE;
 		}
 
@@ -182,41 +182,42 @@ update_status ModulePlayer::Update()
 			{
 				player->state = state::ATTACKING;
 				player->m_restart_animation = true;
+				player->m_allow_attack = true;
+				player->m_continue_combo = false;
+				player->m_timer_count = 0.0f;
 			}
-		}
-		else
-		{
-			if(player->m_restart_animation == true)
-				player->state = state::IDLE;
-		}
+		}	
 	}
 
-	if (player->state == state::ATTACKING)
-	
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+		player->m_allow_attack = true;
+
+	if (player->state == state::ATTACKING && player->m_allow_attack)
 	{
+		
 		if (player->m_restart_animation == true)
 		{
-			player->m_current_animation = &(player->m_player_punch_combo_right1);
+			if (player->m_face_right == true)
+				player->m_current_animation = &(player->m_punch_combo_right1);
+			else
+				player->m_current_animation = &(player->m_punch_combo_left1);
+			
 			player->m_restart_animation = false;
 		}
 
-		//player->AdvanceAnimation(&(player->m_player_punch_combo_right1), 5000, &(player->m_player_idle_right1), true);
-		if (player->m_current_animation == &(player->m_player_punch_combo_right1))
+		if (player->m_current_animation == &(player->m_punch_combo_right1) && player->m_continue_combo == false)
 		{
-			if (player->m_refresh_now1)
-			{
-				player->m_timer_now = player->m_timer_count;
-				player->m_refresh_now1 = false;
-			}
-			player->m_timer_count += player->m_timer_speed;
+			player->AdvanceAnimation(player->m_punch_combo1_duration, &(player->m_idle_right1), true);
+		}
+		
+		if (player->m_current_animation == &(player->m_punch_combo_left1) && player->m_continue_combo == false)
+		{
+			player->AdvanceAnimation(player->m_punch_combo1_duration, &(player->m_idle_left1), true);
+		}
 
-			if (player->m_timer_count - player->m_timer_now >= 100)
-			{
-				player->m_current_animation = &(player->m_player_idle_right1);
-				player->m_refresh_now1 = true;
-				player->m_restart_animation = true;
-				player->m_timer_count = 0.0f;
-			}
+		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
+			player->state = state::IDLE;
+			player->m_allow_attack = false;
 		}
 
 	}
@@ -240,10 +241,10 @@ update_status ModulePlayer::Update()
 
 			player->m_position.x -= (int)player->m_speed;
 
-			if (player->m_current_animation != &(player->m_player_walk_left))
+			if (player->m_current_animation != &(player->m_walk_left))
 			{
-				player->m_player_walk_left.Reset();
-				player->m_current_animation = &(player->m_player_walk_left);
+				player->m_walk_left.Reset();
+				player->m_current_animation = &(player->m_walk_left);
 			}
 		}
 	}
@@ -267,10 +268,10 @@ update_status ModulePlayer::Update()
 
 			player->m_position.x += (int)player->m_speed;
 
-			if (player->m_current_animation != &(player->m_player_walk_right))
+			if (player->m_current_animation != &(player->m_walk_right))
 			{
-				player->m_player_walk_right.Reset();
-				player->m_current_animation = &(player->m_player_walk_right);
+				player->m_walk_right.Reset();
+				player->m_current_animation = &(player->m_walk_right);
 			}
 		}
 	}
@@ -283,18 +284,18 @@ update_status ModulePlayer::Update()
 
 			if (player->m_face_right)
 			{
-				if (player->m_current_animation != &(player->m_player_walk_right))
+				if (player->m_current_animation != &(player->m_walk_right))
 				{
-					player->m_player_walk_right.Reset();
-					player->m_current_animation = &(player->m_player_walk_right);
+					player->m_walk_right.Reset();
+					player->m_current_animation = &(player->m_walk_right);
 				}
 			}
 			else
 			{
-				if (player->m_current_animation != &(player->m_player_walk_left))
+				if (player->m_current_animation != &(player->m_walk_left))
 				{
-					player->m_player_walk_left.Reset();
-					player->m_current_animation = &(player->m_player_walk_left);
+					player->m_walk_left.Reset();
+					player->m_current_animation = &(player->m_walk_left);
 				}
 			}
 		}
@@ -308,18 +309,18 @@ update_status ModulePlayer::Update()
 
 			if (player->m_face_right)
 			{
-				if (player->m_current_animation != &(player->m_player_walk_right))
+				if (player->m_current_animation != &(player->m_walk_right))
 				{
-					player->m_player_walk_right.Reset();
-					player->m_current_animation = &(player->m_player_walk_right);
+					player->m_walk_right.Reset();
+					player->m_current_animation = &(player->m_walk_right);
 				}
 			}
 			else
 			{
-				if (player->m_current_animation != &(player->m_player_walk_left))
+				if (player->m_current_animation != &(player->m_walk_left))
 				{
-					player->m_player_walk_left.Reset();
-					player->m_current_animation = &(player->m_player_walk_left);
+					player->m_walk_left.Reset();
+					player->m_current_animation = &(player->m_walk_left);
 				}
 			}
 		}
@@ -353,34 +354,33 @@ update_status ModulePlayer::Update()
 		{
 			if (player->m_restart_animation)
 			{
-				player->m_current_animation = &(player->m_player_idle_right1);
+				player->m_current_animation = &(player->m_idle_right1);
 				player->m_restart_animation = false;
 			}
-			if (player->m_current_animation == &(player->m_player_idle_right1))
-				player->AdvanceAnimation(&(player->m_player_idle_right1), player->m_idle_right1_duration, &(player->m_player_idle_right2), false);
+			if (player->m_current_animation == &(player->m_idle_right1))
+				player->AdvanceAnimation(player->m_idle1_duration, &(player->m_idle_right2), false);
 			
-			if (player->m_current_animation == &(player->m_player_idle_right2))
-				player->AdvanceAnimation(&(player->m_player_idle_right2), player->m_idle_right2_duration, &(player->m_player_idle_right3), false);
+			if (player->m_current_animation == &(player->m_idle_right2))
+				player->AdvanceAnimation(player->m_idle2_duration, &(player->m_idle_right3), false);
 			
-			if (player->m_current_animation == &(player->m_player_idle_right3))
-				player->AdvanceAnimation(&(player->m_player_idle_right3), player->m_idle_right3_duration, &(player->m_player_idle_right1), true);
+			if (player->m_current_animation == &(player->m_idle_right3))
+				player->AdvanceAnimation(player->m_idle3_duration, &(player->m_idle_right1), true);
 		}
-		//face left
 		else
 		{
 			if (player->m_restart_animation)
 			{
-				player->m_current_animation = &(player->m_player_idle_left1);
+				player->m_current_animation = &(player->m_idle_left1);
 				player->m_restart_animation = false;
 			}
-			if (player->m_current_animation == &(player->m_player_idle_left1))
-				player->AdvanceAnimation(&(player->m_player_idle_left1), player->m_idle_left1_duration, &(player->m_player_idle_left2), false);
+			if (player->m_current_animation == &(player->m_idle_left1))
+				player->AdvanceAnimation(player->m_idle1_duration, &(player->m_idle_left2), false);
 			
-			if (player->m_current_animation == &(player->m_player_idle_left2))
-				player->AdvanceAnimation(&(player->m_player_idle_left2), player->m_idle_left2_duration, &(player->m_player_idle_left3), false);
+			if (player->m_current_animation == &(player->m_idle_left2))
+				player->AdvanceAnimation(player->m_idle2_duration, &(player->m_idle_left3), false);
 			
-			if (player->m_current_animation == &(player->m_player_idle_left3))
-				player->AdvanceAnimation(&(player->m_player_idle_left3), player->m_idle_left3_duration, &(player->m_player_idle_left1), true);
+			if (player->m_current_animation == &(player->m_idle_left3))
+				player->AdvanceAnimation(player->m_idle3_duration, &(player->m_idle_left1), true);
 		}
 	}
 		

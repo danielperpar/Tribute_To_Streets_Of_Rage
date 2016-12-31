@@ -37,18 +37,11 @@ public:
 	float m_jump_speed = 1.5f;
 	int m_max_jump_height = 36;
 	
-	bool m_timer_activated = false;
 	float m_timer_count = 0.0f;
 	float m_timer_speed = 1.0f;
-	float m_timer_now = -1.0f;
-	bool m_refresh_now1 = true;
-	bool m_refresh_now2 = true;
 
-	size_t m_current_time;
-	size_t m_last_time = 0;
-
-	bool m_continue_animation1 = false;
-	bool m_continue_animation2 = false;
+	bool m_continue_combo = true;
+	bool m_allow_attack = true;
 	bool m_restart_animation = true;
 	
 	bool m_jumping = false;
@@ -57,47 +50,51 @@ public:
 	bool m_walking = false;
 	state state = state::START;
 
-	Animation m_player_idle_right1;
-	size_t m_idle_right1_duration = 150;
-	Animation m_player_idle_right2;
-	size_t m_idle_right2_duration = 25;
-	Animation m_player_idle_right3;
-	size_t m_idle_right3_duration = 25;
-	Animation m_player_idle_left1;
-	size_t m_idle_left1_duration = 150;
-	Animation m_player_idle_left2;
-	size_t m_idle_left2_duration = 25;
-	Animation m_player_idle_left3;
-	size_t m_idle_left3_duration = 25;
+	Animation m_idle_right1;
+	Animation m_idle_right2;
+	Animation m_idle_right3;
+	Animation m_idle_left1;
+	Animation m_idle_left2;
+	Animation m_idle_left3;
+	size_t m_idle1_duration = 150;
+	size_t m_idle2_duration = 25;
+	size_t m_idle3_duration = 25;
 
-	Animation m_player_walk_right;
-	Animation m_player_walk_left;
+	Animation m_walk_right;
+	Animation m_walk_left;
 
-	Animation m_player_jump_right1;
-	size_t m_jump_right1_duration = 10;
-	Animation m_player_jump_right2;
-	Animation m_player_jump_left1;
-	size_t m_jump_left1_duration = 10;
-	Animation m_player_jump_left2;
+	Animation m_jump_right1;
+	Animation m_jump_right2;
+	Animation m_jump_left1;
+	Animation m_jump_left2;
+	size_t m_jump1_duration = 10;
+	size_t m_jump2_duration = 10;
 
-	Animation m_player_air_kick_right;
-	Animation m_player_air_kick_left;
+	Animation m_air_kick_right;
+	Animation m_air_kick_left;
 
-	Animation m_player_punch_combo_right1;
-	Animation m_player_punch_combo_right2;
-	Animation m_player_punch_combo_right3;
+	Animation m_punch_combo_right1;
+	Animation m_punch_combo_right2;
+	Animation m_punch_combo_right3;
+	Animation m_punch_combo_left1;
+	Animation m_punch_combo_left2;
+	Animation m_punch_combo_left3;
 
-	Animation m_player_punch_combo_left;
-	Animation m_player_back_punch_right;
-	Animation m_player_back_punch_left;
-	Animation m_player_grab_kick_head_combo_right;
-	Animation m_player_grab_kick_head_combo_left;
-	Animation m_player_grab_air_combo_right;
-	Animation m_player_grab_air_combo_left;
+	size_t m_punch_combo1_duration = 10;
+
+
+	Animation m_back_punch_right;
+
+	Animation m_back_punch_left;
+
+	Animation m_grab_kick_head_combo_right;
+	Animation m_grab_kick_head_combo_left;
+	Animation m_grab_air_combo_right;
+	Animation m_grab_air_combo_left;
 
 	Animation *m_current_animation;
 
-	void AdvanceAnimation(Animation *initial_anim_sprite, size_t initial_sprite_duration,  Animation *next_anim_sprite, bool restart_animation);
+	void AdvanceAnimation(size_t initial_sprite_duration,  Animation *next_anim_sprite, bool restart_animation);
 	
 private:
 	std::list<int*> m_animation_list;
