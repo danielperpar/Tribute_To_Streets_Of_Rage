@@ -95,6 +95,36 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 	m_punch_combo_left1.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerPunchComboLeft2", m_animation_list, m_punch_combo_left2);
+	m_punch_combo_left2.loop = false;
+	m_punch_combo_left2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerPunchComboLeft3", m_animation_list, m_punch_combo_left3);
+	m_punch_combo_left3.loop = false;
+	m_punch_combo_left3.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerBackPunchRight1", m_animation_list, m_back_punch_right1);
+	m_back_punch_right1.loop = false;
+	m_back_punch_right1.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerBackPunchRight2", m_animation_list, m_back_punch_right2);
+	m_back_punch_right2.loop = false;
+	m_back_punch_right2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerBackPunchLeft1", m_animation_list, m_back_punch_left1);
+	m_back_punch_left1.loop = false;
+	m_back_punch_left1.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "playerBackPunchLeft2", m_animation_list, m_back_punch_left2);
+	m_back_punch_left2.loop = false;
+	m_back_punch_left2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
 
 }
 

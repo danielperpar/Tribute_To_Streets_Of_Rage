@@ -11,9 +11,11 @@ enum class state
 {
 	START,
 	IDLE,
+	IDLE_S_PRESSED,
 	WALKING,
 	JUMPING,
-	ATTACKING
+	PUNCHING,
+	BACK_PUNCHING
 };
 
 
@@ -40,15 +42,17 @@ public:
 	float m_timer_count = 0.0f;
 	float m_timer_speed = 1.0f;
 
-	bool m_continue_combo = true;
-	bool m_allow_attack = true;
+	bool m_continue_combo = false;
+	bool m_allow_punch = true;
+	bool m_allow_back_punch = true;
 	bool m_restart_animation = true;
 	
 	bool m_jumping = false;
-	bool m_attacking = false;
+	bool m_punching = false;
+	bool m_back_punching = false;
 	bool m_idle = false;
 	bool m_walking = false;
-	state state = state::START;
+	state m_state = state::START;
 
 	Animation m_idle_right1;
 	Animation m_idle_right2;
@@ -81,11 +85,18 @@ public:
 	Animation m_punch_combo_left3;
 
 	size_t m_punch_combo1_duration = 10;
+	size_t m_punch_combo2_duration = 10;
+	size_t m_punch_combo3_duration = 10;
 
+	Animation m_back_punch_right1;
+	Animation m_back_punch_right2;
+	
+	Animation m_back_punch_left1;
+	Animation m_back_punch_left2;
 
-	Animation m_back_punch_right;
+	size_t m_back_punch1_duration = 10;
+	size_t m_back_punch2_duration = 10;
 
-	Animation m_back_punch_left;
 
 	Animation m_grab_kick_head_combo_right;
 	Animation m_grab_kick_head_combo_left;

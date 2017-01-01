@@ -146,7 +146,7 @@
 	"playerIdleRight3" :
 	[
 		{
-		  "sprite" : [{"x" : 1156},{"y" : 83},{"w" : 98},{"h" : 63}]
+		  "sprite" : [{"x" : 1157},{"y" : 83},{"w" : 98},{"h" : 63}]
 		}	
 	],
 	"playerIdleLeft1" :
@@ -164,7 +164,7 @@
 	"playerIdleLeft3" :
 	[
 		{
-		  "sprite" : [{"x" : 1300},{"y" : 83},{"w" : 83},{"h" : 63}]
+		  "sprite" : [{"x" : 1299},{"y" : 83},{"w" : 83},{"h" : 63}]
 		}	
 	],
 	"playerWalkRight" :
@@ -251,15 +251,6 @@
 		  "sprite" : [{"x" : 548},{"y" : 11},{"w" : 118},{"h" : 63}]
 		}
 	],
-	"playerBackPunchRight" :
-	[
-		{
-		  "sprite" : [{"x" : 1020},{"y" : 10},{"w" : 96},{"h" : 63}]
-		},
-		{
-		  "sprite" : [{"x" : 875},{"y" : 11},{"w" : 88},{"h" : 64}]
-		}
-	],
 	"playerPunchComboLeft1" :
 	[
 		{
@@ -278,11 +269,25 @@
 		  "sprite" : [{"x" : 1908},{"y" : 11},{"w" : 89},{"h" : 63}]
 		}
 	],
-	"playerBackPunchLeft" :
+	"playerBackPunchRight1" :
+	[
+		{
+		  "sprite" : [{"x" : 1020},{"y" : 10},{"w" : 96},{"h" : 63}]
+		}
+	],
+	"playerBackPunchRight2" :
+	[	{
+		  "sprite" : [{"x" : 875},{"y" : 11},{"w" : 88},{"h" : 64}]
+		}
+	],
+	"playerBackPunchLeft1" :
 	[
 		{
 		  "sprite" : [{"x" : 1436},{"y" : 10},{"w" : 91},{"h" : 63}]
-		},
+		}
+	],
+	"playerBackPunchLeft2" :
+	[
 		{
 		  "sprite" : [{"x" : 1586},{"y" : 11},{"w" : 101},{"h" : 64}]
 		}

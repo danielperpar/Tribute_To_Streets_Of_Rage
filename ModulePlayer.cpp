@@ -79,9 +79,9 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
-		if (player->state != state::JUMPING)
+		if ((player->m_state == state::IDLE || player->m_state == state::WALKING) && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
 		{
-			player->state = state::JUMPING;
+			player->m_state = state::JUMPING;
 			player->m_jump_up = true;
 			player->m_jump_start_pos = player->m_position;
 			player->m_timer_count = 0.0f;
@@ -90,7 +90,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if (player->state == state::JUMPING)
+	if (player->m_state == state::JUMPING)
 	{
 		
 		if (player->m_restart_animation)
@@ -168,31 +168,25 @@ update_status ModulePlayer::Update()
 		}
 
 		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
-			player->state = state::IDLE;
+			player->m_state = state::IDLE;
 		}
 
 	}
 
 
-	if (player->state != state::JUMPING)
+	if (player->m_state == state::IDLE)
 	{			
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		{
-			if (player->state != state::ATTACKING)
-			{
-				player->state = state::ATTACKING;
-				player->m_restart_animation = true;
-				player->m_allow_attack = true;
-				player->m_continue_combo = false;
-				player->m_timer_count = 0.0f;
-			}
+			player->m_state = state::PUNCHING;
+			player->m_restart_animation = true;
+			player->m_allow_punch = true;
+			player->m_punching = true;
+			player->m_timer_count = 0.0f;
 		}	
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
-		player->m_allow_attack = true;
-
-	if (player->state == state::ATTACKING && player->m_allow_attack)
+	if (player->m_state == state::PUNCHING && player->m_allow_punch)
 	{
 		
 		if (player->m_restart_animation == true)
@@ -214,17 +208,81 @@ update_status ModulePlayer::Update()
 		{
 			player->AdvanceAnimation(player->m_punch_combo1_duration, &(player->m_idle_left1), true);
 		}
+			
+		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
+			player->m_state = state::IDLE;
+			player->m_timer_count = 0.0f;
+			player->m_allow_punch = false;
+			player->m_punching = false;
+		}
+	}
+
+	if (player->m_state == state::IDLE)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && player->m_punching == false)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+			{
+				player->m_state = state::BACK_PUNCHING;
+				player->m_restart_animation = true;
+				player->m_allow_back_punch = true;
+				player->m_back_punching = true;
+				player->m_timer_count = 0.0f;
+			}
+		}
+	}
+	
+	if (player->m_state == state::BACK_PUNCHING && player->m_allow_back_punch)
+	{
+		if (player->m_restart_animation == true)
+		{
+			if (player->m_face_right == true)
+				player->m_current_animation = &(player->m_back_punch_right1);
+			else
+				player->m_current_animation = &(player->m_back_punch_left1);
+
+			player->m_restart_animation = false;
+		}
+
+		if (player->m_current_animation == &(player->m_back_punch_right1))
+		{
+			player->AdvanceAnimation(player->m_back_punch1_duration, &(player->m_back_punch_right2), false);
+		}
+
+		if (player->m_current_animation == &(player->m_back_punch_right2))
+		{
+			player->AdvanceAnimation(player->m_back_punch2_duration, &(player->m_idle_right1), true);
+		}
+
+		if (player->m_current_animation == &(player->m_back_punch_left1))
+		{
+			player->AdvanceAnimation(player->m_back_punch1_duration, &(player->m_back_punch_left2), false);
+		}
+
+		if (player->m_current_animation == &(player->m_back_punch_left2))
+		{
+			player->AdvanceAnimation(player->m_back_punch2_duration, &(player->m_idle_left1), true);
+		}
 
 		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
-			player->state = state::IDLE;
-			player->m_allow_attack = false;
+			player->m_state = state::IDLE;
+			player->m_timer_count = 0.0f;
+			player->m_allow_back_punch = false;
+			player->m_back_punching = false;
 		}
 
 	}
 
+
+
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+	{
+		player->m_allow_back_punch = true;
+	}
+
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		if (player->state == state::JUMPING)
+		if (player->m_state == state::JUMPING)
 		{
 			if (player->m_face_right == true)
 				player->m_face_right = false;
@@ -232,9 +290,9 @@ update_status ModulePlayer::Update()
 			player->m_position.x -= (int)player->m_speed;
 			player->m_jump_start_pos.x = player->m_position.x;
 		}
-		if (player->state == state::IDLE || player->state == state::WALKING)
+		if (player->m_state == state::IDLE || player->m_state == state::WALKING)
 		{
-			player->state = state::WALKING;
+			player->m_state = state::WALKING;
 
 			if (player->m_face_right == true)
 				player->m_face_right = false;
@@ -251,7 +309,7 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		if (player->state == state::JUMPING )
+		if (player->m_state == state::JUMPING )
 		{
 			if (player->m_face_right == false)
 				player->m_face_right = true;
@@ -259,9 +317,9 @@ update_status ModulePlayer::Update()
 			player->m_position.x += (int)player->m_speed;
 			player->m_jump_start_pos.x = player->m_position.x;
 		}
-		if(player->state == state::IDLE || player->state == state::WALKING)
+		if(player->m_state == state::IDLE || player->m_state == state::WALKING)
 		{
-			player->state = state::WALKING;
+			player->m_state = state::WALKING;
 
 			if (player->m_face_right == false)
 				player->m_face_right = true;
@@ -278,7 +336,7 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		if(player->m_jumping == false && player->m_attacking == false)
+		if(player->m_jumping == false && player->m_punching == false)
 		{
 			player->m_position.y -= (int)player->m_speed;
 
@@ -303,7 +361,7 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		if (player->m_jumping == false && player->m_attacking == false)
+		if (player->m_jumping == false && player->m_punching == false)
 		{
 			player->m_position.y += (int)player->m_speed;
 
@@ -331,7 +389,7 @@ update_status ModulePlayer::Update()
 		//App->audio->PlayFx(App->particles->fxLaser, 0);
 	}
 
-	if (player->state != state::JUMPING &&
+	if (player->m_state != state::JUMPING && player->m_punching == false && player->m_back_punching == false &&
 		App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE &&
@@ -340,15 +398,15 @@ update_status ModulePlayer::Update()
 		App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
-		if (player->state != state::IDLE)
+		if (player->m_state != state::IDLE)
 		{
-			player->state = state::IDLE;
+			player->m_state = state::IDLE;
 			player->m_restart_animation = true;
 			player->m_timer_count = 0.0f;
 		}
 	}
 
-	if (player->state == state::IDLE)
+	if (player->m_state == state::IDLE)
 	{
 		if (player->m_face_right)
 		{
@@ -383,6 +441,8 @@ update_status ModulePlayer::Update()
 				player->AdvanceAnimation(player->m_idle3_duration, &(player->m_idle_left1), true);
 		}
 	}
+
+
 		
 	
 		
