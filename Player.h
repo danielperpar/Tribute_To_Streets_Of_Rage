@@ -52,6 +52,7 @@ public:
 
 
 	bool m_continue_combo = false;
+	bool m_enemy_alive = true;
 	bool m_allow_punch = true;
 	bool m_allow_back_punch = true;
 	bool m_restart_animation = true;
@@ -90,8 +91,8 @@ public:
 	Animation m_punch_combo_left2;
 	Animation m_punch_combo_left3;
 
-	size_t m_punch_combo_duration = 10;
-	size_t m_punch_combo_timeout = 1000;
+	size_t m_punch_combo_duration = 9;
+	size_t m_punch_combo_timeout = 10;
 
 	Animation m_back_punch_right1;
 	Animation m_back_punch_right2;

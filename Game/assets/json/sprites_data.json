@@ -242,7 +242,7 @@
 	"playerPunchComboRight2" :
 	[
 		{
-		  "sprite" : [{"x" : 423},{"y" : 17},{"w" : 99},{"h" : 57}]
+		  "sprite" : [{"x" : 413},{"y" : 11},{"w" : 109},{"h" : 63}]
 		}
 	],
 	"playerPunchComboRight3" :
@@ -260,7 +260,7 @@
 	"playerPunchComboLeft2" :
 	[
 		{
-		  "sprite" : [{"x" : 2025},{"y" : 13},{"w" : 93},{"h" : 63}]
+		  "sprite" : [{"x" : 2042},{"y" : 11},{"w" : 105},{"h" : 63}]
 		}
 	],
 	"playerPunchComboLeft3" :

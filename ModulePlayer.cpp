@@ -204,27 +204,25 @@ update_status ModulePlayer::Update()
 	{
 		switch (player->m_state)
 		{
-		case state::IDLE:
+		case state::IDLE : 
 			player->m_state = state::PUNCHING_COMBO_1;
 			break;
 
-		case state::PUNCHING_COMBO_1:
-			player->m_state = player->m_continue_combo ? state::PUNCHING_COMBO_2 : state::IDLE;
+		case state::PUNCHING_COMBO_1 :
+			player->m_state = player->m_continue_combo && player->m_enemy_alive? state::PUNCHING_COMBO_2 : state::PUNCHING_COMBO_1;
 			break;
 
 		case state::PUNCHING_COMBO_2:
-			player->m_state = player->m_continue_combo ? state::PUNCHING_COMBO_3 : state::IDLE;
+			player->m_state = player->m_continue_combo && player->m_enemy_alive? state::PUNCHING_COMBO_3 : state::PUNCHING_COMBO_2;
 			break;
-
 		}
 
 		player->m_restart_animation = true;
-		player->m_allow_punch = true;
 		player->m_timer_count = 0.0f;
-
+		
 	}
 
-	if (player->m_state == state::PUNCHING_COMBO_1 && player->m_allow_punch)
+	if (player->m_state == state::PUNCHING_COMBO_1)
 	{
 
 		if (player->m_restart_animation == true)
@@ -239,114 +237,115 @@ update_status ModulePlayer::Update()
 
 		if (player->m_current_animation == &(player->m_punch_combo_right1))
 		{
-			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_right1), true);
+			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_right1), false);
 		}
 
 		if (player->m_current_animation == &(player->m_punch_combo_left1))
 		{
-			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_left1), true);
+			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_left1), false);
 		}
 
 		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1))
 		{
-			player->m_timer_count = 0.0f;
-			player->m_allow_punch = false;
+			player->m_combo_timer++;
+
+			if (player->m_combo_timer > player->m_punch_combo_timeout)
+			{
+				player->m_continue_combo = false;
+				player->m_combo_timer = 0.0f;
+				player->m_state = state::IDLE;
+			}
+			else
+			{
+				player->m_continue_combo = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			{
+				player->m_continue_combo = false;
+				player->m_combo_timer = 0.0f;
+				player->m_state = state::IDLE;
+			}
 		}
 	}
 
-
-	//if (player->m_state == state::PUNCHING_COMBO_2 && player->m_allow_punch)
-	//{
-	//	player->m_combo_timer += 1.0f;
-	//	if (player->m_combo_timer > player->m_punch_combo_timeout)
-	//	{
-	//		player->m_combo_timer = 0.0f;
-	//		player->m_state = state::IDLE;
-	//	}
-	//	else
-	//	{
-	//		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	//		{
-	//			player->m_combo_timer = 0.0f;
-
-	//			if (player->m_restart_animation == true)
-	//			{
-	//				if (player->m_face_right)
-	//					player->m_current_animation = &(player->m_punch_combo_right2);
-	//				else
-	//					player->m_current_animation = &(player->m_punch_combo_left2);
-
-	//				player->m_restart_animation = false;
-	//			}
-	//		}
-
-	//		if (player->m_current_animation == &(player->m_punch_combo_right2))
-	//		{
-	//			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_right1), true);
-	//		}
-
-	//		if (player->m_current_animation == &(player->m_punch_combo_left2))
-	//		{
-	//			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_left1), true);
-	//		}
-
-
-	//		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
-	//			player->m_state = state::IDLE;
-	//			player->m_timer_count = 0.0f;
-	//			player->m_allow_punch = false;
-
-	//			if (player->m_continue_combo == true)
-	//				player->m_state = state::PUNCHING_COMBO_3;
-	//		}
-	//	}
-	//}
-
-	/*if (player->m_state == state::PUNCHING_COMBO_3 && player->m_allow_punch)
+	if (player->m_state == state::PUNCHING_COMBO_2)
 	{
-	player->m_combo_timer += 1.0f;
-	if (player->m_combo_timer > player->m_punch_combo_timeout)
-	{
-	player->m_combo_timer = 0.0f;
-	player->m_state = state::IDLE;
-	}
-	else
-	{
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	{
-	player->m_combo_timer = 0.0f;
+		if (player->m_restart_animation == true)
+		{
+			if (player->m_face_right == true)
+				player->m_current_animation = &(player->m_punch_combo_right2);
+			else
+				player->m_current_animation = &(player->m_punch_combo_left2);
 
-	if (player->m_restart_animation == true)
-	{
-	if (player->m_face_right)
-	player->m_current_animation = &(player->m_punch_combo_right3);
-	else
-	player->m_current_animation = &(player->m_punch_combo_left3);
+			player->m_restart_animation = false;
+		}
 
-	player->m_restart_animation = false;
-	}
+		if (player->m_current_animation == &(player->m_punch_combo_right2))
+		{
+			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_right2), false);
+		}
+
+		if (player->m_current_animation == &(player->m_punch_combo_left2))
+		{
+			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_left2), false);
+		}
+
+		if (player->m_current_animation == &(player->m_idle_right2) || player->m_current_animation == &(player->m_idle_left2))
+		{
+			player->m_combo_timer++;
+
+			if (player->m_combo_timer > player->m_punch_combo_timeout)
+			{
+				player->m_continue_combo = false;
+				player->m_combo_timer = 0.0f;
+				player->m_state = state::IDLE;
+			}
+			else
+			{
+				player->m_continue_combo = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			{
+				player->m_continue_combo = false;
+				player->m_combo_timer = 0.0f;
+				player->m_state = state::IDLE;
+			}
+		}
+
 	}
 
-	if (player->m_current_animation == &(player->m_punch_combo_right3))
+	if (player->m_state == state::PUNCHING_COMBO_3)
 	{
-	player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_right1), true);
-	}
+		if (player->m_restart_animation == true)
+		{
+			if (player->m_face_right == true)
+				player->m_current_animation = &(player->m_punch_combo_right3);
+			else
+				player->m_current_animation = &(player->m_punch_combo_left3);
 
-	if (player->m_current_animation == &(player->m_punch_combo_left3))
-	{
-	player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_left1), true);
-	}
+			player->m_restart_animation = false;
+		}
 
+		if (player->m_current_animation == &(player->m_punch_combo_right3))
+		{
+			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_right2), false);
+		}
 
-	if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
-	player->m_state = state::IDLE;
-	player->m_timer_count = 0.0f;
-	player->m_allow_punch = false;
-	player->m_punching = false;
+		if (player->m_current_animation == &(player->m_punch_combo_left3))
+		{
+			player->AdvanceAnimation(player->m_punch_combo_duration, &(player->m_idle_left2), false);
+		}
+
+		if (player->m_current_animation == &(player->m_idle_right2) || player->m_current_animation == &(player->m_idle_left2))
+		{
+			player->m_continue_combo = false;
+			player->m_combo_timer = 0.0f;
+			player->m_state = state::IDLE;
+		}
 
 	}
-	}
-	}*/
 
 
 	if (player->m_state == state::IDLE)
@@ -357,13 +356,12 @@ update_status ModulePlayer::Update()
 			{
 				player->m_state = state::BACK_PUNCHING;
 				player->m_restart_animation = true;
-				player->m_allow_back_punch = true;
 				player->m_timer_count = 0.0f;
 			}
 		}
 	}
 
-	if (player->m_state == state::BACK_PUNCHING && player->m_allow_back_punch)
+	if (player->m_state == state::BACK_PUNCHING)
 	{
 		if (player->m_restart_animation == true)
 		{
@@ -382,7 +380,13 @@ update_status ModulePlayer::Update()
 
 		if (player->m_current_animation == &(player->m_back_punch_right2))
 		{
-			player->AdvanceAnimation(player->m_back_punch_duration, &(player->m_idle_right1), true);
+			player->AdvanceAnimation(player->m_back_punch_duration, &(player->m_idle_right1), false);
+		}
+
+		if (player->m_current_animation == &(player->m_idle_right1))
+		{
+			player->m_state = state::IDLE;
+			player->m_restart_animation = true;
 		}
 
 		if (player->m_current_animation == &(player->m_back_punch_left1))
@@ -395,17 +399,12 @@ update_status ModulePlayer::Update()
 			player->AdvanceAnimation(player->m_back_punch_duration, &(player->m_idle_left1), true);
 		}
 
-		if (player->m_current_animation == &(player->m_idle_right1) || player->m_current_animation == &(player->m_idle_left1)) {
+		if (player->m_current_animation == &(player->m_idle_left1))
+		{
 			player->m_state = state::IDLE;
-			player->m_timer_count = 0.0f;
-			player->m_allow_back_punch = false;
+			player->m_restart_animation = true;
 		}
 
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
-	{
-		player->m_allow_back_punch = true;
 	}
 
 
