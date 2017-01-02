@@ -195,13 +195,9 @@ update_status ModulePlayer::Update()
 	}
 
 
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
-	{
-		player->m_allow_punch = true;
-	}
-
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
+
 		switch (player->m_state)
 		{
 		case state::IDLE : 
@@ -209,7 +205,7 @@ update_status ModulePlayer::Update()
 			break;
 
 		case state::PUNCHING_COMBO_1 :
-			player->m_state = player->m_continue_combo && player->m_enemy_alive? state::PUNCHING_COMBO_2 : state::PUNCHING_COMBO_1;
+			player->m_state = player->m_continue_combo && player->m_enemy_alive && player->m_repeat_punch == 2? state::PUNCHING_COMBO_2 : state::PUNCHING_COMBO_1;
 			break;
 
 		case state::PUNCHING_COMBO_2:
@@ -220,6 +216,8 @@ update_status ModulePlayer::Update()
 		player->m_restart_animation = true;
 		player->m_timer_count = 0.0f;
 		
+		if (player->m_repeat_punch == 2)
+			player->m_repeat_punch = 0;
 	}
 
 	if (player->m_state == state::PUNCHING_COMBO_1)
@@ -233,6 +231,7 @@ update_status ModulePlayer::Update()
 				player->m_current_animation = &(player->m_punch_combo_left1);
 
 			player->m_restart_animation = false;
+			player->m_repeat_punch++;
 		}
 
 		if (player->m_current_animation == &(player->m_punch_combo_right1))
@@ -265,6 +264,7 @@ update_status ModulePlayer::Update()
 				player->m_continue_combo = false;
 				player->m_combo_timer = 0.0f;
 				player->m_state = state::IDLE;
+				player->m_repeat_punch = 0;
 			}
 		}
 	}
