@@ -205,19 +205,27 @@ update_status ModulePlayer::Update()
 			break;
 
 		case state::PUNCHING_COMBO_1 :
-			player->m_state = player->m_continue_combo && player->m_enemy_alive && player->m_repeat_punch == 2? state::PUNCHING_COMBO_2 : state::PUNCHING_COMBO_1;
+			if (player->m_enemy_alive)
+				player->m_state = player->m_continue_combo && player->m_upper_punch_hits == 2 ? state::PUNCHING_COMBO_2 : state::PUNCHING_COMBO_1;
+			else
+				player->m_state = state::IDLE;
+			
 			break;
 
 		case state::PUNCHING_COMBO_2:
-			player->m_state = player->m_continue_combo && player->m_enemy_alive? state::PUNCHING_COMBO_3 : state::PUNCHING_COMBO_2;
+			if (player->m_enemy_alive)
+				player->m_state = player->m_continue_combo ? state::PUNCHING_COMBO_3 : state::PUNCHING_COMBO_2;
+			else
+				player->m_state = state::IDLE;
+			
 			break;
 		}
 
 		player->m_restart_animation = true;
 		player->m_timer_count = 0.0f;
 		
-		if (player->m_repeat_punch == 2)
-			player->m_repeat_punch = 0;
+		if (player->m_upper_punch_hits == 2)
+			player->m_upper_punch_hits = 0;
 	}
 
 	if (player->m_state == state::PUNCHING_COMBO_1)
@@ -231,7 +239,7 @@ update_status ModulePlayer::Update()
 				player->m_current_animation = &(player->m_punch_combo_left1);
 
 			player->m_restart_animation = false;
-			player->m_repeat_punch++;
+			player->m_upper_punch_hits++;
 		}
 
 		if (player->m_current_animation == &(player->m_punch_combo_right1))
@@ -264,7 +272,7 @@ update_status ModulePlayer::Update()
 				player->m_continue_combo = false;
 				player->m_combo_timer = 0.0f;
 				player->m_state = state::IDLE;
-				player->m_repeat_punch = 0;
+				player->m_upper_punch_hits = 0;
 			}
 		}
 	}
@@ -407,23 +415,120 @@ update_status ModulePlayer::Update()
 
 	}
 
+	if (player->m_state == state::GRAB)
+	{
+		if (player->m_enemy_alive)
+		{
+			if (player->m_face_right)
+			{
+				player->m_current_animation = &(player->m_grab_kick_head_combo_right1);
+
+				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+					player->m_state = state::IDLE;
+			}
+			else
+			{
+				player->m_current_animation = &(player->m_grab_kick_head_combo_left1);
+
+				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+					player->m_state = state::IDLE;
+			}
+
+			if (player->m_state != state::IDLE)
+			{
+				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+				{
+
+					if (player->m_continue_combo_grab == false)
+					{
+						player->m_state = state::GRAB_KICK;
+						player->m_kick_hits++;
+						if (player->m_kick_hits == 3)
+						{
+							player->m_continue_combo_grab = true;
+							player->m_kick_hits = 0;
+						}
+					}
+
+					if (player->m_continue_combo_grab == true)
+						player->m_state = state::GRAB_HEAD_HIT;
+
+				}
+			}
+		}
+		else
+		{
+			player->m_state = state::IDLE;
+			if (player->m_kick_hits == 2)
+				player->m_kick_hits = 0;
+		}	
+	}
+
+	if (player->m_state == state::GRAB_KICK)
+	{
+		
+		if (player->m_face_right)
+		{
+			player->m_current_animation = &(player->m_grab_kick_head_combo_right2);	
+		}
+		else
+		{
+			player->m_current_animation = &(player->m_grab_kick_head_combo_left2);
+		}
+
+		if (player->m_current_animation == &(player->m_grab_kick_head_combo_right2))
+		{
+			player->AdvanceAnimation(player->m_grab_kick_head_duration, &(player->m_grab_kick_head_combo_right1), true);
+		}
+
+		if (player->m_current_animation == &(player->m_grab_kick_head_combo_left2))
+		{
+			player->AdvanceAnimation(player->m_grab_kick_head_duration, &(player->m_grab_kick_head_combo_left1), true);
+		}
+
+	
+		if(player->m_current_animation == &(player->m_grab_kick_head_combo_right1) || player->m_current_animation == &(player->m_grab_kick_head_combo_left1))
+			player->m_state = state::GRAB;
+	}
+
+	if (player->m_state == state::GRAB_HEAD_HIT)
+	{
+		
+		if (player->m_face_right)
+		{
+			player->m_current_animation = &(player->m_grab_kick_head_combo_right3);
+		}
+		else
+		{
+			player->m_current_animation = &(player->m_grab_kick_head_combo_left3);
+		}
+
+		
+		if (player->m_current_animation->Finished())
+		{
+			player->m_state = state::IDLE;
+			player->m_continue_combo_grab = false;
+			player->m_current_animation->Reset();
+		}
+		
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
+		if (player->m_face_right == true)
+			player->m_face_right = false;
+		
+		if (player->m_enemy_to_grab == true)
+			player->m_state = state::GRAB;
+		
 		if (player->m_state == state::JUMPING || player->m_state == state::JUMPING_KICKING)
 		{
-			if (player->m_face_right == true)
-				player->m_face_right = false;
-
 			player->m_position.x -= (int)player->m_speed;
 			player->m_jump_start_pos.x = player->m_position.x;
 		}
 		if (player->m_state == state::IDLE || player->m_state == state::WALKING)
 		{
 			player->m_state = state::WALKING;
-
-			if (player->m_face_right == true)
-				player->m_face_right = false;
 
 			player->m_position.x -= (int)player->m_speed;
 
@@ -437,20 +542,20 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
+		if (player->m_face_right == false)
+			player->m_face_right = true;
+		
+		if (player->m_enemy_to_grab == true)
+			player->m_state = state::GRAB;
+		
 		if (player->m_state == state::JUMPING || player->m_state == state::JUMPING_KICKING)
 		{
-			if (player->m_face_right == false)
-				player->m_face_right = true;
-
 			player->m_position.x += (int)player->m_speed;
 			player->m_jump_start_pos.x = player->m_position.x;
 		}
 		if (player->m_state == state::IDLE || player->m_state == state::WALKING)
 		{
 			player->m_state = state::WALKING;
-
-			if (player->m_face_right == false)
-				player->m_face_right = true;
 
 			player->m_position.x += (int)player->m_speed;
 

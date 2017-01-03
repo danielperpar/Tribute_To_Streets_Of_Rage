@@ -125,6 +125,36 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 	m_back_punch_left2.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadRight1", m_animation_list, m_grab_kick_head_combo_right1);
+	m_grab_kick_head_combo_right1.loop = false;
+	m_grab_kick_head_combo_right1.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadRight2", m_animation_list, m_grab_kick_head_combo_right2);
+	m_grab_kick_head_combo_right2.loop = false;
+	m_grab_kick_head_combo_right2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadRight3", m_animation_list, m_grab_kick_head_combo_right3);
+	m_grab_kick_head_combo_right3.loop = false;
+	m_grab_kick_head_combo_right3.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadLeft1", m_animation_list, m_grab_kick_head_combo_left1);
+	m_grab_kick_head_combo_left1.loop = false;
+	m_grab_kick_head_combo_left1.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadLeft2", m_animation_list, m_grab_kick_head_combo_left2);
+	m_grab_kick_head_combo_left2.loop = false;
+	m_grab_kick_head_combo_left2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadLeft3", m_animation_list, m_grab_kick_head_combo_left3);
+	m_grab_kick_head_combo_left3.loop = false;
+	m_grab_kick_head_combo_left3.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
 
 }
 

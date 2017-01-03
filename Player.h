@@ -18,7 +18,10 @@ enum class state
 	PUNCHING_COMBO_1,
 	PUNCHING_COMBO_2,
 	PUNCHING_COMBO_3,
-	BACK_PUNCHING
+	BACK_PUNCHING,
+	GRAB,
+	GRAB_KICK,
+	GRAB_HEAD_HIT
 };
 
 
@@ -43,7 +46,9 @@ public:
 	int m_max_jump_height = 36;
 	bool m_jumping = false;
 
-	bool m_punching = false;
+	bool m_enemy_to_grab = false;
+	size_t m_kick_hits = 0;
+	bool m_continue_combo_grab = false;
 
 	float m_timer_count = 0.0f;
 	float m_timer_speed = 1.0f;
@@ -53,7 +58,7 @@ public:
 
 	bool m_continue_combo = false;
 	bool m_enemy_alive = true;
-	size_t m_repeat_punch = 0;
+	size_t m_upper_punch_hits = 0;
 	bool m_restart_animation = true;
 	
 	
@@ -102,8 +107,16 @@ public:
 	size_t m_back_punch_duration = 10;
 
 
-	Animation m_grab_kick_head_combo_right;
-	Animation m_grab_kick_head_combo_left;
+	Animation m_grab_kick_head_combo_right1;
+	Animation m_grab_kick_head_combo_right2;
+	Animation m_grab_kick_head_combo_right3;
+
+	size_t m_grab_kick_head_duration = 10;
+
+	Animation m_grab_kick_head_combo_left1;
+	Animation m_grab_kick_head_combo_left2;
+	Animation m_grab_kick_head_combo_left3;
+
 	Animation m_grab_air_combo_right;
 	Animation m_grab_air_combo_left;
 
