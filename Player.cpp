@@ -125,6 +125,11 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 	m_back_punch_left2.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabRight", m_animation_list, m_grab_right);
+	m_grab_right.loop = false;
+	m_grab_right.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
 	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadRight1", m_animation_list, m_grab_kick_head_combo_right1);
 	m_grab_kick_head_combo_right1.loop = false;
 	m_grab_kick_head_combo_right1.speed = 1.0f;
@@ -132,12 +137,12 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadRight2", m_animation_list, m_grab_kick_head_combo_right2);
 	m_grab_kick_head_combo_right2.loop = false;
-	m_grab_kick_head_combo_right2.speed = 1.0f;
+	m_grab_kick_head_combo_right2.speed = 0.1f;
 	Utilities::free_list(m_animation_list);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadRight3", m_animation_list, m_grab_kick_head_combo_right3);
-	m_grab_kick_head_combo_right3.loop = false;
-	m_grab_kick_head_combo_right3.speed = 0.1f;
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabLeft", m_animation_list, m_grab_left);
+	m_grab_left.loop = false;
+	m_grab_left.speed = 1.0f;
 	Utilities::free_list(m_animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadLeft1", m_animation_list, m_grab_kick_head_combo_left1);
@@ -147,12 +152,107 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadLeft2", m_animation_list, m_grab_kick_head_combo_left2);
 	m_grab_kick_head_combo_left2.loop = false;
-	m_grab_kick_head_combo_left2.speed = 1.0f;
+	m_grab_kick_head_combo_left2.speed = 0.1f;
 	Utilities::free_list(m_animation_list);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "grabKickHeadLeft3", m_animation_list, m_grab_kick_head_combo_left3);
-	m_grab_kick_head_combo_left3.loop = false;
-	m_grab_kick_head_combo_left3.speed = 0.1f;
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinRight1", m_animation_list, m_grab_air_spin_combo_right1);
+	m_grab_air_spin_combo_right1.loop = false;
+	m_grab_air_spin_combo_right1.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinRight2", m_animation_list, m_grab_air_spin_combo_right2);
+	m_grab_air_spin_combo_right2.loop = false;
+	m_grab_air_spin_combo_right2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinRight3", m_animation_list, m_grab_air_spin_combo_right3);
+	m_grab_air_spin_combo_right3.loop = false;
+	m_grab_air_spin_combo_right3.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinRight4", m_animation_list, m_grab_air_spin_combo_right4);
+	m_grab_air_spin_combo_right4.loop = false;
+	m_grab_air_spin_combo_right4.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinRight5", m_animation_list, m_grab_air_spin_combo_right5);
+	m_grab_air_spin_combo_right5.loop = false;
+	m_grab_air_spin_combo_right5.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinRight6", m_animation_list, m_grab_air_spin_combo_right6);
+	m_grab_air_spin_combo_right6.loop = false;
+	m_grab_air_spin_combo_right6.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinRight7", m_animation_list, m_grab_air_spin_combo_right7);
+	m_grab_air_spin_combo_right7.loop = false;
+	m_grab_air_spin_combo_right7.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinLeft1", m_animation_list, m_grab_air_spin_combo_left1);
+	m_grab_air_spin_combo_left1.loop = false;
+	m_grab_air_spin_combo_left1.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinLeft2", m_animation_list, m_grab_air_spin_combo_left2);
+	m_grab_air_spin_combo_left2.loop = false;
+	m_grab_air_spin_combo_left2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinLeft3", m_animation_list, m_grab_air_spin_combo_left3);
+	m_grab_air_spin_combo_left3.loop = false;
+	m_grab_air_spin_combo_left3.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinLeft4", m_animation_list, m_grab_air_spin_combo_left4);
+	m_grab_air_spin_combo_left4.loop = false;
+	m_grab_air_spin_combo_left4.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinLeft5", m_animation_list, m_grab_air_spin_combo_left5);
+	m_grab_air_spin_combo_left5.loop = false;
+	m_grab_air_spin_combo_left5.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinLeft6", m_animation_list, m_grab_air_spin_combo_left6);
+	m_grab_air_spin_combo_left6.loop = false;
+	m_grab_air_spin_combo_left6.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinLeft7", m_animation_list, m_grab_air_spin_combo_left7);
+	m_grab_air_spin_combo_left7.loop = false;
+	m_grab_air_spin_combo_left7.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinFinisherRight1", m_animation_list, m_grab_air_spin_combo_finisher_right1);
+	m_grab_air_spin_combo_finisher_right1.loop = false;
+	m_grab_air_spin_combo_finisher_right1.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinFinisherRight2", m_animation_list, m_grab_air_spin_combo_finisher_right2);
+	m_grab_air_spin_combo_finisher_right2.loop = false;
+	m_grab_air_spin_combo_finisher_right2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinFinisherRight3", m_animation_list, m_grab_air_spin_combo_finisher_right3);
+	m_grab_air_spin_combo_finisher_right3.loop = false;
+	m_grab_air_spin_combo_finisher_right3.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinFinisherLeft1", m_animation_list, m_grab_air_spin_combo_finisher_left1);
+	m_grab_air_spin_combo_finisher_left1.loop = false;
+	m_grab_air_spin_combo_finisher_left1.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinFinisherLeft2", m_animation_list, m_grab_air_spin_combo_finisher_left2);
+	m_grab_air_spin_combo_finisher_left2.loop = false;
+	m_grab_air_spin_combo_finisher_left2.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "grabAirSpinFinisherLeft3", m_animation_list, m_grab_air_spin_combo_finisher_left3);
+	m_grab_air_spin_combo_finisher_left3.loop = false;
+	m_grab_air_spin_combo_finisher_left3.speed = 0.1f;
 	Utilities::free_list(m_animation_list);
 
 

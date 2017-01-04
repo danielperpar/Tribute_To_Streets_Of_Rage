@@ -21,7 +21,12 @@ enum class state
 	BACK_PUNCHING,
 	GRAB,
 	GRAB_KICK,
-	GRAB_HEAD_HIT
+	GRAB_HEAD_HIT,
+	GRAB_AIR_SPIN_RIGHT,
+	GRAB_AIR_SPIN_LEFT,
+	GRAB_AIR_SPIN_FINISHER_RIGHT,
+	GRAB_AIR_SPIN_FINISHER_LEFT
+
 };
 
 
@@ -46,9 +51,10 @@ public:
 	int m_max_jump_height = 36;
 	bool m_jumping = false;
 
-	bool m_enemy_to_grab = false;
+	bool m_enemy_to_grab = true;
 	size_t m_kick_hits = 0;
 	bool m_continue_combo_grab = false;
+	bool m_air_spin_combo_finisher_activated = false;
 
 	float m_timer_count = 0.0f;
 	float m_timer_speed = 1.0f;
@@ -61,8 +67,6 @@ public:
 	size_t m_upper_punch_hits = 0;
 	bool m_restart_animation = true;
 	
-	
-
 	state m_state = state::IDLE;
 
 	Animation m_idle_right1;
@@ -107,18 +111,43 @@ public:
 	size_t m_back_punch_duration = 10;
 
 
+	Animation m_grab_right;
 	Animation m_grab_kick_head_combo_right1;
 	Animation m_grab_kick_head_combo_right2;
-	Animation m_grab_kick_head_combo_right3;
 
 	size_t m_grab_kick_head_duration = 10;
 
+	Animation m_grab_left;
 	Animation m_grab_kick_head_combo_left1;
 	Animation m_grab_kick_head_combo_left2;
-	Animation m_grab_kick_head_combo_left3;
 
-	Animation m_grab_air_combo_right;
-	Animation m_grab_air_combo_left;
+	Animation m_grab_air_spin_combo_right1;
+	Animation m_grab_air_spin_combo_right2;
+	Animation m_grab_air_spin_combo_right3;
+	Animation m_grab_air_spin_combo_right4;
+	Animation m_grab_air_spin_combo_right5;
+	Animation m_grab_air_spin_combo_right6;
+	Animation m_grab_air_spin_combo_right7;
+
+	Animation m_grab_air_spin_combo_left1;
+	Animation m_grab_air_spin_combo_left2;
+	Animation m_grab_air_spin_combo_left3;
+	Animation m_grab_air_spin_combo_left4;
+	Animation m_grab_air_spin_combo_left5;
+	Animation m_grab_air_spin_combo_left6;
+	Animation m_grab_air_spin_combo_left7;
+
+	size_t m_grab_air_spin_duration = 10;
+
+	Animation m_grab_air_spin_combo_finisher_right1;
+	Animation m_grab_air_spin_combo_finisher_right2;
+	Animation m_grab_air_spin_combo_finisher_right3;
+	
+	Animation m_grab_air_spin_combo_finisher_left1;
+	Animation m_grab_air_spin_combo_finisher_left2;
+	Animation m_grab_air_spin_combo_finisher_left3;
+
+	size_t m_grab_air_spin_finisher2_duration = 20;
 
 	Animation *m_current_animation;
 
