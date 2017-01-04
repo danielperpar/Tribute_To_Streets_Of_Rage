@@ -25,7 +25,14 @@ enum class state
 	GRAB_AIR_SPIN_RIGHT,
 	GRAB_AIR_SPIN_LEFT,
 	GRAB_AIR_SPIN_FINISHER_RIGHT,
-	GRAB_AIR_SPIN_FINISHER_LEFT
+	GRAB_AIR_SPIN_FINISHER_LEFT,
+	WEAPON_PIPE_IDLE,
+	WEAPON_PIPE_WALKING_UP,
+	WEAPON_PIPE_WALKING_DOWN,
+	WEAPON_PIPE_WALKING_RIGHT,
+	WEAPON_PIPE_WALKING_LEFT,
+	WEAPON_PIPE_ATTACK_LEFT,
+	WEAPON_PIPE_ATTACK_RIGHT
 
 };
 
@@ -51,21 +58,24 @@ public:
 	int m_max_jump_height = 36;
 	bool m_jumping = false;
 
-	bool m_enemy_to_grab = true;
+	bool m_enemy_to_grab = false;
 	size_t m_kick_hits = 0;
 	bool m_continue_combo_grab = false;
-	bool m_air_spin_combo_finisher_activated = false;
+	
 
 	float m_timer_count = 0.0f;
 	float m_timer_speed = 1.0f;
 
 	float m_combo_timer = 0.0f;
 
-
 	bool m_continue_combo = false;
 	bool m_enemy_alive = true;
 	size_t m_upper_punch_hits = 0;
 	bool m_restart_animation = true;
+
+	bool m_carrying_weapon_pipe = true;
+	 
+
 	
 	state m_state = state::IDLE;
 
@@ -148,6 +158,26 @@ public:
 	Animation m_grab_air_spin_combo_finisher_left3;
 
 	size_t m_grab_air_spin_finisher2_duration = 20;
+
+	Animation m_weapon_pipe_idle_right;
+	Animation m_weapon_pipe_walk_right;
+	Animation m_weapon_pipe_attack_right;
+	Animation m_weapon_pipe_throw_right;
+
+	Animation m_weapon_pipe_idle_left;
+	Animation m_weapon_pipe_walk_left;
+	Animation m_weapon_pipe_attack_left;
+	Animation m_weapon_pipe_throw_left;
+
+	Animation m_weapon_knife_idle_right;
+	Animation m_weapon_knife_walk_right;
+	Animation m_weapon_knife_attack_right;
+	Animation m_weapon_knife_throw_right;
+
+	Animation m_weapon_knife_idle_left;
+	Animation m_weapon_knife_walk_left;
+	Animation m_weapon_knife_attack_left;
+	Animation m_weapon_knife_throw_left;
 
 	Animation *m_current_animation;
 

@@ -255,6 +255,36 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 	m_grab_air_spin_combo_finisher_left3.speed = 0.1f;
 	Utilities::free_list(m_animation_list);
 
+	JSONDataLoader::Load("assets/json/sprites_data.json", "weaponPipeIdleRight", m_animation_list, m_weapon_pipe_idle_right);
+	m_weapon_pipe_idle_right.loop = true;
+	m_weapon_pipe_idle_right.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "weaponPipeIdleLeft", m_animation_list, m_weapon_pipe_idle_left);
+	m_weapon_pipe_idle_left.loop = true;
+	m_weapon_pipe_idle_left.speed = 1.0f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "weaponPipeWalkRight", m_animation_list, m_weapon_pipe_walk_right);
+	m_weapon_pipe_walk_right.loop = true;
+	m_weapon_pipe_walk_right.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "weaponPipeWalkLeft", m_animation_list, m_weapon_pipe_walk_left);
+	m_weapon_pipe_walk_left.loop = true;
+	m_weapon_pipe_walk_left.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "weaponPipeAttackRight", m_animation_list, m_weapon_pipe_attack_right);
+	m_weapon_pipe_attack_right.loop = false;
+	m_weapon_pipe_attack_right.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "weaponPipeAttackLeft", m_animation_list, m_weapon_pipe_attack_left);
+	m_weapon_pipe_attack_left.loop = false;
+	m_weapon_pipe_attack_left.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
 
 }
 

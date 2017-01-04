@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 
 	//Debug test
 	player = (Player*)EntityManager::CreateEntity(graphics, "Axel", entity_type::PLAYER, { 800, 100 }, 0);
-	player->m_current_animation = &(player->m_idle_right1);
+	player->m_state = state::IDLE;
 
 
 	/*SDL_Rect colliderRect = SDL_Rect();
@@ -219,6 +219,17 @@ update_status ModulePlayer::Update()
 				player->m_state = state::IDLE;
 			
 			break;
+		
+		case state::WEAPON_PIPE_IDLE:
+			if (player->m_face_right)
+			{
+				player->m_state = state::WEAPON_PIPE_ATTACK_RIGHT;
+			}
+			else
+			{
+				player->m_state = state::WEAPON_PIPE_ATTACK_LEFT;	
+			}
+
 		}
 
 		player->m_restart_animation = true;
@@ -746,6 +757,12 @@ update_status ModulePlayer::Update()
 				player->m_current_animation = &(player->m_walk_left);
 			}
 		}
+		if (player->m_carrying_weapon_pipe)
+		{
+			player->m_state = state::WEAPON_PIPE_WALKING_LEFT;
+
+		}
+
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
@@ -776,6 +793,11 @@ update_status ModulePlayer::Update()
 				player->m_current_animation = &(player->m_walk_right);
 			}
 		}
+		if (player->m_carrying_weapon_pipe)
+		{
+			player->m_state = state::WEAPON_PIPE_WALKING_RIGHT;
+
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -800,6 +822,11 @@ update_status ModulePlayer::Update()
 					player->m_current_animation = &(player->m_walk_left);
 				}
 			}
+		}
+		if (player->m_carrying_weapon_pipe)
+		{
+			player->m_state = state::WEAPON_PIPE_WALKING_UP;
+
 		}
 	}
 
@@ -827,13 +854,20 @@ update_status ModulePlayer::Update()
 			}
 		}
 
+		if (player->m_carrying_weapon_pipe)
+		{
+			player->m_state = state::WEAPON_PIPE_WALKING_DOWN;
+
+		}
+
 		// TODO 6: Shoot a laser using the particle system
 
 		//App->particles->AddParticle(*(App->particles->laserParticle), App->player->position.x + 30, App->player->position.y, collider_type::LASER);
 		//App->audio->PlayFx(App->particles->fxLaser, 0);
 	}
 
-	if ((player->m_state == state::IDLE || player->m_state == state::WALKING) &&
+	if (player->m_state == state::IDLE || 
+		player->m_state == state::WALKING  &&
 		App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE &&
@@ -847,6 +881,17 @@ update_status ModulePlayer::Update()
 			player->m_state = state::IDLE;
 			player->m_restart_animation = true;
 			player->m_timer_count = 0.0f;
+		}
+
+		if (player->m_state == state::IDLE)
+		{
+			if (player->m_carrying_weapon_pipe == true)
+			{
+				player->m_state = state::WEAPON_PIPE_IDLE;
+				player->m_restart_animation = true;
+				player->m_position.y -= 14;
+
+			}
 		}
 	}
 
@@ -887,9 +932,156 @@ update_status ModulePlayer::Update()
 	}
 
 
+	if (player->m_state == state::WEAPON_PIPE_IDLE)
+	{
+		
+		if (player->m_face_right)
+		{
+			player->m_current_animation = &(player->m_weapon_pipe_idle_right);
 
+		}
+		else
+		{
+			player->m_current_animation = &(player->m_weapon_pipe_idle_left);
+		}
 
+		if (player->m_carrying_weapon_pipe == false)
+		{
+			player->m_state = state::IDLE;
+			player->m_restart_animation = true;
+			player->m_position.y += 14;
+		}
 
+	}
+	if (player->m_state == state::WEAPON_PIPE_WALKING_LEFT)
+	{
+		player->m_position.x -= (int)player->m_speed;
+
+		if (player->m_current_animation != &(player->m_weapon_pipe_walk_left))
+		{
+			player->m_weapon_pipe_walk_left.Reset();
+			player->m_current_animation = &(player->m_weapon_pipe_walk_left);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		{
+			player->m_state = state::WEAPON_PIPE_IDLE;
+		}
+		
+		if (player->m_carrying_weapon_pipe == false)
+		{
+			player->m_state = state::IDLE;
+			player->m_position.y += 14;
+		}
+	}
+	
+	if (player->m_state == state::WEAPON_PIPE_WALKING_RIGHT)
+	{
+		player->m_position.x += (int)player->m_speed;
+
+		if (player->m_current_animation != &(player->m_weapon_pipe_walk_right))
+		{
+			player->m_weapon_pipe_walk_left.Reset();
+			player->m_current_animation = &(player->m_weapon_pipe_walk_right);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		{
+			player->m_state = state::WEAPON_PIPE_IDLE;
+		}
+
+		if (player->m_carrying_weapon_pipe == false)
+		{
+			player->m_state = state::IDLE;
+			player->m_position.y += 14;
+		}
+	}
+
+	if (player->m_state == state::WEAPON_PIPE_WALKING_UP)
+	{
+		player->m_position.y -= (int)player->m_speed;
+
+		if (player->m_face_right)
+		{
+			if (player->m_current_animation != &(player->m_weapon_pipe_walk_right))
+			{
+				player->m_weapon_pipe_walk_right.Reset();
+				player->m_current_animation = &(player->m_weapon_pipe_walk_right);
+			}
+		}
+		else
+		{
+			if (player->m_current_animation != &(player->m_weapon_pipe_walk_left))
+			{
+				player->m_weapon_pipe_walk_left.Reset();
+				player->m_current_animation = &(player->m_weapon_pipe_walk_left);
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		{
+			player->m_state = state::WEAPON_PIPE_IDLE;
+		}
+
+		if (player->m_carrying_weapon_pipe == false)
+		{
+			player->m_state = state::IDLE;
+			player->m_position.y += 14;
+		}
+	}
+
+	if (player->m_state == state::WEAPON_PIPE_WALKING_DOWN)
+	{
+		player->m_position.y += (int)player->m_speed;
+
+		if (player->m_face_right)
+		{
+			if (player->m_current_animation != &(player->m_weapon_pipe_walk_right))
+			{
+				player->m_weapon_pipe_walk_right.Reset();
+				player->m_current_animation = &(player->m_weapon_pipe_walk_right);
+			}
+		}
+		else
+		{
+			if (player->m_current_animation != &(player->m_weapon_pipe_walk_left))
+			{
+				player->m_weapon_pipe_walk_left.Reset();
+				player->m_current_animation = &(player->m_weapon_pipe_walk_left);
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		{
+			player->m_state = state::WEAPON_PIPE_IDLE;
+		}
+
+		if (player->m_carrying_weapon_pipe == false)
+		{
+			player->m_state = state::IDLE;
+			player->m_position.y += 14;
+		}
+	}
+
+	if (player->m_state == state::WEAPON_PIPE_ATTACK_RIGHT)
+	{
+		player->m_current_animation = &(player->m_weapon_pipe_attack_right);
+		if (player->m_current_animation->Finished())
+		{
+			player->m_current_animation->Reset();
+			player->m_state = state::WEAPON_PIPE_IDLE;
+		}
+	}
+
+	if (player->m_state == state::WEAPON_PIPE_ATTACK_LEFT)
+	{
+		player->m_current_animation = &(player->m_weapon_pipe_attack_left);
+		if (player->m_current_animation->Finished())
+		{
+			player->m_current_animation->Reset();
+			player->m_state = state::WEAPON_PIPE_IDLE;
+		}
+	}
 
 
 	//playerCollider->SetPos(position.x, position.y);
