@@ -32,7 +32,14 @@ enum class state
 	WEAPON_PIPE_WALKING_RIGHT,
 	WEAPON_PIPE_WALKING_LEFT,
 	WEAPON_PIPE_ATTACK_LEFT,
-	WEAPON_PIPE_ATTACK_RIGHT
+	WEAPON_PIPE_ATTACK_RIGHT,
+	WEAPON_KNIFE_IDLE,
+	WEAPON_KNIFE_WALKING_UP,
+	WEAPON_KNIFE_WALKING_DOWN,
+	WEAPON_KNIFE_WALKING_RIGHT,
+	WEAPON_KNIFE_WALKING_LEFT,
+	WEAPON_KNIFE_ATTACK_LEFT,
+	WEAPON_KNIFE_ATTACK_RIGHT
 
 };
 
@@ -73,8 +80,8 @@ public:
 	size_t m_upper_punch_hits = 0;
 	bool m_restart_animation = true;
 
-	bool m_carrying_weapon_pipe = true;
-	 
+	bool m_carrying_weapon_pipe = false;
+	bool m_carrying_weapon_knife = true;
 
 	
 	state m_state = state::IDLE;
