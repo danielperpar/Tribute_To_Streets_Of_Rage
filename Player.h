@@ -7,7 +7,7 @@
 #include "Point.h"
 
 
-enum class state
+enum class player_state
 {
 	START,
 	IDLE,
@@ -84,7 +84,7 @@ public:
 	bool m_carrying_weapon_knife = true;
 
 	
-	state m_state = state::IDLE;
+	player_state m_state = player_state::IDLE;
 
 	Animation m_idle_right1;
 	Animation m_idle_right2;

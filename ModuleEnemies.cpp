@@ -1,0 +1,254 @@
+#include "Globals.h"
+#include "Application.h"
+#include "ModuleTextures.h"
+#include "ModuleInput.h"
+#include "ModuleParticles.h"
+#include "ModuleRender.h"
+#include "ModuleCollision.h"
+#include "ModuleFadeToBlack.h"
+#include "ModuleEnemies.h"
+#include "ModuleAudio.h"
+#include "EntityManager.h"
+#include "Entity.h"
+
+
+ModuleEnemies::ModuleEnemies(bool active) : Module(active) {}
+
+
+ModuleEnemies::~ModuleEnemies()
+{}
+
+// Load assets
+bool ModuleEnemies::Start()
+{
+	LOG("Loading enemy");
+
+	graphics = App->textures->Load("assets/spritesheets/enemies.png");
+
+	//Debug test
+	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 800, 100 }, 0);
+	enemy->m_state = enemy_state::IDLE;
+
+
+	/*SDL_Rect colliderRect = SDL_Rect();
+	colliderRect.x = 0;
+	colliderRect.y = 0;
+	colliderRect.w = 32;
+	colliderRect.h = 14;
+	playerCollider = App->collision->AddCollider(colliderRect, nullptr, collider_type::PLAYER);
+	playerCollider->SetPos(position.x, position.y);*/
+
+	return true;
+}
+
+// Unload assets
+bool ModuleEnemies::CleanUp()
+{
+	LOG("Unloading enemies");
+
+	App->textures->Unload(graphics);
+
+	return true;
+}
+
+// Update: draw background
+update_status ModuleEnemies::Update()
+{
+	
+	for (auto it = App->entities.begin(); it != App->entities.end(); it++) 
+	{
+		if ((*it)->m_type == entity_type::ENEMY)
+		{
+			enemy = (Enemy*)*it;
+			
+			if (enemy->m_state == enemy_state::IDLE)
+			{
+				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+				{
+					enemy->m_state = enemy_state::WALKING_RIGHT;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+				{
+					enemy->m_state = enemy_state::WALKING_LEFT;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+				{
+					enemy->m_state = enemy_state::WALKING_UP;
+				}
+				if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+				{
+					enemy->m_state = enemy_state::WALKING_DOWN;
+				}
+			}
+			
+			if(enemy->m_state == enemy_state::IDLE)
+			{
+				
+				if (enemy->m_name == "garcia")
+				{
+					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_garcia_idle_right) : &(enemy->m_npc_garcia_idle_left);
+			
+				}
+			}
+
+			if (enemy->m_state == enemy_state::WALKING_RIGHT)
+			{
+				if (enemy->m_face_right == false)
+					enemy->m_face_right = true;
+
+				enemy->m_position.x += (int)enemy->m_speed;
+				
+				if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+				{
+					enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+					enemy->m_current_animation->Reset();
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+				{
+					enemy->m_state = enemy_state::IDLE;
+				}
+			}
+
+			if (enemy->m_state == enemy_state::WALKING_LEFT)
+			{
+				if (enemy->m_face_right)
+					enemy->m_face_right = false;
+
+				enemy->m_position.x -= (int)enemy->m_speed;
+
+				if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+				{
+					enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+					enemy->m_current_animation->Reset();
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+				{
+					enemy->m_state = enemy_state::IDLE;
+				}
+			}
+
+			if (enemy->m_state == enemy_state::WALKING_UP)
+			{
+				
+				enemy->m_position.y -= (int)enemy->m_speed;
+
+				if (enemy->m_face_right)
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+						enemy->m_current_animation->Reset();
+					}
+				}
+				else
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+						enemy->m_current_animation->Reset();
+					}
+				}
+				
+				if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
+				{
+					enemy->m_state = enemy_state::IDLE;
+				}
+			}
+
+			if (enemy->m_state == enemy_state::WALKING_DOWN)
+			{
+
+				enemy->m_position.y += (int)enemy->m_speed;
+
+				if (enemy->m_face_right)
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+						enemy->m_current_animation->Reset();
+					}
+				}
+				else
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+						enemy->m_current_animation->Reset();
+					}
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
+				{
+					enemy->m_state = enemy_state::IDLE;
+				}
+			}
+		}
+	}
+
+
+
+	//playerCollider->SetPos(position.x, position.y);
+
+	// Draw everything --------------------------------------
+
+	App->renderer->Blit(enemy->m_texture, enemy->m_position.x, enemy->m_position.y, &(enemy->m_current_animation->GetCurrentFrame()));
+
+	return UPDATE_CONTINUE;
+}
+
+// TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
+
+// TODO 14: Make so if the player collides, it is removed and create few explosions at its positions
+// then fade away back to the first screen (use the "destroyed" bool already created 
+// You will need to create, update and destroy the collider with the player
+
+void ModuleEnemies::OnCollision(Collider* collider1, Collider* collider2)
+{
+	/*Collider* laserCollider = nullptr;
+	Collider* playerCollider = nullptr;
+	Collider* wallCollider = nullptr;
+
+	switch (collider1->c_type)
+	{
+	case collider_type::LASER:
+	laserCollider = collider1;
+	break;
+	case collider_type::PLAYER:
+	playerCollider = collider1;
+	break;
+	case collider_type::WALL:
+	wallCollider = collider1;
+	break;
+	}
+
+	switch (collider2->c_type)
+	{
+	case collider_type::LASER:
+	laserCollider = collider2;
+	break;
+	case collider_type::PLAYER:
+	playerCollider = collider2;
+	break;
+	case collider_type::WALL:
+	wallCollider = collider2;
+	break;
+	}
+
+	if (laserCollider != nullptr)
+	{
+	laserCollider->particle->to_delete = true;
+	laserCollider->to_delete = true;
+	App->particles->AddParticle(*(App->particles->explosionParticle), laserCollider->rect.x, laserCollider->rect.y, collider_type::EXPLOSION);
+	}
+
+	if (playerCollider != nullptr)
+	{
+	destroyed = true;
+	playerCollider->to_delete = true;
+	App->particles->AddParticle(*(App->particles->explosionParticle), playerCollider->rect.x, playerCollider->rect.y, collider_type::EXPLOSION);
+
+	App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
+	}*/
+}

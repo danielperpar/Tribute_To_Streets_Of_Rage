@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 
 	//Debug test
 	player = (Player*)EntityManager::CreateEntity(graphics, "Axel", entity_type::PLAYER, { 800, 100 }, 0);
-	player->m_state = state::IDLE;
+	player->m_state = player_state::IDLE;
 
 
 	/*SDL_Rect colliderRect = SDL_Rect();
@@ -62,9 +62,9 @@ update_status ModulePlayer::Update()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
-		if ((player->m_state == state::IDLE || player->m_state == state::WALKING) && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+		if ((player->m_state == player_state::IDLE || player->m_state == player_state::WALKING) && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
 		{
-			player->m_state = state::JUMPING;
+			player->m_state = player_state::JUMPING;
 			player->m_jump_up = true;
 			player->m_jump_start_pos = player->m_position;
 			player->m_timer_count = 0.0f;
@@ -74,7 +74,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if (player->m_state == state::JUMPING)
+	if (player->m_state == player_state::JUMPING)
 	{
 
 		if (player->m_restart_animation)
@@ -139,24 +139,24 @@ update_status ModulePlayer::Update()
 		{
 			player->m_restart_animation = true;
 			player->m_speed = 1.0f;
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 		}
 		if (player->m_current_animation == &(player->m_idle_left1))
 		{
 			player->m_restart_animation = true;
 			player->m_speed = 1.0f;
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 		}
 
 
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && player->m_jumping)
 		{
-			player->m_state = state::JUMPING_KICKING;
+			player->m_state = player_state::JUMPING_KICKING;
 		}
 	
 	}
 
-	if (player->m_state == state::JUMPING_KICKING)
+	if (player->m_state == player_state::JUMPING_KICKING)
 	{
 		if (player->m_jump_up)
 		{
@@ -190,7 +190,7 @@ update_status ModulePlayer::Update()
 			else
 				player->m_current_animation = &(player->m_jump_left2);
 			
-			player->m_state = state::JUMPING;
+			player->m_state = player_state::JUMPING;
 		}
 	}
 
@@ -200,45 +200,45 @@ update_status ModulePlayer::Update()
 
 		switch (player->m_state)
 		{
-		case state::IDLE : 
-			player->m_state = state::PUNCHING_COMBO_1;
+		case player_state::IDLE : 
+			player->m_state = player_state::PUNCHING_COMBO_1;
 			break;
 
-		case state::PUNCHING_COMBO_1 :
+		case player_state::PUNCHING_COMBO_1 :
 			if (player->m_enemy_alive)
-				player->m_state = player->m_continue_combo && player->m_upper_punch_hits == 2 ? state::PUNCHING_COMBO_2 : state::PUNCHING_COMBO_1;
+				player->m_state = player->m_continue_combo && player->m_upper_punch_hits == 2 ? player_state::PUNCHING_COMBO_2 : player_state::PUNCHING_COMBO_1;
 			else
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 			
 			break;
 
-		case state::PUNCHING_COMBO_2:
+		case player_state::PUNCHING_COMBO_2:
 			if (player->m_enemy_alive)
-				player->m_state = player->m_continue_combo ? state::PUNCHING_COMBO_3 : state::PUNCHING_COMBO_2;
+				player->m_state = player->m_continue_combo ? player_state::PUNCHING_COMBO_3 : player_state::PUNCHING_COMBO_2;
 			else
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 			
 			break;
 		
-		case state::WEAPON_PIPE_IDLE:
+		case player_state::WEAPON_PIPE_IDLE:
 			if (player->m_face_right)
 			{
-				player->m_state = state::WEAPON_PIPE_ATTACK_RIGHT;
+				player->m_state = player_state::WEAPON_PIPE_ATTACK_RIGHT;
 			}
 			else
 			{
-				player->m_state = state::WEAPON_PIPE_ATTACK_LEFT;	
+				player->m_state = player_state::WEAPON_PIPE_ATTACK_LEFT;	
 			}
 			break;
 
-		case state::WEAPON_KNIFE_IDLE:
+		case player_state::WEAPON_KNIFE_IDLE:
 			if (player->m_face_right)
 			{
-				player->m_state = state::WEAPON_KNIFE_ATTACK_RIGHT;
+				player->m_state = player_state::WEAPON_KNIFE_ATTACK_RIGHT;
 			}
 			else
 			{
-				player->m_state = state::WEAPON_KNIFE_ATTACK_LEFT;
+				player->m_state = player_state::WEAPON_KNIFE_ATTACK_LEFT;
 			}
 			break;
 		}
@@ -250,7 +250,7 @@ update_status ModulePlayer::Update()
 			player->m_upper_punch_hits = 0;
 	}
 
-	if (player->m_state == state::PUNCHING_COMBO_1)
+	if (player->m_state == player_state::PUNCHING_COMBO_1)
 	{
 
 		if (player->m_restart_animation == true)
@@ -282,7 +282,7 @@ update_status ModulePlayer::Update()
 			{
 				player->m_continue_combo = false;
 				player->m_combo_timer = 0.0f;
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 			}
 			else
 			{
@@ -293,13 +293,13 @@ update_status ModulePlayer::Update()
 			{
 				player->m_continue_combo = false;
 				player->m_combo_timer = 0.0f;
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 				player->m_upper_punch_hits = 0;
 			}
 		}
 	}
 
-	if (player->m_state == state::PUNCHING_COMBO_2)
+	if (player->m_state == player_state::PUNCHING_COMBO_2)
 	{
 		if (player->m_restart_animation == true)
 		{
@@ -329,7 +329,7 @@ update_status ModulePlayer::Update()
 			{
 				player->m_continue_combo = false;
 				player->m_combo_timer = 0.0f;
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 			}
 			else
 			{
@@ -340,13 +340,13 @@ update_status ModulePlayer::Update()
 			{
 				player->m_continue_combo = false;
 				player->m_combo_timer = 0.0f;
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 			}
 		}
 
 	}
 
-	if (player->m_state == state::PUNCHING_COMBO_3)
+	if (player->m_state == player_state::PUNCHING_COMBO_3)
 	{
 		if (player->m_restart_animation == true)
 		{
@@ -372,26 +372,26 @@ update_status ModulePlayer::Update()
 		{
 			player->m_continue_combo = false;
 			player->m_combo_timer = 0.0f;
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 		}
 
 	}
 
 
-	if (player->m_state == state::IDLE)
+	if (player->m_state == player_state::IDLE)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 			{
-				player->m_state = state::BACK_PUNCHING;
+				player->m_state = player_state::BACK_PUNCHING;
 				player->m_restart_animation = true;
 				player->m_timer_count = 0.0f;
 			}
 		}
 	}
 
-	if (player->m_state == state::BACK_PUNCHING)
+	if (player->m_state == player_state::BACK_PUNCHING)
 	{
 		if (player->m_restart_animation == true)
 		{
@@ -415,7 +415,7 @@ update_status ModulePlayer::Update()
 
 		if (player->m_current_animation == &(player->m_idle_right1))
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_restart_animation = true;
 		}
 
@@ -431,13 +431,13 @@ update_status ModulePlayer::Update()
 
 		if (player->m_current_animation == &(player->m_idle_left1))
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_restart_animation = true;
 		}
 
 	}
 
-	if (player->m_state == state::GRAB)
+	if (player->m_state == player_state::GRAB)
 	{
 		if (player->m_enemy_alive)
 		{
@@ -446,23 +446,23 @@ update_status ModulePlayer::Update()
 				player->m_current_animation = &(player->m_grab_right);
 
 				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-					player->m_state = state::IDLE;
+					player->m_state = player_state::IDLE;
 			}
 			else
 			{
 				player->m_current_animation = &(player->m_grab_left);
 
 				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-					player->m_state = state::IDLE;
+					player->m_state = player_state::IDLE;
 			}
 
-			if (player->m_state != state::IDLE)
+			if (player->m_state != player_state::IDLE)
 			{
 				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 				{
 					if (player->m_continue_combo_grab == false)
 					{
-						player->m_state = state::GRAB_KICK;
+						player->m_state = player_state::GRAB_KICK;
 						player->m_kick_hits++;
 						if (player->m_kick_hits == 3)
 						{
@@ -472,7 +472,7 @@ update_status ModulePlayer::Update()
 					}
 
 					if (player->m_continue_combo_grab == true)
-						player->m_state = state::GRAB_HEAD_HIT;
+						player->m_state = player_state::GRAB_HEAD_HIT;
 				}
 
 
@@ -482,21 +482,21 @@ update_status ModulePlayer::Update()
 					player->m_timer_count = 0.0;
 
 					if (player->m_face_right)
-						player->m_state = state::GRAB_AIR_SPIN_RIGHT;
+						player->m_state = player_state::GRAB_AIR_SPIN_RIGHT;
 					else
-						player->m_state = state::GRAB_AIR_SPIN_LEFT;
+						player->m_state = player_state::GRAB_AIR_SPIN_LEFT;
 				}
 			}
 		}
 		else
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			if (player->m_kick_hits == 2)
 				player->m_kick_hits = 0;
 		}	
 	}
 
-	if (player->m_state == state::GRAB_KICK)
+	if (player->m_state == player_state::GRAB_KICK)
 	{
 		
 		if (player->m_face_right)
@@ -520,10 +520,10 @@ update_status ModulePlayer::Update()
 
 	
 		if(player->m_current_animation == &(player->m_grab_right) || player->m_current_animation == &(player->m_grab_left))
-			player->m_state = state::GRAB;
+			player->m_state = player_state::GRAB;
 	}
 
-	if (player->m_state == state::GRAB_HEAD_HIT)
+	if (player->m_state == player_state::GRAB_HEAD_HIT)
 	{
 		
 		if (player->m_face_right)
@@ -538,14 +538,14 @@ update_status ModulePlayer::Update()
 		
 		if (player->m_current_animation->Finished())
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_continue_combo_grab = false;
 			player->m_current_animation->Reset();
 		}
 		
 	}
 
-	if (player->m_state == state::GRAB_AIR_SPIN_RIGHT)
+	if (player->m_state == player_state::GRAB_AIR_SPIN_RIGHT)
 	{
 
 		if (player->m_current_animation == &(player->m_grab_right))
@@ -595,13 +595,13 @@ update_status ModulePlayer::Update()
 			{
 				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 				{
-					player->m_state = state::GRAB_AIR_SPIN_FINISHER_RIGHT;
+					player->m_state = player_state::GRAB_AIR_SPIN_FINISHER_RIGHT;
 				}
 
 				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 				{
 					player->m_face_right = false;
-					player->m_state = state::IDLE;
+					player->m_state = player_state::IDLE;
 				}
 			}
 			else
@@ -612,7 +612,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 		
-	if (player->m_state == state::GRAB_AIR_SPIN_LEFT)
+	if (player->m_state == player_state::GRAB_AIR_SPIN_LEFT)
 	{
 		if (player->m_current_animation == &(player->m_grab_left))
 		{
@@ -661,13 +661,13 @@ update_status ModulePlayer::Update()
 			{
 				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 				{
-					player->m_state = state::GRAB_AIR_SPIN_FINISHER_LEFT;
+					player->m_state = player_state::GRAB_AIR_SPIN_FINISHER_LEFT;
 				}
 				
 				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 				{
 					player->m_face_right = true;
-					player->m_state = state::IDLE;
+					player->m_state = player_state::IDLE;
 				}
 			}								
 			else
@@ -678,7 +678,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 		
-	if (player->m_state == state::GRAB_AIR_SPIN_FINISHER_RIGHT)
+	if (player->m_state == player_state::GRAB_AIR_SPIN_FINISHER_RIGHT)
 	{
 		if (player->m_current_animation == &(player->m_grab_air_spin_combo_right7))
 		{
@@ -703,13 +703,13 @@ update_status ModulePlayer::Update()
 			if (player->m_current_animation->Finished())
 			{
 				player->m_face_right = false;
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 			}
 		}
 
 	}
 
-	if (player->m_state == state::GRAB_AIR_SPIN_FINISHER_LEFT)
+	if (player->m_state == player_state::GRAB_AIR_SPIN_FINISHER_LEFT)
 	{
 		if (player->m_current_animation == &(player->m_grab_air_spin_combo_left7))
 		{
@@ -734,7 +734,7 @@ update_status ModulePlayer::Update()
 			if (player->m_current_animation->Finished())
 			{
 				player->m_face_right = true;
-				player->m_state = state::IDLE;
+				player->m_state = player_state::IDLE;
 			}
 		}
 	}
@@ -747,18 +747,18 @@ update_status ModulePlayer::Update()
 		
 		if (player->m_enemy_to_grab == true)
 		{
-			player->m_state = state::GRAB;
+			player->m_state = player_state::GRAB;
 			player->m_restart_animation = true;
 		}
 		
-		if (player->m_state == state::JUMPING || player->m_state == state::JUMPING_KICKING)
+		if (player->m_state == player_state::JUMPING || player->m_state == player_state::JUMPING_KICKING)
 		{
 			player->m_position.x -= (int)player->m_speed;
 			player->m_jump_start_pos.x = player->m_position.x;
 		}
-		if (player->m_state == state::IDLE || player->m_state == state::WALKING)
+		if (player->m_state == player_state::IDLE || player->m_state == player_state::WALKING)
 		{
-			player->m_state = state::WALKING;
+			player->m_state = player_state::WALKING;
 
 			player->m_position.x -= (int)player->m_speed;
 
@@ -770,12 +770,12 @@ update_status ModulePlayer::Update()
 		}
 		if (player->m_carrying_weapon_pipe)
 		{
-			player->m_state = state::WEAPON_PIPE_WALKING_LEFT;
+			player->m_state = player_state::WEAPON_PIPE_WALKING_LEFT;
 
 		}
 		if (player->m_carrying_weapon_knife)
 		{
-			player->m_state = state::WEAPON_KNIFE_WALKING_LEFT;
+			player->m_state = player_state::WEAPON_KNIFE_WALKING_LEFT;
 
 		}
 
@@ -789,18 +789,18 @@ update_status ModulePlayer::Update()
 		
 		if (player->m_enemy_to_grab == true)
 		{
-			player->m_state = state::GRAB;
+			player->m_state = player_state::GRAB;
 			player->m_restart_animation = true;
 		}
 		
-		if (player->m_state == state::JUMPING || player->m_state == state::JUMPING_KICKING)
+		if (player->m_state == player_state::JUMPING || player->m_state == player_state::JUMPING_KICKING)
 		{
 			player->m_position.x += (int)player->m_speed;
 			player->m_jump_start_pos.x = player->m_position.x;
 		}
-		if (player->m_state == state::IDLE || player->m_state == state::WALKING)
+		if (player->m_state == player_state::IDLE || player->m_state == player_state::WALKING)
 		{
-			player->m_state = state::WALKING;
+			player->m_state = player_state::WALKING;
 
 			player->m_position.x += (int)player->m_speed;
 
@@ -812,19 +812,19 @@ update_status ModulePlayer::Update()
 		}
 		if (player->m_carrying_weapon_pipe)
 		{
-			player->m_state = state::WEAPON_PIPE_WALKING_RIGHT;
+			player->m_state = player_state::WEAPON_PIPE_WALKING_RIGHT;
 
 		}
 		if (player->m_carrying_weapon_knife)
 		{
-			player->m_state = state::WEAPON_KNIFE_WALKING_RIGHT;
+			player->m_state = player_state::WEAPON_KNIFE_WALKING_RIGHT;
 
 		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		if (player->m_state == state::WALKING || player->m_state == state::IDLE)
+		if (player->m_state == player_state::WALKING || player->m_state == player_state::IDLE)
 		{
 			player->m_position.y -= (int)player->m_speed;
 
@@ -847,19 +847,19 @@ update_status ModulePlayer::Update()
 		}
 		if (player->m_carrying_weapon_pipe)
 		{
-			player->m_state = state::WEAPON_PIPE_WALKING_UP;
+			player->m_state = player_state::WEAPON_PIPE_WALKING_UP;
 
 		}
 		if (player->m_carrying_weapon_knife)
 		{
-			player->m_state = state::WEAPON_KNIFE_WALKING_UP;
+			player->m_state = player_state::WEAPON_KNIFE_WALKING_UP;
 
 		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		if (player->m_state == state::WALKING || player->m_state == state::IDLE)
+		if (player->m_state == player_state::WALKING || player->m_state == player_state::IDLE)
 		{
 			player->m_position.y += (int)player->m_speed;
 
@@ -883,12 +883,12 @@ update_status ModulePlayer::Update()
 
 		if (player->m_carrying_weapon_pipe)
 		{
-			player->m_state = state::WEAPON_PIPE_WALKING_DOWN;
+			player->m_state = player_state::WEAPON_PIPE_WALKING_DOWN;
 
 		}
 		if (player->m_carrying_weapon_knife)
 		{
-			player->m_state = state::WEAPON_KNIFE_WALKING_DOWN;
+			player->m_state = player_state::WEAPON_KNIFE_WALKING_DOWN;
 
 		}
 
@@ -898,8 +898,8 @@ update_status ModulePlayer::Update()
 		//App->audio->PlayFx(App->particles->fxLaser, 0);
 	}
 
-	if (player->m_state == state::IDLE || 
-		player->m_state == state::WALKING  &&
+	if (player->m_state == player_state::IDLE || 
+		player->m_state == player_state::WALKING  &&
 		App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE &&
@@ -908,36 +908,36 @@ update_status ModulePlayer::Update()
 		App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE &&
 		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
-		if (player->m_state != state::IDLE)
+		if (player->m_state != player_state::IDLE)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_restart_animation = true;
 			player->m_timer_count = 0.0f;
 		}
 
-		if (player->m_state == state::IDLE)
+		if (player->m_state == player_state::IDLE)
 		{
 			if (player->m_carrying_weapon_pipe == true)
 			{
-				player->m_state = state::WEAPON_PIPE_IDLE;
+				player->m_state = player_state::WEAPON_PIPE_IDLE;
 				player->m_restart_animation = true;
 				player->m_position.y -= 14;
 
 			}
 		}
 
-		if (player->m_state == state::IDLE)
+		if (player->m_state == player_state::IDLE)
 		{
 			if (player->m_carrying_weapon_knife == true)
 			{
-				player->m_state = state::WEAPON_KNIFE_IDLE;
+				player->m_state = player_state::WEAPON_KNIFE_IDLE;
 				player->m_restart_animation = true;
 				//rectificación en Y
 			}
 		}
 	}
 
-	if (player->m_state == state::IDLE)
+	if (player->m_state == player_state::IDLE)
 	{
 		if (player->m_face_right)
 		{
@@ -974,7 +974,7 @@ update_status ModulePlayer::Update()
 	}
 
 
-	if (player->m_state == state::WEAPON_PIPE_IDLE)
+	if (player->m_state == player_state::WEAPON_PIPE_IDLE)
 	{
 		
 		if (player->m_face_right)
@@ -989,13 +989,13 @@ update_status ModulePlayer::Update()
 
 		if (player->m_carrying_weapon_pipe == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_restart_animation = true;
 			player->m_position.y += 14;
 		}
 
 	}
-	if (player->m_state == state::WEAPON_PIPE_WALKING_LEFT)
+	if (player->m_state == player_state::WEAPON_PIPE_WALKING_LEFT)
 	{
 		player->m_position.x -= (int)player->m_speed;
 
@@ -1007,17 +1007,17 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_PIPE_IDLE;
+			player->m_state = player_state::WEAPON_PIPE_IDLE;
 		}
 		
 		if (player->m_carrying_weapon_pipe == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_position.y += 14;
 		}
 	}
 	
-	if (player->m_state == state::WEAPON_PIPE_WALKING_RIGHT)
+	if (player->m_state == player_state::WEAPON_PIPE_WALKING_RIGHT)
 	{
 		player->m_position.x += (int)player->m_speed;
 
@@ -1029,17 +1029,17 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_PIPE_IDLE;
+			player->m_state = player_state::WEAPON_PIPE_IDLE;
 		}
 
 		if (player->m_carrying_weapon_pipe == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_position.y += 14;
 		}
 	}
 
-	if (player->m_state == state::WEAPON_PIPE_WALKING_UP)
+	if (player->m_state == player_state::WEAPON_PIPE_WALKING_UP)
 	{
 		player->m_position.y -= (int)player->m_speed;
 
@@ -1062,17 +1062,17 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_PIPE_IDLE;
+			player->m_state = player_state::WEAPON_PIPE_IDLE;
 		}
 
 		if (player->m_carrying_weapon_pipe == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_position.y += 14;
 		}
 	}
 
-	if (player->m_state == state::WEAPON_PIPE_WALKING_DOWN)
+	if (player->m_state == player_state::WEAPON_PIPE_WALKING_DOWN)
 	{
 		player->m_position.y += (int)player->m_speed;
 
@@ -1095,37 +1095,37 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_PIPE_IDLE;
+			player->m_state = player_state::WEAPON_PIPE_IDLE;
 		}
 
 		if (player->m_carrying_weapon_pipe == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_position.y += 14;
 		}
 	}
 
-	if (player->m_state == state::WEAPON_PIPE_ATTACK_RIGHT)
+	if (player->m_state == player_state::WEAPON_PIPE_ATTACK_RIGHT)
 	{
 		player->m_current_animation = &(player->m_weapon_pipe_attack_right);
 		if (player->m_current_animation->Finished())
 		{
 			player->m_current_animation->Reset();
-			player->m_state = state::WEAPON_PIPE_IDLE;
+			player->m_state = player_state::WEAPON_PIPE_IDLE;
 		}
 	}
 
-	if (player->m_state == state::WEAPON_PIPE_ATTACK_LEFT)
+	if (player->m_state == player_state::WEAPON_PIPE_ATTACK_LEFT)
 	{
 		player->m_current_animation = &(player->m_weapon_pipe_attack_left);
 		if (player->m_current_animation->Finished())
 		{
 			player->m_current_animation->Reset();
-			player->m_state = state::WEAPON_PIPE_IDLE;
+			player->m_state = player_state::WEAPON_PIPE_IDLE;
 		}
 	}
 
-	if (player->m_state == state::WEAPON_KNIFE_IDLE)
+	if (player->m_state == player_state::WEAPON_KNIFE_IDLE)
 	{
 
 		if (player->m_face_right)
@@ -1140,13 +1140,13 @@ update_status ModulePlayer::Update()
 
 		if (player->m_carrying_weapon_knife == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			player->m_restart_animation = true;
 			
 		}
 	}
 
-	if (player->m_state == state::WEAPON_KNIFE_WALKING_LEFT)
+	if (player->m_state == player_state::WEAPON_KNIFE_WALKING_LEFT)
 	{
 		player->m_position.x -= (int)player->m_speed;
 
@@ -1158,17 +1158,17 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_KNIFE_IDLE;
+			player->m_state = player_state::WEAPON_KNIFE_IDLE;
 		}
 
 		if (player->m_carrying_weapon_knife == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			
 		}
 	}
 
-	if (player->m_state == state::WEAPON_KNIFE_WALKING_RIGHT)
+	if (player->m_state == player_state::WEAPON_KNIFE_WALKING_RIGHT)
 	{
 		player->m_position.x += (int)player->m_speed;
 
@@ -1180,17 +1180,17 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_KNIFE_IDLE;
+			player->m_state = player_state::WEAPON_KNIFE_IDLE;
 		}
 
 		if (player->m_carrying_weapon_knife == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			
 		}
 	}
 
-	if (player->m_state == state::WEAPON_KNIFE_WALKING_UP)
+	if (player->m_state == player_state::WEAPON_KNIFE_WALKING_UP)
 	{
 		player->m_position.y -= (int)player->m_speed;
 
@@ -1213,17 +1213,17 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_KNIFE_IDLE;
+			player->m_state = player_state::WEAPON_KNIFE_IDLE;
 		}
 
 		if (player->m_carrying_weapon_knife == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			
 		}
 	}
 
-	if (player->m_state == state::WEAPON_KNIFE_WALKING_DOWN)
+	if (player->m_state == player_state::WEAPON_KNIFE_WALKING_DOWN)
 	{
 		player->m_position.y += (int)player->m_speed;
 
@@ -1246,33 +1246,33 @@ update_status ModulePlayer::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
-			player->m_state = state::WEAPON_KNIFE_IDLE;
+			player->m_state = player_state::WEAPON_KNIFE_IDLE;
 		}
 
 		if (player->m_carrying_weapon_pipe == false)
 		{
-			player->m_state = state::IDLE;
+			player->m_state = player_state::IDLE;
 			
 		}
 	}
 
-	if (player->m_state == state::WEAPON_KNIFE_ATTACK_RIGHT)
+	if (player->m_state == player_state::WEAPON_KNIFE_ATTACK_RIGHT)
 	{
 		player->m_current_animation = &(player->m_weapon_knife_attack_right);
 		if (player->m_current_animation->Finished())
 		{
 			player->m_current_animation->Reset();
-			player->m_state = state::WEAPON_KNIFE_IDLE;
+			player->m_state = player_state::WEAPON_KNIFE_IDLE;
 		}
 	}
 
-	if (player->m_state == state::WEAPON_KNIFE_ATTACK_LEFT)
+	if (player->m_state == player_state::WEAPON_KNIFE_ATTACK_LEFT)
 	{
 		player->m_current_animation = &(player->m_weapon_knife_attack_left);
 		if (player->m_current_animation->Finished())
 		{
 			player->m_current_animation->Reset();
-			player->m_state = state::WEAPON_KNIFE_IDLE;
+			player->m_state = player_state::WEAPON_KNIFE_IDLE;
 		}
 	}
 
