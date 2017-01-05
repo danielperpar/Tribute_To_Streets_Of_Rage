@@ -17,6 +17,7 @@ enum class enemy_state
 	PUNCH1,
 	PUNCH2,
 	KNIFE_ATTACK,
+	GROUND_ATTACK
 	
 };
 
@@ -30,7 +31,7 @@ public:
 
 
 public:
-	bool m_dead;
+	bool m_dead = false;
 	bool m_player_to_hit = true;
 	int m_life;
 	enemy_state m_state;
@@ -39,6 +40,9 @@ public:
 	size_t m_timer_count = 0;
 	size_t m_timer_speed = 0;
 	bool m_restart_animation = true;
+
+	size_t m_ground_attack_range = 50;
+	size_t m_ground_attack_speed = 1;
 
 	size_t m_punch_hits = 0;
 
@@ -63,6 +67,15 @@ public:
 
 	Animation m_npc_garcia_knife_attack_right;
 	Animation m_npc_garcia_knife_attack_left;
+
+	Animation m_npc_punky_idle_right;
+	Animation m_npc_punky_idle_left;
+
+	Animation m_npc_punky_walk_right;
+	Animation m_npc_punky_walk_left;
+
+	Animation m_npc_punky_ground_attack_right;
+	Animation m_npc_punky_ground_attack_left;
 
 	void AdvanceAnimation(size_t initial_sprite_duration, Animation *next_anim_sprite, bool restart_animation);
 

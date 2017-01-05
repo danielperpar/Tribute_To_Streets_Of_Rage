@@ -26,7 +26,7 @@ bool ModuleEnemies::Start()
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
 
 	//Debug test
-	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia_knife", entity_type::ENEMY, { 800, 100 }, 0);
+	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "punky", entity_type::ENEMY, { 800, 100 }, 0);
 	enemy->m_state = enemy_state::IDLE;
 
 
@@ -105,6 +105,11 @@ update_status ModuleEnemies::Update()
 						{
 							enemy->m_state = enemy_state::KNIFE_ATTACK;
 						}
+						if (!strcmp(enemy->m_name, "punky"))
+						{
+							enemy->m_state = enemy_state::GROUND_ATTACK;
+						}
+
 					}
 					else
 					{
@@ -125,6 +130,10 @@ update_status ModuleEnemies::Update()
 				{
 					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_garcia_knife_idle_right) : &(enemy->m_npc_garcia_knife_idle_left);
 
+				}
+				if (!strcmp(enemy->m_name, "punky"))
+				{
+					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_punky_idle_right) : &(enemy->m_npc_punky_idle_left);
 				}
 			}
 
@@ -151,7 +160,14 @@ update_status ModuleEnemies::Update()
 						enemy->m_current_animation->Reset();
 					}
 				}
-				
+				if (!strcmp(enemy->m_name, "punky"))
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
+						enemy->m_current_animation->Reset();
+					}
+				}
 
 				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 				{
@@ -179,6 +195,14 @@ update_status ModuleEnemies::Update()
 					if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
 					{
 						enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
+						enemy->m_current_animation->Reset();
+					}
+				}
+				if (!strcmp(enemy->m_name, "punky"))
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
 						enemy->m_current_animation->Reset();
 					}
 				}
@@ -213,6 +237,14 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "punky"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
 				}
 				else
 				{
@@ -229,6 +261,14 @@ update_status ModuleEnemies::Update()
 						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
 						{
 							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "punky"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
 							enemy->m_current_animation->Reset();
 						}
 					}
@@ -263,6 +303,14 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "punky"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
 				}
 				else
 				{
@@ -279,6 +327,14 @@ update_status ModuleEnemies::Update()
 						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
 						{
 							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "punky"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
 							enemy->m_current_animation->Reset();
 						}
 					}
@@ -342,7 +398,7 @@ update_status ModuleEnemies::Update()
 					}
 				}
 			}
-			//Only garcia_knife enters KNIFE_ATTACK state
+			//Only garcia_knife enters knife_attack state
 			if (enemy->m_state == enemy_state::KNIFE_ATTACK)
 			{
 				if (enemy->m_face_right)
@@ -356,7 +412,42 @@ update_status ModuleEnemies::Update()
 					enemy->m_current_animation->Reset();
 				}
 			}
+			//Only punky enters ground_attack state
+			if (enemy->m_state == enemy_state::GROUND_ATTACK)
+			{
+				if (enemy->m_restart_animation)
+				{
+					enemy->m_timer_count = 0;
+					enemy->m_restart_animation = false;
+					
+				}
 
+				enemy->m_timer_count++;
+
+				if (enemy->m_face_right)
+				{
+					enemy->m_current_animation = &(enemy->m_npc_punky_ground_attack_right);
+					enemy->m_position.x += enemy->m_ground_attack_speed;
+				}
+				else
+				{
+					enemy->m_current_animation = &(enemy->m_npc_punky_ground_attack_left);
+					enemy->m_position.x -= enemy->m_ground_attack_speed;
+				}
+
+				if (enemy->m_timer_count >= enemy->m_ground_attack_range)
+				{
+					if (enemy->m_face_right)
+						enemy->m_position.x += 20;
+					else
+						enemy->m_position.x -= 20;
+
+					enemy->m_state = enemy_state::IDLE;
+					enemy->m_restart_animation = true;
+					enemy->m_current_animation->Reset();
+					enemy->m_timer_count = 0;
+				}
+			}
 
 		}
 	}
@@ -367,7 +458,14 @@ update_status ModuleEnemies::Update()
 
 	// Draw everything --------------------------------------
 
-	App->renderer->Blit(enemy->m_texture, enemy->m_position.x, enemy->m_position.y, &(enemy->m_current_animation->GetCurrentFrame()));
+	for (auto it = App->entities.begin(); it != App->entities.end(); it++)
+	{
+		if ((*it)->m_type == entity_type::ENEMY)
+		{
+			App->renderer->Blit((*it)->m_texture, (*it)->m_position.x, (*it)->m_position.y, &(((Enemy*)(*it))->m_current_animation->GetCurrentFrame()));
+		}
+	}
+	//App->renderer->Blit(enemy->m_texture, enemy->m_position.x, enemy->m_position.y, &(enemy->m_current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
 }
