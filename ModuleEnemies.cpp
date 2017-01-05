@@ -79,12 +79,35 @@ update_status ModuleEnemies::Update()
 				{
 					enemy->m_state = enemy_state::WALKING_DOWN;
 				}
+				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+				{
+					if (enemy->m_player_to_hit)
+					{
+						if (enemy->m_punch_hits < 2)
+						{
+							enemy->m_state = enemy_state::PUNCH1;
+						}
+						if (enemy->m_punch_hits == 2)
+						{
+							enemy->m_state = enemy_state::PUNCH2;
+						}
+						if (enemy->m_punch_hits > 2)
+						{
+							enemy->m_punch_hits = 0;
+							enemy->m_state = enemy_state::PUNCH1;
+						}
+					}
+					else
+					{
+						enemy->m_state = enemy_state::IDLE;
+					}
+				}
 			}
 			
 			if(enemy->m_state == enemy_state::IDLE)
 			{
 				
-				if (enemy->m_name == "garcia")
+				if (!strcmp(enemy->m_name,"garcia"))
 				{
 					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_garcia_idle_right) : &(enemy->m_npc_garcia_idle_left);
 			
@@ -98,11 +121,15 @@ update_status ModuleEnemies::Update()
 
 				enemy->m_position.x += (int)enemy->m_speed;
 				
-				if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+				if (!strcmp(enemy->m_name, "garcia"))
 				{
-					enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
-					enemy->m_current_animation->Reset();
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+						enemy->m_current_animation->Reset();
+					}
 				}
+				
 
 				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 				{
@@ -117,10 +144,13 @@ update_status ModuleEnemies::Update()
 
 				enemy->m_position.x -= (int)enemy->m_speed;
 
-				if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+				if (!strcmp(enemy->m_name, "garcia"))
 				{
-					enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
-					enemy->m_current_animation->Reset();
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+						enemy->m_current_animation->Reset();
+					}
 				}
 
 				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
@@ -136,18 +166,25 @@ update_status ModuleEnemies::Update()
 
 				if (enemy->m_face_right)
 				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+					
+					if (!strcmp(enemy->m_name, "garcia"))
 					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
-						enemy->m_current_animation->Reset();
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+							enemy->m_current_animation->Reset();
+						}
 					}
 				}
 				else
 				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+					if (!strcmp(enemy->m_name, "garcia"))
 					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
-						enemy->m_current_animation->Reset();
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+							enemy->m_current_animation->Reset();
+						}
 					}
 				}
 				
@@ -164,18 +201,24 @@ update_status ModuleEnemies::Update()
 
 				if (enemy->m_face_right)
 				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+					if (!strcmp(enemy->m_name, "garcia"))
 					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
-						enemy->m_current_animation->Reset();
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+							enemy->m_current_animation->Reset();
+						}
 					}
 				}
 				else
 				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+					if (!strcmp(enemy->m_name, "garcia"))
 					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
-						enemy->m_current_animation->Reset();
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+							enemy->m_current_animation->Reset();
+						}
 					}
 				}
 
@@ -184,6 +227,61 @@ update_status ModuleEnemies::Update()
 					enemy->m_state = enemy_state::IDLE;
 				}
 			}
+			//Only garcia enters punch1,punch2 states
+			if (enemy->m_state == enemy_state::PUNCH1)
+			{
+				if (enemy->m_face_right)
+				{
+					enemy->m_current_animation = &(enemy->m_npc_garcia_punch_right1);
+					
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_punch_hits++;
+						enemy->m_state = enemy_state::IDLE;
+						enemy->m_current_animation->Reset();
+					}
+				}
+				else
+				{
+					enemy->m_current_animation = &(enemy->m_npc_garcia_punch_left1);
+					
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_punch_hits++;
+						enemy->m_state = enemy_state::IDLE;
+						enemy->m_current_animation->Reset();
+					}
+					
+				}
+			}
+			
+			if (enemy->m_state == enemy_state::PUNCH2)
+			{
+				if (enemy->m_face_right)
+				{
+					enemy->m_current_animation = &(enemy->m_npc_garcia_punch_right2);
+
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_punch_hits++;
+						enemy->m_state = enemy_state::IDLE;
+						enemy->m_current_animation->Reset();
+					}
+				}
+				else
+				{
+					enemy->m_current_animation = &(enemy->m_npc_garcia_punch_left2);
+
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_punch_hits++;
+						enemy->m_state = enemy_state::IDLE;
+						enemy->m_current_animation->Reset();
+					}
+				}
+			}
+
+
 		}
 	}
 

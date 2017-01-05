@@ -26,7 +26,7 @@ public:
 	Enemy *enemy = nullptr; 
 	Collider* playerCollider;
 
-
+	Player *player = nullptr;
 
 };
 
