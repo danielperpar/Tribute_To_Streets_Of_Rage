@@ -26,7 +26,7 @@ bool ModuleEnemies::Start()
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
 
 	//Debug test
-	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 800, 100 }, 0);
+	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia_knife", entity_type::ENEMY, { 800, 100 }, 0);
 	enemy->m_state = enemy_state::IDLE;
 
 
@@ -63,6 +63,8 @@ update_status ModuleEnemies::Update()
 			
 			if (enemy->m_state == enemy_state::IDLE)
 			{
+				//Inputs will be substituted by AI signals
+				
 				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 				{
 					enemy->m_state = enemy_state::WALKING_RIGHT;
@@ -83,18 +85,25 @@ update_status ModuleEnemies::Update()
 				{
 					if (enemy->m_player_to_hit)
 					{
-						if (enemy->m_punch_hits < 2)
+						if (!strcmp(enemy->m_name, "garcia"))
 						{
-							enemy->m_state = enemy_state::PUNCH1;
+							if (enemy->m_punch_hits < 2)
+							{
+								enemy->m_state = enemy_state::PUNCH1;
+							}
+							if (enemy->m_punch_hits == 2)
+							{
+								enemy->m_state = enemy_state::PUNCH2;
+							}
+							if (enemy->m_punch_hits > 2)
+							{
+								enemy->m_punch_hits = 0;
+								enemy->m_state = enemy_state::PUNCH1;
+							}
 						}
-						if (enemy->m_punch_hits == 2)
+						if (!strcmp(enemy->m_name, "garcia_knife"))
 						{
-							enemy->m_state = enemy_state::PUNCH2;
-						}
-						if (enemy->m_punch_hits > 2)
-						{
-							enemy->m_punch_hits = 0;
-							enemy->m_state = enemy_state::PUNCH1;
+							enemy->m_state = enemy_state::KNIFE_ATTACK;
 						}
 					}
 					else
@@ -112,6 +121,11 @@ update_status ModuleEnemies::Update()
 					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_garcia_idle_right) : &(enemy->m_npc_garcia_idle_left);
 			
 				}
+				if (!strcmp(enemy->m_name, "garcia_knife"))
+				{
+					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_garcia_knife_idle_right) : &(enemy->m_npc_garcia_knife_idle_left);
+
+				}
 			}
 
 			if (enemy->m_state == enemy_state::WALKING_RIGHT)
@@ -126,6 +140,14 @@ update_status ModuleEnemies::Update()
 					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
 					{
 						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+						enemy->m_current_animation->Reset();
+					}
+				}
+				if (!strcmp(enemy->m_name, "garcia_knife"))
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
 						enemy->m_current_animation->Reset();
 					}
 				}
@@ -152,6 +174,14 @@ update_status ModuleEnemies::Update()
 						enemy->m_current_animation->Reset();
 					}
 				}
+				if (!strcmp(enemy->m_name, "garcia_knife"))
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
+						enemy->m_current_animation->Reset();
+					}
+				}
 
 				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 				{
@@ -175,6 +205,14 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "garcia_knife"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
 				}
 				else
 				{
@@ -183,6 +221,14 @@ update_status ModuleEnemies::Update()
 						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
 						{
 							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "garcia_knife"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
 							enemy->m_current_animation->Reset();
 						}
 					}
@@ -209,6 +255,14 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "garcia_knife"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
 				}
 				else
 				{
@@ -217,6 +271,14 @@ update_status ModuleEnemies::Update()
 						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
 						{
 							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "garcia_knife"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
 							enemy->m_current_animation->Reset();
 						}
 					}
@@ -278,6 +340,20 @@ update_status ModuleEnemies::Update()
 						enemy->m_state = enemy_state::IDLE;
 						enemy->m_current_animation->Reset();
 					}
+				}
+			}
+			//Only garcia_knife enters KNIFE_ATTACK state
+			if (enemy->m_state == enemy_state::KNIFE_ATTACK)
+			{
+				if (enemy->m_face_right)
+					enemy->m_current_animation = &(enemy->m_npc_garcia_knife_attack_right);
+				else
+					enemy->m_current_animation = &(enemy->m_npc_garcia_knife_attack_left);
+
+				if (enemy->m_current_animation->Finished())
+				{
+					enemy->m_state = enemy_state::IDLE;
+					enemy->m_current_animation->Reset();
 				}
 			}
 

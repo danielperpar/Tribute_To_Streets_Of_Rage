@@ -15,7 +15,9 @@ enum class enemy_state
 	WALKING_UP,
 	WALKING_DOWN,
 	PUNCH1,
-	PUNCH2
+	PUNCH2,
+	KNIFE_ATTACK,
+	
 };
 
 
@@ -34,8 +36,8 @@ public:
 	enemy_state m_state;
 	bool m_face_right = true;
 	float m_speed = 1.0f;
-	size_t m_timer_count;
-	size_t m_timer_speed;
+	size_t m_timer_count = 0;
+	size_t m_timer_speed = 0;
 	bool m_restart_animation = true;
 
 	size_t m_punch_hits = 0;
@@ -53,7 +55,11 @@ public:
 	Animation m_npc_garcia_punch_left1;
 	Animation m_npc_garcia_punch_left2;
 	
-	size_t m_npc_garcia_punch_duration = 10;
+	Animation m_npc_garcia_knife_idle_right;
+	Animation m_npc_garcia_knife_idle_left;
+
+	Animation m_npc_garcia_knife_walk_right;
+	Animation m_npc_garcia_knife_walk_left;
 
 	Animation m_npc_garcia_knife_attack_right;
 	Animation m_npc_garcia_knife_attack_left;
