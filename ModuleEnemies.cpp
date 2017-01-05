@@ -26,7 +26,7 @@ bool ModuleEnemies::Start()
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
 
 	//Debug test
-	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "punky", entity_type::ENEMY, { 800, 100 }, 0);
+	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "nora", entity_type::ENEMY, { 800, 100 }, 0);
 	enemy->m_state = enemy_state::IDLE;
 
 
@@ -109,6 +109,10 @@ update_status ModuleEnemies::Update()
 						{
 							enemy->m_state = enemy_state::GROUND_ATTACK;
 						}
+						if (!strcmp(enemy->m_name, "nora"))
+						{
+							enemy->m_state = enemy_state::WHIP_ATTACK;
+						}
 
 					}
 					else
@@ -134,6 +138,10 @@ update_status ModuleEnemies::Update()
 				if (!strcmp(enemy->m_name, "punky"))
 				{
 					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_punky_idle_right) : &(enemy->m_npc_punky_idle_left);
+				}
+				if (!strcmp(enemy->m_name, "nora"))
+				{
+					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_nora_idle_right) : &(enemy->m_npc_nora_idle_left);
 				}
 			}
 
@@ -165,6 +173,14 @@ update_status ModuleEnemies::Update()
 					if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
 					{
 						enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
+						enemy->m_current_animation->Reset();
+					}
+				}
+				if (!strcmp(enemy->m_name, "nora"))
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
 						enemy->m_current_animation->Reset();
 					}
 				}
@@ -203,6 +219,14 @@ update_status ModuleEnemies::Update()
 					if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
 					{
 						enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
+						enemy->m_current_animation->Reset();
+					}
+				}
+				if (!strcmp(enemy->m_name, "nora"))
+				{
+					if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
+					{
+						enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
 						enemy->m_current_animation->Reset();
 					}
 				}
@@ -245,6 +269,14 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "nora"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
 				}
 				else
 				{
@@ -269,6 +301,14 @@ update_status ModuleEnemies::Update()
 						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
 						{
 							enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "nora"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
 							enemy->m_current_animation->Reset();
 						}
 					}
@@ -311,6 +351,14 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "nora"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
 				}
 				else
 				{
@@ -335,6 +383,14 @@ update_status ModuleEnemies::Update()
 						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
 						{
 							enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "nora"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
 							enemy->m_current_animation->Reset();
 						}
 					}
@@ -446,6 +502,21 @@ update_status ModuleEnemies::Update()
 					enemy->m_restart_animation = true;
 					enemy->m_current_animation->Reset();
 					enemy->m_timer_count = 0;
+				}
+			}
+
+			//Only nora enters whip_attack state
+			if (enemy->m_state == enemy_state::WHIP_ATTACK)
+			{
+				if (enemy->m_face_right)
+					enemy->m_current_animation = &(enemy->m_npc_nora_attack_right);
+				else
+					enemy->m_current_animation = &(enemy->m_npc_nora_attack_left);
+
+				if (enemy->m_current_animation->Finished())
+				{
+					enemy->m_state = enemy_state::IDLE;
+					enemy->m_current_animation->Reset();
 				}
 			}
 

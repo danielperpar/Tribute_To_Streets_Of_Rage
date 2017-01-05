@@ -17,7 +17,8 @@ enum class enemy_state
 	PUNCH1,
 	PUNCH2,
 	KNIFE_ATTACK,
-	GROUND_ATTACK
+	GROUND_ATTACK,
+	WHIP_ATTACK
 	
 };
 
@@ -76,6 +77,15 @@ public:
 
 	Animation m_npc_punky_ground_attack_right;
 	Animation m_npc_punky_ground_attack_left;
+
+	Animation m_npc_nora_idle_right;
+	Animation m_npc_nora_idle_left;
+
+	Animation m_npc_nora_walk_right;
+	Animation m_npc_nora_walk_left;
+
+	Animation m_npc_nora_attack_right;
+	Animation m_npc_nora_attack_left;
 
 	void AdvanceAnimation(size_t initial_sprite_duration, Animation *next_anim_sprite, bool restart_animation);
 
