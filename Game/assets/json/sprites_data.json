@@ -934,7 +934,118 @@
 		{
 		  "sprite" : [{"x" : 1293},{"y" : 803},{"w" : 87},{"h" : 114}]
 		}
+	],
+	"npcAntonioThrowBoomerangRight":
+	[
+		{
+		  "sprite" : [{"x" : 94},{"y" : 1132},{"w" : 97},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 288},{"y" : 1132},{"w" : 113},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 99},{"y" : 921},{"w" : 113},{"h" : 114}]
+		}
+	],
+	"npcAntonioThrowBoomerangLeft":
+	[
+		{
+		  "sprite" : [{"x" : 2057},{"y" : 1132},{"w" : 131},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 1863},{"y" : 1132},{"w" : 122},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 1687},{"y" : 1132},{"w" : 111},{"h" : 114}]
+		}
+	],
+	"npcAntonioRecoverBoomerangRight":
+	[
+		{
+		  "sprite" : [{"x" : 464},{"y" : 1132},{"w" : 93},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 288},{"y" : 1132},{"w" : 113},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 94},{"y" : 1132},{"w" : 97},{"h" : 114}]
+		}
+	],
+	"npcAntonioRecoverBoomerangLeft":
+	[
+		{
+		  "sprite" : [{"x" : 1687},{"y" : 1132},{"w" : 111},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 1863},{"y" : 1132},{"w" : 122},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 2057},{"y" : 1132},{"w" : 131},{"h" : 114}]
+		}
+	],
+	
+	"npcItemBoomerangRight1" :
+	[
+		{
+		  "sprite" : [{"x" : 49},{"y" : 1361},{"w" : 105},{"h" : 8}]
+		}
+	],
+	"npcItemBoomerangRight2" :
+	[
+		{
+		  "sprite" : [{"x" : 203},{"y" : 1354},{"w" : 92},{"h" : 18}]
+		}
+	],
+	"npcItemBoomerangRight3" :
+	[
+		{
+		  "sprite" : [{"x" : 349},{"y" : 1356},{"w" : 105},{"h" : 8}]
+		}
+	],
+	"npcItemBoomerangRight4" :
+	[
+		{
+		  "sprite" : [{"x" : 503},{"y" : 1354},{"w" : 105},{"h" : 15}]
+		}
+	],
+	"npcBoomerangShadowRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 676},{"y" : 1361},{"w" : 88},{"h" : 4}]
+		}
+	],
+	
+	"npcItemBoomerangLeft1" :
+	[
+		{
+		  "sprite" : [{"x" : 2102},{"y" : 1361},{"w" : 70},{"h" : 8}]
+		}
+	],
+	"npcItemBoomerangLeft2" :
+	[
+		{
+		  "sprite" : [{"x" : 1948},{"y" : 1354},{"w" : 70},{"h" :15}]
+		}
+	],
+	"npcItemBoomerangLeft3" :
+	[
+		{
+		  "sprite" : [{"x" : 1802},{"y" : 1356},{"w" : 70},{"h" : 9}]
+		}
+	],
+	"npcItemBoomerangLeft4" :
+	[
+		{
+		  "sprite" : [{"x" : 1648},{"y" : 1354},{"w" : 70},{"h" : 15}]
+		}
+	],
+	"npcBoomerangShadowLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1480},{"y" : 1361},{"w" : 71},{"h" :4}]
+		}
 	]
+	
 	
 }
 

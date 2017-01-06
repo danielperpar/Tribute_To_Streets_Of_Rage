@@ -16,7 +16,9 @@ enum class enemy_state
 	KNIFE_ATTACK,
 	GROUND_ATTACK,
 	WHIP_ATTACK,
-	KICK
+	KICK,
+	THROW_BOOMERANG,
+	RECOVER_BOOMERANG
 	
 };
 
@@ -46,6 +48,7 @@ public:
 	size_t m_punch_hits = 0;
 
 	bool m_carrying_boomerang = true;
+	
 
 	Animation *m_current_animation = nullptr;
 
@@ -101,6 +104,25 @@ public:
 
 	Animation m_npc_antonio_kick_right;
 	Animation m_npc_antonio_kick_left;
+
+	Animation m_npc_antonio_throw_boomerang_right;
+	Animation m_npc_antonio_throw_boomerang_left;
+
+	Animation m_npc_antonio_recover_boomerang_right;
+	Animation m_npc_antonio_recover_boomerang_left;
+
+	Animation m_npc_item_boomerang_right1;
+	Animation m_npc_item_boomerang_right2;
+	Animation m_ncp_item_boomerang_right3;
+	Animation m_npc_item_boomerang_right4;
+
+	Animation m_npc_item_boomerang_left1;
+	Animation m_npc_item_boomerang_left2;
+	Animation m_ncp_item_boomerang_left3;
+	Animation m_npc_item_boomerang_left4;
+
+	Animation m_npc_boomerang_shadow_right;
+	Animation m_npc_boomerang_shadow_left;
 
 	void AdvanceAnimation(size_t initial_sprite_duration, Animation *next_anim_sprite, bool restart_animation);
 

@@ -203,6 +203,77 @@ Enemy::Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint po
 		m_npc_antonio_kick_left.loop = false;
 		m_npc_antonio_kick_left.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioThrowBoomerangRight", m_animation_list, m_npc_antonio_throw_boomerang_right);
+		m_npc_antonio_throw_boomerang_right.loop = false;
+		m_npc_antonio_throw_boomerang_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioThrowBoomerangLeft", m_animation_list, m_npc_antonio_throw_boomerang_left);
+		m_npc_antonio_throw_boomerang_left.loop = false;
+		m_npc_antonio_throw_boomerang_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioRecoverBoomerangRight", m_animation_list, m_npc_antonio_recover_boomerang_right);
+		m_npc_antonio_recover_boomerang_right.loop = false;
+		m_npc_antonio_recover_boomerang_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioRecoverBoomerangLeft", m_animation_list, m_npc_antonio_recover_boomerang_left);
+		m_npc_antonio_recover_boomerang_left.loop = false;
+		m_npc_antonio_recover_boomerang_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangRight1", m_animation_list, m_npc_item_boomerang_right1);
+		m_npc_item_boomerang_right1.loop = false;
+		m_npc_item_boomerang_right1.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangRight2", m_animation_list, m_npc_item_boomerang_right2);
+		m_npc_item_boomerang_right2.loop = false;
+		m_npc_item_boomerang_right2.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangRight3", m_animation_list, m_ncp_item_boomerang_right3);
+		m_ncp_item_boomerang_right3.loop = false;
+		m_ncp_item_boomerang_right3.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangRight4", m_animation_list, m_npc_item_boomerang_right4);
+		m_npc_item_boomerang_right4.loop = false;
+		m_npc_item_boomerang_right4.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcBoomerangShadowRight", m_animation_list, m_npc_boomerang_shadow_right);
+		m_npc_boomerang_shadow_right.loop = false;
+		m_npc_boomerang_shadow_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangLeft1", m_animation_list, m_npc_item_boomerang_left1);
+		m_npc_item_boomerang_left1.loop = false;
+		m_npc_item_boomerang_left1.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangLeft2", m_animation_list, m_npc_item_boomerang_left2);
+		m_npc_item_boomerang_left2.loop = false;
+		m_npc_item_boomerang_left2.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangLeft3", m_animation_list, m_ncp_item_boomerang_left3);
+		m_ncp_item_boomerang_left3.loop = false;
+		m_ncp_item_boomerang_left3.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangLeft4", m_animation_list, m_npc_item_boomerang_left4);
+		m_npc_item_boomerang_left4.loop = false;
+		m_npc_item_boomerang_left4.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcBoomerangShadowRight", m_animation_list, m_npc_boomerang_shadow_left);
+		m_npc_boomerang_shadow_left.loop = false;
+		m_npc_boomerang_shadow_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
 	}
 
 

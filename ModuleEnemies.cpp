@@ -26,7 +26,7 @@ bool ModuleEnemies::Start()
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
 
 	//Debug test
-	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "nora", entity_type::ENEMY, { 800, 100 }, 0);
+	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "antonio", entity_type::ENEMY, { 800, 100 }, 0);
 	enemy->m_state = enemy_state::IDLE;
 
 
@@ -110,6 +110,7 @@ update_status ModuleEnemies::Update()
 						}
 						if (!strcmp(enemy->m_name, "antonio"))
 						{
+							if(enemy->m_carrying_boomerang == false)
 							enemy->m_state = enemy_state::KICK;
 						}
 
@@ -117,6 +118,23 @@ update_status ModuleEnemies::Update()
 					else
 					{
 						enemy->m_state = enemy_state::IDLE;
+					}
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+				{
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if(enemy->m_carrying_boomerang)
+							enemy->m_state = enemy_state::THROW_BOOMERANG;
+					}
+				}
+				if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+				{
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if (enemy->m_carrying_boomerang == false)
+							enemy->m_state = enemy_state::RECOVER_BOOMERANG;
 					}
 				}
 				
@@ -310,6 +328,7 @@ update_status ModuleEnemies::Update()
 			{
 				if (enemy->m_state == enemy_state::WALKING || enemy->m_state == enemy_state::IDLE)
 				{
+					enemy->m_state = enemy_state::WALKING;
 					enemy->m_position.y -= (int)enemy->m_speed;
 
 					if (enemy->m_face_right)
@@ -428,6 +447,7 @@ update_status ModuleEnemies::Update()
 			{
 				if (enemy->m_state == enemy_state::WALKING || enemy->m_state == enemy_state::IDLE)
 				{
+					enemy->m_state = enemy_state::WALKING;
 					enemy->m_position.y += (int)enemy->m_speed;
 
 					if (enemy->m_face_right)
@@ -678,6 +698,56 @@ update_status ModuleEnemies::Update()
 					enemy->m_current_animation = &(enemy->m_npc_antonio_kick_left);
 					if (enemy->m_current_animation->Finished())
 					{
+						enemy->m_current_animation->Reset();
+						enemy->m_state = enemy_state::IDLE;
+					}
+				}
+			}
+			//Only antonio enters throw_boomerang state
+			if (enemy->m_state == enemy_state::THROW_BOOMERANG)
+			{
+				if (enemy->m_face_right)
+				{
+					enemy->m_current_animation = &(enemy->m_npc_antonio_throw_boomerang_right);
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_current_animation = &(enemy->m_npc_antonio_idle_right);
+						enemy->m_carrying_boomerang = false;
+						enemy->m_current_animation->Reset();
+						enemy->m_state = enemy_state::IDLE;
+					}
+				}
+				else
+				{
+					enemy->m_current_animation = &(enemy->m_npc_antonio_throw_boomerang_left);
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_current_animation = &(enemy->m_npc_antonio_idle_left);
+						enemy->m_carrying_boomerang = false;
+						enemy->m_current_animation->Reset();
+						enemy->m_state = enemy_state::IDLE;
+					}
+				}
+			}
+			//Only antonio enters recover_boomerang state
+			if (enemy->m_state == enemy_state::RECOVER_BOOMERANG)
+			{
+				if (enemy->m_face_right)
+				{
+					enemy->m_current_animation = &(enemy->m_npc_antonio_recover_boomerang_right);
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_carrying_boomerang = true;
+						enemy->m_current_animation->Reset();
+						enemy->m_state = enemy_state::IDLE;
+					}
+				}
+				else
+				{
+					enemy->m_current_animation = &(enemy->m_npc_antonio_recover_boomerang_left);
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_carrying_boomerang = true;
 						enemy->m_current_animation->Reset();
 						enemy->m_state = enemy_state::IDLE;
 					}
