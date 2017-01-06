@@ -152,6 +152,59 @@ Enemy::Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint po
 
 	}
 
+	if (!strcmp(name, "antonio"))
+	{
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioBoomerangIdleRight", m_animation_list, m_npc_antonio_boomerang_idle_right);
+		m_npc_antonio_boomerang_idle_right.loop = false;
+		m_npc_antonio_boomerang_idle_right.speed = 1.0f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioIdleRight", m_animation_list, m_npc_antonio_idle_right);
+		m_npc_antonio_boomerang_idle_right.loop = false;
+		m_npc_antonio_boomerang_idle_right.speed = 1.0f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioBoomerangIdleLeft", m_animation_list, m_npc_antonio_boomerang_idle_left);
+		m_npc_antonio_boomerang_idle_left.loop = false;
+		m_npc_antonio_boomerang_idle_left.speed = 1.0f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioIdleLeft", m_animation_list, m_npc_antonio_idle_left);
+		m_npc_antonio_idle_left.loop = false;
+		m_npc_antonio_idle_left.speed = 1.0f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioBoomerangWalkRight", m_animation_list, m_npc_antonio_boomerang_walk_right);
+		m_npc_antonio_boomerang_walk_right.loop = true;
+		m_npc_antonio_boomerang_walk_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioWalkRight", m_animation_list, m_npc_antonio_walk_right);
+		m_npc_antonio_walk_right.loop = true;
+		m_npc_antonio_walk_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioBoomerangWalkLeft", m_animation_list, m_npc_antonio_boomerang_walk_left);
+		m_npc_antonio_boomerang_walk_left.loop = true;
+		m_npc_antonio_boomerang_walk_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+		
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioWalkLeft", m_animation_list, m_npc_antonio_walk_left);
+		m_npc_antonio_walk_left.loop = true;
+		m_npc_antonio_walk_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioKickRight", m_animation_list, m_npc_antonio_kick_right);
+		m_npc_antonio_kick_right.loop = false;
+		m_npc_antonio_kick_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioKickLeft", m_animation_list, m_npc_antonio_kick_left);
+		m_npc_antonio_kick_left.loop = false;
+		m_npc_antonio_kick_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+	}
+
 
 }
 

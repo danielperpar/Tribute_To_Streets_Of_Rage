@@ -26,7 +26,7 @@ bool ModuleEnemies::Start()
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
 
 	//Debug test
-	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "nora", entity_type::ENEMY, { 800, 100 }, 0);
+	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "antonio", entity_type::ENEMY, { 800, 100 }, 0);
 	enemy->m_state = enemy_state::IDLE;
 
 
@@ -113,6 +113,10 @@ update_status ModuleEnemies::Update()
 						{
 							enemy->m_state = enemy_state::WHIP_ATTACK;
 						}
+						if (!strcmp(enemy->m_name, "antonio"))
+						{
+							enemy->m_state = enemy_state::KICK;
+						}
 
 					}
 					else
@@ -142,6 +146,23 @@ update_status ModuleEnemies::Update()
 				if (!strcmp(enemy->m_name, "nora"))
 				{
 					enemy->m_current_animation = enemy->m_face_right ? &(enemy->m_npc_nora_idle_right) : &(enemy->m_npc_nora_idle_left);
+				}
+				if (!strcmp(enemy->m_name, "antonio"))
+				{
+					if (enemy->m_face_right)
+					{
+						if (enemy->m_carrying_boomerang)
+							enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_idle_right);
+						else
+							enemy->m_current_animation = &(enemy->m_npc_antonio_idle_right);
+					}
+					else
+					{
+						if (enemy->m_carrying_boomerang)
+							enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_idle_left);
+						else
+							enemy->m_current_animation = &(enemy->m_npc_antonio_idle_left);
+					}
 				}
 			}
 
@@ -182,6 +203,25 @@ update_status ModuleEnemies::Update()
 					{
 						enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
 						enemy->m_current_animation->Reset();
+					}
+				}
+				if (!strcmp(enemy->m_name, "antonio"))
+				{
+					if (enemy->m_carrying_boomerang)
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					else
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
+							enemy->m_current_animation->Reset();
+						}
 					}
 				}
 
@@ -228,6 +268,25 @@ update_status ModuleEnemies::Update()
 					{
 						enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
 						enemy->m_current_animation->Reset();
+					}
+				}
+				if (!strcmp(enemy->m_name, "antonio"))
+				{
+					if (enemy->m_carrying_boomerang)
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					else
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+							enemy->m_current_animation->Reset();
+						}
 					}
 				}
 
@@ -277,6 +336,25 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if (enemy->m_carrying_boomerang)
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						else
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+					}
 				}
 				else
 				{
@@ -310,6 +388,25 @@ update_status ModuleEnemies::Update()
 						{
 							enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
 							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if (enemy->m_carrying_boomerang)
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						else
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+								enemy->m_current_animation->Reset();
+							}
 						}
 					}
 				}
@@ -359,6 +456,25 @@ update_status ModuleEnemies::Update()
 							enemy->m_current_animation->Reset();
 						}
 					}
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if (enemy->m_carrying_boomerang)
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						else
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+					}
 				}
 				else
 				{
@@ -392,6 +508,25 @@ update_status ModuleEnemies::Update()
 						{
 							enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
 							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if (enemy->m_carrying_boomerang)
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						else
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+								enemy->m_current_animation->Reset();
+							}
 						}
 					}
 				}
@@ -517,6 +652,29 @@ update_status ModuleEnemies::Update()
 				{
 					enemy->m_state = enemy_state::IDLE;
 					enemy->m_current_animation->Reset();
+				}
+			}
+
+			//Only antonio enters kick state
+			if (enemy->m_state == enemy_state::KICK)
+			{
+				if (enemy->m_face_right)
+				{
+					enemy->m_current_animation = &(enemy->m_npc_antonio_kick_right);
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_current_animation->Reset();
+						enemy->m_state = enemy_state::IDLE;
+					}
+				}
+				else
+				{
+					enemy->m_current_animation = &(enemy->m_npc_antonio_kick_left);
+					if (enemy->m_current_animation->Finished())
+					{
+						enemy->m_current_animation->Reset();
+						enemy->m_state = enemy_state::IDLE;
+					}
 				}
 			}
 
