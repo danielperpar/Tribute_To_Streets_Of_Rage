@@ -48,7 +48,7 @@ public:
 
 	size_t m_punch_hits = 0;
 
-	bool m_carrying_boomerang = false;
+	bool m_carrying_boomerang = true;
 
 	Animation *m_current_animation = nullptr;
 
