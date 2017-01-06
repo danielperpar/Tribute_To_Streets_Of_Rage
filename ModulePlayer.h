@@ -25,9 +25,11 @@ public:
 	SDL_Texture *graphics;
 	Player *player = nullptr;
 	Collider* playerCollider;
-
 	Enemy *enemy = nullptr;
-	
+	Uint32 time = 0;
+	Uint32 update_time = 0;
+	Uint32 dt = 10;
+	bool do_logic = true;
 };
 
 #endif

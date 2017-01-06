@@ -26,7 +26,7 @@ bool ModulePlayer::Start()
 	graphics = App->textures->Load("assets/spritesheets/axel.png");
 
 	//Debug test
-	player = (Player*)EntityManager::CreateEntity(graphics, "Axel", entity_type::PLAYER, { 800, 100 }, 0);
+	player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, { 800, 100 }, 0);
 	player->m_state = player_state::IDLE;
 
 
@@ -54,6 +54,18 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
+	time = SDL_GetTicks();
+	if (time - update_time >= dt)
+	{
+		do_logic = true;
+	}
+	if (do_logic)
+	{
+		do_logic = false;
+		update_time = SDL_GetTicks();
+	
+	
+	
 	int speed = 1;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -1276,7 +1288,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-
+}
 	//playerCollider->SetPos(position.x, position.y);
 
 	// Draw everything --------------------------------------

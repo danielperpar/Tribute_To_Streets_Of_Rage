@@ -76,12 +76,12 @@ public:
 	float m_combo_timer = 0.0f;
 
 	bool m_continue_combo = false;
-	bool m_enemy_alive = true;
+	bool m_enemy_alive = false;
 	size_t m_upper_punch_hits = 0;
 	bool m_restart_animation = true;
 
 	bool m_carrying_weapon_pipe = false;
-	bool m_carrying_weapon_knife = true;
+	bool m_carrying_weapon_knife = false;
 
 	
 	player_state m_state = player_state::IDLE;
