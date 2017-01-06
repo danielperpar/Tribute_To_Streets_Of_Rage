@@ -7,6 +7,7 @@
 #include "ModuleCollision.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Weapon.h"
 
 struct SDL_Texture;
 
@@ -26,6 +27,7 @@ public:
 	Enemy *enemy = nullptr; 
 	Collider* playerCollider;
 	Player *player = nullptr;
+	Enemy *boomerang = nullptr;
 	
 	
 private:	

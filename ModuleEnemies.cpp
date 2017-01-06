@@ -711,9 +711,9 @@ update_status ModuleEnemies::Update()
 					enemy->m_current_animation = &(enemy->m_npc_antonio_throw_boomerang_right);
 					if (enemy->m_current_animation->Finished())
 					{
+						enemy->m_current_animation->Reset();
 						enemy->m_current_animation = &(enemy->m_npc_antonio_idle_right);
 						enemy->m_carrying_boomerang = false;
-						enemy->m_current_animation->Reset();
 						enemy->m_state = enemy_state::IDLE;
 					}
 				}
@@ -722,9 +722,9 @@ update_status ModuleEnemies::Update()
 					enemy->m_current_animation = &(enemy->m_npc_antonio_throw_boomerang_left);
 					if (enemy->m_current_animation->Finished())
 					{
+						enemy->m_current_animation->Reset();
 						enemy->m_current_animation = &(enemy->m_npc_antonio_idle_left);
 						enemy->m_carrying_boomerang = false;
-						enemy->m_current_animation->Reset();
 						enemy->m_state = enemy_state::IDLE;
 					}
 				}
@@ -753,6 +753,52 @@ update_status ModuleEnemies::Update()
 					}
 				}
 			}
+			//Boomerang position update
+			if (!strcmp(enemy->m_name, "antonio"))
+			{
+				if (enemy->m_dead == false) 
+				{
+					if (enemy->m_carrying_boomerang == false)
+					{
+						if (enemy->m_face_right)
+						{
+							if (boomerang == nullptr) 
+							{
+								boomerang = (Enemy*)EntityManager::CreateEntity(graphics, "boomerang", entity_type::ENEMY, { enemy->m_position.x + 80, enemy->m_position.y + 62 }, 0);
+								boomerang->m_current_animation = &(enemy->m_npc_item_boomerang_right);
+							}
+						}
+						else
+						{
+							if (boomerang == nullptr)
+							{
+								boomerang = (Enemy*)EntityManager::CreateEntity(graphics, "boomerang", entity_type::ENEMY, { enemy->m_position.x + 17, enemy->m_position.y + 62 }, 0);
+								boomerang->m_current_animation = &(enemy->m_npc_item_boomerang_left);
+							}
+						}
+					}
+					if (enemy->m_carrying_boomerang == true)
+					{
+						if (boomerang != nullptr)
+						{
+							EntityManager::DestroyEntity(boomerang);
+							//Revisar
+							boomerang = nullptr;
+						}
+
+					}
+				}
+				else
+				{
+					if (boomerang != nullptr)
+					{
+						EntityManager::DestroyEntity(boomerang);
+					}
+				}
+			}
+
+
+
 
 		}
 	}

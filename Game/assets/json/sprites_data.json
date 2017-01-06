@@ -983,27 +983,17 @@
 		  "sprite" : [{"x" : 2057},{"y" : 1132},{"w" : 131},{"h" : 114}]
 		}
 	],
-	
-	"npcItemBoomerangRight1" :
+	"npcItemBoomerangRight" :
 	[
 		{
 		  "sprite" : [{"x" : 49},{"y" : 1361},{"w" : 105},{"h" : 8}]
-		}
-	],
-	"npcItemBoomerangRight2" :
-	[
+		},
 		{
 		  "sprite" : [{"x" : 203},{"y" : 1354},{"w" : 92},{"h" : 18}]
-		}
-	],
-	"npcItemBoomerangRight3" :
-	[
+		},
 		{
 		  "sprite" : [{"x" : 349},{"y" : 1356},{"w" : 105},{"h" : 8}]
-		}
-	],
-	"npcItemBoomerangRight4" :
-	[
+		},
 		{
 		  "sprite" : [{"x" : 503},{"y" : 1354},{"w" : 105},{"h" : 15}]
 		}
@@ -1013,28 +1003,18 @@
 		{
 		  "sprite" : [{"x" : 676},{"y" : 1361},{"w" : 88},{"h" : 4}]
 		}
-	],
-	
+	],	
 	"npcItemBoomerangLeft1" :
 	[
 		{
 		  "sprite" : [{"x" : 2102},{"y" : 1361},{"w" : 70},{"h" : 8}]
-		}
-	],
-	"npcItemBoomerangLeft2" :
-	[
+		},
 		{
 		  "sprite" : [{"x" : 1948},{"y" : 1354},{"w" : 70},{"h" :15}]
-		}
-	],
-	"npcItemBoomerangLeft3" :
-	[
+		},
 		{
 		  "sprite" : [{"x" : 1802},{"y" : 1356},{"w" : 70},{"h" : 9}]
-		}
-	],
-	"npcItemBoomerangLeft4" :
-	[
+		},
 		{
 		  "sprite" : [{"x" : 1648},{"y" : 1354},{"w" : 70},{"h" : 15}]
 		}
@@ -1045,8 +1025,7 @@
 		  "sprite" : [{"x" : 1480},{"y" : 1361},{"w" : 71},{"h" :4}]
 		}
 	]
-	
-	
+		
 }
 
 
