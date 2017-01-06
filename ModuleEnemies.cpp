@@ -26,7 +26,7 @@ bool ModuleEnemies::Start()
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
 
 	//Debug test
-	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "antonio", entity_type::ENEMY, { 800, 100 }, 0);
+	enemy = (Enemy*)EntityManager::CreateEntity(graphics, "nora", entity_type::ENEMY, { 800, 100 }, 0);
 	enemy->m_state = enemy_state::IDLE;
 
 
@@ -75,23 +75,7 @@ update_status ModuleEnemies::Update()
 			if (enemy->m_state == enemy_state::IDLE)
 			{
 				//Inputs will be substituted by AI signals
-
-				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-				{
-					enemy->m_state = enemy_state::WALKING_RIGHT;
-				}
-				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-				{
-					enemy->m_state = enemy_state::WALKING_LEFT;
-				}
-				if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-				{
-					enemy->m_state = enemy_state::WALKING_UP;
-				}
-				if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-				{
-					enemy->m_state = enemy_state::WALKING_DOWN;
-				}
+				
 				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 				{
 					if (enemy->m_player_to_hit)
@@ -135,6 +119,21 @@ update_status ModuleEnemies::Update()
 						enemy->m_state = enemy_state::IDLE;
 					}
 				}
+				
+			}
+
+			//Inputs will be substituted by AI signals
+			if (enemy->m_state == enemy_state::IDLE ||
+				enemy->m_state == enemy_state::WALKING  &&
+				App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE &&
+				App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&
+				App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE &&
+				App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE &&
+				App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_IDLE &&
+				App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE &&
+				App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+			{
+				enemy->m_state = enemy_state::IDLE;
 			}
 
 			if (enemy->m_state == enemy_state::IDLE)
@@ -177,376 +176,372 @@ update_status ModuleEnemies::Update()
 				}
 			}
 
-			if (enemy->m_state == enemy_state::WALKING_RIGHT)
-			{
-				if (enemy->m_face_right == false)
-					enemy->m_face_right = true;
-
-				enemy->m_position.x += (int)enemy->m_speed;
-
-				if (!strcmp(enemy->m_name, "garcia"))
-				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
-					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "garcia_knife"))
-				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
-					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "punky"))
-				{
-					if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
-					{
-						enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "nora"))
-				{
-					if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
-					{
-						enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "antonio"))
-				{
-					if (enemy->m_carrying_boomerang)
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					else
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
-				{
-					enemy->m_state = enemy_state::IDLE;
-				}
-			}
-
-			if (enemy->m_state == enemy_state::WALKING_LEFT)
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 			{
 				if (enemy->m_face_right)
 					enemy->m_face_right = false;
 
 				enemy->m_position.x -= (int)enemy->m_speed;
 
-				if (!strcmp(enemy->m_name, "garcia"))
+				if (enemy->m_state == enemy_state::IDLE || enemy->m_state == enemy_state::WALKING)
 				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+					enemy->m_state = enemy_state::WALKING;
+					
+					if (!strcmp(enemy->m_name, "garcia"))
 					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "garcia_knife"))
-				{
-					if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
-					{
-						enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "punky"))
-				{
-					if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
-					{
-						enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "nora"))
-				{
-					if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
-					{
-						enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
-						enemy->m_current_animation->Reset();
-					}
-				}
-				if (!strcmp(enemy->m_name, "antonio"))
-				{
-					if (enemy->m_carrying_boomerang)
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
 						{
-							enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
 							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "garcia_knife"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "punky"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "nora"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if (enemy->m_carrying_boomerang)
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						else
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+					}
+				}
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			{
+				if (enemy->m_face_right == false)
+					enemy->m_face_right = true;
+
+				enemy->m_position.x += (int)enemy->m_speed;
+
+				if (enemy->m_state == enemy_state::IDLE || enemy->m_state == enemy_state::WALKING)
+				{
+					enemy->m_state = enemy_state::WALKING;
+
+					if (!strcmp(enemy->m_name, "garcia"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "garcia_knife"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "punky"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "nora"))
+					{
+						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
+						{
+							enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
+							enemy->m_current_animation->Reset();
+						}
+					}
+					if (!strcmp(enemy->m_name, "antonio"))
+					{
+						if (enemy->m_carrying_boomerang)
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						else
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+					}
+				}
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+			{
+				if (enemy->m_state == enemy_state::WALKING || enemy->m_state == enemy_state::IDLE)
+				{
+					enemy->m_position.y -= (int)enemy->m_speed;
+
+					if (enemy->m_face_right)
+					{
+
+						if (!strcmp(enemy->m_name, "garcia"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "garcia_knife"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "punky"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "nora"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "antonio"))
+						{
+							if (enemy->m_carrying_boomerang)
+							{
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
+									enemy->m_current_animation->Reset();
+								}
+							}
+							else
+							{
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
+									enemy->m_current_animation->Reset();
+								}
+							}
 						}
 					}
 					else
 					{
-						if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+						if (!strcmp(enemy->m_name, "garcia"))
 						{
-							enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
-							enemy->m_current_animation->Reset();
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "garcia_knife"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "punky"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "nora"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "antonio"))
+						{
+							if (enemy->m_carrying_boomerang)
+							{
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+									enemy->m_current_animation->Reset();
+								}
+							}
+							else
+							{
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+									enemy->m_current_animation->Reset();
+								}
+							}
 						}
 					}
 				}
-
-				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
-				{
-					enemy->m_state = enemy_state::IDLE;
-				}
 			}
 
-			if (enemy->m_state == enemy_state::WALKING_UP)
+			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 			{
-
-				enemy->m_position.y -= (int)enemy->m_speed;
-
-				if (enemy->m_face_right)
+				if (enemy->m_state == enemy_state::WALKING || enemy->m_state == enemy_state::IDLE)
 				{
+					enemy->m_position.y += (int)enemy->m_speed;
 
-					if (!strcmp(enemy->m_name, "garcia"))
+					if (enemy->m_face_right)
 					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+						if (!strcmp(enemy->m_name, "garcia"))
 						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "garcia_knife"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "punky"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "nora"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "antonio"))
-					{
-						if (enemy->m_carrying_boomerang)
-						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
+								enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
 								enemy->m_current_animation->Reset();
 							}
 						}
-						else
+						if (!strcmp(enemy->m_name, "garcia_knife"))
 						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
+								enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
 								enemy->m_current_animation->Reset();
 							}
 						}
-					}
-				}
-				else
-				{
-					if (!strcmp(enemy->m_name, "garcia"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+						if (!strcmp(enemy->m_name, "punky"))
 						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "garcia_knife"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "punky"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "nora"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "antonio"))
-					{
-						if (enemy->m_carrying_boomerang)
-						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+							if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+								enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
 								enemy->m_current_animation->Reset();
 							}
 						}
-						else
+						if (!strcmp(enemy->m_name, "nora"))
 						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+							if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+								enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
 								enemy->m_current_animation->Reset();
 							}
 						}
-					}
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
-				{
-					enemy->m_state = enemy_state::IDLE;
-				}
-			}
-
-			if (enemy->m_state == enemy_state::WALKING_DOWN)
-			{
-
-				enemy->m_position.y += (int)enemy->m_speed;
-
-				if (enemy->m_face_right)
-				{
-					if (!strcmp(enemy->m_name, "garcia"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_right))
+						if (!strcmp(enemy->m_name, "antonio"))
 						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "garcia_knife"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "punky"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_punky_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "nora"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_right))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_nora_walk_right);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "antonio"))
-					{
-						if (enemy->m_carrying_boomerang)
-						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+							if (enemy->m_carrying_boomerang)
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
-								enemy->m_current_animation->Reset();
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_right))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_right);
+									enemy->m_current_animation->Reset();
+								}
 							}
-						}
-						else
-						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+							else
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
-								enemy->m_current_animation->Reset();
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_right))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_walk_right);
+									enemy->m_current_animation->Reset();
+								}
 							}
 						}
 					}
-				}
-				else
-				{
-					if (!strcmp(enemy->m_name, "garcia"))
+					else
 					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
+						if (!strcmp(enemy->m_name, "garcia"))
 						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "garcia_knife"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "punky"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "nora"))
-					{
-						if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
-						{
-							enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
-							enemy->m_current_animation->Reset();
-						}
-					}
-					if (!strcmp(enemy->m_name, "antonio"))
-					{
-						if (enemy->m_carrying_boomerang)
-						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_walk_left))
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+								enemy->m_current_animation = &(enemy->m_npc_garcia_walk_left);
 								enemy->m_current_animation->Reset();
 							}
 						}
-						else
+						if (!strcmp(enemy->m_name, "garcia_knife"))
 						{
-							if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+							if (enemy->m_current_animation != &(enemy->m_npc_garcia_knife_walk_left))
 							{
-								enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+								enemy->m_current_animation = &(enemy->m_npc_garcia_knife_walk_left);
 								enemy->m_current_animation->Reset();
 							}
 						}
+						if (!strcmp(enemy->m_name, "punky"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_punky_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_punky_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "nora"))
+						{
+							if (enemy->m_current_animation != &(enemy->m_npc_nora_walk_left))
+							{
+								enemy->m_current_animation = &(enemy->m_npc_nora_walk_left);
+								enemy->m_current_animation->Reset();
+							}
+						}
+						if (!strcmp(enemy->m_name, "antonio"))
+						{
+							if (enemy->m_carrying_boomerang)
+							{
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_boomerang_walk_left))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_boomerang_walk_left);
+									enemy->m_current_animation->Reset();
+								}
+							}
+							else
+							{
+								if (enemy->m_current_animation != &(enemy->m_npc_antonio_walk_left))
+								{
+									enemy->m_current_animation = &(enemy->m_npc_antonio_walk_left);
+									enemy->m_current_animation->Reset();
+								}
+							}
+						}
 					}
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
-				{
-					enemy->m_state = enemy_state::IDLE;
 				}
 			}
+
+			
 			//Only garcia enters punch1,punch2 states
 			if (enemy->m_state == enemy_state::PUNCH1)
 			{

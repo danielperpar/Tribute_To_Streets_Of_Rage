@@ -10,6 +10,7 @@
 enum class enemy_state
 {
 	IDLE,
+	WALKING,
 	WALKING_RIGHT,
 	WALKING_LEFT,
 	WALKING_UP,
