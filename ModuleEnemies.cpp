@@ -764,16 +764,60 @@ update_status ModuleEnemies::Update()
 						{
 							if (boomerang == nullptr) 
 							{
-								boomerang = (Enemy*)EntityManager::CreateEntity(graphics, "boomerang", entity_type::ENEMY, { enemy->m_position.x + 80, enemy->m_position.y + 62 }, 0);
+								boomerang = (Enemy*)EntityManager::CreateEntity(graphics, "boomerang", entity_type::ENEMY, { enemy->m_position.x + 30, enemy->m_position.y + 59 }, 0);
 								boomerang->m_current_animation = &(enemy->m_npc_item_boomerang_right);
+								boomerang->m_start_position = boomerang->m_position;
+								boomerang->m_speed = 3.0f;
 							}
-						}
-						else
+							if (boomerang->m_boomerang_forward)
+							{
+								if (boomerang->m_position.x - boomerang->m_start_position.x < 160)
+								{
+									boomerang->m_position.x += (int)boomerang->m_speed;
+								}
+								if (boomerang->m_position.x - boomerang->m_start_position.x >= 160)
+								{
+									boomerang->m_boomerang_forward = false;
+								}
+							}
+							if (boomerang->m_boomerang_forward == false)
+							{
+								iPoint vector = { enemy->m_position.x - boomerang->m_position.x, enemy->m_position.y + 48 - boomerang->m_position.y };
+								boomerang->m_position.x = boomerang->m_position.x + vector.x * boomerang->m_t_acum;
+								boomerang->m_position.y = boomerang->m_position.y + vector.y * boomerang->m_t_acum;
+								boomerang->m_t_acum += 0.001f;
+
+								//El enemigo recogerá el boomerang cuando éste colisione con él.
+							}	
+						}							
+						if(enemy->m_face_right == false)
 						{
 							if (boomerang == nullptr)
 							{
-								boomerang = (Enemy*)EntityManager::CreateEntity(graphics, "boomerang", entity_type::ENEMY, { enemy->m_position.x + 17, enemy->m_position.y + 62 }, 0);
+								boomerang = (Enemy*)EntityManager::CreateEntity(graphics, "boomerang", entity_type::ENEMY, { enemy->m_position.x - 40 , enemy->m_position.y + 57 }, 0);
 								boomerang->m_current_animation = &(enemy->m_npc_item_boomerang_left);
+								boomerang->m_start_position = boomerang->m_position;
+								boomerang->m_speed = 3.0f;
+							}
+							if (boomerang->m_boomerang_forward)
+							{
+								if ( boomerang->m_start_position.x - boomerang->m_position.x < 160)
+								{
+									boomerang->m_position.x -= (int)boomerang->m_speed;
+								}
+								if (boomerang->m_start_position.x - boomerang->m_position.x >= 160)
+								{
+									boomerang->m_boomerang_forward = false;
+								}
+							}
+							if (boomerang->m_boomerang_forward == false)
+							{
+								iPoint vector = { enemy->m_position.x - boomerang->m_position.x, enemy->m_position.y + 48 - boomerang->m_position.y };
+								boomerang->m_position.x = boomerang->m_position.x + vector.x * boomerang->m_t_acum;
+								boomerang->m_position.y = boomerang->m_position.y + vector.y * boomerang->m_t_acum;
+								boomerang->m_t_acum += 0.001f;
+
+								//El enemigo recogerá el boomerang cuando éste colisione con él.
 							}
 						}
 					}
@@ -782,8 +826,8 @@ update_status ModuleEnemies::Update()
 						if (boomerang != nullptr)
 						{
 							EntityManager::DestroyEntity(boomerang);
-							//Revisar
 							boomerang = nullptr;
+							
 						}
 
 					}
@@ -793,6 +837,7 @@ update_status ModuleEnemies::Update()
 					if (boomerang != nullptr)
 					{
 						EntityManager::DestroyEntity(boomerang);
+						boomerang = nullptr;
 					}
 				}
 			}

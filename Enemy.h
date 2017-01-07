@@ -48,7 +48,10 @@ public:
 	size_t m_punch_hits = 0;
 
 	bool m_carrying_boomerang = true;
+	iPoint m_start_position;
+	bool m_boomerang_forward = true;
 	
+	float m_t_acum = 0;
 
 	Animation *m_current_animation = nullptr;
 

@@ -44,7 +44,6 @@ void EntityManager::DestroyEntity(Entity *entity)
 			if (entity == *it)
 			{
 				delete entity;
-				entity = nullptr;
 				it = App->entities.erase(it);
 			}
 			else {
