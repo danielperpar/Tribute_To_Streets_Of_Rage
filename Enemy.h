@@ -5,6 +5,7 @@
 #include <list>
 #include "Entity.h"
 #include "Point.h"
+#include "AIController.h"
 
 
 enum class enemy_state
@@ -32,9 +33,7 @@ public:
 
 
 public:
-	bool m_dead = false;
-	bool m_player_to_hit = true;
-	int m_life;
+	
 	enemy_state m_state;
 	bool m_face_right = true;
 	float m_speed = 1.0f;
@@ -47,11 +46,24 @@ public:
 
 	size_t m_punch_hits = 0;
 
-	bool m_carrying_boomerang = true;
 	iPoint m_start_position;
 	bool m_boomerang_forward = true;
 	
 	float m_t_acum = 0;
+
+	//updated by the colision module
+	int m_life = 100;
+	bool m_dead = false;
+	bool m_player_to_hit = true;
+	bool m_carrying_boomerang = true;
+
+	//AI signals
+	bool m_ai_idle = true;
+	bool m_ai_walk = false;
+	bool m_ai_attack = false;
+	bool m_ai_throw_boomerang = false;
+
+	AIController m_ai_controller;
 
 	Animation *m_current_animation = nullptr;
 

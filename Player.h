@@ -48,9 +48,8 @@ public:
 
 public:
 	
-	bool m_dead = false;
-	int m_life = 100;
-	bool m_face_right = false;
+	
+	bool m_face_right = true;
 	float m_speed = 1.0f;
 
 	bool m_jump_up = true;
@@ -59,25 +58,28 @@ public:
 	int m_max_jump_height = 36;
 	bool m_jumping = false;
 
-	bool m_enemy_to_grab = false;
 	size_t m_kick_hits = 0;
 	bool m_continue_combo_grab = false;
 	
-
 	float m_timer_count = 0.0f;
 	float m_timer_speed = 1.0f;
 
 	float m_combo_timer = 0.0f;
 
 	bool m_continue_combo = false;
-	bool m_enemy_alive = false;
 	size_t m_upper_punch_hits = 0;
-	bool m_restart_animation = true;
-
+	
 	bool m_carrying_weapon_pipe = false;
 	bool m_carrying_weapon_knife = false;
 
-	
+	bool m_restart_animation = true;
+
+	//updated by the colision module
+	bool m_enemy_to_grab = false;
+	bool m_enemy_alive = true;
+	bool m_dead = false;
+	int m_life = 100;
+
 	player_state m_state = player_state::IDLE;
 
 	Animation m_idle_right1;

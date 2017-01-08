@@ -3,31 +3,24 @@
 
 #include "Module.h"
 
+class ModuleEnemies;
+class Player;
+class Enemy;
 class ModuleAI : public Module {
 
 
 public:
-	ModuleAI();
+	ModuleAI(bool active = true);
 	~ModuleAI();
 
-	bool Init();
+	bool Start();
 	update_status Update();
-
 	
 private:
-	Uint32 time = 0;
-	Uint32 update_time = 0;
-	Uint32 dt = 10;
-	bool do_logic = true;
-	
-	bool *m_walk_left;
-	bool *m_walk_right;
-	bool *m_walk_up;
-	bool *m_walk_down;
-	bool *m_hit;
-	bool *m_throw_boomerang;
-
-
+	Uint32 m_time = 0;
+	Uint32 m_update_time = 0;
+	Uint32 m_dt = 10;
+	bool m_do_logic = true;	
 	
 };
 

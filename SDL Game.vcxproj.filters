@@ -106,6 +106,9 @@
     <ClInclude Include="ModuleAI.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
+    <ClInclude Include="AIController.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -182,6 +185,12 @@
     </ClCompile>
     <ClCompile Include="ModuleEnemies.cpp">
       <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleAI.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="AIController.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

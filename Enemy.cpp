@@ -10,12 +10,12 @@ Enemy::Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint po
 
 		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaIdleRight", m_animation_list, m_npc_garcia_idle_right);
 		m_npc_garcia_idle_right.loop = false;
-		m_npc_garcia_idle_right.speed = 1.0f;
+		m_npc_garcia_idle_right.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
 		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaIdleLeft", m_animation_list, m_npc_garcia_idle_left);
 		m_npc_garcia_idle_left.loop = false;
-		m_npc_garcia_idle_left.speed = 1.0f;
+		m_npc_garcia_idle_left.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
 		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaWalkRight", m_animation_list, m_npc_garcia_walk_right);

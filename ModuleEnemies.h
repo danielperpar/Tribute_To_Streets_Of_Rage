@@ -24,17 +24,17 @@ public:
 	void OnCollision(Collider* collider1, Collider* collider2);
 
 	SDL_Texture *graphics;
-	Enemy *enemy = nullptr; 
+	Enemy *m_enemy = nullptr; 
 	Collider* playerCollider;
-	Player *player = nullptr;
-	Enemy *boomerang = nullptr;
+	Player *m_player = nullptr;
+	Enemy *m_boomerang = nullptr;
 	
 	
 private:	
-	Uint32 time = 0;
-	Uint32 update_time = 0;
-	Uint32 dt = 10;
-	bool do_logic = true;
+	Uint32 m_time = 0;
+	Uint32 m_update_time = 0;
+	Uint32 m_dt = 10;
+	bool m_do_logic = true;
 
 
 
