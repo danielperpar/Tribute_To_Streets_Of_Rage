@@ -80,6 +80,9 @@ public:
 	bool m_dead = false;
 	int m_life = 100;
 
+	//Axis X origin taken from the upper left vertex related to the rectangle containing the player sprite to the player's back neck position
+	size_t m_x_ref = 70;
+
 	player_state m_state = player_state::IDLE;
 
 	Animation m_idle_right1;

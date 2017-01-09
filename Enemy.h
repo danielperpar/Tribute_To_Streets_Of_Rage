@@ -59,9 +59,12 @@ public:
 
 	//AI signals
 	bool m_ai_idle = true;
-	bool m_ai_walk = false;
+	bool m_ai_walk = true;
 	bool m_ai_attack = false;
 	bool m_ai_throw_boomerang = false;
+
+	//Axis X origin taken from the upper left vertex related to the rectangle containing the enemy sprite to the enemy's back neck position
+	size_t m_x_ref = 70;
 
 	AIController m_ai_controller;
 

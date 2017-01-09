@@ -25,18 +25,17 @@ bool ModulePlayer::Start()
 
 	graphics = App->textures->Load("assets/spritesheets/axel.png");
 
-	//Debug test
-	m_player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, { 1000, 100 }, 0);
+	m_player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, { 750, 100 }, 100);
 	m_player->m_state = player_state::IDLE;
 
+	SDL_Rect collider;
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 36;
+	collider.h = 63;
 
-	/*SDL_Rect colliderRect = SDL_Rect();
-	colliderRect.x = 0;
-	colliderRect.y = 0;
-	colliderRect.w = 32;
-	colliderRect.h = 14;
-	playerCollider = App->collision->AddCollider(colliderRect, nullptr, collider_type::PLAYER);
-	playerCollider->SetPos(position.x, position.y);*/
+	m_player_collider = App->collision->AddCollider(collider, nullptr, collider_type::PLAYER);
+	m_player_collider->SetPos(m_player->m_position.x + m_player->m_x_ref - collider.w/2, m_player->m_depth);
 
 	return true;
 }
@@ -102,17 +101,21 @@ update_status ModulePlayer::Update()
 		if (m_player->m_jump_up)
 		{
 			m_player->m_position.y = (int)(m_player->m_position.y - m_player->m_jump_speed);
+			UpdateColliderPosition();
+			
 			if (m_player->m_jump_start_pos.y - m_player->m_position.y >= m_player->m_max_jump_height)
 				m_player->m_jump_up = false;
 		}
 		else
 		{
-			m_player->m_position.y = (int)(m_player->m_position.y + m_player->m_jump_speed);	
+			m_player->m_position.y = (int)(m_player->m_position.y + m_player->m_jump_speed);
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_jump_start_pos.y - m_player->m_position.y <= 0)
 		{
 			m_player->m_position.y = m_player->m_jump_start_pos.y;
+			UpdateColliderPosition();
 			m_player->m_jumping = false;
 		}
 
@@ -173,17 +176,21 @@ update_status ModulePlayer::Update()
 		if (m_player->m_jump_up)
 		{
 			m_player->m_position.y = (int)(m_player->m_position.y - m_player->m_jump_speed);
+			UpdateColliderPosition();
+
 			if (m_player->m_jump_start_pos.y - m_player->m_position.y >= m_player->m_max_jump_height)
 				m_player->m_jump_up = false;
 		}
 		else
 		{
 			m_player->m_position.y = (int)(m_player->m_position.y + m_player->m_jump_speed);
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_jump_start_pos.y - m_player->m_position.y <= 0)
 		{
 			m_player->m_position.y = m_player->m_jump_start_pos.y;
+			UpdateColliderPosition();
 			m_player->m_jumping = false;
 		}
 
@@ -569,36 +576,42 @@ update_status ModulePlayer::Update()
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_right2), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 11;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_right2))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_right3), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 40;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_right3))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_right4), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 59;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_right4))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_right5), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 59;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_right5))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_right6), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 40;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_right6))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_right7), true);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 11;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_right7))
@@ -620,6 +633,7 @@ update_status ModulePlayer::Update()
 			{
 				m_player->m_position.y = m_player->m_jump_start_pos.y;
 				m_player->m_position.x = m_player->m_jump_start_pos.x + 43;
+				UpdateColliderPosition();
 			}
 		}
 	}
@@ -635,36 +649,42 @@ update_status ModulePlayer::Update()
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_left2), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 11;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_left2))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_left3), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 40;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_left3))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_left4), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 59;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_left4))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_left5), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 59;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_left5))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_left6), false);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 40;
+			UpdateColliderPosition();
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_left6))
 		{
 			m_player->AdvanceAnimation(m_player->m_grab_air_spin_duration, &(m_player->m_grab_air_spin_combo_left7), true);
 			m_player->m_position.y = m_player->m_jump_start_pos.y - 11;
+			UpdateColliderPosition();
 		}
 		
 		if (m_player->m_current_animation == &(m_player->m_grab_air_spin_combo_left7))
@@ -686,6 +706,7 @@ update_status ModulePlayer::Update()
 			{
 				m_player->m_position.y = m_player->m_jump_start_pos.y;
 				m_player->m_position.x = m_player->m_jump_start_pos.x - 43;
+				UpdateColliderPosition();
 			}
 		}
 	}
@@ -767,12 +788,14 @@ update_status ModulePlayer::Update()
 		{
 			m_player->m_position.x -= (int)m_player->m_speed;
 			m_player->m_jump_start_pos.x = m_player->m_position.x;
+			UpdateColliderPosition();
 		}
 		if (m_player->m_state == player_state::IDLE || m_player->m_state == player_state::WALKING)
 		{
 			m_player->m_state = player_state::WALKING;
 
 			m_player->m_position.x -= (int)m_player->m_speed;
+			UpdateColliderPosition();
 
 			if (m_player->m_current_animation != &(m_player->m_walk_left))
 			{
@@ -784,6 +807,7 @@ update_status ModulePlayer::Update()
 		{
 			m_player->m_state = player_state::WEAPON_PIPE_WALKING;
 			m_player->m_position.x -= (int)m_player->m_speed;
+			UpdateColliderPosition();
 
 			if (m_player->m_current_animation != &(m_player->m_weapon_pipe_walk_left))
 			{
@@ -795,6 +819,7 @@ update_status ModulePlayer::Update()
 		{
 			m_player->m_state = player_state::WEAPON_KNIFE_WALKING;
 			m_player->m_position.x -= (int)m_player->m_speed;
+			UpdateColliderPosition();
 
 			if (m_player->m_current_animation != &(m_player->m_weapon_knife_walk_left))
 			{
@@ -821,12 +846,14 @@ update_status ModulePlayer::Update()
 		{
 			m_player->m_position.x += (int)m_player->m_speed;
 			m_player->m_jump_start_pos.x = m_player->m_position.x;
+			UpdateColliderPosition();
 		}
 		if (m_player->m_state == player_state::IDLE || m_player->m_state == player_state::WALKING)
 		{
 			m_player->m_state = player_state::WALKING;
 
 			m_player->m_position.x += (int)m_player->m_speed;
+			UpdateColliderPosition();
 
 			if (m_player->m_current_animation != &(m_player->m_walk_right))
 			{
@@ -838,6 +865,7 @@ update_status ModulePlayer::Update()
 		{
 			m_player->m_state = player_state::WEAPON_PIPE_WALKING;
 			m_player->m_position.x += (int)m_player->m_speed;
+			UpdateColliderPosition();
 
 			if (m_player->m_current_animation != &(m_player->m_weapon_pipe_walk_right))
 			{
@@ -849,6 +877,7 @@ update_status ModulePlayer::Update()
 		{
 			m_player->m_state = player_state::WEAPON_KNIFE_WALKING;
 			m_player->m_position.x += (int)m_player->m_speed;
+			UpdateColliderPosition();
 
 			if (m_player->m_current_animation != &(m_player->m_weapon_knife_walk_right))
 			{
@@ -863,6 +892,8 @@ update_status ModulePlayer::Update()
 		if (m_player->m_state == player_state::WALKING || m_player->m_state == player_state::IDLE)
 		{
 			m_player->m_position.y -= (int)m_player->m_speed;
+			m_player->m_depth = m_player->m_position.y;
+			UpdateColliderPosition();
 
 			if (m_player->m_face_right)
 			{
@@ -884,6 +915,8 @@ update_status ModulePlayer::Update()
 		if (m_player->m_state == player_state::WEAPON_PIPE_WALKING || m_player->m_state == player_state::WEAPON_PIPE_IDLE)
 		{
 			m_player->m_position.y -= (int)m_player->m_speed;
+			m_player->m_depth = m_player->m_position.y;
+			UpdateColliderPosition();
 
 			if (m_player->m_face_right)
 			{
@@ -905,6 +938,8 @@ update_status ModulePlayer::Update()
 		if (m_player->m_state == player_state::WEAPON_KNIFE_WALKING || m_player->m_state == player_state::WEAPON_KNIFE_IDLE)
 		{
 			m_player->m_position.y -= (int)m_player->m_speed;
+			m_player->m_depth = m_player->m_position.y;
+			UpdateColliderPosition();
 
 			if (m_player->m_face_right)
 			{
@@ -931,6 +966,8 @@ update_status ModulePlayer::Update()
 		if (m_player->m_state == player_state::WALKING || m_player->m_state == player_state::IDLE)
 		{
 			m_player->m_position.y += (int)m_player->m_speed;
+			m_player->m_depth = m_player->m_position.y;
+			UpdateColliderPosition();
 
 			if (m_player->m_face_right)
 			{
@@ -952,6 +989,8 @@ update_status ModulePlayer::Update()
 		if (m_player->m_state == player_state::WEAPON_PIPE_WALKING || m_player->m_state == player_state::WEAPON_PIPE_IDLE)
 		{
 			m_player->m_position.y += (int)m_player->m_speed;
+			m_player->m_depth = m_player->m_position.y;
+			UpdateColliderPosition();
 
 			if (m_player->m_face_right)
 			{
@@ -973,6 +1012,8 @@ update_status ModulePlayer::Update()
 		if (m_player->m_state == player_state::WEAPON_KNIFE_WALKING || m_player->m_state == player_state::WEAPON_KNIFE_IDLE)
 		{
 			m_player->m_position.y += (int)m_player->m_speed;
+			m_player->m_depth = m_player->m_position.y;
+			UpdateColliderPosition();
 
 			if (m_player->m_face_right)
 			{
@@ -1180,57 +1221,10 @@ update_status ModulePlayer::Update()
 	return UPDATE_CONTINUE;
 }
 
-// TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
-
-// TODO 14: Make so if the player collides, it is removed and create few explosions at its positions
-// then fade away back to the first screen (use the "destroyed" bool already created 
-// You will need to create, update and destroy the collider with the player
-
-void ModulePlayer::OnCollision(Collider* collider1, Collider* collider2)
+void ModulePlayer::UpdateColliderPosition()
 {
-	/*Collider* laserCollider = nullptr;
-	Collider* playerCollider = nullptr;
-	Collider* wallCollider = nullptr;
-
-	switch (collider1->c_type)
-	{
-	case collider_type::LASER:
-	laserCollider = collider1;
-	break;
-	case collider_type::PLAYER:
-	playerCollider = collider1;
-	break;
-	case collider_type::WALL:
-	wallCollider = collider1;
-	break;
-	}
-
-	switch (collider2->c_type)
-	{
-	case collider_type::LASER:
-	laserCollider = collider2;
-	break;
-	case collider_type::PLAYER:
-	playerCollider = collider2;
-	break;
-	case collider_type::WALL:
-	wallCollider = collider2;
-	break;
-	}
-
-	if (laserCollider != nullptr)
-	{
-	laserCollider->particle->to_delete = true;
-	laserCollider->to_delete = true;
-	App->particles->AddParticle(*(App->particles->explosionParticle), laserCollider->rect.x, laserCollider->rect.y, collider_type::EXPLOSION);
-	}
-
-	if (playerCollider != nullptr)
-	{
-	destroyed = true;
-	playerCollider->to_delete = true;
-	App->particles->AddParticle(*(App->particles->explosionParticle), playerCollider->rect.x, playerCollider->rect.y, collider_type::EXPLOSION);
-
-	App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
-	}*/
+	m_player_collider->SetPos(m_player->m_position.x + m_player->m_x_ref - m_player_collider->m_rect.w / 2, m_player->m_depth);
 }
+
+
+

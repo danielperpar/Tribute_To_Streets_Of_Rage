@@ -21,10 +21,14 @@ enum update_status
 enum collider_type
 {
 	PLAYER,
-	LASER,
-	ENEMY,
-	WALL,
-	EXPLOSION
+	COMMON_ENEMY_GRAB,
+	COMMON_ENEMY_HIT,
+	BOSS_ENEMY_GRAB,
+	BOSS_ENEMY_HIT,
+	WEAPON,
+	FOOD,
+	DESTROYABLE_ITEM,
+	BOSS_BOOMERANG
 };
 
 // Useful typedefs ---------

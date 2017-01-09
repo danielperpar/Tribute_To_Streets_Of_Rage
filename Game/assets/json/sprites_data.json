@@ -599,6 +599,54 @@
 		  "sprite" : [{"x" : 1434},{"y" : 577},{"w" : 85},{"h" : 63}]
 		}
 	],
+	"damageReceivedRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 18},{"y" : 259},{"w" : 95},{"h" : 63}]
+		}
+	],
+	"damageReceivedLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 2437},{"y" : 259},{"w" : 86},{"h" : 63}]
+		}
+	],
+	"downRight" :
+	[
+		{
+		  "sprite" : [{"x" : 191},{"y" :258},{"w" : 96},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 317},{"y" : 256},{"w" : 96},{"h" : 66}]
+		}
+	],
+	"downLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 2265},{"y" : 258},{"w" : 140},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 2102},{"y" : 255},{"w" : 85},{"h" : 65}]
+		}
+	],
+	"upRight" :
+	[
+		{
+		  "sprite" : [{"x" : 411},{"y" : 257},{"w" : 112},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 562},{"y" : 254},{"w" : 96},{"h" : 63}]
+		}
+	],
+	"upLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1902},{"y" : 256},{"w" : 85},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 1696},{"y" : 253},{"w" : 87},{"h" : 63}]
+		}
+	],
 	"npcGarciaIdleRight" :
 	[
 		{
@@ -719,6 +767,72 @@
 		  "sprite" : [{"x" : 1392},{"y" : 165},{"w" : 89},{"h" : 63}]
 		}
 	],
+	"npcGarciaDamageReceivedRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 52},{"y" : 260},{"w" : 79},{"h" : 63}]
+		}
+	],
+	"npcGarciaDamageReceivedLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1402},{"y" : 260},{"w" : 97},{"h" : 63}]
+		}
+	],
+	"npcGarciaDownRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 861},{"y" : 256},{"w" : 90},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 665},{"y" : 263},{"w" : 90},{"h" : 63}]
+		}
+	],
+	"npcGarciaDownLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1862},{"y" : 256},{"w" : 150},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 2074},{"y" : 263},{"w" : 140},{"h" : 63}]
+		}
+	],
+	"npcGarciaUpRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 1026},{"y" : 256},{"w" : 83},{"h" : 63}]
+		}
+	],
+	"npcGarciaUpLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1236},{"y" : 262},{"w" : 88},{"h" : 63}]
+		}
+	],
+	"npcGarciaGrabbedRight" :
+	[
+		{
+		  "sprite" : [{"x" : 444},{"y" : 263},{"w" : 78},{"h" : 63}]
+		}
+	],
+	"npcGarciaGrabbedLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1568},{"y" : 263},{"w" : 89},{"h" : 63}]
+		}
+	],
+	"npcGarciaGrabbedFinisherRight" :
+	[
+		{
+		  "sprite" : [{"x" : 244},{"y" : 263},{"w" : 88},{"h" : 63}]
+		}
+	],
+	"npcGarciaGrabbedFinisherLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1740},{"y" : 264},{"w" : 93},{"h" : 63}]
+		}
+	],
 	"npcPunkyIdleRight" : 
 	[
 		{
@@ -779,6 +893,72 @@
 		  "sprite" : [{"x" : 1372},{"y" : 379},{"w" : 83},{"h" : 64}] 
 		}
 	],
+	"npcPunkyDamageReceivedRight" :
+	[
+		{
+		  "sprite" : [{"x" : 318},{"y" : 543},{"w" : 103},{"h" : 64}]
+		}
+	],
+	"npcPunkyDamageReceivedLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1896},{"y" : 530},{"w" : 76},{"h" : 64}]
+		}
+	],
+	"npcPunkyDownRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 891},{"y" : 529},{"w" : 62},{"h" : 64}]
+		},
+		{
+		  "sprite" : [{"x" : 94},{"y" : 531},{"w" : 102},{"h" : 64}]
+		}
+	],
+	"npcPunkyDownLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1416},{"y" : 525},{"w" : 132},{"h" : 64}]
+		},
+		{
+		  "sprite" : [{"x" : 2068},{"y" : 531},{"w" : 139},{"h" : 64}]
+		}
+	],
+	"npcPunkyUpRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 42},{"y" : 384},{"w" : 83},{"h" : 64}]
+		}
+	],
+	"npcPunkyUpLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 2124},{"y" : 384},{"w" : 86},{"h" : 64}]
+		}
+	],
+	"npcPunkyGrabbedRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 318},{"y" : 543},{"w" : 103},{"h" : 64}]
+		}	
+	],
+	"npcPunkyGrabbedLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1896},{"y" : 530},{"w" : 76},{"h" : 64}]
+		}
+	],
+	"npcPunkyGrabbedFinisherRight" :
+	[
+		{
+		  "sprite" : [{"x" : 577},{"y" : 540},{"w" : 88},{"h" : 64}]
+		}		
+	],
+	"npcPunkyGrabbedFinisherLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1686},{"y" : 530},{"w" : 77},{"h" : 64}]
+		}
+	],
 	"npcNoraIdleRight" : 
 	[
 		{
@@ -831,6 +1011,72 @@
 		},
 		{
 		  "sprite" : [{"x" : 1292},{"y" : 694},{"w" : 91},{"h" : 68}]
+		}
+	],
+	"npcNoraDamageReceivedRight" :
+	[
+		{
+		  "sprite" : [{"x" : 522},{"y" : 795},{"w" : 99},{"h" : 68}]
+		}
+	],
+	"npcNoraDamageReceivedLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1881},{"y" : 819},{"w" : 81},{"h" : 68}]
+		}
+	],
+	"npcNoraDownRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 318},{"y" : 799},{"w" : 100},{"h" : 68}]
+		},
+		{
+		  "sprite" : [{"x" : 99},{"y" : 790},{"w" : 69},{"h" : 68}]
+		}
+	],
+	"npcNoraDownLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1626},{"y" : 824},{"w" : 103},{"h" : 68}]
+		},
+		{
+		  "sprite" : [{"x" : 2081},{"y" : 810},{"w" : 140},{"h" : 68}]
+		}
+	],
+	"npcNoraUpRight" :
+	[
+		{
+		  "sprite" : [{"x" : 172},{"y" : 696},{"w" : 100},{"h" : 68}]
+		}
+	],
+	"npcNoraUpLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1992},{"y" : 696},{"w" : 80},{"h" : 68}]
+		}
+	],
+	"npcNoraGrabbedRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 318},{"y" : 799},{"w" : 100},{"h" : 68}]
+		}
+	],
+	"npcNoraGrabbedLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1626},{"y" : 824},{"w" : 103},{"h" : 68}]
+		}
+	],
+	"npcNoraGrabbedFinisherRight" :
+	[
+		{
+		  "sprite" : [{"x" : 318},{"y" : 799},{"w" : 100},{"h" : 68}]
+		}
+	],
+	"npcNoraGrabbedFinisherLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1626},{"y" : 824},{"w" : 103},{"h" : 68}]
 		}
 	],
 	"npcAntonioIdleRight":
@@ -1024,8 +1270,74 @@
 		{
 		  "sprite" : [{"x" : 1480},{"y" : 1361},{"w" : 71},{"h" :4}]
 		}
+	],
+	"npcAntonioDamageReceivedRight" :
+	[
+		{
+		  "sprite" : [{"x" : 73},{"y" : 1379},{"w" : 86},{"h" : 114}]
+		}
+	],
+	"npcAntonioDamageReceivedLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 2097},{"y" : 1752},{"w" : 110},{"h" : 114}]
+		}
+	],
+	"npcAntonioDownRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 561},{"y" : 1374},{"w" : 150},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 788},{"y" : 1374},{"w" : 160},{"h" : 114}]
+		}
+	],
+	"npcAntonioDownLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1590},{"y" : 1747},{"w" : 82},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 1349},{"y" : 1747},{"w" : 80},{"h" : 114}]
+		}
+	],
+	"npcAntonioGrabbedRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 240},{"y" : 1378},{"w" : 94},{"h" : 114}]
+		}
+	],
+	"npcAntonioGrabbedLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1930},{"y" : 1751},{"w" : 102},{"h" : 114}]
+		}
+	],
+	"npcantonioGrabbedFinisherRight" :
+	[
+		{
+		  "sprite" : [{"x" : 240},{"y" : 1378},{"w" : 94},{"h" : 114}]
+		}
+	],
+	"npcAntonioGrabbedFinisherLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1930},{"y" : 1751},{"w" : 102},{"h" : 114}]
+		}
+	],
+	"playerHitEffectRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 331},{"y" : 713},{"w" : 76},{"h" : 14}]
+		}
+	],
+	"playerHitEffectLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 484},{"y" : 712},{"w" : 78},{"h" : 14}]
+		}
 	]
-		
+	
 }
 
 

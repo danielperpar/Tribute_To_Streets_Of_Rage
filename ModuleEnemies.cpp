@@ -23,26 +23,34 @@ ModuleEnemies::~ModuleEnemies()
 // Load assets
 bool ModuleEnemies::Start()
 {
-	
 
 	LOG("Loading enemy");
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
+	m_player = App->player->m_player;
 
-	//Debug test
-	m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 720, 100 }, 0);
+	m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 1000, 100 }, 100);
 	m_enemy->m_state = enemy_state::IDLE;
 	m_enemy->m_ai_controller.m_enemy = m_enemy;
 	m_enemy->m_ai_controller.m_player = App->player->m_player;
-	m_player = App->player->m_player;
+	
+	SDL_Rect collider;
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 15;
+	collider.h = 63;
+	m_enemy_grab_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_GRAB);
+	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
 
-	/*SDL_Rect colliderRect = SDL_Rect();
-	colliderRect.x = 0;
-	colliderRect.y = 0;
-	colliderRect.w = 32;
-	colliderRect.h = 14;
-	playerCollider = App->collision->AddCollider(colliderRect, nullptr, collider_type::PLAYER);
-	playerCollider->SetPos(position.x, position.y);*/
+	/*SDL_Rect collider;
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 26;
+	collider.h = 63;
+	m_enemy_hit_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_HIT);
+	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);*/
 
+
+	
 	return true;
 }
 
@@ -80,9 +88,6 @@ update_status ModuleEnemies::Update()
 
 			if (m_enemy->m_state == enemy_state::IDLE)
 			{
-				//Inputs will be substituted by AI signals
-				
-				//if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 				if(m_enemy->m_ai_attack)
 				{
 					if (m_enemy->m_player_to_hit)
@@ -646,57 +651,9 @@ update_status ModuleEnemies::Update()
 	return UPDATE_CONTINUE;
 }
 
-// TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
-
-// TODO 14: Make so if the player collides, it is removed and create few explosions at its positions
-// then fade away back to the first screen (use the "destroyed" bool already created 
-// You will need to create, update and destroy the collider with the player
-
-void ModuleEnemies::OnCollision(Collider* collider1, Collider* collider2)
+void ModuleEnemies::UpdateColliderPosition()
 {
-	/*Collider* laserCollider = nullptr;
-	Collider* playerCollider = nullptr;
-	Collider* wallCollider = nullptr;
-
-	switch (collider1->c_type)
-	{
-	case collider_type::LASER:
-	laserCollider = collider1;
-	break;
-	case collider_type::PLAYER:
-	playerCollider = collider1;
-	break;
-	case collider_type::WALL:
-	wallCollider = collider1;
-	break;
-	}
-
-	switch (collider2->c_type)
-	{
-	case collider_type::LASER:
-	laserCollider = collider2;
-	break;
-	case collider_type::PLAYER:
-	playerCollider = collider2;
-	break;
-	case collider_type::WALL:
-	wallCollider = collider2;
-	break;
-	}
-
-	if (laserCollider != nullptr)
-	{
-	laserCollider->particle->to_delete = true;
-	laserCollider->to_delete = true;
-	App->particles->AddParticle(*(App->particles->explosionParticle), laserCollider->rect.x, laserCollider->rect.y, collider_type::EXPLOSION);
-	}
-
-	if (playerCollider != nullptr)
-	{
-	destroyed = true;
-	playerCollider->to_delete = true;
-	App->particles->AddParticle(*(App->particles->explosionParticle), playerCollider->rect.x, playerCollider->rect.y, collider_type::EXPLOSION);
-
-	App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
-	}*/
+	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
+	//m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);
 }
+

@@ -32,7 +32,7 @@ bool ModuleSceneSpace::Start()
 	// TODO 15: create some colliders for the walls
 	// solution wall coords: {0, 224, 3930, 16} {1375, 0, 111, 96} {1375, 145, 111, 96}
 
-	SDL_Rect colliderRect = SDL_Rect();
+	/*SDL_Rect colliderRect = SDL_Rect();
 	colliderRect.x = 0;
 	colliderRect.y = 224;
 	colliderRect.w = 3930;
@@ -49,7 +49,7 @@ bool ModuleSceneSpace::Start()
 	colliderRect.y = 145;
 	colliderRect.w = 111;
 	colliderRect.h = 96;
-	App->collision->AddCollider(colliderRect, nullptr, collider_type::WALL);
+	App->collision->AddCollider(colliderRect, nullptr, collider_type::WALL);*/
 
 	return true;
 }

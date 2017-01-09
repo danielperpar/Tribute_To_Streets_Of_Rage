@@ -23,8 +23,8 @@ public:
 public:
 	const char *m_name = nullptr;
 	entity_type m_type;
-	iPoint m_position;
-	int m_depth;
+	iPoint m_position = { 0,0 };
+	int m_depth = 0;
 	SDL_Texture *m_texture = nullptr;
 };
 

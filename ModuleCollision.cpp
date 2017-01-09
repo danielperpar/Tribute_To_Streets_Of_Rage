@@ -3,7 +3,8 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
-#include "ModulePlayer.h"
+#include "AIController.h"
+#include "ModuleEnemies.h"
 #include <iostream>
 using namespace std;
 
@@ -20,7 +21,7 @@ update_status ModuleCollision::PreUpdate()
 	// Remove all colliders scheduled for deletion
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
 	{
-		if ((*it)->to_delete == true)
+		if ((*it)->m_to_delete == true)
 		{
 			RELEASE(*it);
 			it = colliders.erase(it);
@@ -42,16 +43,38 @@ update_status ModuleCollision::Update()
 		{
 			if (colliders.end() != ++it2)
 			{
-				if ((*it1)->c_type != (*it2)->c_type)
+				if ((*it1)->m_collider_type != (*it2)->m_collider_type)
 				{
-					if (!((*it1)->c_type == LASER && (*it2)->c_type == PLAYER || (*it1)->c_type == PLAYER && (*it2)->c_type == LASER))
+					if (!(	(*it1)->m_collider_type == BOSS_ENEMY_HIT && (*it2)->m_collider_type == WEAPON		||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_HIT		||
+
+							(*it1)->m_collider_type == BOSS_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON		||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_GRAB		||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == FOOD		||
+							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_HIT		||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == FOOD		||
+							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_GRAB		||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == WEAPON	||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_HIT	||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON 	||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_GRAB	||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == COMMON_ENEMY_HIT	||
+							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == COMMON_ENEMY_GRAB
+																														)
+																												
+					   )
 					{
-						bool collision = (*it1)->CheckCollision((*it2)->rect);
+						bool collision = (*it1)->CheckCollision((*it2)->m_rect);
 						if (collision)
 						{
 							//DEBUG
-							LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->rect.x, (*it1)->rect.y, (*it1)->rect.w, (*it1)->rect.h, (*it2)->rect.x, (*it2)->rect.y, (*it2)->rect.w, (*it2)->rect.h)
-							(*it1)->OnCollision(*it1, *it2);
+							LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
+							(*it1)->OnEnterCollision(*it1, *it2);
 						}
 					}
 				}
@@ -71,7 +94,7 @@ update_status ModuleCollision::Update()
 void ModuleCollision::DebugDraw()
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
-		App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+		App->renderer->DrawQuad((*it)->m_rect, 255, 0, 0, 80);
 }
 
 // Called before quitting
@@ -87,9 +110,9 @@ bool ModuleCollision::CleanUp()
 	return true;
 }
 
-Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, Particle *particle, collider_type c_type)
+Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, Entity *entity, collider_type c_type)
 {
-	Collider* ret = new Collider(rect, particle, c_type);
+	Collider* ret = new Collider(rect, entity, c_type);
 
 	colliders.push_back(ret);
 
@@ -105,26 +128,26 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 	bool collisionX = false;
 	bool collisionY = false;
 
-	if (r.x >= this->rect.x)
+	if (r.x >= this->m_rect.x)
 	{
-		if (r.x - this->rect.x <= this->rect.w)
+		if (r.x - this->m_rect.x <= this->m_rect.w)
 			collisionX = true;
 	}
 	else
 	{
-		if (this->rect.x - r.x <= r.w)
+		if (this->m_rect.x - r.x <= r.w)
 			collisionX = true;
 	}
 
-	if (r.y >= this->rect.y)
+	if (r.y >= this->m_rect.y)
 	{
-		if (r.y - this->rect.y <= this->rect.h) {
+		if (r.y - this->m_rect.y <= this->m_rect.h) {
 			collisionY = true;
 		}
 	}
 	else
 	{
-		if (this->rect.y - r.y <= r.h)
+		if (this->m_rect.y - r.y <= r.h)
 			collisionY = true;
 	}
 
@@ -132,7 +155,58 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 
 }
 
-void Collider::OnCollision(Collider* collider1, Collider* collider2) const
+void Collider::OnEnterCollision(Collider* collider1, Collider* collider2) const
 {
-	App->player->OnCollision(collider1, collider2);
+	
+	if (collider1->m_collider_type == COMMON_ENEMY_GRAB || collider2->m_collider_type == COMMON_ENEMY_GRAB) {
+		App->enemies->m_enemy->m_ai_attack = true;
+	}
+
+
+
+	/*Collider* laserCollider = nullptr;
+	Collider* playerCollider = nullptr;
+	Collider* wallCollider = nullptr;
+
+	switch (collider1->c_type)
+	{
+	case collider_type::LASER:
+	laserCollider = collider1;
+	break;
+	case collider_type::PLAYER:
+	playerCollider = collider1;
+	break;
+	case collider_type::WALL:
+	wallCollider = collider1;
+	break;
+	}
+
+	switch (collider2->c_type)
+	{
+	case collider_type::LASER:
+	laserCollider = collider2;
+	break;
+	case collider_type::PLAYER:
+	playerCollider = collider2;
+	break;
+	case collider_type::WALL:
+	wallCollider = collider2;
+	break;
+	}
+
+	if (laserCollider != nullptr)
+	{
+	laserCollider->particle->to_delete = true;
+	laserCollider->to_delete = true;
+	App->particles->AddParticle(*(App->particles->explosionParticle), laserCollider->rect.x, laserCollider->rect.y, collider_type::EXPLOSION);
+	}
+
+	if (playerCollider != nullptr)
+	{
+	destroyed = true;
+	playerCollider->to_delete = true;
+	App->particles->AddParticle(*(App->particles->explosionParticle), playerCollider->rect.x, playerCollider->rect.y, collider_type::EXPLOSION);
+
+	App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
+	}*/
 }

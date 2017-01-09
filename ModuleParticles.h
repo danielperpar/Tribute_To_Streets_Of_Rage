@@ -12,15 +12,12 @@ struct Collider;
 
 struct Particle
 {
-	bool to_delete = false;
-
+	bool m_to_delete = false;
 	// TODO 1: Fill in the structure with all the properties you need for each particle
-	iPoint particlePosition;
-	int particleSpeed;
-	int lifeTime;
-	Animation *animation;
+	iPoint m_position;
+	Animation *m_hit_effect_animation_right;
+	std::list<int*> m_animation_list;
 	// TODO 11: Add an optional collider to each particle
-	Collider *particleCollider = nullptr;
 
 	Particle();
 	Particle(const Particle& p);
@@ -38,23 +35,17 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void AddParticle(const Particle& particle, int x, int y, collider_type c_type); // feel free to expand this call
+	void AddParticle(const Particle& particle, int x, int y); 
 
 private:
 
 	SDL_Texture* graphics = nullptr;
-	std::list<Particle*> active;
-	
+	std::list<Particle*> m_active;
 
 public:
 
-	uint fxLaser = 0;
-	uint fxExplosion = 0;
-	Particle *particle;
-
-	// prototype particles go here ...
-	Particle *laserParticle;
-	Particle *explosionParticle;
+	uint m_hit_sound = 0;
+	Particle *m_hit_effect = nullptr;
 
 };
 
