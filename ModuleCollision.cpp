@@ -35,59 +35,68 @@ update_status ModuleCollision::PreUpdate()
 
 update_status ModuleCollision::Update()
 {
-	// TODO 8: Check collisions between all colliders. 
-	// After making it work, review that you are doing the minumum checks possible
-	for (list<Collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1)
+	m_time = SDL_GetTicks();
+	if (m_time - m_update_time >= m_dt)
 	{
-		for (list<Collider*>::iterator it2 = it1; it2 != colliders.end();)
+		m_do_logic = true;
+	}
+	if (m_do_logic)
+	{
+		m_do_logic = false;
+		m_update_time = SDL_GetTicks();
+
+
+		for (list<Collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1)
 		{
-			if (colliders.end() != ++it2)
+			for (list<Collider*>::iterator it2 = it1; it2 != colliders.end();)
 			{
-				if ((*it1)->m_collider_type != (*it2)->m_collider_type)
+				if (colliders.end() != ++it2)
 				{
-					if (!(	(*it1)->m_collider_type == BOSS_ENEMY_HIT && (*it2)->m_collider_type == WEAPON		||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_HIT		||
-
-							(*it1)->m_collider_type == BOSS_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON		||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_GRAB		||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == FOOD		||
-							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_HIT		||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == FOOD		||
-							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_GRAB		||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == WEAPON	||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_HIT	||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON 	||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_GRAB	||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == COMMON_ENEMY_HIT	||
-							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == COMMON_ENEMY_GRAB
-																														)
-																												
-					   )
+					if ((*it1)->m_collider_type != (*it2)->m_collider_type)
 					{
-						bool collision = (*it1)->CheckCollision((*it2)->m_rect);
-						if (collision)
+						if (!((*it1)->m_collider_type == BOSS_ENEMY_HIT && (*it2)->m_collider_type == WEAPON ||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_HIT ||
+
+							(*it1)->m_collider_type == BOSS_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON ||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_GRAB ||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == FOOD ||
+							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_HIT ||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == FOOD ||
+							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_GRAB ||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == WEAPON ||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_HIT ||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON ||
+							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_GRAB ||
+
+							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == COMMON_ENEMY_HIT ||
+							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == COMMON_ENEMY_GRAB
+							)
+
+							)
 						{
-							//DEBUG
-							LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
-							(*it1)->OnEnterCollision(*it1, *it2);
+							bool collision = (*it1)->CheckCollision((*it2)->m_rect);
+							if (collision)
+							{
+								//DEBUG
+								LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
+									(*it1)->OnCollision(*it1, *it2);
+							}
 						}
 					}
 				}
 			}
 		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+			debug = !debug;
+
+		if (debug == true)
+			DebugDraw();
 	}
-
-	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debug = !debug;
-
-	if(debug == true)
-		DebugDraw();
-
 	return UPDATE_CONTINUE;
 }
 
@@ -155,11 +164,14 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 
 }
 
-void Collider::OnEnterCollision(Collider* collider1, Collider* collider2) const
+void Collider::OnCollision(Collider* collider1, Collider* collider2) const
 {
 	
-	if (collider1->m_collider_type == COMMON_ENEMY_GRAB || collider2->m_collider_type == COMMON_ENEMY_GRAB) {
+	if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT) {
+		
+		App->enemies->m_enemy->m_ai_walk = false;
 		App->enemies->m_enemy->m_ai_attack = true;
+		
 	}
 
 

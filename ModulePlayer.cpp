@@ -10,6 +10,8 @@
 #include "ModuleAudio.h"
 #include "EntityManager.h"
 #include "Entity.h"
+#include "ModuleEnemies.h"
+
 
 
 ModulePlayer::ModulePlayer(bool active) : Module(active) {}
@@ -34,8 +36,10 @@ bool ModulePlayer::Start()
 	collider.w = 36;
 	collider.h = 63;
 
-	m_player_collider = App->collision->AddCollider(collider, nullptr, collider_type::PLAYER);
+	m_player_collider = App->collision->AddCollider(collider, m_player, collider_type::PLAYER);
 	m_player_collider->SetPos(m_player->m_position.x + m_player->m_x_ref - collider.w/2, m_player->m_depth);
+
+	
 
 	return true;
 }
@@ -65,11 +69,11 @@ update_status ModulePlayer::Update()
 	
 	
 	
-	int speed = 1;
+	
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		//position.x -= speed;
+		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
@@ -1208,6 +1212,184 @@ update_status ModulePlayer::Update()
 		{
 			m_player->m_current_animation->Reset();
 			m_player->m_state = player_state::WEAPON_KNIFE_IDLE;
+		}
+	}
+
+	if (m_player->m_state == player_state::DAMAGED)
+	{
+		m_enemy = App->enemies->m_enemy;
+		
+		if (m_enemy->m_face_right)
+			m_player->m_face_right = false;
+
+		if (m_enemy->m_face_right == false)
+			m_player->m_face_right = true;
+
+
+		if (!strcmp(m_enemy->m_name, "garcia"))
+		{
+			if (m_enemy->m_floating_attack == false)
+			{
+				if (m_player->m_face_right)
+				{
+					m_player->m_current_animation = &(m_player->m_damage_received_right);
+					if (m_player->m_current_animation->Finished())
+					{
+						if (m_player->m_dead == false) 
+						{
+							m_player->m_current_animation->Reset();
+							m_player->m_state = player_state::IDLE;
+							m_player->m_current_animation = &(m_player->m_idle_right1);
+						}
+					}
+				}
+				if (m_player->m_face_right == false)
+				{
+					m_player->m_current_animation = &(m_player->m_damage_received_left);
+					if (m_player->m_current_animation->Finished())
+					{
+						if (m_player->m_dead == false)
+						{
+							m_player->m_current_animation->Reset();
+							m_player->m_state = player_state::IDLE;
+							m_player->m_current_animation = &(m_player->m_idle_left1);
+						}
+					}
+				}	
+			}
+			if (m_enemy->m_floating_attack == true)
+			{
+				if (m_player->m_face_right)
+				{
+					m_player->m_current_animation = &(m_player->m_down_right);
+					if (m_player->m_current_animation->Finished())
+					{
+						if (m_player->m_dead == false)
+						{
+							m_player->m_current_animation->Reset();
+							m_player->m_state = player_state::UP;
+							m_player->m_current_animation = &(m_player->m_up_right);
+						}
+					}
+					
+				}
+				if (m_player->m_face_right == false)
+				{
+					m_player->m_current_animation = &(m_player->m_down_left);
+					if (m_player->m_current_animation->Finished())
+					{
+						if (m_player->m_dead == false)
+						{
+							m_player->m_current_animation->Reset();
+							m_player->m_state = player_state::UP;
+							m_player->m_current_animation = &(m_player->m_up_left);
+						}
+					}
+				}
+			}
+		}
+
+		if (!strcmp(m_enemy->m_name, "garcia_knife"))
+		{
+			if (m_player->m_face_right)
+				m_player->m_current_animation = &(m_player->m_damage_received_right);
+			else
+				m_player->m_current_animation = &(m_player->m_damage_received_left);
+
+			if (m_player->m_current_animation->Finished())
+			{
+				if (m_player->m_dead == false)
+				{
+					m_player->m_current_animation->Reset();
+					m_player->m_state = player_state::IDLE;
+
+					if (m_player->m_face_right)
+						m_player->m_current_animation = &(m_player->m_idle_right1);
+					else
+						m_player->m_current_animation = &(m_player->m_idle_left1);
+				}
+			}	
+		}
+
+		if (!strcmp(m_enemy->m_name, "punky"))
+		{
+			if (m_player->m_face_right)
+			{
+				m_player->m_current_animation = &(m_player->m_down_right);
+				if (m_player->m_current_animation->Finished())
+				{
+					if (m_player->m_dead == false)
+					{
+						m_player->m_current_animation->Reset();
+						m_player->m_state = player_state::UP;
+						m_player->m_current_animation = &(m_player->m_up_right);
+					}
+				}
+
+			}
+			if (m_player->m_face_right == false)
+			{
+				m_player->m_current_animation = &(m_player->m_down_left);
+				if (m_player->m_current_animation->Finished())
+				{
+					if (m_player->m_dead == false)
+					{
+						m_player->m_current_animation->Reset();
+						m_player->m_state = player_state::UP;
+						m_player->m_current_animation = &(m_player->m_up_left);
+					}
+				}
+			}
+		}
+
+		if (!strcmp(m_enemy->m_name, "nora"))
+		{
+			if (m_player->m_face_right)
+			{
+				m_player->m_current_animation = &(m_player->m_down_right);
+				if (m_player->m_current_animation->Finished())
+				{
+					if (m_player->m_dead == false)
+					{
+						m_player->m_current_animation->Reset();
+						m_player->m_state = player_state::UP;
+						m_player->m_current_animation = &(m_player->m_up_right);
+					}
+				}
+
+			}
+			if (m_player->m_face_right == false)
+			{
+				m_player->m_current_animation = &(m_player->m_down_left);
+				if (m_player->m_current_animation->Finished())
+				{
+					if (m_player->m_dead == false)
+					{
+						m_player->m_current_animation->Reset();
+						m_player->m_state = player_state::UP;
+						m_player->m_current_animation = &(m_player->m_up_left);
+					}
+				}
+			}
+		}
+
+	}
+
+	if (m_player->m_state == player_state::UP)
+	{
+		if (m_player->m_face_right)
+			m_player->m_current_animation = &(m_player->m_up_right);
+		else
+			m_player->m_current_animation = &(m_player->m_up_left);
+
+		if (m_player->m_current_animation->Finished())
+		{
+			m_player->m_current_animation->Reset();
+			m_player->m_state = player_state::IDLE;
+			if (m_player->m_face_right)
+				m_player->m_current_animation = &(m_player->m_idle_right1);
+			else
+				m_player->m_current_animation = &(m_player->m_idle_left1);
 		}
 	}
 

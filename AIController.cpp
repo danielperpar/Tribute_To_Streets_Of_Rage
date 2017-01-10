@@ -13,48 +13,9 @@ void AIController::UpdateBehaviour()
 	//Refactorizar cuando tenga colisiones
 
 
-	if (!strcmp(m_enemy->m_name, "garcia"))
+	if (!strcmp(m_enemy->m_name, "garcia") || !strcmp(m_enemy->m_name, "garcia_knife") || !strcmp(m_enemy->m_name, "punky") || !strcmp(m_enemy->m_name, "nora"))
 	{
 		
-		//if (m_enemy->m_position.x - 10 > m_player->m_position.x + 10)
-		//{
-		//	if (m_enemy->m_face_right)
-		//		m_enemy->m_face_right = false;
-
-		//	m_enemy->m_ai_walk = true;
-
-		//	if (m_player->m_face_right)
-		//		m_look_each_other = true;
-		//}
-		//if (m_enemy->m_position.x - 9 == m_player->m_position.x + 14)
-		//{
-		//	//combate
-		//	m_enemy->m_ai_walk = false;
-		//	
-		//	if (m_continue)
-		//	{
-		//		m_enemy->m_state = enemy_state::IDLE;
-		//		m_enemy->m_ai_attack = true;
-		//	}
-		//	else
-		//	{
-		//		m_enemy->m_ai_attack = false;	
-		//	}
-
-		//	
-		//	//cuando no hay colision desactivo el ataque: m_enemy->m_ai_attack = false
-		//}
-		//if (m_enemy->m_position.x - 9 < m_player->m_position.x + 14)
-		//{
-		//	if (m_enemy->m_face_right == false)
-		//		m_enemy->m_face_right = true;
-
-		//	m_enemy->m_ai_walk = true;
-
-		//	if (m_player->m_face_right == false)
-		//		m_look_each_other = true;
-		//}
-
 		m_vector_enemy_to_player = { m_player->m_position.x + 14 - m_enemy->m_position.x - 9, m_player->m_position.y - m_enemy->m_position.y };
 
 		if (m_vector_enemy_to_player.x > 0)
@@ -86,20 +47,6 @@ void AIController::UpdateBehaviour()
 		else
 			m_look_each_other = false;
 		
-		if (m_enemy->m_ai_attack)
-		{
-			m_enemy->m_ai_walk = false;
-
-			if (m_continue)
-			{
-				m_enemy->m_state = enemy_state::IDLE;
-				m_enemy->m_ai_attack = true;
-			}
-			else
-			{
-				m_enemy->m_ai_attack = false;	
-			}
-		}
 
 		if (m_enemy->m_ai_walk == true)
 		{
@@ -125,9 +72,10 @@ void AIController::UpdateBehaviour()
 		}
 	}
 
-
+	
 	if (m_enemy->m_ai_walk == true)
 	{
+
 		bool grab_condition = (
 			m_player->m_state == player_state::GRAB ||
 			m_player->m_state == player_state::GRAB_KICK ||
@@ -138,16 +86,22 @@ void AIController::UpdateBehaviour()
 			m_player->m_state == player_state::GRAB_AIR_SPIN_FINISHER_LEFT);
 
 		if (!grab_condition)
-		{
+		{	
 			m_enemy->m_position.x = (int)(m_enemy->m_position.x + m_sign_x);
 			App->enemies->UpdateColliderPosition();
 		}
 
 		if (m_player->m_state != player_state::JUMPING && m_player->m_state != player_state::JUMPING_KICKING && !grab_condition)
 		{
-			m_enemy->m_position.y = (int)(m_enemy->m_position.y + m_sign_y);
-			m_enemy->m_depth = m_enemy->m_position.y;
-			App->enemies->UpdateColliderPosition();
+			m_t_acum += m_speed_y;
+
+			if (m_t_acum >= 1.0f)
+			{
+				m_t_acum = 0.0f;
+				m_enemy->m_position.y = (int)(m_enemy->m_position.y + m_sign_y);
+				m_enemy->m_depth = m_enemy->m_position.y;
+				App->enemies->UpdateColliderPosition();
+			}
 		}
 	}
 

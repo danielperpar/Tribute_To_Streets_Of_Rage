@@ -27,7 +27,7 @@ struct Collider
 	}
 
 	bool CheckCollision(const SDL_Rect& r) const;
-	void OnEnterCollision(Collider* collider1, Collider* collider2) const;
+	void OnCollision(Collider* collider1, Collider* collider2) const;
 };
 
 class ModuleCollision : public Module
@@ -49,6 +49,11 @@ private:
 
 	std::list<Collider*> colliders;
 	bool debug = false;
+
+	Uint32 m_time = 0;
+	Uint32 m_update_time = 0;
+	Uint32 m_dt = 10;
+	bool m_do_logic = true;
 };
 
 #endif // __ModuleCollision_H__

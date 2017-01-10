@@ -50,6 +50,12 @@ public:
 	bool m_boomerang_forward = true;
 	
 	float m_t_acum = 0;
+	bool m_allow_attack = true;
+
+	bool m_floating_attack = false;
+
+	//counter to allow next attack
+	size_t m_counter = 0;
 
 	//updated by the colision module
 	int m_life = 100;
@@ -58,7 +64,7 @@ public:
 	bool m_carrying_boomerang = true;
 
 	//AI signals
-	bool m_ai_idle = true;
+	//bool m_ai_idle = true;
 	bool m_ai_walk = true;
 	bool m_ai_attack = false;
 	bool m_ai_throw_boomerang = false;
@@ -96,8 +102,10 @@ public:
 	Animation m_npc_punky_walk_right;
 	Animation m_npc_punky_walk_left;
 
-	Animation m_npc_punky_ground_attack_right;
-	Animation m_npc_punky_ground_attack_left;
+	Animation m_npc_punky_ground_attack_right1;
+	Animation m_npc_punky_ground_attack_right2;
+	Animation m_npc_punky_ground_attack_left1;
+	Animation m_npc_punky_ground_attack_left2;
 
 	Animation m_npc_nora_idle_right;
 	Animation m_npc_nora_idle_left;
@@ -105,8 +113,10 @@ public:
 	Animation m_npc_nora_walk_right;
 	Animation m_npc_nora_walk_left;
 
-	Animation m_npc_nora_attack_right;
-	Animation m_npc_nora_attack_left;
+	Animation m_npc_nora_attack_right1;
+	Animation m_npc_nora_attack_right2;
+	Animation m_npc_nora_attack_left1;
+	Animation m_npc_nora_attack_left2;
 
 	Animation m_npc_antonio_boomerang_idle_right;
 	Animation m_npc_antonio_boomerang_idle_left;

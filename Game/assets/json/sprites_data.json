@@ -693,24 +693,36 @@
 	[
 		{
 		  "sprite" : [{"x" : 791},{"y" : 62},{"w" : 109},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 61},{"y" : 56},{"w" : 89},{"h" : 63}]
 		}
 	],
 	"npcGarciaPunchRight2" :
 	[
 		{
 		  "sprite" : [{"x" : 969},{"y" : 64},{"w" : 108},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 61},{"y" : 56},{"w" : 89},{"h" : 63}]
 		}
 	],
 	"npcGarciaPunchLeft1" :
 	[
 		{
 		  "sprite" : [{"x" : 1374},{"y" : 62},{"w" : 87},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 2110},{"y" : 57},{"w" : 87},{"h" : 63}]
 		}
 	],
 	"npcGarciaPunchLeft2" :
 	[
 		{
 		  "sprite" : [{"x" : 1196},{"y" : 64},{"w" : 97},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 2110},{"y" : 57},{"w" : 87},{"h" : 63}]
 		}
 	],
 	"npcGarciaKnifeIdleRight" :
@@ -759,12 +771,18 @@
 	[
 		{
 		  "sprite" : [{"x" : 780},{"y" : 165},{"w" : 118},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 51},{"y" : 156},{"w" : 84},{"h" : 63}]
 		}
 	],
 	"npcGarciaKnifeAttackLeft" :
 	[
 		{
 		  "sprite" : [{"x" : 1392},{"y" : 165},{"w" : 89},{"h" : 63}]
+		},
+		{
+		  "sprite" : [{"x" : 2114},{"y" : 156},{"w" : 87},{"h" : 63}]
 		}
 	],
 	"npcGarciaDamageReceivedRight" : 
@@ -875,23 +893,29 @@
 		  "sprite" : [{"x" : 1544},{"y" : 389},{"w" : 78},{"h" : 64}]
 		}	
 	],
-	"npcPunkyGroundAttackRight" :
+	"npcPunkyGroundAttackRight1" :
 	[
 		{
 		  "sprite" : [{"x" : 36},{"y" : 387},{"w" : 88},{"h" : 64}] 
-		},
-		{
-		  "sprite" : [{"x" : 793},{"y" : 379},{"w" : 138},{"h" : 64}] 
 		}
 	],
-	"npcPunkyGroundAttackLeft" :
+	"npcPunkyGroundAttackRight2" :
+	[
+		{
+		  "sprite" : [{"x" : 793},{"y" : 379},{"w" : 138},{"h" : 64}] 
+		}	
+	],
+	"npcPunkyGroundAttackLeft1" :
 	[
 		{
 		  "sprite" : [{"x" : 2129},{"y" : 387},{"w" : 80},{"h" : 64}] 
-		},
+		}
+	],
+	"npcPunkyGroundAttackLeft2" :
+	[
 		{
 		  "sprite" : [{"x" : 1372},{"y" : 379},{"w" : 83},{"h" : 64}] 
-		}
+		}	
 	],
 	"npcPunkyDamageReceivedRight" :
 	[
@@ -989,28 +1013,28 @@
 		  "sprite" : [{"x" : 1841},{"y" : 692},{"w" : 85},{"h" : 68}]
 		}
 	],
-	"npcNoraAttackRight" :
+	"npcNoraAttackRight1" :
 	[
 		{
 		  "sprite" : [{"x" : 500},{"y" : 698},{"w" : 98},{"h" : 68}]
-		},
-		{
-		  "sprite" : [{"x" : 669},{"y" : 693},{"w" : 150},{"h" : 68}]
-		},
-		{
-		  "sprite" : [{"x" : 862},{"y" : 694},{"w" : 140},{"h" : 68}]
 		}
 	],
-	"npcNoraAttackLeft" :
+	"npcNoraAttackRight2" :
+	[
+		{
+		  "sprite" : [{"x" : 669},{"y" : 693},{"w" : 150},{"h" : 68}]
+		}
+	],
+	"npcNoraAttackLeft1" :
 	[
 		{
 		  "sprite" : [{"x" : 1665},{"y" : 698},{"w" : 96},{"h" : 68}]
-		},
+		}
+	],
+	"npcNoraAttackLeft2" : 
+	[
 		{
 		  "sprite" : [{"x" : 1485},{"y" : 693},{"w" : 91},{"h" : 68}]
-		},
-		{
-		  "sprite" : [{"x" : 1292},{"y" : 694},{"w" : 91},{"h" : 68}]
 		}
 	],
 	"npcNoraDamageReceivedRight" :

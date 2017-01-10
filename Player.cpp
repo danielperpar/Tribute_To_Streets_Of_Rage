@@ -315,7 +315,38 @@ Player::Player(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 	m_weapon_knife_attack_left.speed = 0.1f;
 	Utilities::free_list(m_animation_list);
 
+	JSONDataLoader::Load("assets/json/sprites_data.json", "damageReceivedRight", m_animation_list, m_damage_received_right);
+	m_damage_received_right.loop = false;
+	m_damage_received_right.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
 
+	JSONDataLoader::Load("assets/json/sprites_data.json", "damageReceivedLeft", m_animation_list, m_damage_received_left);
+	m_damage_received_left.loop = false;
+	m_damage_received_left.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "downRight", m_animation_list, m_down_right);
+	m_down_right.loop = false;
+	m_down_right.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "downLeft", m_animation_list, m_down_left);
+	m_down_left.loop = false;
+	m_down_left.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "upRight", m_animation_list, m_up_right);
+	m_up_right.loop = false;
+	m_up_right.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "upLeft", m_animation_list, m_up_left);
+	m_up_left.loop = false;
+	m_up_left.speed = 0.1f;
+	Utilities::free_list(m_animation_list);
+
+
+	
 }
 
 void Player::AdvanceAnimation(size_t initial_sprite_duration, Animation *next_anim_sprite, bool restart_animation)

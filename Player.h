@@ -33,7 +33,11 @@ enum class player_state
 	WEAPON_KNIFE_IDLE,
 	WEAPON_KNIFE_WALKING,
 	WEAPON_KNIFE_ATTACK_LEFT,
-	WEAPON_KNIFE_ATTACK_RIGHT
+	WEAPON_KNIFE_ATTACK_RIGHT,
+	DAMAGED,
+	DAMAGED_FLOATING,
+	UP,
+	DEAD
 
 };
 
@@ -184,6 +188,15 @@ public:
 	Animation m_weapon_knife_walk_left;
 	Animation m_weapon_knife_attack_left;
 	Animation m_weapon_knife_throw_left;
+
+	Animation m_damage_received_right;
+	Animation m_damage_received_left;
+
+	Animation m_down_right;
+	Animation m_down_left;
+
+	Animation m_up_right;
+	Animation m_up_left;
 
 	Animation *m_current_animation;
 

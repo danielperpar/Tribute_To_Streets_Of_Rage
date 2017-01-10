@@ -28,11 +28,12 @@ bool ModuleEnemies::Start()
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
 	m_player = App->player->m_player;
 
-	m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 1000, 100 }, 100);
+	/*m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 1000, 100 }, 100);
 	m_enemy->m_state = enemy_state::IDLE;
 	m_enemy->m_ai_controller.m_enemy = m_enemy;
 	m_enemy->m_ai_controller.m_player = App->player->m_player;
 	
+
 	SDL_Rect collider;
 	collider.x = 0;
 	collider.y = 0;
@@ -41,13 +42,75 @@ bool ModuleEnemies::Start()
 	m_enemy_grab_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_GRAB);
 	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
 
-	/*SDL_Rect collider;
 	collider.x = 0;
 	collider.y = 0;
-	collider.w = 26;
+	collider.w = 30;
 	collider.h = 63;
 	m_enemy_hit_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_HIT);
 	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);*/
+
+	/*m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "garcia_knife", entity_type::ENEMY, { 1000, 100 }, 100);
+	m_enemy->m_state = enemy_state::IDLE;
+	m_enemy->m_ai_controller.m_enemy = m_enemy;
+	m_enemy->m_ai_controller.m_player = App->player->m_player;
+
+
+	SDL_Rect collider;
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 15;
+	collider.h = 63;
+	m_enemy_grab_collider = App->collision->AddCollider(collider, m_enemy, collider_type::COMMON_ENEMY_GRAB);
+	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
+
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 35;
+	collider.h = 63;
+	m_enemy_hit_collider = App->collision->AddCollider(collider, m_enemy, collider_type::COMMON_ENEMY_HIT);
+	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);*/
+
+
+	/*m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "punky", entity_type::ENEMY, { 1000, 100 }, 100);
+	m_enemy->m_state = enemy_state::IDLE;
+	m_enemy->m_ai_controller.m_enemy = m_enemy;
+	m_enemy->m_ai_controller.m_player = App->player->m_player;
+
+	SDL_Rect collider;
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 15;
+	collider.h = 63;
+	m_enemy_grab_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_GRAB);
+	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
+
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 130;
+	collider.h = 63;
+	m_enemy_hit_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_HIT);
+	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);*/
+
+	m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "nora", entity_type::ENEMY, { 1000, 100 }, 100);
+	m_enemy->m_state = enemy_state::IDLE;
+	m_enemy->m_ai_controller.m_enemy = m_enemy;
+	m_enemy->m_ai_controller.m_player = App->player->m_player;
+
+	SDL_Rect collider;
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 15;
+	collider.h = 63;
+	m_enemy_grab_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_GRAB);
+	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
+
+	collider.x = 0;
+	collider.y = 0;
+	collider.w = 100;
+	collider.h = 63;
+	m_enemy_hit_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_HIT);
+	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);
+
 
 
 	
@@ -86,75 +149,129 @@ update_status ModuleEnemies::Update()
 			m_enemy = (Enemy*)*it;
 
 
-			if (m_enemy->m_state == enemy_state::IDLE)
+			if (m_enemy->m_ai_attack)
 			{
-				if(m_enemy->m_ai_attack)
+				if (m_enemy->m_state == enemy_state::WALKING)
+					m_enemy->m_state = enemy_state::IDLE;
+				
+				if( m_enemy->m_state == enemy_state::IDLE )
 				{
-					if (m_enemy->m_player_to_hit)
+					if (!strcmp(m_enemy->m_name, "garcia"))
 					{
-						if (!strcmp(m_enemy->m_name, "garcia"))
+						if (m_enemy->m_punch_hits < 2)
 						{
-							if (m_enemy->m_punch_hits < 2)
+							if (App->player->m_player_collider->CheckCollision(m_enemy_hit_collider->m_rect) == true && m_enemy->m_depth == m_player->m_depth)
 							{
 								m_enemy->m_state = enemy_state::PUNCH1;
-								m_enemy->m_ai_controller.m_continue = false;
+								m_enemy->m_floating_attack = false;
+								m_player->m_state = player_state::DAMAGED;
 							}
-							if (m_enemy->m_punch_hits == 2)
-							{
-								m_enemy->m_state = enemy_state::PUNCH2;
-								m_enemy->m_ai_controller.m_continue = false;
-							}
-							if (m_enemy->m_punch_hits > 2)
+							else
 							{
 								m_enemy->m_punch_hits = 0;
-								m_enemy->m_state = enemy_state::PUNCH1;
-								m_enemy->m_ai_controller.m_continue = false;
+								m_enemy->m_ai_attack = false;
+								m_enemy->m_ai_walk = true;								
+								m_enemy->m_state = enemy_state::WALKING;
 							}
 						}
-						if (!strcmp(m_enemy->m_name, "garcia_knife"))
+						if (m_enemy->m_punch_hits == 2)
 						{
-							m_enemy->m_state = enemy_state::KNIFE_ATTACK;
+							if (App->player->m_player_collider->CheckCollision(m_enemy_hit_collider->m_rect) == true && m_enemy->m_depth == m_player->m_depth)
+							{
+								m_enemy->m_state = enemy_state::PUNCH2;
+								m_enemy->m_floating_attack = true;
+								m_player->m_state = player_state::DAMAGED;
+							}
+								
+							else
+							{
+								m_enemy->m_ai_attack = false;
+								m_enemy->m_ai_walk = true;								
+								m_enemy->m_state = enemy_state::WALKING;
+							}
 						}
-						if (!strcmp(m_enemy->m_name, "punky"))
+						if (m_enemy->m_punch_hits == 3)
 						{
-							m_enemy->m_state = enemy_state::GROUND_ATTACK;
+							m_enemy->m_floating_attack = false;
 						}
-						if (!strcmp(m_enemy->m_name, "nora"))
-						{
-							m_enemy->m_state = enemy_state::WHIP_ATTACK;
-						}
-						if (!strcmp(m_enemy->m_name, "antonio"))
-						{
-							if(m_enemy->m_carrying_boomerang == false)
-							m_enemy->m_state = enemy_state::KICK;
-						}
-
 					}
-					else
+					if (!strcmp(m_enemy->m_name, "garcia_knife"))
 					{
-						m_enemy->m_state = enemy_state::IDLE;
+						if (m_enemy->m_allow_attack)
+						{
+							if (App->player->m_player_collider->CheckCollision(m_enemy_hit_collider->m_rect) == true &&	m_enemy->m_depth == m_player->m_depth)
+							{
+								m_enemy->m_state = enemy_state::KNIFE_ATTACK;
+								m_player->m_state = player_state::DAMAGED;
+							}
+							else
+							{
+								m_enemy->m_ai_attack = false;
+								m_enemy->m_ai_walk = true;
+								m_enemy->m_state = enemy_state::WALKING;
+							}
+						}
 					}
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
-				{
-					if (!strcmp(m_enemy->m_name, "antonio"))
+					if (!strcmp(m_enemy->m_name, "punky"))
 					{
-						if(m_enemy->m_carrying_boomerang)
-							m_enemy->m_state = enemy_state::THROW_BOOMERANG;
+						if (m_enemy->m_allow_attack)
+						{
+							if (App->player->m_player_collider->CheckCollision(m_enemy_hit_collider->m_rect) == true && m_enemy->m_depth == m_player->m_depth)
+							{
+								m_enemy->m_state = enemy_state::GROUND_ATTACK;
+								m_enemy->m_floating_attack = true;
+							}
+							else
+							{
+								m_enemy->m_ai_attack = false;
+								m_enemy->m_ai_walk = true;
+								m_enemy->m_state = enemy_state::WALKING;
+							}
+						}
 					}
-				}
-				if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-				{
+					if (!strcmp(m_enemy->m_name, "nora"))
+					{
+						if (m_enemy->m_allow_attack)
+						{
+							if (App->player->m_player_collider->CheckCollision(m_enemy_hit_collider->m_rect) == true && m_enemy->m_depth == m_player->m_depth)
+							{
+								m_enemy->m_state = enemy_state::WHIP_ATTACK;
+								m_enemy->m_floating_attack = true;
+							}
+							else
+							{
+								m_enemy->m_ai_attack = false;
+								m_enemy->m_ai_walk = true;
+								m_enemy->m_state = enemy_state::WALKING;
+							}
+						}
+					}
 					if (!strcmp(m_enemy->m_name, "antonio"))
 					{
 						if (m_enemy->m_carrying_boomerang == false)
-							m_enemy->m_state = enemy_state::RECOVER_BOOMERANG;
+							m_enemy->m_state = enemy_state::KICK;
 					}
 				}
-				
 			}
 
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+			{
+				if (!strcmp(m_enemy->m_name, "antonio"))
+				{
+					if(m_enemy->m_carrying_boomerang)
+						m_enemy->m_state = enemy_state::THROW_BOOMERANG;
+				}
+			}
+			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+			{
+				if (!strcmp(m_enemy->m_name, "antonio"))
+				{
+					if (m_enemy->m_carrying_boomerang == false)
+						m_enemy->m_state = enemy_state::RECOVER_BOOMERANG;
+				}
+			}
+				
+			
 			//Inputs will be substituted by AI signals
 			if (m_enemy->m_state == enemy_state::IDLE ||
 				m_enemy->m_state == enemy_state::WALKING  &&
@@ -177,27 +294,47 @@ update_status ModuleEnemies::Update()
 				if (!strcmp(m_enemy->m_name, "garcia"))
 				{
 					m_enemy->m_current_animation = m_enemy->m_face_right ? &(m_enemy->m_npc_garcia_idle_right) : &(m_enemy->m_npc_garcia_idle_left);
-					if (m_enemy->m_current_animation->Finished())
+					if (m_enemy->m_punch_hits == 3)
 					{
-						m_enemy->m_current_animation->Reset();
-
-						if(m_player->m_dead == false)
-							m_enemy->m_ai_controller.m_continue = true;
+						m_enemy->m_counter++;
+						if (m_enemy->m_counter == m_time_to_next_attack)
+						{
+								m_enemy->m_punch_hits = 0;
+								m_enemy->m_counter = 0;
+						}
 					}
-					
+
 				}
 				if (!strcmp(m_enemy->m_name, "garcia_knife"))
 				{
 					m_enemy->m_current_animation = m_enemy->m_face_right ? &(m_enemy->m_npc_garcia_knife_idle_right) : &(m_enemy->m_npc_garcia_knife_idle_left);
+					m_enemy->m_counter++;
+					if (m_enemy->m_counter == m_time_to_next_attack)
+					{
+						m_enemy->m_counter = 0;
+						m_enemy->m_allow_attack = true;
+					}
 
 				}
 				if (!strcmp(m_enemy->m_name, "punky"))
 				{
 					m_enemy->m_current_animation = m_enemy->m_face_right ? &(m_enemy->m_npc_punky_idle_right) : &(m_enemy->m_npc_punky_idle_left);
+					m_enemy->m_counter++;
+					if (m_enemy->m_counter == m_time_to_next_attack)
+					{
+						m_enemy->m_counter = 0;
+						m_enemy->m_allow_attack = true;
+					}
 				}
 				if (!strcmp(m_enemy->m_name, "nora"))
 				{
 					m_enemy->m_current_animation = m_enemy->m_face_right ? &(m_enemy->m_npc_nora_idle_right) : &(m_enemy->m_npc_nora_idle_left);
+					m_enemy->m_counter++;
+					if (m_enemy->m_counter == m_time_to_next_attack)
+					{
+						m_enemy->m_counter = 0;
+						m_enemy->m_allow_attack = true;
+					}
 				}
 				if (!strcmp(m_enemy->m_name, "antonio"))
 				{
@@ -386,6 +523,7 @@ update_status ModuleEnemies::Update()
 						m_enemy->m_punch_hits++;
 						m_enemy->m_state = enemy_state::IDLE;
 						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_garcia_idle_right);
 					}
 				}
 				else
@@ -397,6 +535,7 @@ update_status ModuleEnemies::Update()
 						m_enemy->m_punch_hits++;
 						m_enemy->m_state = enemy_state::IDLE;
 						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_garcia_idle_left);
 					}
 				}
 			}
@@ -412,6 +551,12 @@ update_status ModuleEnemies::Update()
 				{
 					m_enemy->m_state = enemy_state::IDLE;
 					m_enemy->m_current_animation->Reset();
+					m_enemy->m_allow_attack = false;
+
+					if (m_enemy->m_face_right)
+						m_enemy->m_current_animation = &(m_enemy->m_npc_garcia_knife_idle_right);
+					else
+						m_enemy->m_current_animation = &(m_enemy->m_npc_garcia_knife_idle_left);
 				}
 			}
 			//Only punky enters ground_attack state
@@ -422,48 +567,191 @@ update_status ModuleEnemies::Update()
 					m_enemy->m_timer_count = 0;
 					m_enemy->m_restart_animation = false;
 
-				}
-
-				m_enemy->m_timer_count++;
-
-				if (m_enemy->m_face_right)
-				{
-					m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_right);
-					m_enemy->m_position.x += m_enemy->m_ground_attack_speed;
-				}
-				else
-				{
-					m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_left);
-					m_enemy->m_position.x -= m_enemy->m_ground_attack_speed;
-				}
-
-				if (m_enemy->m_timer_count >= m_enemy->m_ground_attack_range)
-				{
 					if (m_enemy->m_face_right)
-						m_enemy->m_position.x += 20;
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_right1);
 					else
-						m_enemy->m_position.x -= 20;
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_left1);
+				}
 
-					m_enemy->m_state = enemy_state::IDLE;
-					m_enemy->m_restart_animation = true;
-					m_enemy->m_current_animation->Reset();
-					m_enemy->m_timer_count = 0;
+				//face right
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_punky_ground_attack_right1) && m_enemy->m_timer_count == 0)
+				{
+					if (m_enemy->m_current_animation->Finished())
+					{
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_right2);
+					}
+				}
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_punky_ground_attack_right2))
+				{
+					m_enemy->m_position.x += m_enemy->m_ground_attack_speed;
+					UpdateColliderPosition();
+					m_enemy->m_timer_count++;
+
+					//move grab collider to the feet
+					m_enemy_grab_collider->SetPos((m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2) + 50, m_enemy->m_depth);
+					if (App->player->m_player_collider->CheckCollision(m_enemy_grab_collider->m_rect))
+					{
+						if (m_enemy->m_allow_attack) {
+							m_player->m_state = player_state::DAMAGED;
+							m_enemy->m_allow_attack = false;
+						}
+					}
+
+					if (m_enemy->m_timer_count >= m_enemy->m_ground_attack_range)
+					{
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_right1);		
+					}
+				}
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_punky_ground_attack_right1) && m_enemy->m_timer_count != 0)
+				{
+					
+					if (m_enemy->m_current_animation->Finished())
+					{
+						m_enemy->m_position.x += 20;
+						UpdateColliderPosition();
+
+						m_enemy->m_state = enemy_state::IDLE;
+						m_enemy->m_restart_animation = true;
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_timer_count = 0;
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_idle_right);
+					}
+				}
+
+
+				//face left
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_punky_ground_attack_left1) && m_enemy->m_timer_count == 0)
+				{
+					if (m_enemy->m_current_animation->Finished())
+					{
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_left2);
+						
+					}
+				}
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_punky_ground_attack_left2))
+				{
+					m_enemy->m_timer_count++;
+					m_enemy->m_position.x -= m_enemy->m_ground_attack_speed;
+					UpdateColliderPosition();
+
+					//move grab collider to the feet
+					m_enemy_grab_collider->SetPos((m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2) - 50, m_enemy->m_depth);
+					if (App->player->m_player_collider->CheckCollision(m_enemy_grab_collider->m_rect))
+					{
+						if (m_enemy->m_allow_attack)
+						{
+							m_player->m_state = player_state::DAMAGED;
+							m_enemy->m_allow_attack = false;
+						}
+					}
+
+					if (m_enemy->m_timer_count >= m_enemy->m_ground_attack_range)
+					{
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_ground_attack_left1);
+						UpdateColliderPosition();
+					}		
+				}
+
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_punky_ground_attack_left1) && m_enemy->m_timer_count != 0)
+				{
+					
+					if (m_player->m_current_animation->Finished())
+					{
+						m_enemy->m_position.x -= 20;
+						UpdateColliderPosition();
+
+						m_enemy->m_state = enemy_state::IDLE;
+						m_enemy->m_restart_animation = true;
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_timer_count = 0;
+						m_enemy->m_current_animation = &(m_enemy->m_npc_punky_idle_left);
+					}
 				}
 			}
 
 			//Only nora enters whip_attack state
 			if (m_enemy->m_state == enemy_state::WHIP_ATTACK)
 			{
-				if (m_enemy->m_face_right)
-					m_enemy->m_current_animation = &(m_enemy->m_npc_nora_attack_right);
-				else
-					m_enemy->m_current_animation = &(m_enemy->m_npc_nora_attack_left);
-
-				if (m_enemy->m_current_animation->Finished())
+				if (m_enemy->m_restart_animation)
 				{
-					m_enemy->m_state = enemy_state::IDLE;
-					m_enemy->m_current_animation->Reset();
+					m_enemy->m_restart_animation = false;
+
+					if (m_enemy->m_face_right)
+						m_enemy->m_current_animation = &(m_enemy->m_npc_nora_attack_right1);
+					else
+						m_enemy->m_current_animation = &(m_enemy->m_npc_nora_attack_left1);
 				}
+
+				//Face right
+				if (m_enemy->m_current_animation ==  &(m_enemy->m_npc_nora_attack_right1))
+				{
+					//move grab collider closer to the hit area 
+					m_enemy_grab_collider->SetPos((m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2) + 45, m_enemy->m_depth);
+					
+					if (m_enemy->m_current_animation->Finished())
+					{
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_nora_attack_right2);	
+					}
+				}
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_nora_attack_right2))
+				{
+					if (App->player->m_player_collider->CheckCollision(m_enemy_grab_collider->m_rect))
+					{
+						if (m_enemy->m_allow_attack) {
+							m_player->m_state = player_state::DAMAGED;
+
+						}
+					}
+					
+					if (m_enemy->m_current_animation->Finished())
+					{
+						UpdateColliderPosition();
+						m_enemy->m_state = enemy_state::IDLE;
+						m_enemy->m_restart_animation = true;
+						m_enemy->m_allow_attack = false;
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_nora_idle_right);
+					}
+				}
+
+				//Face left
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_nora_attack_left1))
+				{
+					//move grab collider closer to the hit area 
+					m_enemy_grab_collider->SetPos((m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2) - 45, m_enemy->m_depth);
+					
+					if (m_enemy->m_current_animation->Finished())
+					{
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_nora_attack_left2);
+					}
+				}
+				if (m_enemy->m_current_animation == &(m_enemy->m_npc_nora_attack_left2))
+				{
+					if (App->player->m_player_collider->CheckCollision(m_enemy_grab_collider->m_rect))
+					{
+						if (m_enemy->m_allow_attack) {
+							m_player->m_state = player_state::DAMAGED;
+
+						}
+					}
+
+					if (m_enemy->m_current_animation->Finished())
+					{
+						UpdateColliderPosition();
+						m_enemy->m_state = enemy_state::IDLE;
+						m_enemy->m_restart_animation = true;
+						m_enemy->m_allow_attack = false;
+						m_enemy->m_current_animation->Reset();
+						m_enemy->m_current_animation = &(m_enemy->m_npc_nora_idle_left);
+					}
+				}
+	
 			}
 
 			//Only antonio enters kick state
@@ -654,6 +942,6 @@ update_status ModuleEnemies::Update()
 void ModuleEnemies::UpdateColliderPosition()
 {
 	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
-	//m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);
+	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);
 }
 

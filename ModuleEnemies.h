@@ -25,7 +25,7 @@ public:
 
 	SDL_Texture *graphics;
 	Enemy *m_enemy = nullptr; 
-	Collider* playerCollider;
+	Collider* player_collider;
 	Player *m_player = nullptr;
 	Enemy *m_boomerang = nullptr;
 	Collider *m_enemy_grab_collider = nullptr;
@@ -36,8 +36,7 @@ private:
 	Uint32 m_update_time = 0;
 	Uint32 m_dt = 10;
 	bool m_do_logic = true;
-
-
+	size_t m_time_to_next_attack = 200;
 };
 
 #endif

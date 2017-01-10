@@ -107,14 +107,24 @@ Enemy::Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint po
 		m_npc_punky_walk_left.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "npcPunkyGroundAttackRight", m_animation_list, m_npc_punky_ground_attack_right);
-		m_npc_punky_ground_attack_right.loop = false;
-		m_npc_punky_ground_attack_right.speed = 0.1f;
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcPunkyGroundAttackRight1", m_animation_list, m_npc_punky_ground_attack_right1);
+		m_npc_punky_ground_attack_right1.loop = false;
+		m_npc_punky_ground_attack_right1.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "npcPunkyGroundAttackLeft", m_animation_list, m_npc_punky_ground_attack_left);
-		m_npc_punky_ground_attack_left.loop = false;
-		m_npc_punky_ground_attack_left.speed = 0.1f;
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcPunkyGroundAttackRight2", m_animation_list, m_npc_punky_ground_attack_right2);
+		m_npc_punky_ground_attack_right2.loop = false;
+		m_npc_punky_ground_attack_right2.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcPunkyGroundAttackLeft1", m_animation_list, m_npc_punky_ground_attack_left1);
+		m_npc_punky_ground_attack_left1.loop = false;
+		m_npc_punky_ground_attack_left1.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcPunkyGroundAttackLeft2", m_animation_list, m_npc_punky_ground_attack_left2);
+		m_npc_punky_ground_attack_left2.loop = false;
+		m_npc_punky_ground_attack_left2.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 	}
 
@@ -140,14 +150,24 @@ Enemy::Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint po
 		m_npc_nora_walk_left.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "npcNoraAttackRight", m_animation_list, m_npc_nora_attack_right);
-		m_npc_nora_attack_right.loop = false;
-		m_npc_nora_attack_right.speed = 0.1f;
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcNoraAttackRight1", m_animation_list, m_npc_nora_attack_right1);
+		m_npc_nora_attack_right1.loop = false;
+		m_npc_nora_attack_right1.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "npcNoraAttackLeft", m_animation_list, m_npc_nora_attack_left);
-		m_npc_nora_attack_left.loop = false;
-		m_npc_nora_attack_left.speed = 0.1f;
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcNoraAttackRight2", m_animation_list, m_npc_nora_attack_right2);
+		m_npc_nora_attack_right2.loop = false;
+		m_npc_nora_attack_right2.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcNoraAttackLeft1", m_animation_list, m_npc_nora_attack_left1);
+		m_npc_nora_attack_left1.loop = false;
+		m_npc_nora_attack_left1.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcNoraAttackLeft2", m_animation_list, m_npc_nora_attack_left2);
+		m_npc_nora_attack_left2.loop = false;
+		m_npc_nora_attack_left2.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
 	}
