@@ -4,6 +4,7 @@
 #include "Food.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "ModuleParticles.h"
 #include "Application.h"
 
 

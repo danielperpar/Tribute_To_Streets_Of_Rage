@@ -6,7 +6,7 @@
 #include "Entity.h"
 #include "Point.h"
 
-
+class Enemy;
 enum class player_state
 {
 	START,
@@ -79,10 +79,14 @@ public:
 	bool m_restart_animation = true;
 
 	//updated by the colision module
+	bool m_enemy_at_range = false;
 	bool m_enemy_to_grab = false;
 	bool m_enemy_alive = true;
 	bool m_dead = false;
 	int m_life = 100;
+	
+	//enemy who hits player
+	Enemy *m_enemy_attacking_player = nullptr;
 
 	//Axis X origin taken from the upper left vertex related to the rectangle containing the player sprite to the player's back neck position
 	size_t m_x_ref = 70;

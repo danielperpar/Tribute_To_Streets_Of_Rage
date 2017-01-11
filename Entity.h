@@ -9,7 +9,8 @@ enum class entity_type
 	WEAPON,
 	DESTROYABLE_ITEM,
 	PLAYER,
-	ENEMY
+	ENEMY,
+	PARTICLE
 };
 
 struct SDL_Texture;
@@ -17,7 +18,7 @@ class Entity {
 
 public:
 	Entity(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int m_depth);
-
+	Entity();
 	virtual ~Entity();
 
 public:

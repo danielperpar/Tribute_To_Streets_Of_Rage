@@ -24,7 +24,8 @@ enum class enemy_state
 };
 
 
-
+class Particle;
+struct Collider;
 struct SDL_Texture;
 class Enemy : public Entity {
 
@@ -47,12 +48,14 @@ public:
 	size_t m_punch_hits = 0;
 
 	iPoint m_start_position;
-	bool m_boomerang_forward = true;
 	
 	float m_t_acum = 0;
 	bool m_allow_attack = true;
 
 	bool m_floating_attack = false;
+
+	Collider *m_enemy_grab_collider = nullptr;
+	Collider *m_enemy_hit_collider = nullptr;
 
 	//counter to allow next attack
 	size_t m_counter = 0;
@@ -61,7 +64,7 @@ public:
 	int m_life = 100;
 	bool m_dead = false;
 	bool m_player_to_hit = true;
-	bool m_carrying_boomerang = true;
+	bool m_carrying_boomerang = false;
 
 	//AI signals
 	//bool m_ai_idle = true;
@@ -71,6 +74,11 @@ public:
 
 	//Axis X origin taken from the upper left vertex related to the rectangle containing the enemy sprite to the enemy's back neck position
 	size_t m_x_ref = 70;
+
+	//Axis Y height diference between player and boss
+	size_t m_y_ref = 51;
+
+	Particle *m_boomerang = nullptr;
 
 	AIController m_ai_controller;
 

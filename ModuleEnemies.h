@@ -21,16 +21,17 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	void UpdateColliderPosition();
+	void UpdateColliderPosition(Enemy *enemy);
 
 	SDL_Texture *graphics;
-	Enemy *m_enemy = nullptr; 
+
 	Collider* player_collider;
 	Player *m_player = nullptr;
-	Enemy *m_boomerang = nullptr;
-	Collider *m_enemy_grab_collider = nullptr;
-	Collider *m_enemy_hit_collider = nullptr;
-	
+
+	//Enemies
+	Enemy *m_enemy1 = nullptr;
+	Enemy *m_enemy2 = nullptr;
+
 private:	
 	Uint32 m_time = 0;
 	Uint32 m_update_time = 0;

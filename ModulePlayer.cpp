@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 
 	graphics = App->textures->Load("assets/spritesheets/axel.png");
 
-	m_player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, { 750, 100 }, 100);
+	m_player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, { 900, 100 }, 100);
 	m_player->m_state = player_state::IDLE;
 
 	SDL_Rect collider;
@@ -1217,8 +1217,11 @@ update_status ModulePlayer::Update()
 
 	if (m_player->m_state == player_state::DAMAGED)
 	{
-		m_enemy = App->enemies->m_enemy;
+		//In case player is hit while jumping, speed returns to initial speed
+		m_player->m_speed = 1.0f;
 		
+		Enemy* m_enemy = App->player->m_player->m_enemy_attacking_player;
+	
 		if (m_enemy->m_face_right)
 			m_player->m_face_right = false;
 
@@ -1373,6 +1376,28 @@ update_status ModulePlayer::Update()
 			}
 		}
 
+		if (!strcmp(m_enemy->m_name, "antonio"))
+		{
+			if (m_player->m_face_right)
+				m_player->m_current_animation = &(m_player->m_damage_received_right);
+			else
+				m_player->m_current_animation = &(m_player->m_damage_received_left);
+
+			if (m_player->m_current_animation->Finished())
+			{
+				if (m_player->m_dead == false)
+				{
+					m_player->m_current_animation->Reset();
+					m_player->m_state = player_state::IDLE;
+
+					if (m_player->m_face_right)
+						m_player->m_current_animation = &(m_player->m_idle_right1);
+					else
+						m_player->m_current_animation = &(m_player->m_idle_left1);
+				}
+			}
+		}
+
 	}
 
 	if (m_player->m_state == player_state::UP)
@@ -1394,7 +1419,7 @@ update_status ModulePlayer::Update()
 	}
 
 }
-	//playerCollider->SetPos(position.x, position.y);
+	
 
 	// Draw everything --------------------------------------
 

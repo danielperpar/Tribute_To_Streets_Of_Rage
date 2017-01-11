@@ -37,6 +37,7 @@ public:
 	ModuleCollision();
 	~ModuleCollision();
 
+	bool Start();
 	update_status PreUpdate();
 	update_status Update();
 
@@ -48,6 +49,7 @@ public:
 private:
 
 	std::list<Collider*> colliders;
+	int m_collision_matrix[10][10];
 	bool debug = false;
 
 	Uint32 m_time = 0;

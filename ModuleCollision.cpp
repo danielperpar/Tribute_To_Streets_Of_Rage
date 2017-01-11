@@ -5,6 +5,7 @@
 #include "ModuleCollision.h"
 #include "AIController.h"
 #include "ModuleEnemies.h"
+#include "ModulePlayer.h"
 #include <iostream>
 using namespace std;
 
@@ -15,6 +16,39 @@ ModuleCollision::ModuleCollision()
 // Destructor
 ModuleCollision::~ModuleCollision()
 {}
+
+bool ModuleCollision::Start()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			m_collision_matrix[i][j] = 0;
+		}
+	}
+
+	m_collision_matrix[COMMON_ENEMY_HIT][PLAYER] = 1;
+	m_collision_matrix[COMMON_ENEMY_GRAB][PLAYER] = 1;
+	m_collision_matrix[BOSS_ENEMY_HIT][PLAYER] = 1;
+	m_collision_matrix[BOSS_ENEMY_GRAB][PLAYER] = 1;
+	m_collision_matrix[WEAPON][PLAYER] = 1;
+	m_collision_matrix[FOOD][PLAYER] = 1;
+	m_collision_matrix[PLAYER][COMMON_ENEMY_HIT] = 1;
+	m_collision_matrix[PLAYER][COMMON_ENEMY_GRAB] = 1;
+	m_collision_matrix[PLAYER][BOSS_ENEMY_HIT] = 1;
+	m_collision_matrix[PLAYER][BOSS_ENEMY_GRAB] = 1;
+	m_collision_matrix[PLAYER][WEAPON] = 1;
+	m_collision_matrix[PLAYER][FOOD] = 1;
+	m_collision_matrix[PLAYER][BOSS_BOOMERANG] = 1;
+	m_collision_matrix[PLAYER][BOSS_BOOMERANG_AREA] = 1;
+	m_collision_matrix[PLAYER][DESTROYABLE_ITEM] = 1;
+	m_collision_matrix[BOSS_BOOMERANG][PLAYER] = 1;
+	m_collision_matrix[BOSS_BOOMERANG_AREA][PLAYER] = 1;
+	m_collision_matrix[DESTROYABLE_ITEM][PLAYER] = 1;
+
+	
+	return true;
+}
 
 update_status ModuleCollision::PreUpdate()
 {
@@ -52,39 +86,14 @@ update_status ModuleCollision::Update()
 			{
 				if (colliders.end() != ++it2)
 				{
-					if ((*it1)->m_collider_type != (*it2)->m_collider_type)
+					if (m_collision_matrix[(*it1)->m_collider_type][(*it2)->m_collider_type] == 1)
 					{
-						if (!((*it1)->m_collider_type == BOSS_ENEMY_HIT && (*it2)->m_collider_type == WEAPON ||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_HIT ||
-
-							(*it1)->m_collider_type == BOSS_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON ||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == BOSS_ENEMY_GRAB ||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == FOOD ||
-							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_HIT ||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == FOOD ||
-							(*it1)->m_collider_type == FOOD && (*it2)->m_collider_type == COMMON_ENEMY_GRAB ||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == WEAPON ||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_HIT ||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == WEAPON ||
-							(*it1)->m_collider_type == WEAPON && (*it2)->m_collider_type == COMMON_ENEMY_GRAB ||
-
-							(*it1)->m_collider_type == COMMON_ENEMY_GRAB && (*it2)->m_collider_type == COMMON_ENEMY_HIT ||
-							(*it1)->m_collider_type == COMMON_ENEMY_HIT && (*it2)->m_collider_type == COMMON_ENEMY_GRAB
-							)
-
-							)
+						bool collision = (*it1)->CheckCollision((*it2)->m_rect);
+						if (collision)
 						{
-							bool collision = (*it1)->CheckCollision((*it2)->m_rect);
-							if (collision)
-							{
-								//DEBUG
-								LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
-									(*it1)->OnCollision(*it1, *it2);
-							}
+							//DEBUG
+							LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
+								(*it1)->OnCollision(*it1, *it2);
 						}
 					}
 				}
@@ -166,59 +175,23 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 
 void Collider::OnCollision(Collider* collider1, Collider* collider2) const
 {
+	//collision between player and enemy
+	if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT) 
+	{
+		Collider* enemy_collider = collider1->m_entity->m_type == entity_type::ENEMY ? collider1 : collider2;
+		((Enemy*)(enemy_collider->m_entity))->m_ai_walk = false;
+		((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
+
+		App->player->m_player->m_enemy_attacking_player = ((Enemy*)(enemy_collider->m_entity));
+	}
+
 	
-	if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT) {
-		
-		App->enemies->m_enemy->m_ai_walk = false;
-		App->enemies->m_enemy->m_ai_attack = true;
-		
-	}
 
+	//if (collider1->m_collider_type == BOSS_BOOMERANG_AREA || collider2->m_collider_type == BOSS_BOOMERANG_AREA) {
+	//	//throw boomerang special attack
+	//	App->enemies->m_enemy->m_ai_walk = false;
+	//	App->enemies->m_enemy->m_ai_attack = true;
 
+	//}
 
-	/*Collider* laserCollider = nullptr;
-	Collider* playerCollider = nullptr;
-	Collider* wallCollider = nullptr;
-
-	switch (collider1->c_type)
-	{
-	case collider_type::LASER:
-	laserCollider = collider1;
-	break;
-	case collider_type::PLAYER:
-	playerCollider = collider1;
-	break;
-	case collider_type::WALL:
-	wallCollider = collider1;
-	break;
-	}
-
-	switch (collider2->c_type)
-	{
-	case collider_type::LASER:
-	laserCollider = collider2;
-	break;
-	case collider_type::PLAYER:
-	playerCollider = collider2;
-	break;
-	case collider_type::WALL:
-	wallCollider = collider2;
-	break;
-	}
-
-	if (laserCollider != nullptr)
-	{
-	laserCollider->particle->to_delete = true;
-	laserCollider->to_delete = true;
-	App->particles->AddParticle(*(App->particles->explosionParticle), laserCollider->rect.x, laserCollider->rect.y, collider_type::EXPLOSION);
-	}
-
-	if (playerCollider != nullptr)
-	{
-	destroyed = true;
-	playerCollider->to_delete = true;
-	App->particles->AddParticle(*(App->particles->explosionParticle), playerCollider->rect.x, playerCollider->rect.y, collider_type::EXPLOSION);
-
-	App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
-	}*/
 }

@@ -1274,7 +1274,7 @@
 		  "sprite" : [{"x" : 676},{"y" : 1361},{"w" : 88},{"h" : 4}]
 		}
 	],	
-	"npcItemBoomerangLeft1" :
+	"npcItemBoomerangLeft" :
 	[
 		{
 		  "sprite" : [{"x" : 2102},{"y" : 1361},{"w" : 70},{"h" : 8}]

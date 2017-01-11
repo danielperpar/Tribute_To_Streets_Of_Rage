@@ -20,13 +20,13 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	//void OnCollision(Collider* collider1, Collider* collider2);
+	
 	void UpdateColliderPosition();
 
 	SDL_Texture *graphics;
 	Player *m_player = nullptr;
 	Collider *m_player_collider;
-	Enemy *m_enemy = nullptr;
+	
 	
 	
 private:	
