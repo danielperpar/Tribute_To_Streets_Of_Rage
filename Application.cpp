@@ -7,9 +7,6 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
-
-#include "ModuleSceneIntro.h"
-#include "ModuleSceneSpace.h"
 #include "ModuleSceneRound1.h"
 #include "ModulePlayer.h"
 #include "ModuleEnemies.h"
@@ -28,8 +25,6 @@ Application::Application()
 	modules.push_back(audio = new ModuleAudio());
 
 	// Game Modules
-	modules.push_back(scene_intro = new ModuleSceneIntro(false));
-	modules.push_back(scene_space = new ModuleSceneSpace(false));
 	modules.push_back(scene_round1 = new ModuleSceneRound1(false));
 	modules.push_back(player = new ModulePlayer(true));
 	modules.push_back(enemies = new ModuleEnemies(true));

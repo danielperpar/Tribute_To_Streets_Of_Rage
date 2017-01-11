@@ -61,12 +61,6 @@
     <ClInclude Include="ModuleCollision.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneIntro.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleSceneSpace.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleSceneRound1.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
@@ -146,12 +140,6 @@
     </ClCompile>
     <ClCompile Include="ModuleCollision.cpp">
       <Filter>Core Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleSceneIntro.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleSceneSpace.cpp">
-      <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleSceneRound1.cpp">
       <Filter>Game Modules</Filter>

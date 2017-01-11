@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 
 	graphics = App->textures->Load("assets/spritesheets/axel.png");
 
-	m_player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, { 900, 100 }, 100);
+	m_player = (Player*)EntityManager::CreateEntity(graphics, "axel", entity_type::PLAYER, { 800, 150 }, 150);
 	m_player->m_state = player_state::IDLE;
 
 	SDL_Rect collider;
@@ -39,7 +39,6 @@ bool ModulePlayer::Start()
 	m_player_collider = App->collision->AddCollider(collider, m_player, collider_type::PLAYER);
 	m_player_collider->SetPos(m_player->m_position.x + m_player->m_x_ref - collider.w/2, m_player->m_depth);
 
-	
 
 	return true;
 }
@@ -66,9 +65,6 @@ update_status ModulePlayer::Update()
 	{
 		m_do_logic = false;
 		m_update_time = SDL_GetTicks();
-	
-	
-	
 	
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -224,12 +220,51 @@ update_status ModulePlayer::Update()
 		switch (m_player->m_state)
 		{
 		case player_state::IDLE : 
-			m_player->m_state = player_state::PUNCHING_COMBO_1;
+			{	
+				m_player->m_state = player_state::PUNCHING_COMBO_1;
+
+				if (m_player->m_enemy_at_range != nullptr)
+				{
+					//bool collision = m_player_collider->CheckCollision(m_player->m_enemy_at_range->m_enemy_hit_collider->m_rect);
+					bool same_depth = m_player->m_enemy_at_range->m_depth && m_player->m_depth;
+					if(same_depth)
+						m_player->m_enemy_at_range->m_state = enemy_state::DAMAGED;
+				}
+			}
 			break;
 
 		case player_state::PUNCHING_COMBO_1 :
 			if (m_player->m_enemy_alive)
-				m_player->m_state = m_player->m_continue_combo && m_player->m_upper_punch_hits == 2 ? player_state::PUNCHING_COMBO_2 : player_state::PUNCHING_COMBO_1;
+			{
+				//bool collision = m_player_collider->CheckCollision(m_player->m_enemy_at_range->m_enemy_hit_collider->m_rect);
+				
+				if(m_player->m_continue_combo && m_player->m_upper_punch_hits == 2)
+				{
+
+					if (m_player->m_enemy_at_range != nullptr)
+					{
+						bool same_depth = m_player->m_enemy_at_range->m_depth && m_player->m_depth;
+						if (same_depth)
+						{
+							m_player->m_state = player_state::PUNCHING_COMBO_2;
+							m_player->m_enemy_at_range->m_state = enemy_state::DAMAGED;
+						}
+						else
+						{
+							m_player->m_state = player_state::PUNCHING_COMBO_1;
+						}
+					}
+					else
+					{
+						m_player->m_state = player_state::PUNCHING_COMBO_1;
+					}
+
+				}
+				else
+				{
+					m_player->m_state = player_state::PUNCHING_COMBO_1;
+				}
+			}
 			else
 				m_player->m_state = player_state::IDLE;
 			
@@ -237,7 +272,29 @@ update_status ModulePlayer::Update()
 
 		case player_state::PUNCHING_COMBO_2:
 			if (m_player->m_enemy_alive)
-				m_player->m_state = m_player->m_continue_combo ? player_state::PUNCHING_COMBO_3 : player_state::PUNCHING_COMBO_2;
+			{
+				//bool collision = m_player_collider->CheckCollision(m_player->m_enemy_at_range->m_enemy_hit_collider->m_rect);
+				bool same_depth = m_player->m_enemy_at_range->m_depth == m_player->m_depth;
+				
+				if (m_player->m_continue_combo)
+				{
+					if (m_player->m_enemy_at_range != nullptr && same_depth)
+					{
+						m_player->m_state = player_state::PUNCHING_COMBO_3;
+						m_player->m_enemy_at_range->m_state = enemy_state::DAMAGED;
+	
+					}
+					else
+					{
+						m_player->m_state = player_state::PUNCHING_COMBO_1;
+					}
+
+				}
+				else
+				{
+					m_player->m_state = player_state::PUNCHING_COMBO_1;
+				}
+			}
 			else
 				m_player->m_state = player_state::IDLE;
 			
@@ -379,6 +436,7 @@ update_status ModulePlayer::Update()
 				m_player->m_current_animation = &(m_player->m_punch_combo_left3);
 
 			m_player->m_restart_animation = false;
+			
 		}
 
 		if (m_player->m_current_animation == &(m_player->m_punch_combo_right3))
@@ -396,6 +454,8 @@ update_status ModulePlayer::Update()
 			m_player->m_continue_combo = false;
 			m_player->m_combo_timer = 0.0f;
 			m_player->m_state = player_state::IDLE;
+			
+			
 		}
 
 	}
@@ -781,7 +841,14 @@ update_status ModulePlayer::Update()
 	{
 		if (m_player->m_face_right == true)
 			m_player->m_face_right = false;
+
 		
+		if (m_player->m_position.x < m_player->m_min_screen_pos_x)
+		{
+			m_player->m_position.x = m_player->m_min_screen_pos_x;
+		}
+		
+
 		if (m_player->m_enemy_to_grab == true)
 		{
 			m_player->m_state = player_state::GRAB;
@@ -839,6 +906,11 @@ update_status ModulePlayer::Update()
 	{
 		if (m_player->m_face_right == false)
 			m_player->m_face_right = true;
+
+		if (m_player->m_position.x > m_player->m_max_screen_pos_x)
+		{
+			m_player->m_position.x = m_player->m_max_screen_pos_x;
+		}
 		
 		if (m_player->m_enemy_to_grab == true)
 		{
@@ -895,6 +967,10 @@ update_status ModulePlayer::Update()
 	{
 		if (m_player->m_state == player_state::WALKING || m_player->m_state == player_state::IDLE)
 		{
+			if (m_player->m_position.y < m_player->m_min_screen_pos_y) {
+				m_player->m_position.y = m_player->m_min_screen_pos_y;
+			}
+
 			m_player->m_position.y -= (int)m_player->m_speed;
 			m_player->m_depth = m_player->m_position.y;
 			UpdateColliderPosition();
@@ -969,6 +1045,10 @@ update_status ModulePlayer::Update()
 	{
 		if (m_player->m_state == player_state::WALKING || m_player->m_state == player_state::IDLE)
 		{
+			if (m_player->m_position.y > m_player->m_max_screen_pos_y) {
+				m_player->m_position.y = m_player->m_max_screen_pos_y;
+			}
+
 			m_player->m_position.y += (int)m_player->m_speed;
 			m_player->m_depth = m_player->m_position.y;
 			UpdateColliderPosition();

@@ -58,7 +58,7 @@ public:
 
 	bool m_jump_up = true;
 	iPoint m_jump_start_pos;
-	float m_jump_speed = 2.0f;
+	float m_jump_speed = 1.0f;
 	int m_max_jump_height = 36;
 	bool m_jumping = false;
 
@@ -78,8 +78,15 @@ public:
 
 	bool m_restart_animation = true;
 
+	bool m_float_attack = false;
+
+	int m_max_screen_pos_y = 150;
+	int m_min_screen_pos_y = 90;
+	int m_max_screen_pos_x = 3870;
+	int m_min_screen_pos_x = 700;
+
 	//updated by the colision module
-	bool m_enemy_at_range = false;
+	Enemy *m_enemy_at_range = nullptr;
 	bool m_enemy_to_grab = false;
 	bool m_enemy_alive = true;
 	bool m_dead = false;

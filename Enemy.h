@@ -19,7 +19,11 @@ enum class enemy_state
 	WHIP_ATTACK,
 	KICK,
 	THROW_BOOMERANG,
-	RECOVER_BOOMERANG
+	RECOVER_BOOMERANG,
+	DAMAGED,
+	DAMAGED_FLOATING,
+	UP,
+	DEAD
 	
 };
 
@@ -152,6 +156,15 @@ public:
 	
 	Animation m_npc_boomerang_shadow_right;
 	Animation m_npc_boomerang_shadow_left;
+
+	Animation m_npc_garcia_damage_received_right;
+	Animation m_npc_garcia_damage_received_left;
+
+	Animation m_npc_garcia_down_right;
+	Animation m_npc_garcia_down_left;
+
+	Animation m_npc_garcia_up_right;
+	Animation m_npc_garcia_up_left;
 
 	void AdvanceAnimation(size_t initial_sprite_duration, Animation *next_anim_sprite, bool restart_animation);
 

@@ -55,8 +55,9 @@ bool ModuleEnemies::Start()
 	m_enemy1->m_enemy_hit_collider = hit_collider;
 
 
+
 	//Enemy2
-	m_enemy2 = (Enemy*)EntityManager::CreateEntity(graphics, "garcia_knife", entity_type::ENEMY, { 700, 100 }, 100);
+	/*m_enemy2 = (Enemy*)EntityManager::CreateEntity(graphics, "garcia_knife", entity_type::ENEMY, { 700, 100 }, 100);
 	m_enemy2->m_state = enemy_state::IDLE;
 	m_enemy2->m_ai_controller.m_ai_owner_enemy = m_enemy2;
 	m_enemy2->m_ai_controller.m_player = App->player->m_player;
@@ -77,8 +78,11 @@ bool ModuleEnemies::Start()
 	hit_rect_enemy_2.h = 63;
 	Collider *m_enemy2_hit_collider = App->collision->AddCollider(hit_rect_enemy_2, m_enemy2, collider_type::COMMON_ENEMY_HIT);
 	m_enemy2_hit_collider->SetPos(m_enemy2->m_position.x + m_enemy2->m_x_ref - m_enemy2_hit_collider->m_rect.w / 2, m_enemy2->m_depth);
-	m_enemy2->m_enemy_hit_collider = m_enemy2_hit_collider;
+	m_enemy2->m_enemy_hit_collider = m_enemy2_hit_collider;*/
 
+
+
+	//Enemy3
 	/*m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "punky", entity_type::ENEMY, { 1000, 100 }, 100);
 	m_enemy->m_state = enemy_state::IDLE;
 	m_enemy->m_ai_controller.m_enemy = m_enemy;
@@ -99,6 +103,8 @@ bool ModuleEnemies::Start()
 	m_enemy_hit_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_HIT);
 	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);*/
 
+
+	//Enemy4
 	/*m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "nora", entity_type::ENEMY, { 1000, 100 }, 100);
 	m_enemy->m_state = enemy_state::IDLE;
 	m_enemy->m_ai_controller.m_enemy = m_enemy;
@@ -119,6 +125,8 @@ bool ModuleEnemies::Start()
 	m_enemy_hit_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_HIT);
 	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);*/
 
+
+	//Enemy5
 	/*m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "antonio", entity_type::ENEMY, { 1000, 100 }, 100);
 	m_enemy->m_state = enemy_state::IDLE;
 	m_enemy->m_ai_controller.m_enemy = m_enemy;
@@ -537,6 +545,63 @@ update_status ModuleEnemies::Update()
 				}
 			}
 
+
+			if (enemy->m_state == enemy_state::DAMAGED)
+			{
+				if (!strcmp(enemy->m_name, "garcia"))
+				{
+					enemy->m_ai_walk = false;
+					enemy->m_ai_attack = false;
+
+					if (m_player->m_float_attack == false) {
+						if (enemy->m_face_right)
+							enemy->m_current_animation = &(enemy->m_npc_garcia_damage_received_right);
+						else
+							enemy->m_current_animation = &(enemy->m_npc_garcia_damage_received_left);
+
+						if (enemy->m_current_animation->Finished())
+						{
+							enemy->m_current_animation->Reset();
+							enemy->m_state = enemy_state::WALKING;
+							enemy->m_ai_walk = true;
+						}
+					}
+
+					if (m_player->m_float_attack == true)
+					{
+						if (enemy->m_face_right)
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_down_right);
+							if (enemy->m_current_animation->Finished())
+							{
+								if (enemy->m_dead == false)
+								{
+									enemy->m_current_animation->Reset();
+									enemy->m_state = enemy_state::UP;
+									enemy->m_current_animation = &(enemy->m_npc_garcia_up_right);
+								}
+							}
+
+						}
+						if (m_player->m_face_right == false)
+						{
+							enemy->m_current_animation = &(enemy->m_npc_garcia_down_left);
+							if (enemy->m_current_animation->Finished())
+							{
+								if (enemy->m_dead == false)
+								{
+									enemy->m_current_animation->Reset();
+									enemy->m_state = enemy_state::UP;
+									enemy->m_current_animation = &(enemy->m_npc_garcia_up_left);
+								}
+							}
+						}
+
+					}
+				}
+			}
+
+
 			//Only garcia enters punch1,punch2 states
 			if (enemy->m_state == enemy_state::PUNCH1)
 			{
@@ -925,7 +990,6 @@ update_status ModuleEnemies::Update()
 			App->renderer->Blit((*it)->m_texture, (*it)->m_position.x, (*it)->m_position.y, &(((Enemy*)(*it))->m_current_animation->GetCurrentFrame()));
 		}
 	}
-	//App->renderer->Blit(enemy->m_texture, enemy->m_position.x, enemy->m_position.y, &(enemy->m_current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
 }

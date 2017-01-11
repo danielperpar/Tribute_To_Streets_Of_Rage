@@ -26,6 +26,9 @@ public:
 public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_Rect camera;
+
+	int m_max_screen_pos_x = 3870;
+	int m_min_screen_pos_x = 700;
 };
 
 #endif // __MODULERENDER_H__

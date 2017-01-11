@@ -183,8 +183,10 @@ void Collider::OnCollision(Collider* collider1, Collider* collider2) const
 		((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
 
 		App->player->m_player->m_enemy_attacking_player = ((Enemy*)(enemy_collider->m_entity));
+		App->player->m_player->m_enemy_at_range = ((Enemy*)(enemy_collider->m_entity));
 	}
 
+	
 	
 
 	//if (collider1->m_collider_type == BOSS_BOOMERANG_AREA || collider2->m_collider_type == BOSS_BOOMERANG_AREA) {

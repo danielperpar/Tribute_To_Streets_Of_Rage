@@ -48,6 +48,38 @@ Enemy::Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint po
 		m_npc_garcia_punch_left2.speed = 0.1f;
 		Utilities::free_list(m_animation_list);
 
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaDamageReceivedRight", m_animation_list, m_npc_garcia_damage_received_right);
+		m_npc_garcia_damage_received_right.loop = false;
+		m_npc_garcia_damage_received_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaDamageReceivedLeft", m_animation_list, m_npc_garcia_damage_received_left);
+		m_npc_garcia_damage_received_left.loop = false;
+		m_npc_garcia_damage_received_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaDownRight", m_animation_list, m_npc_garcia_down_right);
+		m_npc_garcia_down_right.loop = false;
+		m_npc_garcia_down_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaDownLeft", m_animation_list, m_npc_garcia_down_left);
+		m_npc_garcia_down_left.loop = false;
+		m_npc_garcia_down_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaUpRight", m_animation_list, m_npc_garcia_up_right);
+		m_npc_garcia_up_right.loop = false;
+		m_npc_garcia_up_right.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+		JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaUpLeft", m_animation_list, m_npc_garcia_up_left);
+		m_npc_garcia_up_left.loop = false;
+		m_npc_garcia_up_left.speed = 0.1f;
+		Utilities::free_list(m_animation_list);
+
+
+
 	}
 
 	if (!strcmp(name, "garcia_knife"))
