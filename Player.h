@@ -80,15 +80,8 @@ public:
 
 	bool m_float_attack = false;
 
-	int m_max_screen_pos_y = 150;
-	int m_min_screen_pos_y = 90;
-	int m_max_screen_pos_x = 3870;
-	int m_min_screen_pos_x = 700;
+	bool m_looking_each_other = false;
 
-	//updated by the colision module
-	Enemy *m_enemy_at_range = nullptr;
-	bool m_enemy_to_grab = false;
-	bool m_enemy_alive = true;
 	bool m_dead = false;
 	int m_life = 100;
 	

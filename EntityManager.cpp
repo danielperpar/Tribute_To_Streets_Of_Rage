@@ -16,7 +16,16 @@ Entity* EntityManager::CreateEntity(SDL_Texture *texture, const char *name, enti
 	case entity_type::DESTROYABLE_ITEM:
 		ret = new DestroyableItem(texture, name, type, position, depth);
 		break;
-	case entity_type::ENEMY:
+	case entity_type::GARCIA:
+		ret = new Enemy(texture, name, type, position, depth);
+		break;
+	case entity_type::GARCIA_KNIFE:
+		ret = new Enemy(texture, name, type, position, depth);
+		break;
+	case entity_type::NORA:
+		ret = new Enemy(texture, name, type, position, depth);
+		break;
+	case entity_type::ANTONIO:
 		ret = new Enemy(texture, name, type, position, depth);
 		break;
 	case entity_type::FOOD:

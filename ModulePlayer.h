@@ -22,6 +22,7 @@ public:
 	bool CleanUp();
 	
 	void UpdateColliderPosition();
+	bool LookingEachOther(Enemy *enemy);
 
 	SDL_Texture *graphics;
 	Player *m_player = nullptr;

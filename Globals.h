@@ -22,6 +22,7 @@ enum collider_type
 {
 	COMMON_ENEMY_HIT,
 	COMMON_ENEMY_GRAB,
+	COMMON_ENEMY_RANGED_ATTACK,
 	BOSS_ENEMY_HIT,
 	BOSS_ENEMY_GRAB,
 	WEAPON,
@@ -65,5 +66,11 @@ typedef unsigned int uint;
 #define FULLSCREEN false
 #define VSYNC true
 #define TITLE "Tribute to Streets of Rage"
+
+//Player movement limits
+#define MIN_Y_POSITION 90
+#define MAX_Y_POSITION 150
+#define MIN_X_POSITION 700
+#define MAX_X_POSITION 3870
 
 #endif //__GLOBALS_H__

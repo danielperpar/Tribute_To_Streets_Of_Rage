@@ -9,7 +9,10 @@ enum class entity_type
 	WEAPON,
 	DESTROYABLE_ITEM,
 	PLAYER,
-	ENEMY,
+	GARCIA,
+	GARCIA_KNIFE,
+	NORA,
+	ANTONIO,
 	PARTICLE
 };
 

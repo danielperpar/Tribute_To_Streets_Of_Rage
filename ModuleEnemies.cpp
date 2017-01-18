@@ -29,30 +29,30 @@ bool ModuleEnemies::Start()
 	m_player = App->player->m_player;
 
 	//Enemy1
-	m_enemy1 = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 1000, 100 }, 100);
-	m_enemy1->m_state = enemy_state::IDLE;
-	m_enemy1->m_ai_controller.m_ai_owner_enemy = m_enemy1;
-	m_enemy1->m_ai_controller.m_player = App->player->m_player;
+	m_garcia1 = (Enemy*)EntityManager::CreateEntity(graphics, "garcia", entity_type::GARCIA, { 1000, 100 }, 100);
+	m_garcia1->m_state = enemy_state::IDLE;
+	m_garcia1->m_ai_controller.m_ai_owner_enemy = m_garcia1;
+	m_garcia1->m_ai_controller.m_player = App->player->m_player;
 	
-	SDL_Rect grab_rect_enemy1;
-	grab_rect_enemy1.x = 0;
-	grab_rect_enemy1.y = 0;
-	grab_rect_enemy1.w = 15;
-	grab_rect_enemy1.h = 63;
+	SDL_Rect grab_rect_garcia1;
+	grab_rect_garcia1.x = 0;
+	grab_rect_garcia1.y = 0;
+	grab_rect_garcia1.w = 15;
+	grab_rect_garcia1.h = 63;
 	
-	Collider *grab_collider = App->collision->AddCollider(grab_rect_enemy1, m_enemy1, collider_type::COMMON_ENEMY_GRAB);
-	grab_collider->SetPos(m_enemy1->m_position.x + m_enemy1->m_x_ref - grab_collider->m_rect.w / 2, m_enemy1->m_depth);
-	m_enemy1->m_enemy_grab_collider = grab_collider;
+	Collider *grab_collider_garcia1 = App->collision->AddCollider(grab_rect_garcia1, m_garcia1, collider_type::COMMON_ENEMY_GRAB);
+	grab_collider_garcia1->SetPos(m_garcia1->m_position.x + m_garcia1->m_x_ref - grab_collider_garcia1->m_rect.w / 2, m_garcia1->m_depth);
+	m_garcia1->m_enemy_grab_collider = grab_collider_garcia1;
 	
-	SDL_Rect hit_rect_enemy1;
-	hit_rect_enemy1.x = 0;
-	hit_rect_enemy1.y = 0;
-	hit_rect_enemy1.w = 30;
-	hit_rect_enemy1.h = 63;
+	SDL_Rect hit_rect_garcia1;
+	hit_rect_garcia1.x = 0;
+	hit_rect_garcia1.y = 0;
+	hit_rect_garcia1.w = 30;
+	hit_rect_garcia1.h = 63;
 
-	Collider *hit_collider = App->collision->AddCollider(hit_rect_enemy1, m_enemy1, collider_type::COMMON_ENEMY_HIT);
-	hit_collider->SetPos(m_enemy1->m_position.x + m_enemy1->m_x_ref - hit_collider->m_rect.w / 2, m_enemy1->m_depth);
-	m_enemy1->m_enemy_hit_collider = hit_collider;
+	Collider *hit_collider_garcia1 = App->collision->AddCollider(hit_rect_garcia1, m_garcia1, collider_type::COMMON_ENEMY_HIT);
+	hit_collider_garcia1->SetPos(m_garcia1->m_position.x + m_garcia1->m_x_ref - hit_collider_garcia1->m_rect.w / 2, m_garcia1->m_depth);
+	m_garcia1->m_enemy_hit_collider = hit_collider_garcia1;
 
 
 
@@ -81,27 +81,41 @@ bool ModuleEnemies::Start()
 	m_enemy2->m_enemy_hit_collider = m_enemy2_hit_collider;*/
 
 
-
 	//Enemy3
-	/*m_enemy = (Enemy*)EntityManager::CreateEntity(graphics, "punky", entity_type::ENEMY, { 1000, 100 }, 100);
-	m_enemy->m_state = enemy_state::IDLE;
-	m_enemy->m_ai_controller.m_enemy = m_enemy;
-	m_enemy->m_ai_controller.m_player = App->player->m_player;
+	/*m_punky1 = (Enemy*)EntityManager::CreateEntity(graphics, "punky", entity_type::ENEMY, { 1000, 100 }, 100);
+	m_punky1->m_state = enemy_state::IDLE;
+	m_punky1->m_ai_controller.m_ai_owner_enemy = m_punky1;
+	m_punky1->m_ai_controller.m_player = App->player->m_player;
 
-	SDL_Rect collider;
-	collider.x = 0;
-	collider.y = 0;
-	collider.w = 15;
-	collider.h = 63;
-	m_enemy_grab_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_GRAB);
-	m_enemy_grab_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_grab_collider->m_rect.w / 2, m_enemy->m_depth);
+	SDL_Rect grab_rect_punky1;
+	grab_rect_punky1.x = 0;
+	grab_rect_punky1.y = 0;
+	grab_rect_punky1.w = 15;
+	grab_rect_punky1.h = 63;
+	Collider *grab_collider_punky1 = App->collision->AddCollider(grab_rect_punky1, nullptr, collider_type::COMMON_ENEMY_GRAB);
+	grab_collider_punky1->SetPos(m_punky1->m_position.x + m_punky1->m_x_ref - grab_collider_punky1->m_rect.w / 2, m_punky1->m_depth);
+	m_punky1->m_enemy_grab_collider = grab_collider_punky1;
 
-	collider.x = 0;
-	collider.y = 0;
-	collider.w = 130;
-	collider.h = 63;
-	m_enemy_hit_collider = App->collision->AddCollider(collider, nullptr, collider_type::COMMON_ENEMY_HIT);
-	m_enemy_hit_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_hit_collider->m_rect.w / 2, m_enemy->m_depth);*/
+
+	SDL_Rect hit_rect_punky1;
+	hit_rect_punky1.x = 0;
+	hit_rect_punky1.y = 0;
+	hit_rect_punky1.w = 35;
+	hit_rect_punky1.h = 63;
+	Collider *hit_collider_punky1 = App->collision->AddCollider(hit_rect_punky1, nullptr, collider_type::COMMON_ENEMY_HIT);
+	hit_collider_punky1->SetPos(m_punky1->m_position.x + m_punky1->m_x_ref - hit_collider_punky1->m_rect.w / 2, m_punky1->m_depth);
+	m_punky1->m_enemy_hit_collider = hit_collider_punky1;
+
+
+	SDL_Rect ranged_attack_rect_punky1;
+	ranged_attack_rect_punky1.x = 0;
+	ranged_attack_rect_punky1.y = 0;
+	ranged_attack_rect_punky1.w = 130;
+	ranged_attack_rect_punky1.h = 63;
+	Collider *ranged_attack_collider_punky1 = App->collision->AddCollider(ranged_attack_rect_punky1, nullptr, collider_type::COMMON_ENEMY_RANGED_ATTACK);
+	ranged_attack_collider_punky1->SetPos(m_punky1->m_position.x + m_punky1->m_x_ref - ranged_attack_collider_punky1->m_rect.w / 2, m_punky1->m_depth);
+	m_punky1->m_enemy_ranged_attack_collider;*/
+	
 
 
 	//Enemy4
@@ -183,7 +197,7 @@ update_status ModuleEnemies::Update()
 		m_update_time = SDL_GetTicks();
 
 	
-		for (auto it = App->entities.begin(); it != App->entities.end(); it++)
+	for (auto it = App->entities.begin(); it != App->entities.end(); it++)
 	{
 		if ((*it)->m_type == entity_type::ENEMY)
 		{
@@ -206,6 +220,7 @@ update_status ModuleEnemies::Update()
 								enemy->m_state = enemy_state::PUNCH1;
 								enemy->m_floating_attack = false;
 								m_player->m_state = player_state::DAMAGED;
+								m_player->m_enemy_attacking_player = enemy;
 							}
 							else
 							{
@@ -222,6 +237,7 @@ update_status ModuleEnemies::Update()
 								enemy->m_state = enemy_state::PUNCH2;
 								enemy->m_floating_attack = true;
 								m_player->m_state = player_state::DAMAGED;
+								m_player->m_enemy_attacking_player = enemy;
 							}
 								
 							else
@@ -244,6 +260,7 @@ update_status ModuleEnemies::Update()
 							{
 								enemy->m_state = enemy_state::KNIFE_ATTACK;
 								m_player->m_state = player_state::DAMAGED;
+								m_player->m_enemy_attacking_player = enemy;
 							}
 							else
 							{
@@ -329,13 +346,6 @@ update_status ModuleEnemies::Update()
 			//Inputs will be substituted by AI signals
 			if (enemy->m_state == enemy_state::IDLE ||
 				enemy->m_state == enemy_state::WALKING  &&
-				App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE &&
-				App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&
-				App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE &&
-				App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE &&
-				App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_IDLE &&
-				App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE &&
-				App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE &&
 				enemy->m_ai_walk == false &&
 				enemy->m_ai_attack == false)
 			{
@@ -553,7 +563,8 @@ update_status ModuleEnemies::Update()
 					enemy->m_ai_walk = false;
 					enemy->m_ai_attack = false;
 
-					if (m_player->m_float_attack == false) {
+					if (m_player->m_float_attack == false) 
+					{
 						if (enemy->m_face_right)
 							enemy->m_current_animation = &(enemy->m_npc_garcia_damage_received_right);
 						else
@@ -570,37 +581,71 @@ update_status ModuleEnemies::Update()
 					if (m_player->m_float_attack == true)
 					{
 						if (enemy->m_face_right)
-						{
 							enemy->m_current_animation = &(enemy->m_npc_garcia_down_right);
-							if (enemy->m_current_animation->Finished())
-							{
-								if (enemy->m_dead == false)
-								{
-									enemy->m_current_animation->Reset();
-									enemy->m_state = enemy_state::UP;
-									enemy->m_current_animation = &(enemy->m_npc_garcia_up_right);
-								}
-							}
-
-						}
-						if (m_player->m_face_right == false)
-						{
+						else
 							enemy->m_current_animation = &(enemy->m_npc_garcia_down_left);
-							if (enemy->m_current_animation->Finished())
+					}
+							
+					if(enemy->m_current_animation == &(enemy->m_npc_garcia_down_right))
+					{
+						if (enemy->m_current_animation->Finished())
+						{
+							if (enemy->m_dead == false)
 							{
-								if (enemy->m_dead == false)
-								{
-									enemy->m_current_animation->Reset();
-									enemy->m_state = enemy_state::UP;
-									enemy->m_current_animation = &(enemy->m_npc_garcia_up_left);
-								}
+								enemy->m_current_animation->Reset();
+								enemy->m_state = enemy_state::UP;
+								enemy->m_current_animation = &(enemy->m_npc_garcia_up_right);
 							}
 						}
-
 					}
+					if (enemy->m_current_animation == &(enemy->m_npc_garcia_down_left))
+					{
+						if (enemy->m_current_animation->Finished())
+						{
+							if (enemy->m_dead == false)
+							{
+								enemy->m_current_animation->Reset();
+								enemy->m_state = enemy_state::UP;
+								enemy->m_current_animation = &(enemy->m_npc_garcia_up_left);
+							}
+						}
+					}
+
 				}
 			}
+			
 
+			if (enemy->m_state == enemy_state::UP)
+			{
+				if (!strcmp(enemy->m_name, "garcia"))
+				{
+					if (enemy->m_face_right)
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_up_right);
+						
+						if (enemy->m_current_animation->Finished())
+						{
+							enemy->m_current_animation->Reset();
+							enemy->m_state = enemy_state::WALKING;
+							enemy->m_ai_walk = true;
+							m_player->m_float_attack = false;
+						}
+					}
+					else
+					{
+						enemy->m_current_animation = &(enemy->m_npc_garcia_up_left);
+
+						if (enemy->m_current_animation->Finished())
+						{
+							enemy->m_current_animation->Reset();
+							enemy->m_state = enemy_state::WALKING;
+							enemy->m_ai_walk = true;
+							m_player->m_float_attack = false;
+						}
+					}
+				}
+
+			}
 
 			//Only garcia enters punch1,punch2 states
 			if (enemy->m_state == enemy_state::PUNCH1)
@@ -712,6 +757,7 @@ update_status ModuleEnemies::Update()
 					{
 						if (enemy->m_allow_attack) {
 							m_player->m_state = player_state::DAMAGED;
+							m_player->m_enemy_attacking_player = enemy;
 							enemy->m_allow_attack = false;
 						}
 					}
@@ -763,6 +809,7 @@ update_status ModuleEnemies::Update()
 						{
 							m_player->m_state = player_state::DAMAGED;
 							enemy->m_allow_attack = false;
+							m_player->m_enemy_attacking_player = enemy;
 						}
 					}
 
@@ -822,6 +869,7 @@ update_status ModuleEnemies::Update()
 					{
 						if (enemy->m_allow_attack) {
 							m_player->m_state = player_state::DAMAGED;
+							m_player->m_enemy_attacking_player = enemy;
 
 						}
 					}
@@ -855,6 +903,7 @@ update_status ModuleEnemies::Update()
 					{
 						if (enemy->m_allow_attack) {
 							m_player->m_state = player_state::DAMAGED;
+							m_player->m_enemy_attacking_player = enemy;
 
 						}
 					}

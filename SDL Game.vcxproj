@@ -71,11 +71,14 @@
   <ItemGroup>
     <ClInclude Include="AIController.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Antonio.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="DestroyableItem.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Garcia.h" />
+    <ClInclude Include="GarciaKnife.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="JSONDataLoader.h" />
@@ -93,20 +96,25 @@
     <ClInclude Include="ModuleSceneRound1.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="Nora.h" />
     <ClInclude Include="parson.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="Punky.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AIController.cpp" />
+    <ClCompile Include="Antonio.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DestroyableItem.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Food.cpp" />
+    <ClCompile Include="Garcia.cpp" />
+    <ClCompile Include="GarciaKnife.cpp" />
     <ClCompile Include="JSONDataLoader.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -122,8 +130,10 @@
     <ClCompile Include="ModuleSceneRound1.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="Nora.cpp" />
     <ClCompile Include="parson.c" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Punky.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,11 +2,13 @@
 #define __ModuleCollision_H__
 
 #include <list>
+#include <set>
 #include "Module.h"
 #include "ModuleParticles.h"
 #include "Globals.h"
 
 class Entity;
+class Enemy;
 struct Collider
 {
 	SDL_Rect m_rect = { 0,0,0,0 };
@@ -51,7 +53,7 @@ private:
 	std::list<Collider*> colliders;
 	int m_collision_matrix[10][10];
 	bool debug = false;
-
+	
 	Uint32 m_time = 0;
 	Uint32 m_update_time = 0;
 	Uint32 m_dt = 10;

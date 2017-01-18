@@ -13,7 +13,6 @@ private:
 	
 	iPoint m_vector_enemy_to_player = { 0, 0 };
 	iPoint m_vector_boomerang_to_boss = { 0, 0 };
-	bool m_look_each_other = false;
 	int m_sign_x = 0;
 	int m_sign_y = 0;
 	float m_t_acum = 0.0f;

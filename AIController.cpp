@@ -43,12 +43,7 @@ void AIController::UpdateBehaviour()
 		if (m_sign_x > 0)
 			m_ai_owner_enemy->m_face_right = true;
 
-		if (m_ai_owner_enemy->m_face_right && m_player->m_face_right == false)
-			m_look_each_other = true;
-		else
-			m_look_each_other = false;
-		
-
+	
 		if (m_ai_owner_enemy->m_ai_walk == true)
 		{
 
@@ -112,12 +107,7 @@ void AIController::UpdateBehaviour()
 		if (m_sign_x > 0)
 			m_ai_owner_enemy->m_face_right = true;
 
-		if (m_ai_owner_enemy->m_face_right && m_player->m_face_right == false)
-			m_look_each_other = true;
-		else
-			m_look_each_other = false;
-
-
+		
 		if (m_ai_owner_enemy->m_ai_walk == true)
 		{
 			bool grab_condition = (
@@ -220,12 +210,7 @@ void AIController::UpdateBehaviour(Particle *boomerang, Entity *owner)
 		if (m_sign_x > 0)
 			boomerang->m_face_right = true;
 
-		if (boomerang->m_face_right && m_ai_owner_enemy->m_face_right == false)
-			m_look_each_other = true;
-		else
-			m_look_each_other = false;
-
-
+		
 		boomerang->m_position.x = (int)(boomerang->m_position.x + 2 * m_sign_x);
 		
 		//update collider position

@@ -63,6 +63,17 @@ update_status ModuleCollision::PreUpdate()
 		else
 			++it;
 	}
+	
+	//Update collisions between enemies and player
+	for (std::list<Entity*>::iterator it = App->entities.begin(); it != App->entities.end(); it++)
+	{
+		if ((*it)->m_type == entity_type::ENEMY)
+		{
+			bool collision = App->player->m_player_collider->CheckCollision(((Enemy*)*it)->m_enemy_hit_collider->m_rect);
+			if (!collision)
+				((Enemy*)*it)->m_enemy_to_hit = false;
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -92,7 +103,7 @@ update_status ModuleCollision::Update()
 						if (collision)
 						{
 							//DEBUG
-							LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
+							//LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
 								(*it1)->OnCollision(*it1, *it2);
 						}
 					}
@@ -141,8 +152,7 @@ Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, Entity *entity, col
 
 bool Collider::CheckCollision(const SDL_Rect& r) const
 {
-	// TODO 7: Create by hand (avoid consulting the internet) a simple collision test
-	// Return true if the argument and the own rectangle are intersecting
+	
 	bool collisionX = false;
 	bool collisionY = false;
 
@@ -176,14 +186,17 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 void Collider::OnCollision(Collider* collider1, Collider* collider2) const
 {
 	//collision between player and enemy
-	if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT) 
+	if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT ||
+		collider1->m_collider_type == COMMON_ENEMY_RANGED_ATTACK || collider2->m_collider_type == COMMON_ENEMY_RANGED_ATTACK
+		) 
 	{
 		Collider* enemy_collider = collider1->m_entity->m_type == entity_type::ENEMY ? collider1 : collider2;
 		((Enemy*)(enemy_collider->m_entity))->m_ai_walk = false;
 		((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
+		
 
-		App->player->m_player->m_enemy_attacking_player = ((Enemy*)(enemy_collider->m_entity));
-		App->player->m_player->m_enemy_at_range = ((Enemy*)(enemy_collider->m_entity));
+		if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK)
+			((Enemy*)(enemy_collider->m_entity))->m_enemy_to_hit = true;
 	}
 
 	

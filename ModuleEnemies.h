@@ -29,8 +29,8 @@ public:
 	Player *m_player = nullptr;
 
 	//Enemies
-	Enemy *m_enemy1 = nullptr;
-	Enemy *m_enemy2 = nullptr;
+	Enemy *m_garcia1 = nullptr;
+	Enemy *m_punky1 = nullptr;
 
 private:	
 	Uint32 m_time = 0;

@@ -11,6 +11,7 @@
 #include "EntityManager.h"
 #include "Entity.h"
 #include "ModuleEnemies.h"
+#include "AIController.h"
 
 
 
@@ -220,84 +221,68 @@ update_status ModulePlayer::Update()
 		switch (m_player->m_state)
 		{
 		case player_state::IDLE : 
-			{	
+				
 				m_player->m_state = player_state::PUNCHING_COMBO_1;
 
-				if (m_player->m_enemy_at_range != nullptr)
+				for (std::list<Entity*>::iterator it = App->entities.begin(); it != App->entities.end(); it++)
 				{
-					//bool collision = m_player_collider->CheckCollision(m_player->m_enemy_at_range->m_enemy_hit_collider->m_rect);
-					bool same_depth = m_player->m_enemy_at_range->m_depth && m_player->m_depth;
-					if(same_depth)
-						m_player->m_enemy_at_range->m_state = enemy_state::DAMAGED;
-				}
-			}
+					if ((*it)->m_type == entity_type::ENEMY)
+					{
+						Enemy* enemy = (Enemy*)*it;
+						bool look_each_other = LookingEachOther(enemy);
+
+						if (enemy->m_depth == m_player->m_depth && look_each_other && enemy->m_enemy_to_hit)
+							enemy->m_state = enemy_state::DAMAGED;
+					}
+				}	
+				
 			break;
 
 		case player_state::PUNCHING_COMBO_1 :
-			if (m_player->m_enemy_alive)
-			{
-				//bool collision = m_player_collider->CheckCollision(m_player->m_enemy_at_range->m_enemy_hit_collider->m_rect);
-				
+			
 				if(m_player->m_continue_combo && m_player->m_upper_punch_hits == 2)
 				{
 
-					if (m_player->m_enemy_at_range != nullptr)
+					for (std::list<Entity*>::iterator it = App->entities.begin(); it != App->entities.end(); it++)
 					{
-						bool same_depth = m_player->m_enemy_at_range->m_depth && m_player->m_depth;
-						if (same_depth)
+						if ((*it)->m_type == entity_type::ENEMY)
 						{
-							m_player->m_state = player_state::PUNCHING_COMBO_2;
-							m_player->m_enemy_at_range->m_state = enemy_state::DAMAGED;
-						}
-						else
-						{
-							m_player->m_state = player_state::PUNCHING_COMBO_1;
-						}
-					}
-					else
-					{
-						m_player->m_state = player_state::PUNCHING_COMBO_1;
-					}
+							Enemy* enemy = (Enemy*)*it;
 
-				}
+							bool look_each_other = LookingEachOther(enemy);
+
+							if (enemy->m_depth == m_player->m_depth && look_each_other && enemy->m_enemy_to_hit)
+							{
+								enemy->m_state = enemy_state::DAMAGED;
+								m_player->m_state = player_state::PUNCHING_COMBO_2;
+							}
+						}
+					}
+					
+				}	
 				else
 				{
-					m_player->m_state = player_state::PUNCHING_COMBO_1;
+					m_player->m_state = player_state::IDLE;
 				}
-			}
-			else
-				m_player->m_state = player_state::IDLE;
-			
 			break;
 
 		case player_state::PUNCHING_COMBO_2:
-			if (m_player->m_enemy_alive)
-			{
-				//bool collision = m_player_collider->CheckCollision(m_player->m_enemy_at_range->m_enemy_hit_collider->m_rect);
-				bool same_depth = m_player->m_enemy_at_range->m_depth == m_player->m_depth;
-				
-				if (m_player->m_continue_combo)
-				{
-					if (m_player->m_enemy_at_range != nullptr && same_depth)
-					{
-						m_player->m_state = player_state::PUNCHING_COMBO_3;
-						m_player->m_enemy_at_range->m_state = enemy_state::DAMAGED;
-	
-					}
-					else
-					{
-						m_player->m_state = player_state::PUNCHING_COMBO_1;
-					}
-
-				}
-				else
-				{
-					m_player->m_state = player_state::PUNCHING_COMBO_1;
-				}
-			}
-			else
-				m_player->m_state = player_state::IDLE;
 			
+			for (std::list<Entity*>::iterator it = App->entities.begin(); it != App->entities.end(); it++)
+			{
+				if ((*it)->m_type == entity_type::ENEMY)
+				{
+					Enemy* enemy = (Enemy*)*it;
+					bool look_each_other = LookingEachOther(enemy);
+
+					if ((*it)->m_depth == m_player->m_depth && look_each_other && enemy->m_enemy_to_hit)
+					{
+						enemy->m_state = enemy_state::DAMAGED;
+						m_player->m_state = player_state::PUNCHING_COMBO_3;
+						m_player->m_float_attack = true;
+					}
+				}
+			}	
 			break;
 		
 		case player_state::WEAPON_PIPE_IDLE:
@@ -454,8 +439,7 @@ update_status ModulePlayer::Update()
 			m_player->m_continue_combo = false;
 			m_player->m_combo_timer = 0.0f;
 			m_player->m_state = player_state::IDLE;
-			
-			
+				
 		}
 
 	}
@@ -522,61 +506,53 @@ update_status ModulePlayer::Update()
 
 	if (m_player->m_state == player_state::GRAB)
 	{
-		if (m_player->m_enemy_alive)
+		
+		if (m_player->m_face_right)
 		{
-			if (m_player->m_face_right)
-			{
-				m_player->m_current_animation = &(m_player->m_grab_right);
+			m_player->m_current_animation = &(m_player->m_grab_right);
 
-				if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-					m_player->m_state = player_state::IDLE;
-			}
-			else
-			{
-				m_player->m_current_animation = &(m_player->m_grab_left);
-
-				if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-					m_player->m_state = player_state::IDLE;
-			}
-
-			if (m_player->m_state != player_state::IDLE)
-			{
-				if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-				{
-					if (m_player->m_continue_combo_grab == false)
-					{
-						m_player->m_state = player_state::GRAB_KICK;
-						m_player->m_kick_hits++;
-						if (m_player->m_kick_hits == 3)
-						{
-							m_player->m_continue_combo_grab = true;
-							m_player->m_kick_hits = 0;
-						}
-					}
-
-					if (m_player->m_continue_combo_grab == true)
-						m_player->m_state = player_state::GRAB_HEAD_HIT;
-				}
-
-
-				if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
-				{
-					m_player->m_jump_start_pos = m_player->m_position;
-					m_player->m_timer_count = 0.0;
-
-					if (m_player->m_face_right)
-						m_player->m_state = player_state::GRAB_AIR_SPIN_RIGHT;
-					else
-						m_player->m_state = player_state::GRAB_AIR_SPIN_LEFT;
-				}
-			}
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+				m_player->m_state = player_state::IDLE;
 		}
 		else
 		{
-			m_player->m_state = player_state::IDLE;
-			if (m_player->m_kick_hits == 2)
-				m_player->m_kick_hits = 0;
-		}	
+			m_player->m_current_animation = &(m_player->m_grab_left);
+
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+				m_player->m_state = player_state::IDLE;
+		}
+
+		if (m_player->m_state != player_state::IDLE)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+			{
+				if (m_player->m_continue_combo_grab == false)
+				{
+					m_player->m_state = player_state::GRAB_KICK;
+					m_player->m_kick_hits++;
+					if (m_player->m_kick_hits == 3)
+					{
+						m_player->m_continue_combo_grab = true;
+						m_player->m_kick_hits = 0;
+					}
+				}
+
+				if (m_player->m_continue_combo_grab == true)
+					m_player->m_state = player_state::GRAB_HEAD_HIT;
+			}
+
+
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+			{
+				m_player->m_jump_start_pos = m_player->m_position;
+				m_player->m_timer_count = 0.0;
+
+				if (m_player->m_face_right)
+					m_player->m_state = player_state::GRAB_AIR_SPIN_RIGHT;
+				else
+					m_player->m_state = player_state::GRAB_AIR_SPIN_LEFT;
+			}
+		}
 	}
 
 	if (m_player->m_state == player_state::GRAB_KICK)
@@ -842,19 +818,16 @@ update_status ModulePlayer::Update()
 		if (m_player->m_face_right == true)
 			m_player->m_face_right = false;
 
-		
-		if (m_player->m_position.x < m_player->m_min_screen_pos_x)
-		{
-			m_player->m_position.x = m_player->m_min_screen_pos_x;
-		}
-		
+		if (m_player->m_position.x < MIN_X_POSITION)
+			m_player->m_position.x = MIN_X_POSITION;
 
+		/*
 		if (m_player->m_enemy_to_grab == true)
 		{
 			m_player->m_state = player_state::GRAB;
 			m_player->m_restart_animation = true;
 		}
-		
+		*/
 		if (m_player->m_state == player_state::JUMPING || m_player->m_state == player_state::JUMPING_KICKING)
 		{
 			m_player->m_position.x -= (int)m_player->m_speed;
@@ -907,17 +880,16 @@ update_status ModulePlayer::Update()
 		if (m_player->m_face_right == false)
 			m_player->m_face_right = true;
 
-		if (m_player->m_position.x > m_player->m_max_screen_pos_x)
-		{
-			m_player->m_position.x = m_player->m_max_screen_pos_x;
-		}
+		if (m_player->m_position.x > MAX_X_POSITION)
+			m_player->m_position.x = MAX_X_POSITION;
 		
+		/*
 		if (m_player->m_enemy_to_grab == true)
 		{
 			m_player->m_state = player_state::GRAB;
 			m_player->m_restart_animation = true;
 		}
-		
+		*/
 		if (m_player->m_state == player_state::JUMPING || m_player->m_state == player_state::JUMPING_KICKING)
 		{
 			m_player->m_position.x += (int)m_player->m_speed;
@@ -967,9 +939,9 @@ update_status ModulePlayer::Update()
 	{
 		if (m_player->m_state == player_state::WALKING || m_player->m_state == player_state::IDLE)
 		{
-			if (m_player->m_position.y < m_player->m_min_screen_pos_y) {
-				m_player->m_position.y = m_player->m_min_screen_pos_y;
-			}
+			if (m_player->m_position.y < MIN_Y_POSITION) 
+				m_player->m_position.y = MIN_Y_POSITION;
+			
 
 			m_player->m_position.y -= (int)m_player->m_speed;
 			m_player->m_depth = m_player->m_position.y;
@@ -1045,9 +1017,9 @@ update_status ModulePlayer::Update()
 	{
 		if (m_player->m_state == player_state::WALKING || m_player->m_state == player_state::IDLE)
 		{
-			if (m_player->m_position.y > m_player->m_max_screen_pos_y) {
-				m_player->m_position.y = m_player->m_max_screen_pos_y;
-			}
+			if (m_player->m_position.y > MAX_Y_POSITION) 
+				m_player->m_position.y = MAX_Y_POSITION;
+	
 
 			m_player->m_position.y += (int)m_player->m_speed;
 			m_player->m_depth = m_player->m_position.y;
@@ -1299,48 +1271,140 @@ update_status ModulePlayer::Update()
 	{
 		//In case player is hit while jumping, speed returns to initial speed
 		m_player->m_speed = 1.0f;
+		Enemy* enemy = m_player->m_enemy_attacking_player;
 		
-		Enemy* m_enemy = App->player->m_player->m_enemy_attacking_player;
-	
-		if (m_enemy->m_face_right)
-			m_player->m_face_right = false;
+			
+			if (enemy->m_face_right)
+				m_player->m_face_right = false;
 
-		if (m_enemy->m_face_right == false)
-			m_player->m_face_right = true;
+			if (enemy->m_face_right == false)
+				m_player->m_face_right = true;
 
 
-		if (!strcmp(m_enemy->m_name, "garcia"))
-		{
-			if (m_enemy->m_floating_attack == false)
+			if (!strcmp(enemy->m_name, "garcia"))
 			{
-				if (m_player->m_face_right)
+				if (enemy->m_floating_attack == false)
 				{
-					m_player->m_current_animation = &(m_player->m_damage_received_right);
-					if (m_player->m_current_animation->Finished())
+					if (m_player->m_face_right)
 					{
-						if (m_player->m_dead == false) 
+						m_player->m_current_animation = &(m_player->m_damage_received_right);
+						if (m_player->m_current_animation->Finished())
 						{
-							m_player->m_current_animation->Reset();
-							m_player->m_state = player_state::IDLE;
-							m_player->m_current_animation = &(m_player->m_idle_right1);
+							if (m_player->m_dead == false)
+							{
+								m_player->m_current_animation->Reset();
+								m_player->m_state = player_state::IDLE;
+								m_player->m_current_animation = &(m_player->m_idle_right1);
+								
+							}
+						}
+					}
+					if (m_player->m_face_right == false)
+					{
+						m_player->m_current_animation = &(m_player->m_damage_received_left);
+						if (m_player->m_current_animation->Finished())
+						{
+							if (m_player->m_dead == false)
+							{
+								m_player->m_current_animation->Reset();
+								m_player->m_state = player_state::IDLE;
+								m_player->m_current_animation = &(m_player->m_idle_left1);
+								
+							}
 						}
 					}
 				}
-				if (m_player->m_face_right == false)
+				if (enemy->m_floating_attack == true)
 				{
+					if (m_player->m_face_right)
+					{
+						m_player->m_current_animation = &(m_player->m_down_right);
+						if (m_player->m_current_animation->Finished())
+						{
+							if (m_player->m_dead == false)
+							{
+								m_player->m_current_animation->Reset();
+								m_player->m_state = player_state::UP;
+								m_player->m_current_animation = &(m_player->m_up_right);
+								
+							}
+						}
+
+					}
+					if (m_player->m_face_right == false)
+					{
+						m_player->m_current_animation = &(m_player->m_down_left);
+						if (m_player->m_current_animation->Finished())
+						{
+							if (m_player->m_dead == false)
+							{
+								m_player->m_current_animation->Reset();
+								m_player->m_state = player_state::UP;
+								m_player->m_current_animation = &(m_player->m_up_left);
+								
+							}
+						}
+					}
+				}
+			}
+
+			if (!strcmp(enemy->m_name, "garcia_knife"))
+			{
+				if (m_player->m_face_right)
+					m_player->m_current_animation = &(m_player->m_damage_received_right);
+				else
 					m_player->m_current_animation = &(m_player->m_damage_received_left);
+
+				if (m_player->m_current_animation->Finished())
+				{
+					if (m_player->m_dead == false)
+					{
+						m_player->m_current_animation->Reset();
+						m_player->m_state = player_state::IDLE;
+						
+
+						if (m_player->m_face_right)
+							m_player->m_current_animation = &(m_player->m_idle_right1);
+						else
+							m_player->m_current_animation = &(m_player->m_idle_left1);
+					}
+				}
+			}
+
+			if (!strcmp(enemy->m_name, "punky"))
+			{
+				if (m_player->m_face_right)
+				{
+					m_player->m_current_animation = &(m_player->m_down_right);
 					if (m_player->m_current_animation->Finished())
 					{
 						if (m_player->m_dead == false)
 						{
 							m_player->m_current_animation->Reset();
-							m_player->m_state = player_state::IDLE;
-							m_player->m_current_animation = &(m_player->m_idle_left1);
+							m_player->m_state = player_state::UP;
+							m_player->m_current_animation = &(m_player->m_up_right);
+							
 						}
 					}
-				}	
+
+				}
+				if (m_player->m_face_right == false)
+				{
+					m_player->m_current_animation = &(m_player->m_down_left);
+					if (m_player->m_current_animation->Finished())
+					{
+						if (m_player->m_dead == false)
+						{
+							m_player->m_current_animation->Reset();
+							m_player->m_state = player_state::UP;
+							m_player->m_current_animation = &(m_player->m_up_left);
+							
+						}
+					}
+				}
 			}
-			if (m_enemy->m_floating_attack == true)
+
+			if (!strcmp(enemy->m_name, "nora"))
 			{
 				if (m_player->m_face_right)
 				{
@@ -1354,7 +1418,7 @@ update_status ModulePlayer::Update()
 							m_player->m_current_animation = &(m_player->m_up_right);
 						}
 					}
-					
+
 				}
 				if (m_player->m_face_right == false)
 				{
@@ -1370,114 +1434,29 @@ update_status ModulePlayer::Update()
 					}
 				}
 			}
-		}
 
-		if (!strcmp(m_enemy->m_name, "garcia_knife"))
-		{
-			if (m_player->m_face_right)
-				m_player->m_current_animation = &(m_player->m_damage_received_right);
-			else
-				m_player->m_current_animation = &(m_player->m_damage_received_left);
-
-			if (m_player->m_current_animation->Finished())
+			if (!strcmp(enemy->m_name, "antonio"))
 			{
-				if (m_player->m_dead == false)
-				{
-					m_player->m_current_animation->Reset();
-					m_player->m_state = player_state::IDLE;
+				if (m_player->m_face_right)
+					m_player->m_current_animation = &(m_player->m_damage_received_right);
+				else
+					m_player->m_current_animation = &(m_player->m_damage_received_left);
 
-					if (m_player->m_face_right)
-						m_player->m_current_animation = &(m_player->m_idle_right1);
-					else
-						m_player->m_current_animation = &(m_player->m_idle_left1);
-				}
-			}	
-		}
-
-		if (!strcmp(m_enemy->m_name, "punky"))
-		{
-			if (m_player->m_face_right)
-			{
-				m_player->m_current_animation = &(m_player->m_down_right);
 				if (m_player->m_current_animation->Finished())
 				{
 					if (m_player->m_dead == false)
 					{
 						m_player->m_current_animation->Reset();
-						m_player->m_state = player_state::UP;
-						m_player->m_current_animation = &(m_player->m_up_right);
-					}
-				}
+						m_player->m_state = player_state::IDLE;
 
-			}
-			if (m_player->m_face_right == false)
-			{
-				m_player->m_current_animation = &(m_player->m_down_left);
-				if (m_player->m_current_animation->Finished())
-				{
-					if (m_player->m_dead == false)
-					{
-						m_player->m_current_animation->Reset();
-						m_player->m_state = player_state::UP;
-						m_player->m_current_animation = &(m_player->m_up_left);
+						if (m_player->m_face_right)
+							m_player->m_current_animation = &(m_player->m_idle_right1);
+						else
+							m_player->m_current_animation = &(m_player->m_idle_left1);
 					}
 				}
 			}
-		}
-
-		if (!strcmp(m_enemy->m_name, "nora"))
-		{
-			if (m_player->m_face_right)
-			{
-				m_player->m_current_animation = &(m_player->m_down_right);
-				if (m_player->m_current_animation->Finished())
-				{
-					if (m_player->m_dead == false)
-					{
-						m_player->m_current_animation->Reset();
-						m_player->m_state = player_state::UP;
-						m_player->m_current_animation = &(m_player->m_up_right);
-					}
-				}
-
-			}
-			if (m_player->m_face_right == false)
-			{
-				m_player->m_current_animation = &(m_player->m_down_left);
-				if (m_player->m_current_animation->Finished())
-				{
-					if (m_player->m_dead == false)
-					{
-						m_player->m_current_animation->Reset();
-						m_player->m_state = player_state::UP;
-						m_player->m_current_animation = &(m_player->m_up_left);
-					}
-				}
-			}
-		}
-
-		if (!strcmp(m_enemy->m_name, "antonio"))
-		{
-			if (m_player->m_face_right)
-				m_player->m_current_animation = &(m_player->m_damage_received_right);
-			else
-				m_player->m_current_animation = &(m_player->m_damage_received_left);
-
-			if (m_player->m_current_animation->Finished())
-			{
-				if (m_player->m_dead == false)
-				{
-					m_player->m_current_animation->Reset();
-					m_player->m_state = player_state::IDLE;
-
-					if (m_player->m_face_right)
-						m_player->m_current_animation = &(m_player->m_idle_right1);
-					else
-						m_player->m_current_animation = &(m_player->m_idle_left1);
-				}
-			}
-		}
-
+		
 	}
 
 	if (m_player->m_state == player_state::UP)
@@ -1508,10 +1487,24 @@ update_status ModulePlayer::Update()
 	return UPDATE_CONTINUE;
 }
 
+
 void ModulePlayer::UpdateColliderPosition()
 {
 	m_player_collider->SetPos(m_player->m_position.x + m_player->m_x_ref - m_player_collider->m_rect.w / 2, m_player->m_depth);
 }
 
+bool ModulePlayer::LookingEachOther(Enemy *enemy)
+{
+	bool ret = false;
+	int vector_x = enemy->m_position.x - m_player->m_position.x;
+	
+	if (vector_x > 0 && m_player->m_face_right)
+		ret = true;
 
+	if (vector_x < 0 && m_player->m_face_right == false)
+		ret = true;
+
+
+	return ret;
+}
 

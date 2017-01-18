@@ -103,6 +103,21 @@
     <ClInclude Include="AIController.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Garcia.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GarciaKnife.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Nora.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Punky.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Antonio.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -178,6 +193,21 @@
       <Filter>Core Modules</Filter>
     </ClCompile>
     <ClCompile Include="AIController.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Garcia.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GarciaKnife.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Nora.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Punky.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Antonio.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>

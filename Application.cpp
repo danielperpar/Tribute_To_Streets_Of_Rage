@@ -89,5 +89,12 @@ bool Application::CleanUp()
 			ret = (*it)->CleanUp();
 
 	return ret;
+
+	//clear entities
+	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
+	{
+		RELEASE(*it);
+	}
+	entities.clear();
 }
 
