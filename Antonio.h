@@ -20,10 +20,6 @@ public:
 
 	Particle *m_boomerang = nullptr;
 
-	Animation *m_current_animation = nullptr;
-
-	AIController m_ai_controller;
-
 	Animation m_npc_antonio_boomerang_idle_right;
 	Animation m_npc_antonio_boomerang_idle_left;
 

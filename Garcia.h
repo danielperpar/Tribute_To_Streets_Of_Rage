@@ -16,10 +16,6 @@ public:
 	
 	size_t m_punch_hits = 0;
 
-	AIController m_ai_controller;
-
-	Animation *m_current_animation = nullptr;
-
 	Animation m_npc_garcia_idle_right;
 	Animation m_npc_garcia_idle_left;
 

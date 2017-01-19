@@ -78,12 +78,6 @@ Garcia::Garcia(SDL_Texture *texture, const char *name, entity_type type, iPoint 
 }
 Garcia::Garcia(const Garcia &garcia) : Enemy(garcia)
 {
-	m_punch_hits = garcia.m_punch_hits;
-
-	m_ai_controller = garcia.m_ai_controller;
-
-	m_current_animation = garcia.m_current_animation;
-
 	m_npc_garcia_idle_right = garcia.m_npc_garcia_idle_right;
 	m_npc_garcia_idle_left = garcia.m_npc_garcia_idle_left;
 

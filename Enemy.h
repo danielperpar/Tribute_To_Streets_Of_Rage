@@ -48,6 +48,8 @@ public:
 	bool m_allow_attack = true;
 	bool m_floating_attack = false;
 
+	Animation *m_current_animation = nullptr;
+
 	Collider *m_enemy_grab_collider = nullptr;
 	Collider *m_enemy_hit_collider = nullptr;
 	Collider *m_enemy_ranged_attack_collider = nullptr;
@@ -65,6 +67,8 @@ public:
 	//AI signals
 	bool m_ai_walk = true;
 	bool m_ai_attack = false;
+
+	AIController m_ai_controller;
 	
 	//Axis X origin taken from the upper left vertex related to the rectangle containing the enemy sprite to the enemy's back neck position
 	size_t m_x_ref = 70;

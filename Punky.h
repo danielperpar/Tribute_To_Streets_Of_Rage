@@ -17,9 +17,6 @@ public:
 	size_t m_ground_attack_range = 50;
 	size_t m_ground_attack_speed = 1;
 
-	AIController m_ai_controller;
-
-	Animation *m_current_animation = nullptr;
 
 	Animation m_npc_punky_idle_right;
 	Animation m_npc_punky_idle_left;

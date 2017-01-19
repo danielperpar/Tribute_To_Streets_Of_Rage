@@ -13,9 +13,6 @@ public:
 
 
 public:
-	AIController m_ai_controller;
-
-	Animation *m_current_animation = nullptr;
 
 	Animation m_npc_nora_idle_right;
 	Animation m_npc_nora_idle_left;

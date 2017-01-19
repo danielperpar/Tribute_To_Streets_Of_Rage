@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "Weapon.h"
 
+class Garcia;
 struct SDL_Texture;
 
 
@@ -29,8 +30,8 @@ public:
 	Player *m_player = nullptr;
 
 	//Enemies
-	Enemy *m_garcia1 = nullptr;
-	Enemy *m_punky1 = nullptr;
+	Garcia *m_garcia1 = nullptr;
+	
 
 private:	
 	Uint32 m_time = 0;

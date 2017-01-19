@@ -47,13 +47,6 @@ Punky::Punky(SDL_Texture *texture, const char *name, entity_type type, iPoint po
 
 Punky::Punky(const Punky &punky) : Enemy(punky)
 {
-	m_ground_attack_range = punky.m_ground_attack_range;
-	m_ground_attack_speed = punky.m_ground_attack_speed;
-
-	m_ai_controller = punky.m_ai_controller;
-
-	m_current_animation = punky.m_current_animation;
-
 	m_npc_punky_idle_right = punky.m_npc_punky_idle_right;
 	m_npc_punky_idle_left = punky.m_npc_punky_idle_left;
 

@@ -77,15 +77,6 @@ Antonio::Antonio(SDL_Texture *texture, const char *name, entity_type type, iPoin
 
 Antonio::Antonio(const Antonio &antonio) : Enemy(antonio)
 {
-	m_carrying_boomerang = antonio.m_carrying_boomerang;
-	m_ai_throw_boomerang = antonio.m_ai_throw_boomerang;
-
-	m_boomerang = antonio.m_boomerang;
-
-	m_current_animation = antonio.m_current_animation;
-
-	m_ai_controller = antonio.m_ai_controller;
-
 	m_npc_antonio_boomerang_idle_right = antonio.m_npc_antonio_boomerang_idle_right;
 	m_npc_antonio_boomerang_idle_left = antonio.m_npc_antonio_boomerang_idle_left;
 

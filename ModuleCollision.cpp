@@ -19,34 +19,30 @@ ModuleCollision::~ModuleCollision()
 
 bool ModuleCollision::Start()
 {
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			m_collision_matrix[i][j] = 0;
-		}
-	}
-
-	m_collision_matrix[COMMON_ENEMY_HIT][PLAYER] = 1;
-	m_collision_matrix[COMMON_ENEMY_GRAB][PLAYER] = 1;
-	m_collision_matrix[BOSS_ENEMY_HIT][PLAYER] = 1;
-	m_collision_matrix[BOSS_ENEMY_GRAB][PLAYER] = 1;
-	m_collision_matrix[WEAPON][PLAYER] = 1;
-	m_collision_matrix[FOOD][PLAYER] = 1;
-	m_collision_matrix[PLAYER][COMMON_ENEMY_HIT] = 1;
-	m_collision_matrix[PLAYER][COMMON_ENEMY_GRAB] = 1;
-	m_collision_matrix[PLAYER][BOSS_ENEMY_HIT] = 1;
-	m_collision_matrix[PLAYER][BOSS_ENEMY_GRAB] = 1;
-	m_collision_matrix[PLAYER][WEAPON] = 1;
-	m_collision_matrix[PLAYER][FOOD] = 1;
-	m_collision_matrix[PLAYER][BOSS_BOOMERANG] = 1;
-	m_collision_matrix[PLAYER][BOSS_BOOMERANG_AREA] = 1;
-	m_collision_matrix[PLAYER][DESTROYABLE_ITEM] = 1;
-	m_collision_matrix[BOSS_BOOMERANG][PLAYER] = 1;
-	m_collision_matrix[BOSS_BOOMERANG_AREA][PLAYER] = 1;
-	m_collision_matrix[DESTROYABLE_ITEM][PLAYER] = 1;
-
+	m_collision_matrix = new int[100];
+	memset(m_collision_matrix, 0, 100);
 	
+	m_collision_matrix[COMMON_ENEMY_HIT * 10 + PLAYER] = 1;
+	m_collision_matrix[COMMON_ENEMY_GRAB * 10 + PLAYER] = 1;
+	m_collision_matrix[COMMON_ENEMY_RANGED_ATTACK * 10 + PLAYER] = 1;
+	m_collision_matrix[BOSS_ENEMY_HIT * 10 + PLAYER] = 1;
+	m_collision_matrix[BOSS_ENEMY_GRAB * 10 + PLAYER] = 1;
+	m_collision_matrix[WEAPON * 10 + PLAYER] = 1;
+	m_collision_matrix[FOOD * 10 + PLAYER] = 1;
+	m_collision_matrix[PLAYER * 10 + COMMON_ENEMY_HIT] = 1;
+	m_collision_matrix[PLAYER * 10 + COMMON_ENEMY_GRAB] = 1;
+	m_collision_matrix[PLAYER * 10 + COMMON_ENEMY_RANGED_ATTACK] = 1;
+	m_collision_matrix[PLAYER * 10 + BOSS_ENEMY_HIT] = 1;
+	m_collision_matrix[PLAYER * 10 + BOSS_ENEMY_GRAB] = 1;
+	m_collision_matrix[PLAYER * 10 + WEAPON] = 1;
+	m_collision_matrix[PLAYER * 10 + FOOD] = 1;
+	m_collision_matrix[PLAYER * 10 + BOSS_BOOMERANG] = 1;
+	m_collision_matrix[PLAYER * 10 + BOSS_BOOMERANG_AREA] = 1;
+	m_collision_matrix[PLAYER * 10 + DESTROYABLE_ITEM] = 1;
+	m_collision_matrix[BOSS_BOOMERANG * 10 + PLAYER] = 1;
+	m_collision_matrix[BOSS_BOOMERANG_AREA * 10 + PLAYER] = 1;
+	m_collision_matrix[DESTROYABLE_ITEM * 10 + PLAYER] = 1;
+
 	return true;
 }
 
@@ -97,7 +93,8 @@ update_status ModuleCollision::Update()
 			{
 				if (colliders.end() != ++it2)
 				{
-					if (m_collision_matrix[(*it1)->m_collider_type][(*it2)->m_collider_type] == 1)
+					//if (m_collision_matrix[(*it1)->m_collider_type][(*it2)->m_collider_type] == 1)
+					if (m_collision_matrix[(*it1)->m_collider_type * 10 + (*it2)->m_collider_type] == 1)
 					{
 						bool collision = (*it1)->CheckCollision((*it2)->m_rect);
 						if (collision)
@@ -129,12 +126,14 @@ void ModuleCollision::DebugDraw()
 // Called before quitting
 bool ModuleCollision::CleanUp()
 {
-	LOG("Freeing all colliders");
+	LOG("Freeing all colliders ");
 
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
 		RELEASE(*it);
 
 	colliders.clear();
+
+	RELEASE_ARRAY(m_collision_matrix);
 
 	return true;
 }

@@ -51,7 +51,7 @@ public:
 private:
 
 	std::list<Collider*> colliders;
-	int m_collision_matrix[10][10];
+	int* m_collision_matrix;
 	bool debug = false;
 	
 	Uint32 m_time = 0;

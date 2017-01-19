@@ -21,43 +21,42 @@ bool ModuleParticles::Start()
 	LOG("Loading particles");
 	graphics = App->textures->Load("assets/spritesheets/axel.png");
 	
-	m_hit_effect = new Particle(graphics, "hit_effect", entity_type::PARTICLE, { 0,0 }, 0);
-	m_hit_effect->m_animation_right = new Animation();
-	m_hit_effect->m_animation_left = new Animation();
-	
-	JSONDataLoader::Load("assets/json/sprites_data.json", "playerHitEffectRight", m_hit_effect->m_animation_list, *(m_hit_effect->m_animation_right));
-	m_hit_effect->m_animation_right->loop = false;
-	m_hit_effect->m_animation_right->speed = 1.0f;
-	Utilities::free_list(m_hit_effect->m_animation_list);
+	//m_hit_effect = new Particle(graphics, "hit_effect", entity_type::PARTICLE, { 0,0 }, 0);
+	//m_hit_effect->m_animation_right = new Animation();
+	//m_hit_effect->m_animation_left = new Animation();
+	//
+	//JSONDataLoader::Load("assets/json/sprites_data.json", "playerHitEffectRight", m_hit_effect->m_animation_list, *(m_hit_effect->m_animation_right));
+	//m_hit_effect->m_animation_right->loop = false;
+	//m_hit_effect->m_animation_right->speed = 1.0f;
+	//Utilities::free_list(m_hit_effect->m_animation_list);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "playerHitEffectLeft", m_hit_effect->m_animation_list, *(m_hit_effect->m_animation_left));
-	m_hit_effect->m_animation_left->loop = false;
-	m_hit_effect->m_animation_left->speed = 1.0f;
-	Utilities::free_list(m_hit_effect->m_animation_list);
+	//JSONDataLoader::Load("assets/json/sprites_data.json", "playerHitEffectLeft", m_hit_effect->m_animation_list, *(m_hit_effect->m_animation_left));
+	//m_hit_effect->m_animation_left->loop = false;
+	//m_hit_effect->m_animation_left->speed = 1.0f;
+	//Utilities::free_list(m_hit_effect->m_animation_list);
 
-	m_hit_effect->m_ai_controller = new AIController();
-	//m_hit_sound = App->audio->LoadFx("rtype/laser.wav");  //cargar sonido puñetazo
+	//m_hit_effect->m_ai_controller = new AIController();
+	////m_hit_sound = App->audio->LoadFx("rtype/laser.wav");  //cargar sonido puñetazo
 
 
+	//m_boomerang = new Particle(graphics, "boomerang", entity_type::PARTICLE, { 0,0 }, 0);
+	//m_boomerang->m_animation_right = new Animation();
 
-	m_boomerang = new Particle(graphics, "boomerang", entity_type::PARTICLE, { 0,0 }, 0);
-	m_boomerang->m_animation_right = new Animation();
+	//JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangRight", m_boomerang->m_animation_list, *(m_boomerang->m_animation_right));
+	//m_boomerang->m_animation_right->loop = true;
+	//m_boomerang->m_animation_right->speed = 0.1f;
+	//Utilities::free_list(m_boomerang->m_animation_list);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangRight", m_boomerang->m_animation_list, *(m_boomerang->m_animation_right));
-	m_boomerang->m_animation_right->loop = true;
-	m_boomerang->m_animation_right->speed = 0.1f;
-	Utilities::free_list(m_boomerang->m_animation_list);
+	//m_boomerang->m_animation_left = new Animation();
 
-	m_boomerang->m_animation_left = new Animation();
+	//JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangLeft", m_boomerang->m_animation_list, *(m_boomerang->m_animation_left));
+	//m_boomerang->m_animation_left->loop = true;
+	//m_boomerang->m_animation_left->speed = 0.1f;
+	//Utilities::free_list(m_boomerang->m_animation_list);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "npcItemBoomerangLeft", m_boomerang->m_animation_list, *(m_boomerang->m_animation_left));
-	m_boomerang->m_animation_left->loop = true;
-	m_boomerang->m_animation_left->speed = 0.1f;
-	Utilities::free_list(m_boomerang->m_animation_list);
-
-	m_boomerang->m_ai_controller = new AIController();
-	m_boomerang->m_speed_x = 3.0f;
-	m_boomerang->m_speed_y = 3.0f;
+	//m_boomerang->m_ai_controller = new AIController();
+	//m_boomerang->m_speed_x = 3.0f;
+	//m_boomerang->m_speed_y = 3.0f;
 
 	return true;
 }
@@ -80,30 +79,30 @@ bool ModuleParticles::CleanUp()
 // Update: draw particles
 update_status ModuleParticles::Update()
  {
-	for (list<Particle*>::iterator it = m_active.begin(); it != m_active.end();)
-	{
-		Particle* p = *it;
+	//for (list<Particle*>::iterator it = m_active.begin(); it != m_active.end();)
+	//{
+	//	Particle* p = *it;
 
-		if(p->Update() == false)
-		{
-			RELEASE(*it);
-			it = m_active.erase(it);
-		}
-		else
-			++it;
-	}
+	//	if(p->Update() == false)
+	//	{
+	//		RELEASE(*it);
+	//		it = m_active.erase(it);
+	//	}
+	//	else
+	//		++it;
+	//}
 
-	for (list<Particle*>::iterator it = m_active.begin(); it != m_active.end(); ++it)
-	{
-		//Debug
-		anim_R = (*it)->m_animation_right->GetCurrentFrame();
-		anim_L = (*it)->m_animation_left->GetCurrentFrame();
+	//for (list<Particle*>::iterator it = m_active.begin(); it != m_active.end(); ++it)
+	//{
+	//	//Debug
+	//	anim_R = (*it)->m_animation_right->GetCurrentFrame();
+	//	anim_L = (*it)->m_animation_left->GetCurrentFrame();
 
-		if((*it)->m_face_right)
-			App->renderer->Blit(graphics, (*it)->m_position.x, (*it)->m_position.y, &anim_R);
-		else
-			App->renderer->Blit(graphics, (*it)->m_position.x, (*it)->m_position.y, &anim_L);
-	}
+	//	if((*it)->m_face_right)
+	//		App->renderer->Blit(graphics, (*it)->m_position.x, (*it)->m_position.y, &anim_R);
+	//	else
+	//		App->renderer->Blit(graphics, (*it)->m_position.x, (*it)->m_position.y, &anim_L);
+	//}
 
 	return UPDATE_CONTINUE;
 }
@@ -181,13 +180,13 @@ bool Particle::Update()
 		}
 	}
 
-	if (!strcmp(m_name, "boomerang"))
+	/*if (!strcmp(m_name, "boomerang"))
 	{
 		m_ai_controller->UpdateBehaviour(this, m_owner);
 		
 		if (((Enemy*)m_owner)->m_carrying_boomerang == false)
 			m_to_delete = true;
-	}
+	}*/
 
 	return ret;
 }

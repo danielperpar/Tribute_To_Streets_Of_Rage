@@ -52,8 +52,7 @@ void JSONDataLoader::Load(const char *json_file, const char *sprite_owner, std::
 
 	/* cleanup code */
 	json_value_free(root_value);
-	sprites_list.clear();
-
+	
 
 	for (std::list<int*>::iterator it = rect_sprites_list.begin(); it != rect_sprites_list.end(); it++)
 	{

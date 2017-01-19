@@ -47,10 +47,6 @@ Nora::Nora(SDL_Texture *texture, const char *name, entity_type type, iPoint posi
 
 Nora::Nora(const Nora &nora) : Enemy(nora)
 {
-	m_ai_controller = nora.m_ai_controller;
-
-	m_current_animation = nora.m_current_animation;
-
 	m_npc_nora_idle_right = nora.m_npc_nora_idle_right;
 	m_npc_nora_idle_left = nora.m_npc_nora_idle_left;
 

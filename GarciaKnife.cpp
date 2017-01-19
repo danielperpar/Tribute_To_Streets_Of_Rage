@@ -36,4 +36,16 @@ GarciaKnife::GarciaKnife(SDL_Texture *texture, const char *name, entity_type typ
 	Utilities::free_list(m_animation_list);
 
 }
+
+GarciaKnife::GarciaKnife(const GarciaKnife &garcia_knife) : Enemy(garcia_knife)
+{
+	m_npc_garcia_knife_idle_right = garcia_knife.m_npc_garcia_knife_idle_right;
+	m_npc_garcia_knife_idle_left = garcia_knife.m_npc_garcia_knife_idle_left;
+	m_npc_garcia_knife_walk_right = garcia_knife.m_npc_garcia_knife_walk_right;
+	m_npc_garcia_knife_walk_left  = garcia_knife.m_npc_garcia_knife_walk_left;
+	m_npc_garcia_knife_attack_right = garcia_knife.m_npc_garcia_knife_attack_right;
+	m_npc_garcia_knife_attack_left = garcia_knife.m_npc_garcia_knife_attack_left;
+
+}
+
 GarciaKnife::~GarciaKnife() {}

@@ -6,6 +6,7 @@
 #include "ModulePlayer.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
+#include "ModuleEnemies.h"
 #include "ModuleSceneRound1.h"
 #include "JSONDataLoader.h"
 #include "Utilities.h"
@@ -57,9 +58,6 @@ bool ModuleSceneRound1::Start()
 	neonCafeRestaurant.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
-	//App->player->Enable();
-	App->particles->Enable();
-	App->collision->Enable();
 
 	App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
@@ -91,10 +89,14 @@ bool ModuleSceneRound1::Start()
 // UnLoad assets
 bool ModuleSceneRound1::CleanUp()
 {
-	LOG("Unloading space scene");
+	LOG("Unloading scene");
 
 	App->textures->Unload(background);
+	App->textures->Unload(foreground);
+	App->textures->Unload(shop_neons);
+	App->textures->Unload(gui);
 	App->player->Disable();
+	App->enemies->Disable();
 	App->collision->Disable();
 	App->particles->Disable();
 
