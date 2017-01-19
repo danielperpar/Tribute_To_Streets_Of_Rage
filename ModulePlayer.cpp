@@ -50,6 +50,8 @@ bool ModulePlayer::CleanUp()
 	LOG("Unloading player");
 
 	App->textures->Unload(graphics);
+	EntityManager::DestroyEntity(m_player);
+	m_player = nullptr;
 
 	return true;
 }

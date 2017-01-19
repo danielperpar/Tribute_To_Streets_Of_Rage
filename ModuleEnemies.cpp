@@ -183,6 +183,8 @@ bool ModuleEnemies::CleanUp()
 	LOG("Unloading enemies");
 
 	App->textures->Unload(graphics);
+	EntityManager::DestroyEntity(m_garcia1);
+	m_garcia1 = nullptr;
 
 	return true;
 }
