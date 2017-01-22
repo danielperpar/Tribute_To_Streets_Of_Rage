@@ -255,10 +255,7 @@ update_status ModuleEnemies::Update()
 								garcia->m_state = enemy_state::WALKING;
 							}
 						}
-						if (garcia->m_punch_hits == 3)
-						{
-							garcia->m_floating_attack = false;
-						}
+						
 					}
 					if (!strcmp(enemy->m_name, "garcia_knife"))
 					{

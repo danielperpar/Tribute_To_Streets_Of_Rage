@@ -59,7 +59,7 @@ bool ModuleSceneRound1::Start()
 	Utilities::free_list(animation_list);
 
 
-	App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
+	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
 	// TODO 15: create some colliders for the walls
 	// solution wall coords: {0, 224, 3930, 16} {1375, 0, 111, 96} {1375, 145, 111, 96}

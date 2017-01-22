@@ -194,7 +194,7 @@ void Collider::OnCollision(Collider* collider1, Collider* collider2) const
 		((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
 		
 
-		if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK)
+		if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK && App->player->m_player->m_depth == ((Enemy*)(enemy_collider->m_entity))->m_depth)
 			((Enemy*)(enemy_collider->m_entity))->m_enemy_to_hit = true;
 	}
 

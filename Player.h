@@ -15,6 +15,7 @@ enum class player_state
 	WALKING,
 	JUMPING,
 	JUMPING_KICKING,
+	PUNCH,
 	PUNCHING_COMBO_1,
 	PUNCHING_COMBO_2,
 	PUNCHING_COMBO_3,
@@ -70,8 +71,8 @@ public:
 
 	float m_combo_timer = 0.0f;
 
-	bool m_continue_combo = false;
-	size_t m_upper_punch_hits = 0;
+	bool m_in_combo_time = true;
+	size_t m_punch_combo_hits = 0;
 	
 	bool m_carrying_weapon_pipe = false;
 	bool m_carrying_weapon_knife = false;
@@ -99,10 +100,7 @@ public:
 	Animation m_idle_left1;
 	Animation m_idle_left2;
 	Animation m_idle_left3;
-	size_t m_idle1_duration = 150;
-	size_t m_idle2_duration = 25;
-	size_t m_idle3_duration = 25;
-
+	
 	Animation m_walk_right;
 	Animation m_walk_left;
 
@@ -110,9 +108,7 @@ public:
 	Animation m_jump_right2;
 	Animation m_jump_left1;
 	Animation m_jump_left2;
-	size_t m_jump1_duration = 10;
-	size_t m_jump2_duration = 10;
-
+	
 	Animation m_air_kick_right;
 	Animation m_air_kick_left;
 
@@ -123,8 +119,7 @@ public:
 	Animation m_punch_combo_left2;
 	Animation m_punch_combo_left3;
 
-	size_t m_punch_combo_duration = 9;
-	size_t m_punch_combo_timeout = 15;
+	size_t m_punch_combo_timeout = 100000;
 
 	Animation m_back_punch_right1;
 	Animation m_back_punch_right2;
@@ -132,14 +127,11 @@ public:
 	Animation m_back_punch_left1;
 	Animation m_back_punch_left2;
 
-	size_t m_back_punch_duration = 10;
-
-
+	
 	Animation m_grab_right;
 	Animation m_grab_kick_head_combo_right1;
 	Animation m_grab_kick_head_combo_right2;
 
-	size_t m_grab_kick_head_duration = 10;
 
 	Animation m_grab_left;
 	Animation m_grab_kick_head_combo_left1;
@@ -161,8 +153,6 @@ public:
 	Animation m_grab_air_spin_combo_left6;
 	Animation m_grab_air_spin_combo_left7;
 
-	size_t m_grab_air_spin_duration = 10;
-
 	Animation m_grab_air_spin_combo_finisher_right1;
 	Animation m_grab_air_spin_combo_finisher_right2;
 	Animation m_grab_air_spin_combo_finisher_right3;
@@ -170,8 +160,6 @@ public:
 	Animation m_grab_air_spin_combo_finisher_left1;
 	Animation m_grab_air_spin_combo_finisher_left2;
 	Animation m_grab_air_spin_combo_finisher_left3;
-
-	size_t m_grab_air_spin_finisher2_duration = 20;
 
 	Animation m_weapon_pipe_idle_right;
 	Animation m_weapon_pipe_walk_right;
@@ -204,7 +192,6 @@ public:
 
 	Animation *m_current_animation;
 
-	void AdvanceAnimation(size_t initial_sprite_duration,  Animation *next_anim_sprite, bool restart_animation);
 	
 private:
 	std::list<int*> m_animation_list;
