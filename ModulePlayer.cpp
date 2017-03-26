@@ -1398,29 +1398,56 @@ update_status ModulePlayer::Update()
 					if (m_player->m_face_right)
 					{
 						m_player->m_current_animation = &(m_player->m_down_right);
-						if (m_player->m_current_animation->Finished())
+						m_player->m_down_count++;
+						m_player->m_down_update_count++;
+						
+						m_player->m_position.x -= m_player->m_down_vel;
+
+						if (m_player->m_down_update_count >= m_player->m_down_update_time)
 						{
+							m_player->m_down_update_count = 0;
+							m_player->m_position.y += m_player->m_down_accel;
+						}
+						
+						if (m_player->m_down_count >= m_player->m_down_frames)
+						{
+							m_player->m_down_count = 0;
+							m_player->m_position.y -= m_player->m_down_accel * m_player->m_down_frames/m_player->m_down_update_time;
+							UpdateColliderPosition();
+							
 							if (m_player->m_dead == false)
 							{
 								m_player->m_current_animation->Reset();
 								m_player->m_state = player_state::UP;
-								m_player->m_current_animation = &(m_player->m_up_right);
-								
+								m_player->m_current_animation = &(m_player->m_up_right);	
 							}
 						}
-
 					}
 					if (m_player->m_face_right == false)
 					{
 						m_player->m_current_animation = &(m_player->m_down_left);
-						if (m_player->m_current_animation->Finished())
+						m_player->m_down_count++;
+						m_player->m_down_update_count++;
+
+						m_player->m_position.x += m_player->m_down_vel;
+
+						if (m_player->m_down_update_count >= m_player->m_down_update_time)
 						{
+							m_player->m_down_update_count = 0;
+							m_player->m_position.y += m_player->m_down_accel;
+						}
+
+						if (m_player->m_down_count >= m_player->m_down_frames)
+						{
+							m_player->m_down_count = 0;
+							m_player->m_position.y -= m_player->m_down_accel * m_player->m_down_frames / m_player->m_down_update_time;
+							UpdateColliderPosition();
+
 							if (m_player->m_dead == false)
 							{
 								m_player->m_current_animation->Reset();
 								m_player->m_state = player_state::UP;
-								m_player->m_current_animation = &(m_player->m_up_left);
-								
+								m_player->m_current_animation = &(m_player->m_up_left);	
 							}
 						}
 					}

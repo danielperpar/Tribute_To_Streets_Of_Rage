@@ -118,6 +118,18 @@
     <ClInclude Include="Antonio.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFSM.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Idle.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Walk.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -209,6 +221,18 @@
     </ClCompile>
     <ClCompile Include="Antonio.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFSM.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Idle.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Walk.cpp">
+      <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

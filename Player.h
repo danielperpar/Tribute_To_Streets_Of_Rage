@@ -85,6 +85,13 @@ public:
 
 	bool m_dead = false;
 	int m_life = 100;
+
+	size_t m_down_accel = 2;
+	size_t m_down_vel = 1;
+	size_t m_down_count = 0;
+	size_t m_down_frames = 30;
+	size_t m_down_update_count = 0;
+	size_t m_down_update_time = 6;
 	
 	//enemy who hits player
 	Enemy *m_enemy_attacking_player = nullptr;
@@ -119,7 +126,7 @@ public:
 	Animation m_punch_combo_left2;
 	Animation m_punch_combo_left3;
 
-	size_t m_punch_combo_timeout = 100000;
+	size_t m_punch_combo_timeout = 15;
 
 	Animation m_back_punch_right1;
 	Animation m_back_punch_right2;

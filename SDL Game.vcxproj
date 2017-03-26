@@ -77,6 +77,8 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Idle.h" />
+    <ClInclude Include="PlayerFSM.h" />
     <ClInclude Include="Garcia.h" />
     <ClInclude Include="GarciaKnife.h" />
     <ClInclude Include="Globals.h" />
@@ -101,7 +103,9 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Punky.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Walk.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +116,8 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Idle.cpp" />
+    <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Garcia.cpp" />
     <ClCompile Include="GarciaKnife.cpp" />
@@ -134,6 +140,8 @@
     <ClCompile Include="parson.c" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Punky.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="Walk.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
