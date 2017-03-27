@@ -61,6 +61,9 @@ public:
 	void DownPressed();
 	void DownHold();
 
+	const State *GetState() const;
+	void SetState(State *state);
+
 };
 
 

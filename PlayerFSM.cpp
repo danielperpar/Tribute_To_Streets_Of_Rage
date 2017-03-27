@@ -103,6 +103,16 @@ void PlayerFSM::DownHold()
 	curr_state->DownHold();
 }
 
+const State *PlayerFSM::GetState() const
+{
+	return curr_state;
+}
+
+void PlayerFSM::SetState(State *state)
+{
+	curr_state = state;
+}
+
 PlayerFSM::~PlayerFSM()
 {
 	RELEASE(idle);

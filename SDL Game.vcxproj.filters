@@ -40,9 +40,6 @@
     <ClInclude Include="ModuleFadeToBlack.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -73,50 +70,11 @@
     <ClInclude Include="Utilities.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="DestroyableItem.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Food.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleEnemies.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleAI.h">
       <Filter>Core Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="AIController.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Garcia.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="GarciaKnife.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Nora.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Punky.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Antonio.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
       <Filter>Game Modules</Filter>
@@ -178,6 +136,48 @@
     <ClInclude Include="KnockDown.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Punky.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Nora.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="GarciaKnife.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Garcia.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Food.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DestroyableItem.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Antonio.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AIController.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -222,28 +222,7 @@
     <ClCompile Include="parson.c">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="DestroyableItem.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Food.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="JSONDataLoader.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="ModuleEnemies.cpp">
@@ -251,24 +230,6 @@
     </ClCompile>
     <ClCompile Include="ModuleAI.cpp">
       <Filter>Core Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="AIController.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Garcia.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="GarciaKnife.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Nora.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Punky.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Antonio.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>Game Modules</Filter>
@@ -328,6 +289,45 @@
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="KnockDown.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Punky.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Nora.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="GarciaKnife.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Garcia.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DestroyableItem.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Antonio.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="AIController.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>

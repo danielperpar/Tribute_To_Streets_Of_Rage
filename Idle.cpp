@@ -1,4 +1,5 @@
 #include "Idle.h"
+#include "Player.h"
 
 Idle::Idle(){}
 
