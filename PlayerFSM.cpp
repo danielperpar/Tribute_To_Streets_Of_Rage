@@ -2,6 +2,23 @@
 #include "Globals.h"
 #include "Idle.h"
 #include "Walk.h"
+#include "Jump.h"
+#include "AirKick.h"
+#include "SimplePunch.h"
+#include "CboPunch.h"
+#include "CboLowPunch.h"
+#include "CboKick.h"
+#include "Grab.h"
+#include "LowKick.h"
+#include "HeadHit.h"
+#include "AirAttack.h"
+#include "Finisher.h"
+#include "Release.h"
+#include "PreBackPunch.h"
+#include "BackPunch.h"
+#include "Damaged.h"
+#include "KnockDown.h"
+
 PlayerFSM::PlayerFSM()
 {
 	idle = new Idle();

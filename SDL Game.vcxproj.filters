@@ -130,6 +130,54 @@
     <ClInclude Include="Walk.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Jump.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AirKick.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplePunch.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="CboPunch.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="CboLowPunch.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="CboKick.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Grab.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="LowKick.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="HeadHit.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AirAttack.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Finisher.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Release.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PreBackPunch.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="BackPunch.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Damaged.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="KnockDown.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -232,6 +280,54 @@
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="Walk.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Jump.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="AirKick.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplePunch.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="CboPunch.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="CboLowPunch.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="CboKick.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Grab.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="LowKick.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="HeadHit.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="AirAttack.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Finisher.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Release.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PreBackPunch.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="BackPunch.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Damaged.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="KnockDown.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>
