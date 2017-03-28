@@ -20,6 +20,7 @@ class BackPunch;
 class Damaged;
 class KnockDown;
 class State;
+class Player;
 
 class PlayerFSM
 {
@@ -43,9 +44,11 @@ private:
 	BackPunch *back_punch;
 	Damaged *damaged;
 	KnockDown *knock_down;
+	Player *player;
+
 
 public:
-	PlayerFSM();
+	PlayerFSM(Player *player);
 	~PlayerFSM();
 
 	void AttackPressed();

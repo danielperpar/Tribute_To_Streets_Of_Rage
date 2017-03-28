@@ -19,26 +19,26 @@
 #include "Damaged.h"
 #include "KnockDown.h"
 
-PlayerFSM::PlayerFSM()
+PlayerFSM::PlayerFSM(Player *player) : player(player)
 {
-	idle = new Idle();
-	walk = new Walk();
-	jump = new Jump();
-	air_kick = new AirKick();
-	simple_punch = new SimplePunch();
-	cbo_punch = new CboPunch();
-	cbo_low_punch = new CboLowPunch();
-	cbo_kick = new CboKick();
-	grab = new Grab();
-	low_kick = new LowKick();
-	head_hit = new HeadHit();
-	air_attack = new AirAttack();
-	finisher = new Finisher();
-	release = new Release();
-	pre_back_punch = new PreBackPunch();
-	back_punch = new BackPunch();
-	damaged = new Damaged();
-	knock_down = new KnockDown();
+	idle = new Idle(this);
+	walk = new Walk(this);
+	jump = new Jump(this);
+	air_kick = new AirKick(this);
+	simple_punch = new SimplePunch(this);
+	cbo_punch = new CboPunch(this);
+	cbo_low_punch = new CboLowPunch(this);
+	cbo_kick = new CboKick(this);
+	grab = new Grab(this);
+	low_kick = new LowKick(this);
+	head_hit = new HeadHit(this);
+	air_attack = new AirAttack(this);
+	finisher = new Finisher(this);
+	release = new Release(this);
+	pre_back_punch = new PreBackPunch(this);
+	back_punch = new BackPunch(this);
+	damaged = new Damaged(this);
+	knock_down = new KnockDown(this);
 
 	curr_state = idle;
 }
