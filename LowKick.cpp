@@ -62,3 +62,8 @@ void LowKick::DownHold()
 {
 
 }
+
+void LowKick::GoIdle()
+{
+
+}

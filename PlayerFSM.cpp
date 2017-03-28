@@ -103,16 +103,118 @@ void PlayerFSM::DownHold()
 	curr_state->DownHold();
 }
 
-const State *PlayerFSM::GetState() const
+void PlayerFSM::GoIdle()
+{
+	curr_state->GoIdle();
+}
+//----------------------------------- GETTERS & SETTERS -------------------------
+ State* PlayerFSM::GetCurrState() const
 {
 	return curr_state;
 }
 
-void PlayerFSM::SetState(State *state)
+void PlayerFSM::SetCurrState(State *state)
 {
 	curr_state = state;
 }
 
+Player* PlayerFSM::GetPlayer() const
+{
+	return player;
+}
+
+State* PlayerFSM::GetIdle() const
+{
+	return idle;
+}
+
+State* PlayerFSM::GetWalk() const
+{
+	return walk;
+}
+
+State* PlayerFSM::GetJump() const
+{
+	return jump;
+}
+
+State* PlayerFSM::GetAirKick() const
+{
+	return air_kick;
+}
+
+State* PlayerFSM::GetSimplePunch() const
+{
+	return simple_punch;
+}
+
+State* PlayerFSM::GetCboPunch() const
+{
+	return cbo_punch;
+}
+
+State* PlayerFSM::GetCboLowPunch() const
+{
+	return cbo_low_punch;
+}
+
+State* PlayerFSM::GetCboKick() const
+{
+	return cbo_kick;
+}
+
+State* PlayerFSM::GetGrab() const
+{
+	return grab;
+}
+
+State* PlayerFSM::GetLowKick() const
+{
+	return low_kick;
+}
+
+State* PlayerFSM::GetHeadHit() const
+{
+	return head_hit;
+}
+
+State* PlayerFSM::GetAirAttack() const
+{
+	return air_attack;
+}
+
+State* PlayerFSM::GetFinisher() const
+{
+	return finisher;
+}
+
+State* PlayerFSM::GetRelease() const
+{
+	return release;
+}
+
+State* PlayerFSM::GetPreBackPunch() const
+{
+	return pre_back_punch;
+}
+
+State* PlayerFSM::GetBackPunch() const
+{
+	return back_punch;
+}
+
+State* PlayerFSM::GetDamaged() const
+{
+	return damaged;
+}
+
+State* PlayerFSM::GetKnockDown() const
+{
+	return knock_down;
+}
+
+
+//------------------------------------- DESTRUCTOR ----------------------------
 PlayerFSM::~PlayerFSM()
 {
 	RELEASE(idle);

@@ -63,3 +63,8 @@ void AirKick::DownHold()
 {
 
 }
+
+void AirKick::GoIdle()
+{
+
+}

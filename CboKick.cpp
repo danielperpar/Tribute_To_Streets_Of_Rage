@@ -63,3 +63,8 @@ void CboKick::DownHold()
 {
 
 }
+
+void CboKick::GoIdle()
+{
+
+}

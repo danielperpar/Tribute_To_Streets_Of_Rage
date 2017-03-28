@@ -63,9 +63,32 @@ public:
 	void UpHold();
 	void DownPressed();
 	void DownHold();
+	void GoIdle();
 
-	const State *GetState() const;
-	void SetState(State *state);
+	State* GetCurrState() const;
+	void SetCurrState(State *state);
+	Player *GetPlayer() const;
+
+	State* GetIdle() const;
+	State* GetWalk() const;
+	State* GetJump() const;
+	State* GetAirKick() const;
+	State* GetSimplePunch() const;
+	State* GetCboPunch() const;
+	State* GetCboLowPunch() const;
+	State* GetCboKick() const;
+	State* GetGrab() const;
+	State* GetLowKick() const;
+	State* GetHeadHit() const;
+	State* GetAirAttack() const;
+	State* GetFinisher() const;
+	State* GetRelease() const;
+	State* GetPreBackPunch() const;
+	State* GetBackPunch() const;
+	State* GetDamaged() const;
+	State* GetKnockDown() const;
+
+	
 
 };
 

@@ -63,3 +63,8 @@ void HeadHit::DownHold()
 {
 
 }
+
+void HeadHit::GoIdle()
+{
+
+}

@@ -62,3 +62,8 @@ void Jump::DownHold()
 {
 
 }
+
+void Jump::GoIdle()
+{
+
+}

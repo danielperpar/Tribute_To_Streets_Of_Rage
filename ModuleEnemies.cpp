@@ -866,7 +866,7 @@ update_status ModuleEnemies::Update()
 				if (punky->m_current_animation == &(punky->m_npc_punky_ground_attack_left1) && punky->m_timer_count != 0)
 				{
 					
-					if (m_player->m_current_animation->Finished())
+					if (m_player->current_animation->Finished())
 					{
 						punky->m_position.x -= 20;
 						UpdateColliderPosition(punky);

@@ -19,6 +19,7 @@ public:
 	virtual void UpHold() = 0;
 	virtual void DownPressed() = 0;
 	virtual void DownHold() = 0;
+	virtual void GoIdle() = 0;
 };
 
 #endif

@@ -62,3 +62,8 @@ void SimplePunch::DownHold()
 {
 
 }
+
+void SimplePunch::GoIdle()
+{
+
+}

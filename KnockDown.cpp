@@ -62,3 +62,8 @@ void KnockDown::DownHold()
 {
 
 }
+
+void KnockDown::GoIdle()
+{
+
+}

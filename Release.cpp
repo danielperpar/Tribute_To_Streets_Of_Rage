@@ -62,3 +62,8 @@ void Release::DownHold()
 {
 
 }
+
+void Release::GoIdle()
+{
+
+}

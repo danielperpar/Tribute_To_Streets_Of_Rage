@@ -54,7 +54,7 @@ public:
 public:
 	
 	
-	bool m_face_right = true;
+	bool facing_right = true;
 	float m_speed = 1.0f;
 
 	bool m_jump_up = true;
@@ -101,103 +101,103 @@ public:
 
 	player_state m_state = player_state::IDLE;
 
-	Animation m_idle_right1;
-	Animation m_idle_right2;
-	Animation m_idle_right3;
-	Animation m_idle_left1;
-	Animation m_idle_left2;
-	Animation m_idle_left3;
+	Animation idle_right1;
+	Animation idle_right2;
+	Animation idle_right3;
+	Animation idle_left1;
+	Animation idle_left2;
+	Animation idle_left3;
 	
-	Animation m_walk_right;
-	Animation m_walk_left;
+	Animation walk_right;
+	Animation walk_left;
 
-	Animation m_jump_right1;
-	Animation m_jump_right2;
-	Animation m_jump_left1;
-	Animation m_jump_left2;
+	Animation jump_right1;
+	Animation jump_right2;
+	Animation jump_left1;
+	Animation jump_left2;
 	
-	Animation m_air_kick_right;
-	Animation m_air_kick_left;
+	Animation air_kick_right;
+	Animation air_kick_left;
 
-	Animation m_punch_combo_right1;
-	Animation m_punch_combo_right2;
-	Animation m_punch_combo_right3;
-	Animation m_punch_combo_left1;
-	Animation m_punch_combo_left2;
-	Animation m_punch_combo_left3;
+	Animation punch_combo_right1;
+	Animation punch_combo_right2;
+	Animation punch_combo_right3;
+	Animation punch_combo_left1;
+	Animation punch_combo_left2;
+	Animation punch_combo_left3;
 
-	size_t m_punch_combo_timeout = 15;
+	size_t punch_combo_timeout = 15;
 
-	Animation m_back_punch_right1;
-	Animation m_back_punch_right2;
+	Animation back_punch_right1;
+	Animation back_punch_right2;
 	
-	Animation m_back_punch_left1;
-	Animation m_back_punch_left2;
+	Animation back_punch_left1;
+	Animation back_punch_left2;
 
 	
-	Animation m_grab_right;
-	Animation m_grab_kick_head_combo_right1;
-	Animation m_grab_kick_head_combo_right2;
+	Animation grab_right;
+	Animation grab_kick_head_combo_right1;
+	Animation grab_kick_head_combo_right2;
 
 
-	Animation m_grab_left;
-	Animation m_grab_kick_head_combo_left1;
-	Animation m_grab_kick_head_combo_left2;
+	Animation grab_left;
+	Animation grab_kick_head_combo_left1;
+	Animation grab_kick_head_combo_left2;
 
-	Animation m_grab_air_spin_combo_right1;
-	Animation m_grab_air_spin_combo_right2;
-	Animation m_grab_air_spin_combo_right3;
-	Animation m_grab_air_spin_combo_right4;
-	Animation m_grab_air_spin_combo_right5;
-	Animation m_grab_air_spin_combo_right6;
-	Animation m_grab_air_spin_combo_right7;
+	Animation grab_air_spin_combo_right1;
+	Animation grab_air_spin_combo_right2;
+	Animation grab_air_spin_combo_right3;
+	Animation grab_air_spin_combo_right4;
+	Animation grab_air_spin_combo_right5;
+	Animation grab_air_spin_combo_right6;
+	Animation grab_air_spin_combo_right7;
 
-	Animation m_grab_air_spin_combo_left1;
-	Animation m_grab_air_spin_combo_left2;
-	Animation m_grab_air_spin_combo_left3;
-	Animation m_grab_air_spin_combo_left4;
-	Animation m_grab_air_spin_combo_left5;
-	Animation m_grab_air_spin_combo_left6;
-	Animation m_grab_air_spin_combo_left7;
+	Animation grab_air_spin_combo_left1;
+	Animation grab_air_spin_combo_left2;
+	Animation grab_air_spin_combo_left3;
+	Animation grab_air_spin_combo_left4;
+	Animation grab_air_spin_combo_left5;
+	Animation grab_air_spin_combo_left6;
+	Animation grab_air_spin_combo_left7;
 
-	Animation m_grab_air_spin_combo_finisher_right1;
-	Animation m_grab_air_spin_combo_finisher_right2;
-	Animation m_grab_air_spin_combo_finisher_right3;
+	Animation grab_air_spin_combo_finisher_right1;
+	Animation grab_air_spin_combo_finisher_right2;
+	Animation grab_air_spin_combo_finisher_right3;
 	
-	Animation m_grab_air_spin_combo_finisher_left1;
-	Animation m_grab_air_spin_combo_finisher_left2;
-	Animation m_grab_air_spin_combo_finisher_left3;
+	Animation grab_air_spin_combo_finisher_left1;
+	Animation grab_air_spin_combo_finisher_left2;
+	Animation grab_air_spin_combo_finisher_left3;
 
-	Animation m_weapon_pipe_idle_right;
-	Animation m_weapon_pipe_walk_right;
-	Animation m_weapon_pipe_attack_right;
-	Animation m_weapon_pipe_throw_right;
+	Animation weapon_pipe_idle_right;
+	Animation weapon_pipe_walk_right;
+	Animation weapon_pipe_attack_right;
+	Animation weapon_pipe_throw_right;
 
-	Animation m_weapon_pipe_idle_left;
-	Animation m_weapon_pipe_walk_left;
-	Animation m_weapon_pipe_attack_left;
-	Animation m_weapon_pipe_throw_left;
+	Animation weapon_pipe_idle_left;
+	Animation weapon_pipe_walk_left;
+	Animation weapon_pipe_attack_left;
+	Animation weapon_pipe_throw_left;
 
-	Animation m_weapon_knife_idle_right;
-	Animation m_weapon_knife_walk_right;
-	Animation m_weapon_knife_attack_right;
-	Animation m_weapon_knife_throw_right;
+	Animation weapon_knife_idle_right;
+	Animation weapon_knife_walk_right;
+	Animation weapon_knife_attack_right;
+	Animation weapon_knife_throw_right;
 
-	Animation m_weapon_knife_idle_left;
-	Animation m_weapon_knife_walk_left;
-	Animation m_weapon_knife_attack_left;
-	Animation m_weapon_knife_throw_left;
+	Animation weapon_knife_idle_left;
+	Animation weapon_knife_walk_left;
+	Animation weapon_knife_attack_left;
+	Animation weapon_knife_throw_left;
 
-	Animation m_damage_received_right;
-	Animation m_damage_received_left;
+	Animation damage_received_right;
+	Animation damage_received_left;
 
-	Animation m_down_right;
-	Animation m_down_left;
+	Animation down_right;
+	Animation down_left;
 
-	Animation m_up_right;
-	Animation m_up_left;
+	Animation up_right;
+	Animation up_left;
 
-	Animation *m_current_animation;
+	Animation *current_animation;
 
 	
 private:

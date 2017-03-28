@@ -63,3 +63,8 @@ void PreBackPunch::DownHold()
 {
 
 }
+
+void PreBackPunch::GoIdle()
+{
+
+}

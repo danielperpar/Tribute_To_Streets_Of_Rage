@@ -63,3 +63,8 @@ void Finisher::DownHold()
 {
 
 }
+
+void Finisher::GoIdle()
+{
+
+}

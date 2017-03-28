@@ -63,3 +63,8 @@ void Grab::DownHold()
 {
 
 }
+
+void Grab::GoIdle()
+{
+
+}

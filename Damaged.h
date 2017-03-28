@@ -25,5 +25,6 @@ public:
 	virtual void UpHold();
 	virtual void DownPressed();
 	virtual void DownHold();
+	virtual void GoIdle();
 };
 #endif

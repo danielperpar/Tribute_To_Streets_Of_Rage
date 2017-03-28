@@ -62,3 +62,8 @@ void Walk::DownHold()
 {
 
 }
+
+void Walk::GoIdle()
+{
+
+}

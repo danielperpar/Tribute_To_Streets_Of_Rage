@@ -63,3 +63,8 @@ void Damaged::DownHold()
 {
 
 }
+
+void Damaged::GoIdle()
+{
+
+}

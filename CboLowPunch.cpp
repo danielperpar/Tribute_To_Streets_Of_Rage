@@ -63,3 +63,8 @@ void CboLowPunch::DownHold()
 {
 
 }
+
+void CboLowPunch::GoIdle()
+{
+
+}
