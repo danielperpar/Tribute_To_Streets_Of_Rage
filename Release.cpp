@@ -1,6 +1,6 @@
 #include "Release.h"
 
-Release::Release() {}
+Release::Release(PlayerFSM *fsm) : player_fsm(fsm){}
 Release::~Release() {}
 
 void Release::AttackPressed()

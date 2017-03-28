@@ -1,6 +1,7 @@
 #include "HeadHit.h"
 
-HeadHit::HeadHit() {}
+HeadHit::HeadHit(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 HeadHit::~HeadHit() {}
 
 void HeadHit::AttackPressed()

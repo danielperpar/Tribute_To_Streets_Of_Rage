@@ -3,10 +3,13 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class Finisher : public State
 {
+private:
+	PlayerFSM *player_fsm;
 public:
-	Finisher();
+	Finisher(PlayerFSM *fsm);
 	~Finisher();
 
 	virtual void AttackPressed();

@@ -2,11 +2,15 @@
 #define __AIRATTACK_H__
 
 #include "State.h"
-
+class PlayerFSM;
 class AirAttack : public State
 {
+private:
+
+	PlayerFSM *player_fsm;
+
 public:
-	AirAttack();
+	AirAttack(PlayerFSM *fsm);
 	~AirAttack();
 
 	virtual void AttackPressed();

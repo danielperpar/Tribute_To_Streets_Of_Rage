@@ -1,6 +1,7 @@
 #include "CboPunch.h"
 
-CboPunch::CboPunch() {}
+CboPunch::CboPunch(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 CboPunch::~CboPunch() {}
 
 void CboPunch::AttackPressed()

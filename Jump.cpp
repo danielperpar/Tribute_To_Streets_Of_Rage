@@ -1,6 +1,6 @@
 #include "Jump.h"
 
-Jump::Jump() {}
+Jump::Jump(PlayerFSM *fsm) : player_fsm(fsm) {}
 Jump::~Jump() {}
 
 void Jump::AttackPressed()

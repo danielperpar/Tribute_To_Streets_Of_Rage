@@ -2,11 +2,14 @@
 #define __AIRKICK_H__
 
 #include "State.h"
-
+class PlayerFSM;
 class AirKick : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	AirKick();
+	AirKick(PlayerFSM *fsm);
 	~AirKick();
 
 	virtual void AttackPressed();

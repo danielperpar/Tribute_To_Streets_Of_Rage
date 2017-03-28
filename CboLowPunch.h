@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class CboLowPunch : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	CboLowPunch();
+	CboLowPunch(PlayerFSM *fsm);
 	~CboLowPunch();
 
 	virtual void AttackPressed();

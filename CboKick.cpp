@@ -1,6 +1,7 @@
 #include "CboKick.h"
 
-CboKick::CboKick() {}
+CboKick::CboKick(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 CboKick::~CboKick() {}
 
 void CboKick::AttackPressed()

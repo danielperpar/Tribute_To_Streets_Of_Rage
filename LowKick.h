@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class LowKick : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	LowKick();
+	LowKick(PlayerFSM *fsm);
 	~LowKick();
 
 	virtual void AttackPressed();

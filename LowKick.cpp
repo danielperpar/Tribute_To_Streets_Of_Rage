@@ -1,6 +1,6 @@
 #include "LowKick.h"
 
-LowKick::LowKick() {}
+LowKick::LowKick(PlayerFSM *fsm) : player_fsm(fsm){}
 LowKick::~LowKick() {}
 
 void LowKick::AttackPressed()

@@ -1,7 +1,7 @@
 #include "Idle.h"
 #include "Player.h"
 
-Idle::Idle(){}
+Idle::Idle(PlayerFSM *fsm) : player_fsm(fsm){}
 
 Idle::~Idle(){}
 

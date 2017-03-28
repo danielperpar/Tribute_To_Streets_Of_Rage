@@ -1,6 +1,7 @@
 #include "Finisher.h"
 
-Finisher::Finisher() {}
+Finisher::Finisher(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 Finisher::~Finisher() {}
 
 void Finisher::AttackPressed()

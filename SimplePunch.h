@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class SimplePunch : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	SimplePunch();
+	SimplePunch(PlayerFSM *fsm);
 	~SimplePunch();
 
 	virtual void AttackPressed();

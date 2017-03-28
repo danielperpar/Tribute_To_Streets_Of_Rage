@@ -1,6 +1,6 @@
 #include "KnockDown.h"
 
-KnockDown::KnockDown() {}
+KnockDown::KnockDown(PlayerFSM *fsm) : player_fsm(fsm) {}
 KnockDown::~KnockDown() {}
 
 void KnockDown::AttackPressed()

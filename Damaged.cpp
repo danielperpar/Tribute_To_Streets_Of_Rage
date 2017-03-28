@@ -1,6 +1,7 @@
 #include "Damaged.h"
 
-Damaged::Damaged() {}
+Damaged::Damaged(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 Damaged::~Damaged(){}
 
 void Damaged::AttackPressed()

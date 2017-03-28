@@ -2,10 +2,14 @@
 #define __CBOKICK_H__
 
 #include "State.h"
-class CboKick : public CboKick
+
+class PlayerFSM;
+class CboKick : public State
 {
+private:
+	PlayerFSM *player_fsm;
 public:
-	CboKick();
+	CboKick(PlayerFSM *fsm);
 	~CboKick();
 
 	virtual void AttackPressed();

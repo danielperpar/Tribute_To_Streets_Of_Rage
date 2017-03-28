@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class Release : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	Release();
+	Release(PlayerFSM *fsm);
 	~Release();
 
 	virtual void AttackPressed();

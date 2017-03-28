@@ -1,6 +1,6 @@
 #include "SimplePunch.h"
 
-SimplePunch::SimplePunch() {}
+SimplePunch::SimplePunch(PlayerFSM *fsm) : player_fsm(fsm) {}
 SimplePunch::~SimplePunch() {}
 
 void SimplePunch::AttackPressed()

@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class Walk : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	Walk();
+	Walk(PlayerFSM *fsm);
 	~Walk();
 
 	virtual void AttackPressed();

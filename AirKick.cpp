@@ -1,6 +1,7 @@
 #include "AirKick.h"
 
-AirKick::AirKick() {}
+AirKick::AirKick(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 AirKick::~AirKick() {}
 
 void AirKick::AttackPressed()

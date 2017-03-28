@@ -1,6 +1,7 @@
 #include "PreBackPunch.h"
 
-PreBackPunch::PreBackPunch() {}
+PreBackPunch::PreBackPunch(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 PreBackPunch::~PreBackPunch() {}
 
 void PreBackPunch::AttackPressed()

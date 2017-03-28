@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class Grab : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	Grab();
+	Grab(PlayerFSM *fsm);
 	~Grab();
 
 	virtual void AttackPressed();

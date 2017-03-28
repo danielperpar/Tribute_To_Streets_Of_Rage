@@ -1,6 +1,6 @@
 #include "Walk.h"
 
-Walk::Walk() {}
+Walk::Walk(PlayerFSM *fsm) : player_fsm(fsm) {}
 Walk::~Walk() {}
 
 void Walk::AttackPressed()

@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class HeadHit : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	HeadHit();
+	HeadHit(PlayerFSM *fsm);
 	~HeadHit();
 
 	virtual void AttackPressed();

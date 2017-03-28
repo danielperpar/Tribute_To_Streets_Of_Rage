@@ -3,10 +3,13 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class Jump : public State
 {
+private:
+	PlayerFSM *player_fsm;
 public:
-	Jump();
+	Jump(PlayerFSM *fsm);
 	~Jump();
 
 	virtual void AttackPressed();

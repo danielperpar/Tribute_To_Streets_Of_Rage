@@ -1,6 +1,7 @@
 #include "AirAttack.h"
 
-AirAttack::AirAttack() {}
+AirAttack::AirAttack(PlayerFSM *fsm) : player_fsm(fsm){}
+
 AirAttack::~AirAttack() {}
 
 void AirAttack::AttackPressed()

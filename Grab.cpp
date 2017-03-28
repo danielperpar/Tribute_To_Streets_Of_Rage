@@ -1,6 +1,7 @@
 #include "Grab.h"
 
-Grab::Grab() {}
+Grab::Grab(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 Grab::~Grab() {}
 
 void Grab::AttackPressed()

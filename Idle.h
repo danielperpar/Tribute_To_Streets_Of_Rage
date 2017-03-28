@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class Idle : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	Idle();
+	Idle(PlayerFSM *player_fsm);
 	~Idle();
 
 	virtual void AttackPressed();

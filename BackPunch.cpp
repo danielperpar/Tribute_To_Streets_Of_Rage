@@ -1,6 +1,7 @@
 #include "BackPunch.h"
 
-BackPunch::BackPunch() {}
+BackPunch::BackPunch(PlayerFSM *fsm) : player_fsm(fsm) {}
+
 BackPunch::~BackPunch() {}
 
 void BackPunch::AttackPressed()

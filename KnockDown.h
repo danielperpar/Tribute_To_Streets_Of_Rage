@@ -3,10 +3,14 @@
 
 #include "State.h"
 
+class PlayerFSM;
 class KnockDown : public State
 {
+private:
+	PlayerFSM *player_fsm;
+
 public:
-	KnockDown();
+	KnockDown(PlayerFSM *fsm);
 	~KnockDown();
 
 	virtual void AttackPressed();
