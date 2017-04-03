@@ -5,10 +5,11 @@
 #include "Point.h"
 
 struct SDL_Texture;
+class Animation;
 class Weapon : public Entity{
 
 public:
-	Weapon(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth);
+	Weapon(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	
 public:	
 

@@ -2,7 +2,7 @@
 #include "Utilities.h"
 #include "JSONDataLoader.h"
 
-Punky::Punky(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth) : Enemy(texture, name, type, position, depth) 
+Punky::Punky(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Enemy(texture, curr_anim, name, type, position, depth)
 {
 	JSONDataLoader::Load("assets/json/sprites_data.json", "npcPunkyIdleRight", m_animation_list, m_npc_punky_idle_right);
 	m_npc_punky_idle_right.loop = false;

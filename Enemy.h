@@ -5,8 +5,6 @@
 #include <list>
 #include "Entity.h"
 #include "Point.h"
-#include "AIController.h"
-
 
 enum class enemy_state
 {
@@ -31,10 +29,11 @@ enum class enemy_state
 class Particle;
 struct Collider;
 struct SDL_Texture;
+class Animation;
 class Enemy : public Entity {
 
 public:
-	Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth);
+	Enemy(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Enemy(const Enemy &enemy);
 
 public:
@@ -68,7 +67,7 @@ public:
 	bool m_ai_walk = true;
 	bool m_ai_attack = false;
 
-	AIController m_ai_controller;
+	//AIController m_ai_controller;
 	
 	//Axis X origin taken from the upper left vertex related to the rectangle containing the enemy sprite to the enemy's back neck position
 	size_t m_x_ref = 70;

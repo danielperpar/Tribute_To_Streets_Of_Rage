@@ -10,7 +10,7 @@
 
 ModuleRender::ModuleRender()
 {
-	camera.x = CAMERA_STARTING_POS_X * SCREEN_SIZE;
+	camera.x = -CAMERA_STARTING_POS_X * SCREEN_SIZE;
 	camera.y = 0;
 	camera.w = SCREEN_WIDTH * SCREEN_SIZE;
 	camera.h = SCREEN_HEIGHT* SCREEN_SIZE;
@@ -54,24 +54,30 @@ update_status ModuleRender::PreUpdate()
 update_status ModuleRender::Update()
 {
 	// debug camera
-	//int speed = App->player->m_player->m_speed + 2.0f;
 
-	//if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-	//	App->renderer->camera.y += speed;
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		camera.y += camera_speed;		
+	}
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		camera.y -= camera_speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		camera.x += camera_speed;
+		moving = -1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		camera.x -= camera_speed;
+		moving = 1;
+	}
 
-	//if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	//	App->renderer->camera.y -= speed;
-
-	//if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	//	App->renderer->camera.x += speed;
-
-	//if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	//	App->renderer->camera.x -= speed;
-
-
-	
-
-	
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+	{
+		moving = 0;
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -97,14 +103,22 @@ bool ModuleRender::CleanUp()
 }
 
 // Blit to screen
-bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed)
+bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, bool followCamera, float speed)
 {
 	bool ret = true;
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * SCREEN_SIZE;
-	rect.y = (int)(camera.y * speed) + y * SCREEN_SIZE;
+	if (!followCamera)
+	{
+		rect.x = (int)(camera.x * speed) + x * SCREEN_SIZE;
+		rect.y = (int)(camera.y * speed) + y * SCREEN_SIZE;
+	}
+	else
+	{
+		rect.x = 0;
+		rect.y = 0;
+	}
 
-	if(section != NULL)
+	if(section != nullptr)
 	{
 		rect.w = section->w;
 		rect.h = section->h;
@@ -116,6 +130,9 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 
 	rect.w *= SCREEN_SIZE;
 	rect.h *= SCREEN_SIZE;
+
+	//debug test
+	//LOG("recX = %d", rect.x);
 
 	if(SDL_RenderCopy(renderer, texture, section, &rect) != 0)
 	{

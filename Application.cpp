@@ -10,7 +10,7 @@
 #include "ModuleSceneRound1.h"
 #include "ModulePlayer.h"
 #include "ModuleEnemies.h"
-#include "ModuleAI.h"
+
 
 using namespace std;
 
@@ -25,10 +25,9 @@ Application::Application()
 	modules.push_back(audio = new ModuleAudio());
 
 	// Game Modules
-	modules.push_back(scene_round1 = new ModuleSceneRound1(false));
-	modules.push_back(player = new ModulePlayer(true));
-	modules.push_back(enemies = new ModuleEnemies(true));
-	modules.push_back(artificial_inteligence = new ModuleAI(true));
+	modules.push_back(scene_round1 = new ModuleSceneRound1(true));
+	modules.push_back(player = new ModulePlayer(false));
+	modules.push_back(enemies = new ModuleEnemies(false));
 
 	// Modules to draw on top of game logic
 	modules.push_back(collision = new ModuleCollision());
@@ -90,11 +89,5 @@ bool Application::CleanUp()
 
 	return ret;
 
-	//clear entities
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
-	{
-		RELEASE(*it);
-	}
-	entities.clear();
 }
 

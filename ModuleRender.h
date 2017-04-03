@@ -20,7 +20,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, float speed = 1.0f);
+	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, bool followCamera = false, float speed = 1.0f);
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera = true);
 
 public:
@@ -29,6 +29,9 @@ public:
 
 	int m_max_screen_pos_x = 3870;
 	int m_min_screen_pos_x = 700;
+	int camera_speed = 10;
+	int moving = 0; // -1:moving left, 0:stopped, 1:moving right
+	
 };
 
 #endif // __MODULERENDER_H__

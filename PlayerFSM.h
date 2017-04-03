@@ -1,97 +1,67 @@
 #ifndef __FINITE_STATE_MACHINE_H__
 #define __FINITE_STATE_MACHINE__
 
-class Idle;
-class Walk;
-class Jump;
-class AirKick;
-class SimplePunch;
-class CboPunch;
-class CboLowPunch;
-class CboKick;
-class Grab;
-class LowKick;
-class HeadHit;
-class AirAttack;
-class Finisher;
-class Release;
-class PreBackPunch;
-class BackPunch;
-class Damaged;
-class KnockDown;
-class State;
+class ModulePlayer;
+class PlayerFSM;
 class Player;
 
-class PlayerFSM
-{
+class PlayerFSM{
 private:
-	State *curr_state;
-	Idle *idle;
-	Walk *walk;
-	Jump *jump;
-	AirKick *air_kick;
-	SimplePunch *simple_punch;
-	CboPunch *cbo_punch;
-	CboLowPunch *cbo_low_punch;
-	CboKick *cbo_kick;
-	Grab *grab;
-	LowKick *low_kick;
-	HeadHit *head_hit;
-	AirAttack *air_attack;
-	Finisher *finisher;
-	Release *release;
-	PreBackPunch *pre_back_punch;
-	BackPunch *back_punch;
-	Damaged *damaged;
-	KnockDown *knock_down;
-	Player *player;
+	enum class State
+	{
+		IDLE,
+		WALK,
+		JUMP,
+		AIR_KICK,
+		SIMPLE_PUNCH,
+		CBO_PUNCH,
+		CBO_LOW_PUNCH,
+		CBO_KICK,
+		GRAB,
+		LOW_KICK,
+		HEAD_HIT,
+		AIR_ATTACK,
+		FINISHER,
+		RELEASE,
+		PRE_BACK_PUNCH,
+		BACK_PUNCH,
+		DAMAGED,
+		KNOCK_DOWN,
+	};
 
-
+	State curr_state = State::IDLE;
+	State prev_state = State::IDLE;
+	ModulePlayer *module_player = nullptr;
+		
 public:
-	PlayerFSM(Player *player);
+	PlayerFSM(ModulePlayer *module_player);
 	~PlayerFSM();
 
-	void AttackPressed();
-	void AttackHold();
-	void JumpPressed();
-	void JumpHold();
-	void LeftPressed();
-	void LeftHold();
-	void RightPressed();
-	void RightHold();
-	void UpPressed();
-	void UpHold();
-	void DownPressed();
-	void DownHold();
-	void GoIdle();
+	void Update();
 
-	State* GetCurrState() const;
-	void SetCurrState(State *state);
-	Player *GetPlayer() const;
+	//-----------------------------  ACTIONS TO PERFORM IN EACH STATE ------------------------------------
+	void Idle();
+	void Walk();
+	void Jump();
+	void AirKick();
+	void SimplePunch();
+	void CboPunch();
+	void CboLowPunch();
+	void CboKick();
+	void Grab();
+	void LowKick();
+	void HeadHit();
+	void AirAttack();
+	void Finisher();
+	void Release();
+	void PreBackPunch();
+	void BackPunch();
+	void Damaged();
+	void KnockDown();
 
-	State* GetIdle() const;
-	State* GetWalk() const;
-	State* GetJump() const;
-	State* GetAirKick() const;
-	State* GetSimplePunch() const;
-	State* GetCboPunch() const;
-	State* GetCboLowPunch() const;
-	State* GetCboKick() const;
-	State* GetGrab() const;
-	State* GetLowKick() const;
-	State* GetHeadHit() const;
-	State* GetAirAttack() const;
-	State* GetFinisher() const;
-	State* GetRelease() const;
-	State* GetPreBackPunch() const;
-	State* GetBackPunch() const;
-	State* GetDamaged() const;
-	State* GetKnockDown() const;
-
-	
+	State GetCurrState() const;
+	void SetCurrState(State state);
 
 };
-
-
 
 #endif

@@ -4,11 +4,12 @@
 #include "Enemy.h"
 #include "Entity.h"
 
+class Animation;
 class Antonio : public Enemy
 {
 
 public:
-	Antonio(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth);
+	Antonio(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Antonio(const Antonio &antonio);
 	~Antonio();
 

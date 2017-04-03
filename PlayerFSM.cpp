@@ -1,239 +1,240 @@
 #include "PlayerFSM.h"
 #include "Globals.h"
-#include "Idle.h"
-#include "Walk.h"
-#include "Jump.h"
-#include "AirKick.h"
-#include "SimplePunch.h"
-#include "CboPunch.h"
-#include "CboLowPunch.h"
-#include "CboKick.h"
-#include "Grab.h"
-#include "LowKick.h"
-#include "HeadHit.h"
-#include "AirAttack.h"
-#include "Finisher.h"
-#include "Release.h"
-#include "PreBackPunch.h"
-#include "BackPunch.h"
-#include "Damaged.h"
-#include "KnockDown.h"
+#include "ModulePlayer.h"
+#include "Player.h"
 
-PlayerFSM::PlayerFSM(Player *player) : player(player)
+PlayerFSM::PlayerFSM(ModulePlayer *module_player) : module_player(module_player)
 {
-	idle = new Idle(this);
-	walk = new Walk(this);
-	jump = new Jump(this);
-	air_kick = new AirKick(this);
-	simple_punch = new SimplePunch(this);
-	cbo_punch = new CboPunch(this);
-	cbo_low_punch = new CboLowPunch(this);
-	cbo_kick = new CboKick(this);
-	grab = new Grab(this);
-	low_kick = new LowKick(this);
-	head_hit = new HeadHit(this);
-	air_attack = new AirAttack(this);
-	finisher = new Finisher(this);
-	release = new Release(this);
-	pre_back_punch = new PreBackPunch(this);
-	back_punch = new BackPunch(this);
-	damaged = new Damaged(this);
-	knock_down = new KnockDown(this);
+	curr_state = State::IDLE;	
+}
+// ------------------------------- UPDATE THE FSM -------------------------------------------------------
+void PlayerFSM::Update()
+{
+	switch (curr_state)
+	{
+	case State::IDLE:
+		Idle();
+		if (	
+			module_player->walk_left ||	module_player->walk_right ||
+			module_player->walk_up || module_player->walk_down
+			)		
+		{
+			curr_state = State::WALK;
+			break;
+		}
+		
 
-	curr_state = idle;
+		break;
+	case State::WALK:
+		Walk();
+	}
 }
 
-void PlayerFSM::AttackPressed()
+// ------------------------------- ACTIONS TO PERFORM IN EVERY STATE ------------------------------------
+void PlayerFSM::Idle()
 {
-	curr_state->AttackPressed();
+	
+	if (prev_state != State::IDLE)
+	{
+		if (module_player->facing_right)
+			module_player->player->curr_anim = &(module_player->player->anim_idle_right1);
+
+		if(!module_player->facing_right)
+			module_player->player->curr_anim = &(module_player->player->anim_idle_left1);
+	}
+	else
+	{
+		//setting right animations
+		if (module_player->player->curr_anim == &(module_player->player->anim_idle_right1))
+		{
+			if (module_player->player->curr_anim->Finished())
+			{
+				module_player->player->curr_anim->Reset();
+				module_player->player->curr_anim = &(module_player->player->anim_idle_right2);
+			}
+		}
+		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_right2))
+		{
+			if (module_player->player->curr_anim->Finished())
+			{
+				module_player->player->curr_anim->Reset();
+				module_player->player->curr_anim = &(module_player->player->anim_idle_right3);
+			}
+		}
+		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_right3))
+		{
+			if (module_player->player->curr_anim->Finished())
+			{
+				module_player->player->curr_anim->Reset();
+				module_player->player->curr_anim = &(module_player->player->anim_idle_right1);
+			}
+		}
+		// Setting left animations
+		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_left1))
+		{
+			if (module_player->player->curr_anim->Finished())
+			{
+				module_player->player->curr_anim->Reset();
+				module_player->player->curr_anim = &(module_player->player->anim_idle_left2);
+			}
+		}
+		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_left2))
+		{
+			if (module_player->player->curr_anim->Finished())
+			{
+				module_player->player->curr_anim->Reset();
+				module_player->player->curr_anim = &(module_player->player->anim_idle_left3);
+			}
+		}
+		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_left3))
+		{
+			if (module_player->player->curr_anim->Finished())
+			{
+				module_player->player->curr_anim->Reset();
+				module_player->player->curr_anim = &(module_player->player->anim_idle_left1);
+			}
+		}
+	}
+	
 }
 
-void PlayerFSM::AttackHold()
+void PlayerFSM::Walk()
 {
-	curr_state->AttackHold();
+	iPoint temp = module_player->player->position;
+
+	//set position
+	if (module_player->walk_left) 
+	{
+		module_player->facing_right = false;
+		temp.x -= module_player->player->speed;
+		module_player->walk_left = false;
+	}
+	if (module_player->walk_right)
+	{
+		module_player->facing_right = true;
+		temp.x += module_player->player->speed;
+		module_player->walk_right = false;
+	}
+	if (module_player->walk_up)
+	{
+		temp.y -= module_player->player->speed;
+		module_player->walk_up = false;
+	}
+	if (module_player->walk_down)
+	{
+		temp.y += module_player->player->speed;
+		module_player->walk_down = false;
+	}
+
+	//set animation
+	if (module_player->facing_right == true)
+	{
+		if (module_player->player->curr_anim != &(module_player->player->anim_walk_right))
+		{
+			module_player->player->curr_anim = &(module_player->player->anim_walk_right);
+			module_player->player->curr_anim->Reset();
+		}
+	}
+	else
+	{
+		if (module_player->player->curr_anim != &(module_player->player->anim_walk_left))
+		{
+			module_player->player->curr_anim = &(module_player->player->anim_walk_left);
+			module_player->player->curr_anim->Reset();
+		}
+	}
 }
 
-void PlayerFSM::JumpPressed()
+void PlayerFSM::Jump()
 {
-	curr_state->JumpPressed();
+
+}
+void PlayerFSM::AirKick()
+{
+
 }
 
-void PlayerFSM::JumpHold()
+void PlayerFSM::SimplePunch()
 {
-	curr_state->JumpHold();
+
 }
 
-void PlayerFSM::LeftPressed()
+void PlayerFSM::CboPunch()
 {
-	curr_state->LeftPressed();
+
 }
 
-void PlayerFSM::LeftHold()
+void PlayerFSM::CboLowPunch()
 {
-	curr_state->LeftHold();
+
 }
 
-void PlayerFSM::RightPressed()
+void PlayerFSM::CboKick()
 {
-	curr_state->RightPressed();
+
 }
 
-void PlayerFSM::RightHold()
+void PlayerFSM::Grab()
 {
-	curr_state->RightHold();
+
 }
 
-void PlayerFSM::UpPressed()
+void PlayerFSM::LowKick()
 {
-	curr_state->UpPressed();
+
 }
 
-void PlayerFSM::UpHold()
+void PlayerFSM::HeadHit()
 {
-	curr_state->UpHold();
+
 }
 
-void PlayerFSM::DownPressed()
+void PlayerFSM::AirAttack()
 {
-	curr_state->DownPressed();
+
 }
 
-void PlayerFSM::DownHold()
+void PlayerFSM::Finisher()
 {
-	curr_state->DownHold();
+
+}
+void PlayerFSM::Release()
+{
+
 }
 
-void PlayerFSM::GoIdle()
+void PlayerFSM::PreBackPunch()
 {
-	curr_state->GoIdle();
+
 }
-//----------------------------------- GETTERS & SETTERS -------------------------
- State* PlayerFSM::GetCurrState() const
+void PlayerFSM::BackPunch()
+{
+
+}
+void PlayerFSM::Damaged()
+{
+
+}
+void PlayerFSM::KnockDown()
+{
+
+}
+
+PlayerFSM::State PlayerFSM::GetCurrState() const
 {
 	return curr_state;
 }
 
-void PlayerFSM::SetCurrState(State *state)
-{
-	curr_state = state;
-}
-
-Player* PlayerFSM::GetPlayer() const
-{
-	return player;
-}
-
-State* PlayerFSM::GetIdle() const
-{
-	return idle;
-}
-
-State* PlayerFSM::GetWalk() const
-{
-	return walk;
-}
-
-State* PlayerFSM::GetJump() const
-{
-	return jump;
-}
-
-State* PlayerFSM::GetAirKick() const
-{
-	return air_kick;
-}
-
-State* PlayerFSM::GetSimplePunch() const
-{
-	return simple_punch;
-}
-
-State* PlayerFSM::GetCboPunch() const
-{
-	return cbo_punch;
-}
-
-State* PlayerFSM::GetCboLowPunch() const
-{
-	return cbo_low_punch;
-}
-
-State* PlayerFSM::GetCboKick() const
-{
-	return cbo_kick;
-}
-
-State* PlayerFSM::GetGrab() const
-{
-	return grab;
-}
-
-State* PlayerFSM::GetLowKick() const
-{
-	return low_kick;
-}
-
-State* PlayerFSM::GetHeadHit() const
-{
-	return head_hit;
-}
-
-State* PlayerFSM::GetAirAttack() const
-{
-	return air_attack;
-}
-
-State* PlayerFSM::GetFinisher() const
-{
-	return finisher;
-}
-
-State* PlayerFSM::GetRelease() const
-{
-	return release;
-}
-
-State* PlayerFSM::GetPreBackPunch() const
-{
-	return pre_back_punch;
-}
-
-State* PlayerFSM::GetBackPunch() const
-{
-	return back_punch;
-}
-
-State* PlayerFSM::GetDamaged() const
-{
-	return damaged;
-}
-
-State* PlayerFSM::GetKnockDown() const
-{
-	return knock_down;
+void PlayerFSM::SetCurrState(State state)
+{	
+		curr_state = state;
+	
 }
 
 
 //------------------------------------- DESTRUCTOR ----------------------------
 PlayerFSM::~PlayerFSM()
 {
-	RELEASE(idle);
-	RELEASE(walk);
-	RELEASE(jump);
-	RELEASE(air_kick);
-	RELEASE(simple_punch);
-	RELEASE(cbo_punch);
-	RELEASE(cbo_low_punch);
-	RELEASE(cbo_kick);
-	RELEASE(grab);
-	RELEASE(low_kick);
-	RELEASE(head_hit);
-	RELEASE(air_attack);
-	RELEASE(finisher);
-	RELEASE(release);
-	RELEASE(pre_back_punch);
-	RELEASE(back_punch);
-	RELEASE(damaged);
-	RELEASE(knock_down);
+
 }
 

@@ -3,7 +3,6 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
-#include "AIController.h"
 #include "ModuleEnemies.h"
 #include "ModulePlayer.h"
 #include <iostream>
@@ -61,15 +60,15 @@ update_status ModuleCollision::PreUpdate()
 	}
 	
 	//Update collisions between enemies and player
-	for (std::list<Entity*>::iterator it = App->entities.begin(); it != App->entities.end(); it++)
+	/*for (std::list<Entity*>::iterator it = App->entities.begin(); it != App->entities.end(); it++)
 	{
-		if ((*it)->m_type == entity_type::ENEMY)
+		if ((*it)->type == entity_type::ENEMY)
 		{
 			bool collision = App->player->m_player_collider->CheckCollision(((Enemy*)*it)->m_enemy_hit_collider->m_rect);
 			if (!collision)
 				((Enemy*)*it)->m_enemy_to_hit = false;
 		}
-	}
+	}*/
 
 	return UPDATE_CONTINUE;
 }
@@ -189,12 +188,12 @@ void Collider::OnCollision(Collider* collider1, Collider* collider2) const
 		collider1->m_collider_type == COMMON_ENEMY_RANGED_ATTACK || collider2->m_collider_type == COMMON_ENEMY_RANGED_ATTACK
 		) 
 	{
-		Collider* enemy_collider = collider1->m_entity->m_type == entity_type::ENEMY ? collider1 : collider2;
+		Collider* enemy_collider = collider1->m_entity->type == entity_type::ENEMY ? collider1 : collider2;
 		((Enemy*)(enemy_collider->m_entity))->m_ai_walk = false;
 		((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
 		
 
-		if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK && App->player->m_player->m_depth == ((Enemy*)(enemy_collider->m_entity))->m_depth)
+		if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK && App->player->player->depth == ((Enemy*)(enemy_collider->m_entity))->depth)
 			((Enemy*)(enemy_collider->m_entity))->m_enemy_to_hit = true;
 	}
 

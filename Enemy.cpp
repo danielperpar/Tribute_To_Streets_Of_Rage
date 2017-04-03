@@ -3,7 +3,12 @@
 #include "Utilities.h"
 
 
-Enemy::Enemy(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth) : Entity(texture, name, type, position, depth), m_dead(false), m_life(100){}
+Enemy::Enemy(SDL_Texture *texture, 
+	Animation *curr_anim, 
+	const char *name, 
+	entity_type type, 
+	iPoint position, 
+	int depth) : Entity(texture, curr_anim, name, type, position, depth), m_dead(false), m_life(100){}
 
 Enemy::Enemy(const Enemy &enemy)
 {

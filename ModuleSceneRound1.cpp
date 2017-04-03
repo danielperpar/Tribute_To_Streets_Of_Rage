@@ -10,55 +10,79 @@
 #include "ModuleSceneRound1.h"
 #include "JSONDataLoader.h"
 #include "Utilities.h"
+#include "ModuleInput.h"
+#include "ScenarioElement.h"
+#include "GUI.h"
+#include <algorithm>
+ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
+ModuleSceneRound1::~ModuleSceneRound1(){}
 
-ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active)
-{}
+bool ModuleSceneRound1::Init()
+{
+	LOG("Loading assets for scene round1");
+	LoadSceneAssets();
+	return true;
+}
 
-ModuleSceneRound1::~ModuleSceneRound1()
-{}
-
-// Load assets
 bool ModuleSceneRound1::Start()
 {
-	LOG("Loading round 1 scene");
+	LOG("Creating scene entities");
 
-	background = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_background_neon_out.png");
-	foreground = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_foreground.png");
-	shop_neons = App->textures->Load("assets/spritesheets/neones.png");
-	gui = App->textures->Load("assets/spritesheets/gui.png");
+	Entity *background = new ScenarioElement(tx_background, nullptr, "background", entity_type::SCENARIO, { 0,32 }, 100);
+	scenario_entities.push_back(background);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "neonPinEPot", animation_list, neonPinEPot);
-	neonPinEPot.loop = true;
-	neonPinEPot.speed = 0.05f;
-	Utilities::free_list(animation_list);
+	Entity *pinepot1 = new ScenarioElement(tx_neons, &neonPinEPot, "pinepot1", entity_type::SCENARIO, { 768, 32 }, 99);
+	scenario_entities.push_back(pinepot1);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "neonBreakfastDiner", animation_list, neonBreakfastDiner);
-	neonBreakfastDiner.loop = true;
-	neonBreakfastDiner.speed = 0.05f;
-	Utilities::free_list(animation_list);
+	Entity *pinepot2 = new ScenarioElement(tx_neons, &neonPinEPot, "pinepot2", entity_type::SCENARIO, { 3605, 32 }, 99);
+	scenario_entities.push_back(pinepot2);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "neonLDevo", animation_list, neonLDevo);
-	neonLDevo.loop = true;
-	neonLDevo.speed = 0.05f;
-	Utilities::free_list(animation_list);
+	Entity *breakfastdinner1 = new ScenarioElement(tx_neons, &neonBreakfastDiner, "breakfastdinner1", entity_type::SCENARIO, { 1028, 31 }, 99);
+	scenario_entities.push_back(breakfastdinner1);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "neonRachShop", animation_list, neonRachShop);
-	neonRachShop.loop = true;
-	neonRachShop.speed = 0.05f;
-	Utilities::free_list(animation_list);
+	Entity *breakfastdinner2 = new ScenarioElement(tx_neons, &neonBreakfastDiner, "breakfastdinner2", entity_type::SCENARIO, { 1604, 31 }, 99);
+	scenario_entities.push_back(breakfastdinner2);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "neonAbcShop", animation_list, neonAbcShop);
-	neonAbcShop.loop = true;
-	neonAbcShop.speed = 0.05f;
-	Utilities::free_list(animation_list);
+	Entity *LDevo1 = new ScenarioElement(tx_neons, &neonLDevo, "LDevo1", entity_type::SCENARIO, { 1338, 32 }, 99);
+	scenario_entities.push_back(LDevo1);
 
-	JSONDataLoader::Load("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neonCafeRestaurant);
-	neonCafeRestaurant.loop = true;
-	neonCafeRestaurant.speed = 0.05f;
-	Utilities::free_list(animation_list);
+	Entity *LDevo2 = new ScenarioElement(tx_neons, &neonLDevo, "LDevo2", entity_type::SCENARIO, { 1850, 32 }, 99);
+	scenario_entities.push_back(LDevo2);
+
+	Entity *ranchShop1 = new ScenarioElement(tx_neons, &neonRachShop, "ranchShop1", entity_type::SCENARIO, { 0, 32 }, 99);
+	scenario_entities.push_back(ranchShop1);
+
+	Entity *ranchShop2 = new ScenarioElement(tx_neons, &neonRachShop, "ranchSop2", entity_type::SCENARIO, { 2053, 32 }, 99);
+	scenario_entities.push_back(ranchShop2);
+
+	Entity *abcShop1 = new ScenarioElement(tx_neons, &neonAbcShop, "abcShop1", entity_type::SCENARIO, { 567, 32 }, 99);
+	scenario_entities.push_back(abcShop1);
+
+	Entity *abcShop2 = new ScenarioElement(tx_neons, &neonAbcShop, "abcShop2", entity_type::SCENARIO, { 2875, 32 }, 99);
+	scenario_entities.push_back(abcShop2);
+
+	Entity *cafeRestaurant1 = new ScenarioElement(tx_neons, &neonCafeRestaurant, "cafeRestaurant1", entity_type::SCENARIO, { 132, 96 }, 99);
+	scenario_entities.push_back(cafeRestaurant1);
+
+	Entity *cafeRestaurant2 = new ScenarioElement(tx_neons, &neonCafeRestaurant, "cafeRestaurant2", entity_type::SCENARIO, { 1864, 96 }, 99);
+	scenario_entities.push_back(cafeRestaurant2);
+
+	Entity *cafeRestaurant3 = new ScenarioElement(tx_neons, &neonCafeRestaurant, "cafeRestaurant3", entity_type::SCENARIO, { 2440, 96 }, 99);
+	scenario_entities.push_back(cafeRestaurant3);
+
+	Entity *cafeRestaurant4 = new ScenarioElement(tx_neons, &neonCafeRestaurant, "cafeRestaurant4", entity_type::SCENARIO, { 3128, 48 }, 99);
+	scenario_entities.push_back(cafeRestaurant4);
+
+	Entity *cafeRestaurant5 = new ScenarioElement(tx_neons, &neonCafeRestaurant, "cafeRestaurant5", entity_type::SCENARIO, { 3224, 48 }, 99);
+	scenario_entities.push_back(cafeRestaurant5);
+
+	//--------------------------------- FOREGROUND ELEMENTS ---------------------------------
+	gui = new GUI(tx_gui, nullptr, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
+	foreground = new ScenarioElement(tx_foreground, nullptr, "foreground", entity_type::SCENARIO, { 0,32 }, 1);
 
 
+	
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
 	// TODO 15: create some colliders for the walls
@@ -91,10 +115,26 @@ bool ModuleSceneRound1::CleanUp()
 {
 	LOG("Unloading scene");
 
-	App->textures->Unload(background);
-	App->textures->Unload(foreground);
-	App->textures->Unload(shop_neons);
-	App->textures->Unload(gui);
+	//release scene entities
+	for (std::vector<Entity*>::iterator it = scenario_entities.begin(); it != scenario_entities.end(); it++)
+	{
+		RELEASE(*it);
+	}
+	scenario_entities.clear();
+
+	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
+	{
+		RELEASE(*it);
+	}
+	dynamic_entities.clear();
+
+	RELEASE(foreground);
+	RELEASE(gui);
+
+	App->textures->Unload(tx_background);
+	App->textures->Unload(tx_foreground);
+	App->textures->Unload(tx_neons);
+	App->textures->Unload(tx_gui);
 	App->player->Disable();
 	App->enemies->Disable();
 	App->collision->Disable();
@@ -112,32 +152,95 @@ update_status ModuleSceneRound1::Update()
 	//App->player->position.x += 1;
 	//App->renderer->camera.x -= 3;
 
+	// ------------------------------------------------  RECEIVE PLAYER INPUT -----------------------------------------
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		walk_left = true;
+	}
+
+	else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		walk_right = true;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		walk_up = true;
+	}
+
+	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		walk_down = true;
+	}
+
+	//----------------------------------------------------------------------------------------------------------
+
+
 	// Draw everything --------------------------------------
-	App->renderer->Blit(background, 0, 32, NULL);
 
-	App->renderer->Blit(shop_neons, 768, 32, &(neonPinEPot.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 3605, 32, &(neonPinEPot.GetCurrentFrame()));
+	//Sort dynamic entitites according to its depth in descendant order
+	std::sort(dynamic_entities.begin(), dynamic_entities.end(), [](Entity *e1, Entity *e2) {return (e2->depth < e1->depth); });
 
-	App->renderer->Blit(shop_neons, 1028, 31, &(neonBreakfastDiner.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 1604, 31, &(neonBreakfastDiner.GetCurrentFrame()));
-	
-	App->renderer->Blit(shop_neons, 1338, 32, &(neonLDevo.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 1850, 32, &(neonLDevo.GetCurrentFrame()));
-	
-	App->renderer->Blit(shop_neons, 0, 32, &(neonRachShop.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 2053, 32, &(neonRachShop.GetCurrentFrame()));
-	
-	App->renderer->Blit(shop_neons, 567, 32, &(neonAbcShop.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 2875, 32, &(neonAbcShop.GetCurrentFrame()));
+	//Draw scenario
+	for (std::vector<Entity*>::iterator it = scenario_entities.begin(); it != scenario_entities.end(); it++)
+	{		
+		if((*it)->curr_anim != nullptr)
+			App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, &((*it)->curr_anim->GetCurrentFrame()));
+		else
+			App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, nullptr);
+	}
 
-	App->renderer->Blit(shop_neons, 132, 96, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 1864, 96, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 2440, 96, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 3128, 48, &(neonCafeRestaurant.GetCurrentFrame()));
-	App->renderer->Blit(shop_neons, 3224, 48, &(neonCafeRestaurant.GetCurrentFrame()));
+	//Draw dynamic entities, i.e. : player, enemy, etc
+	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
+	{
+		if ((*it)->curr_anim != nullptr)
+			App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, &((*it)->curr_anim->GetCurrentFrame()));
+		else
+			App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, nullptr);
+	}
 
-	App->renderer->Blit(foreground, 0, 32, NULL);
-	App->renderer->Blit(gui, 0, 0, NULL, 0.0f);
+	//Draw foreground elements
+	App->renderer->Blit(foreground->texture, foreground->position.x, foreground->position.y, nullptr);
+	App->renderer->Blit(gui->texture, gui->position.x, gui->position.y, nullptr, true);
 
 	return UPDATE_CONTINUE;
+}
+
+void ModuleSceneRound1::LoadSceneAssets()
+{
+	tx_background = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_background_neon_out.png");
+	tx_foreground = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_foreground.png");
+	tx_neons = App->textures->Load("assets/spritesheets/neones.png");
+	tx_gui = App->textures->Load("assets/spritesheets/gui.png");
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "neonPinEPot", animation_list, neonPinEPot);
+	neonPinEPot.loop = true;
+	neonPinEPot.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "neonBreakfastDiner", animation_list, neonBreakfastDiner);
+	neonBreakfastDiner.loop = true;
+	neonBreakfastDiner.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "neonLDevo", animation_list, neonLDevo);
+	neonLDevo.loop = true;
+	neonLDevo.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "neonRachShop", animation_list, neonRachShop);
+	neonRachShop.loop = true;
+	neonRachShop.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "neonAbcShop", animation_list, neonAbcShop);
+	neonAbcShop.loop = true;
+	neonAbcShop.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neonCafeRestaurant);
+	neonCafeRestaurant.loop = true;
+	neonCafeRestaurant.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
 }

@@ -2,7 +2,7 @@
 #include "JSONDataLoader.h"
 #include "Utilities.h"
 
-Antonio::Antonio(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth) : Enemy(texture, name, type, position, depth) 
+Antonio::Antonio(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Enemy(texture, curr_anim, name, type, position, depth) 
 {
 	JSONDataLoader::Load("assets/json/sprites_data.json", "npcAntonioBoomerangIdleRight", m_animation_list, m_npc_antonio_boomerang_idle_right);
 	m_npc_antonio_boomerang_idle_right.loop = false;

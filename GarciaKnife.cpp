@@ -2,7 +2,7 @@
 #include "JSONDataLoader.h"
 #include "Utilities.h"
 
-GarciaKnife::GarciaKnife(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth) : Enemy(texture, name, type, position, depth) {
+GarciaKnife::GarciaKnife(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Enemy(texture, curr_anim, name, type, position, depth) {
 	
 	JSONDataLoader::Load("assets/json/sprites_data.json", "npcGarciaKnifeIdleRight", m_animation_list, m_npc_garcia_knife_idle_right);
 	m_npc_garcia_knife_idle_right.loop = false;

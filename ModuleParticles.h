@@ -10,8 +10,7 @@
 class AIController;
 struct SDL_Texture;
 struct Collider;
-
-
+class Animation;
 class Particle : public Entity
 {
 
@@ -31,7 +30,7 @@ public:
 	std::list<int*> m_animation_list;
 
 public:
-	Particle(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth);
+	Particle(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Particle(const Particle& p);
 	~Particle();
 	bool Update();

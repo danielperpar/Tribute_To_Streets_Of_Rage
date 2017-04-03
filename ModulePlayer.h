@@ -9,7 +9,7 @@
 #include "Enemy.h"
 
 struct SDL_Texture;
-
+class PlayerFSM;
 
 class ModulePlayer : public Module
 {
@@ -20,21 +20,33 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	
+
+	// ----------------------------------  VARIABLES THAT CONTROL FSM LOGIC -----------------------------------
+	bool facing_right = true;
+	bool idle = true;
+	bool walk_left = false;
+	bool walk_right = false;
+	bool walk_up = false;
+	bool walk_down = false;
+
+	//----------------------------------------------------------------------------------------------------------
+
 	void UpdateColliderPosition();
 	bool LookingEachOther(Enemy *enemy);
 
-	SDL_Texture *graphics;
-	Player *m_player = nullptr;
-	Collider *m_player_collider;
-	
+	SDL_Texture *graphics = nullptr;
+	Player *player = nullptr;
+	Collider *m_player_collider = nullptr;
 	
 	
 private:	
-	Uint32 m_time = 0;
-	Uint32 m_update_time = 0;
-	Uint32 m_dt = 10;
-	bool m_do_logic = true;
+	Uint32 time = 0;
+	Uint32 update_time = 0;
+	Uint32 dt = 10;
+	bool do_logic = true;
+	PlayerFSM *player_fsm = nullptr;
+
+
 };
 
 #endif

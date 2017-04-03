@@ -110,8 +110,8 @@ update_status ModuleParticles::Update()
 void ModuleParticles::AddParticle(const Particle& particle, int x, int y, collider_type collider_type)
 {
 	m_particle = new Particle(particle);
-	m_particle->m_position.x = x;
-	m_particle->m_position.y = y;
+	m_particle->position.x = x;
+	m_particle->position.y = y;
 	m_particle->m_start_position.x = x;
 	m_particle->m_start_position.y = y;
 	
@@ -132,19 +132,19 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, collid
 // -------------------------------------------------------------
 // -------------------------------------------------------------
 //Particle(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int m_depth);
-Particle::Particle(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth) : Entity(texture, name, type, position, depth){}
+Particle::Particle(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Entity(texture, curr_anim, name, type, position, depth){}
 Particle::Particle(const Particle& p) 
 {
-	m_texture = p.m_texture;
-	m_name = p.m_name;
-	m_type = p.m_type;
-	m_position = p.m_position;
+	texture = p.texture;
+	name = p.name;
+	type = p.type;
+	position = p.position;
 	m_start_position = p.m_start_position;
 	m_to_delete = p.m_to_delete;
 	m_animation_right = p.m_animation_right;
 	m_animation_left = p.m_animation_left;
 	m_forward = p.m_forward;
-	m_depth = p.m_depth;
+	depth = p.depth;
 	m_owner = p.m_owner;
 	m_speed_x = p.m_speed_x;
 	m_speed_y = p.m_speed_y;
@@ -162,7 +162,7 @@ bool Particle::Update()
 {
 	bool ret = true;
 
-	if (!strcmp(m_name, "hit_effect"))
+	if (!strcmp(name, "hit_effect"))
 	{
 		if (m_face_right)
 		{

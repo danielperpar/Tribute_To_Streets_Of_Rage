@@ -7,7 +7,7 @@
 class GarciaKnife : public Enemy
 {
 public:
-	GarciaKnife(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int depth);
+	GarciaKnife(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	GarciaKnife(const GarciaKnife &garcia_knife);
 	~GarciaKnife();
 

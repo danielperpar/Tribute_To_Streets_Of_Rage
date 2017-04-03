@@ -10,23 +10,26 @@ enum class entity_type
 	DESTROYABLE_ITEM,
 	PLAYER,
 	ENEMY,
-	PARTICLE
+	PARTICLE,
+	SCENARIO,
+	GUI
 };
 
+class Animation;
 struct SDL_Texture;
 class Entity {
 
 public:
-	Entity(SDL_Texture *texture, const char *name, entity_type type, iPoint position, int m_depth);
+	Entity(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int m_depth);
 	Entity();
 	virtual ~Entity();
 
-public:
-	const char *m_name = nullptr;
-	entity_type m_type;
-	iPoint m_position = { 0,0 };
-	int m_depth = 0;
-	SDL_Texture *m_texture = nullptr;
+	const char *name = nullptr;
+	entity_type type;
+	iPoint position = { 0,0 };
+	int depth = 0;
+	SDL_Texture *texture = nullptr;
+	Animation *curr_anim = nullptr;
 };
 
 

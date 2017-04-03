@@ -16,10 +16,8 @@ class ModuleParticles;
 
 // Game modules ---
 class ModulePlayer;
-class ModuleAI;
 class ModuleEnemies;
 class ModuleSceneIntro;
-class ModuleSceneSpace;
 class ModuleSceneRound1;
 
 class Entity;
@@ -47,13 +45,9 @@ public:
 
 	// Game modules ---
 	ModulePlayer* player;
-	ModuleAI *artificial_inteligence;
 	ModuleEnemies *enemies;
 	ModuleSceneIntro* scene_intro;
-	ModuleSceneSpace* scene_space;
 	ModuleSceneRound1* scene_round1;
-
-	std::list<Entity*> entities;
 
 private:
 
