@@ -3,8 +3,9 @@
 #include "ModulePlayer.h"
 #include "Player.h"
 
-PlayerFSM::PlayerFSM(ModulePlayer *module_player) : module_player(module_player)
+PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
+	prev_state = State::START;
 	curr_state = State::IDLE;	
 }
 // ------------------------------- UPDATE THE FSM -------------------------------------------------------
@@ -14,84 +15,113 @@ void PlayerFSM::Update()
 	{
 	case State::IDLE:
 		Idle();
+		prev_state = curr_state;
 		if (	
-			module_player->walk_left ||	module_player->walk_right ||
-			module_player->walk_up || module_player->walk_down
+			the_player->walk_left || the_player->walk_right ||
+			the_player->walk_up || the_player->walk_down
 			)		
 		{
 			curr_state = State::WALK;
 			break;
 		}
-		
-
+		if (the_player->jump)
+		{
+			curr_state = State::JUMP;
+			break;
+		}
 		break;
 	case State::WALK:
 		Walk();
+		prev_state = curr_state;
+		if (
+			!the_player->walk_left && !the_player->walk_right &&
+			!the_player->walk_up && !the_player->walk_down
+			)
+		{
+			curr_state = State::IDLE;
+			break;
+		}
+		if (the_player->jump)
+		{
+			curr_state = State::JUMP;
+			break;
+		}
+		break;
+	case State::JUMP:
+		Jump();
+		prev_state = curr_state;
+		if (the_player->landed)
+		{
+			curr_state = State::IDLE;
+			the_player->jump = false;
+			break;
+		}
+
+		break;	
 	}
 }
 
 // ------------------------------- ACTIONS TO PERFORM IN EVERY STATE ------------------------------------
 void PlayerFSM::Idle()
-{
-	
+{	
 	if (prev_state != State::IDLE)
 	{
-		if (module_player->facing_right)
-			module_player->player->curr_anim = &(module_player->player->anim_idle_right1);
+		if (the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_idle_right1);
 
-		if(!module_player->facing_right)
-			module_player->player->curr_anim = &(module_player->player->anim_idle_left1);
+		if(!the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_idle_left1);
 	}
 	else
 	{
 		//setting right animations
-		if (module_player->player->curr_anim == &(module_player->player->anim_idle_right1))
+		if (the_player->curr_anim == &(the_player->anim_idle_right1))
 		{
-			if (module_player->player->curr_anim->Finished())
+			if (the_player->curr_anim->Finished())
 			{
-				module_player->player->curr_anim->Reset();
-				module_player->player->curr_anim = &(module_player->player->anim_idle_right2);
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_idle_right2);
 			}
 		}
-		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_right2))
+		else if (the_player->curr_anim == &(the_player->anim_idle_right2))
 		{
-			if (module_player->player->curr_anim->Finished())
+			if (the_player->curr_anim->Finished())
 			{
-				module_player->player->curr_anim->Reset();
-				module_player->player->curr_anim = &(module_player->player->anim_idle_right3);
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_idle_right3);
 			}
 		}
-		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_right3))
+		else if (the_player->curr_anim == &(the_player->anim_idle_right3))
 		{
-			if (module_player->player->curr_anim->Finished())
+			if (the_player->curr_anim->Finished())
 			{
-				module_player->player->curr_anim->Reset();
-				module_player->player->curr_anim = &(module_player->player->anim_idle_right1);
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_idle_right1);
 			}
 		}
 		// Setting left animations
-		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_left1))
+		else if (the_player->curr_anim == &(the_player->anim_idle_left1))
 		{
-			if (module_player->player->curr_anim->Finished())
+			if (the_player->curr_anim->Finished())
 			{
-				module_player->player->curr_anim->Reset();
-				module_player->player->curr_anim = &(module_player->player->anim_idle_left2);
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_idle_left2);
 			}
 		}
-		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_left2))
+		else if (the_player->curr_anim == &(the_player->anim_idle_left2))
 		{
-			if (module_player->player->curr_anim->Finished())
+			if (the_player->curr_anim->Finished())
 			{
-				module_player->player->curr_anim->Reset();
-				module_player->player->curr_anim = &(module_player->player->anim_idle_left3);
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_idle_left3);
 			}
 		}
-		else if (module_player->player->curr_anim == &(module_player->player->anim_idle_left3))
+		else if (the_player->curr_anim == &(the_player->anim_idle_left3))
 		{
-			if (module_player->player->curr_anim->Finished())
+			if (the_player->curr_anim->Finished())
 			{
-				module_player->player->curr_anim->Reset();
-				module_player->player->curr_anim = &(module_player->player->anim_idle_left1);
+				//the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_idle_left1);
 			}
 		}
 	}
@@ -100,53 +130,156 @@ void PlayerFSM::Idle()
 
 void PlayerFSM::Walk()
 {
-	iPoint temp = module_player->player->position;
+	iPoint temp = the_player->position;
 
 	//set position
-	if (module_player->walk_left) 
+	if (the_player->walk_left)
 	{
-		module_player->facing_right = false;
-		temp.x -= module_player->player->speed;
-		module_player->walk_left = false;
+		the_player->facing_right = false;
+		temp.x -= the_player->speed;
+		the_player->position = temp;
 	}
-	if (module_player->walk_right)
+	if (the_player->walk_right)
 	{
-		module_player->facing_right = true;
-		temp.x += module_player->player->speed;
-		module_player->walk_right = false;
+		the_player->facing_right = true;
+		temp.x += the_player->speed;
+		the_player->position = temp;
 	}
-	if (module_player->walk_up)
+	if (the_player->walk_up)
 	{
-		temp.y -= module_player->player->speed;
-		module_player->walk_up = false;
+		temp.y -= the_player->speed;
+		the_player->position = temp;
+		the_player->depth = temp.y;
 	}
-	if (module_player->walk_down)
+	if (the_player->walk_down)
 	{
-		temp.y += module_player->player->speed;
-		module_player->walk_down = false;
+		temp.y += the_player->speed;
+		the_player->position = temp;
+		the_player->depth = temp.y;
 	}
 
 	//set animation
-	if (module_player->facing_right == true)
+	if (prev_state != State::WALK)
 	{
-		if (module_player->player->curr_anim != &(module_player->player->anim_walk_right))
+		if (the_player->facing_right)
 		{
-			module_player->player->curr_anim = &(module_player->player->anim_walk_right);
-			module_player->player->curr_anim->Reset();
+			the_player->curr_anim = &(the_player->anim_walk_right);
+			the_player->curr_anim->Reset();
+		}
+
+		if (!the_player->facing_right)
+		{
+			the_player->curr_anim = &(the_player->anim_walk_left);
+			the_player->curr_anim->Reset();
 		}
 	}
-	else
+
+	if (the_player->facing_right)
 	{
-		if (module_player->player->curr_anim != &(module_player->player->anim_walk_left))
-		{
-			module_player->player->curr_anim = &(module_player->player->anim_walk_left);
-			module_player->player->curr_anim->Reset();
-		}
+		the_player->curr_anim = &(the_player->anim_walk_right);	
 	}
+
+	if (!the_player->facing_right)
+	{
+		the_player->curr_anim = &(the_player->anim_walk_left);	
+	}
+
 }
 
 void PlayerFSM::Jump()
 {
+	iPoint temp = the_player->position;
+
+	//set animation
+	if (prev_state != State::JUMP)
+	{
+		if (the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_jump_right1);
+
+		if (!the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_jump_left1);
+	}
+
+	if (the_player->hit_hold == false)
+	{
+		//setting right animations
+		if (the_player->curr_anim == &(the_player->anim_jump_right1))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_jump_right2);
+			}
+		}
+
+		//setting left animations
+		if (the_player->curr_anim == &(the_player->anim_jump_left1))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_jump_left2);
+			}
+		}
+	}
+	else if(the_player->hit_hold == true)
+	{
+		//setting right animations
+		if (the_player->facing_right)
+		{			
+			the_player->curr_anim = &(the_player->anim_air_kick_right);			
+		}
+
+		//setting left animations
+		if (!the_player->facing_right)
+		{
+			the_player->curr_anim = &(the_player->anim_air_kick_left);
+		}
+	}
+
+	if (
+		the_player->curr_anim == &(the_player->anim_jump_right2) || the_player->curr_anim == &(the_player->anim_jump_left2) ||
+		the_player->curr_anim == &(the_player->anim_air_kick_right) || the_player->curr_anim == &(the_player->anim_air_kick_left)
+		)
+	{
+		//set position x
+		if (the_player->walk_left)
+		{
+			the_player->facing_right = false;
+			temp.x -= the_player->speed;
+		}
+		if (the_player->walk_right)
+		{
+			the_player->facing_right = true;
+			temp.x += the_player->speed;
+		}
+
+		//set position y
+		if (the_player->jump_up)
+		{
+			temp.y -= the_player->jump_speed;
+			the_player->jump_count++;
+			if (the_player->jump_count >= the_player->max_jump_height)
+			{
+				the_player->jump_up = false;
+			}
+		}
+		if (the_player->jump_up == false)
+		{
+			temp.y += the_player->jump_speed;
+			the_player->jump_count--;
+			if (the_player->jump_count == 0)
+			{
+				the_player->landed = true;
+			}
+		}
+		if (the_player->landed) //reset jump_up
+			the_player->jump_up = true;
+
+		the_player->position = temp;
+
+	}
+
 
 }
 void PlayerFSM::AirKick()

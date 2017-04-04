@@ -12,15 +12,19 @@ class Player : public Entity{
 
 private:
 	std::list<int*> animation_list;
+	PlayerFSM *player_fsm = nullptr;
 	
 public:
 	Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	virtual ~Player();
+
 	void LoadPlayerAnimations();
+	void LoadStats();
+	void UpdateFSM();
 
 	int speed = 1;
 	int life = 100;
-	PlayerFSM *player_fsm = nullptr;
+	
 
 	// ----------------------------------  VARIABLES THAT CONTROL PLAYER FSM LOGIC -----------------------------------
 	bool facing_right = true;
@@ -29,16 +33,18 @@ public:
 	bool walk_right = false;
 	bool walk_up = false;
 	bool walk_down = false;
-
+	bool jump = false;
+	bool landed = true;
+	bool hit_hold = false;
 	//----------------------------------------------------------------------------------------------------------
 
+	bool jump_up = true;
+	iPoint jump_start_pos = { 0 , 0 };
+	float jump_speed = 2.0f;
+	int max_jump_height = 20;
+	int jump_count = 0;
+	
 
-
-	bool m_jump_up = true;
-	iPoint m_jump_start_pos;
-	float m_jump_speed = 1.0f;
-	int m_max_jump_height = 36;
-	bool m_jumping = false;
 
 	size_t m_kick_hits = 0;
 	bool m_continue_combo_grab = false;
@@ -73,6 +79,10 @@ public:
 	//Axis X origin taken from the upper left vertex related to the rectangle containing the player sprite to the player's back neck position
 	size_t m_x_ref = 70;
 
+	//----------------------------------------  PLAYER TEXTURE -----------------------------------------------
+	SDL_Texture *tx_player = nullptr;
+
+	//---------------------------------------- PLAYER ANIMATIONS ---------------------------------------------
 	Animation anim_idle_right1;
 	Animation anim_idle_right2;
 	Animation anim_idle_right3;

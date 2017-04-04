@@ -55,7 +55,7 @@ update_status ModuleRender::Update()
 {
 	// debug camera
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		camera.y += camera_speed;		
 	}
@@ -77,7 +77,7 @@ update_status ModuleRender::Update()
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
 		moving = 0;
-	}
+	}*/
 
 	return UPDATE_CONTINUE;
 }

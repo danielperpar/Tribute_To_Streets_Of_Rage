@@ -1,7 +1,6 @@
 #ifndef __FINITE_STATE_MACHINE_H__
 #define __FINITE_STATE_MACHINE__
 
-class ModulePlayer;
 class PlayerFSM;
 class Player;
 
@@ -9,6 +8,7 @@ class PlayerFSM{
 private:
 	enum class State
 	{
+		START,
 		IDLE,
 		WALK,
 		JUMP,
@@ -31,10 +31,11 @@ private:
 
 	State curr_state = State::IDLE;
 	State prev_state = State::IDLE;
-	ModulePlayer *module_player = nullptr;
+
+	Player *the_player = nullptr;
 		
 public:
-	PlayerFSM(ModulePlayer *module_player);
+	PlayerFSM(Player *player);
 	~PlayerFSM();
 
 	void Update();

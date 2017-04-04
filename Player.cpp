@@ -1,14 +1,25 @@
 #include "Player.h"
 #include "JSONDataLoader.h"
 #include "Utilities.h"
+#include "PlayerFSM.h"
 
+Player::Player(
+	SDL_Texture *texture, 
+	Animation *curr_anim, 
+	const char *name, 
+	entity_type type, 
+	iPoint position, 
+	int depth) : Entity(texture, curr_anim, name, type, position, depth)
+	{
+		player_fsm = new PlayerFSM(this);
+		LoadPlayerAnimations();
+		LoadStats();
+	}
 
-Player::Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Entity(texture, curr_anim, name, type, position, depth)
-{
-	LoadPlayerAnimations();
+Player::~Player() {
+
+	RELEASE(player_fsm);
 }
-
-Player::~Player() {}
 
 void Player::LoadPlayerAnimations()
 {
@@ -54,7 +65,7 @@ void Player::LoadPlayerAnimations()
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerJumpRight1", animation_list, anim_jump_right1);
 	anim_jump_right1.loop = false;
-	anim_jump_right1.speed = 1.0f;
+	anim_jump_right1.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerJumpRight2", animation_list, anim_jump_right2);
@@ -64,7 +75,7 @@ void Player::LoadPlayerAnimations()
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerJumpLeft1", animation_list, anim_jump_left1);
 	anim_jump_left1.loop = false;
-	anim_jump_left1.speed = 1.0f;
+	anim_jump_left1.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "playerJumpLeft2", animation_list, anim_jump_left2);
@@ -351,5 +362,15 @@ void Player::LoadPlayerAnimations()
 	anim_up_left.loop = false;
 	anim_up_left.speed = 0.05f;
 	Utilities::free_list(animation_list);
+}
+
+void Player::LoadStats()
+{
+
+}
+
+void Player::UpdateFSM()
+{
+	player_fsm->Update();
 }
 
