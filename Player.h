@@ -5,6 +5,7 @@
 #include <list>
 #include "Entity.h"
 #include "Point.h"
+#include "GameTimer.h"
 
 struct SDL_Texture;
 class PlayerFSM;
@@ -39,25 +40,22 @@ public:
 	bool hit_down = false;
 	bool attack_finished = false;
 	//----------------------------------------------------------------------------------------------------------
-
+	//jump
 	bool jump_up = true;
 	iPoint jump_start_pos = { 0 , 0 };
-	float jump_speed = 2.0f;
+	int jump_speed = 2;
 	int max_jump_height = 20;
 	int jump_count = 0;
-	
 
+	//combo
+	int combo_max_time = 120;
+	bool in_combo_time = true;
+	size_t punch_combo_hits = 0;
+	bool enemy_at_range = true;
+	GameTimer cbo_timer;
 
 	size_t m_kick_hits = 0;
 	bool m_continue_combo_grab = false;
-
-	float m_timer_count = 0.0f;
-	float m_timer_speed = 1.0f;
-
-	float m_combo_timer = 0.0f;
-
-	bool m_in_combo_time = true;
-	size_t m_punch_combo_hits = 0;
 
 	bool m_carrying_weapon_pipe = false;
 	bool m_carrying_weapon_knife = false;

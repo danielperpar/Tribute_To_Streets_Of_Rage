@@ -1,9 +1,7 @@
 #ifndef __FINITE_STATE_MACHINE_H__
 #define __FINITE_STATE_MACHINE__
 
-class PlayerFSM;
 class Player;
-
 class PlayerFSM{
 private:
 	enum class State
@@ -28,8 +26,8 @@ private:
 		KNOCK_DOWN,
 	};
 
-	State curr_state = State::IDLE;
-	State prev_state = State::IDLE;
+	State curr_state = State::START;
+	State prev_state = State::START;
 
 	Player *the_player = nullptr;
 		

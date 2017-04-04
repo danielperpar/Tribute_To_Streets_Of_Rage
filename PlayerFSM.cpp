@@ -16,10 +16,10 @@ void PlayerFSM::Update()
 	case State::IDLE:
 		Idle();
 		prev_state = curr_state;
-		if (	
+		if (
 			the_player->walk_left || the_player->walk_right ||
 			the_player->walk_up || the_player->walk_down
-			)		
+			)
 		{
 			curr_state = State::WALK;
 			break;
@@ -34,6 +34,7 @@ void PlayerFSM::Update()
 			curr_state = State::SIMPLE_PUNCH;
 			break;
 		}
+
 		break;
 	case State::WALK:
 		Walk();
@@ -67,7 +68,7 @@ void PlayerFSM::Update()
 			break;
 		}
 
-		break;	
+		break;
 	case State::SIMPLE_PUNCH:
 		SimplePunch();
 		prev_state = curr_state;
@@ -77,6 +78,7 @@ void PlayerFSM::Update()
 			the_player->attack_finished = false;
 			break;
 		}
+		break;
 	}
 }
 

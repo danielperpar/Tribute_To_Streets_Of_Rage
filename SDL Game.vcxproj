@@ -75,6 +75,7 @@
     <ClInclude Include="DestroyableItem.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="GarciaFSM.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="PlayerFSM.h" />
     <ClInclude Include="Garcia.h" />
@@ -101,15 +102,18 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="Punky.h" />
     <ClInclude Include="ScenarioElement.h" />
+    <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Antonio.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="DestroyableItem.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GarciaFSM.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="Food.cpp" />

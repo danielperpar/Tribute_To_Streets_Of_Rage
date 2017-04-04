@@ -118,6 +118,12 @@
     <ClInclude Include="GUI.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GarciaFSM.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -208,6 +214,12 @@
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="GUI.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GarciaFSM.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>
