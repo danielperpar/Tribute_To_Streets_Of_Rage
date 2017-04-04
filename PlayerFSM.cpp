@@ -29,6 +29,11 @@ void PlayerFSM::Update()
 			curr_state = State::JUMP;
 			break;
 		}
+		if (the_player->hit_down)
+		{
+			curr_state = State::SIMPLE_PUNCH;
+			break;
+		}
 		break;
 	case State::WALK:
 		Walk();
@@ -46,6 +51,11 @@ void PlayerFSM::Update()
 			curr_state = State::JUMP;
 			break;
 		}
+		if (the_player->hit_down)
+		{
+			curr_state = State::SIMPLE_PUNCH;
+			break;
+		}
 		break;
 	case State::JUMP:
 		Jump();
@@ -58,6 +68,15 @@ void PlayerFSM::Update()
 		}
 
 		break;	
+	case State::SIMPLE_PUNCH:
+		SimplePunch();
+		prev_state = curr_state;
+		if (the_player->attack_finished)
+		{
+			curr_state = State::IDLE;
+			the_player->attack_finished = false;
+			break;
+		}
 	}
 }
 
@@ -279,17 +298,25 @@ void PlayerFSM::Jump()
 		the_player->position = temp;
 
 	}
-
-
-}
-void PlayerFSM::AirKick()
-{
-
 }
 
 void PlayerFSM::SimplePunch()
 {
+	//set animation
+	if (prev_state != State::SIMPLE_PUNCH)
+	{
+		if (the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_punch_combo_right1);
 
+		if (!the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_punch_combo_left1);
+	}
+
+	if (the_player->curr_anim->Finished())
+	{
+		the_player->curr_anim->Reset();
+		the_player->attack_finished = true;
+	}
 }
 
 void PlayerFSM::CboPunch()

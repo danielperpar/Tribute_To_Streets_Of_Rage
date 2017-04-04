@@ -36,6 +36,8 @@ public:
 	bool jump = false;
 	bool landed = true;
 	bool hit_hold = false;
+	bool hit_down = false;
+	bool attack_finished = false;
 	//----------------------------------------------------------------------------------------------------------
 
 	bool jump_up = true;

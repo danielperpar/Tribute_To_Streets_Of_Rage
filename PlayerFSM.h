@@ -12,7 +12,6 @@ private:
 		IDLE,
 		WALK,
 		JUMP,
-		AIR_KICK,
 		SIMPLE_PUNCH,
 		CBO_PUNCH,
 		CBO_LOW_PUNCH,
@@ -44,7 +43,6 @@ public:
 	void Idle();
 	void Walk();
 	void Jump();
-	void AirKick();
 	void SimplePunch();
 	void CboPunch();
 	void CboLowPunch();

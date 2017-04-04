@@ -200,12 +200,20 @@ update_status ModuleSceneRound1::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		the_player->hit_hold = true;	
+		the_player->hit_hold = true;
+		the_player->hit_down = false;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
 	{
 		the_player->hit_hold = false;
+		the_player->hit_down = false;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+		the_player->hit_down = true;
+	}
+	
+
 	//----------------------------------------UPDATE PLAYER FSM ------------------------------------------------------------------
 	the_player->UpdateFSM();
 
