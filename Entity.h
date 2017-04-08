@@ -23,6 +23,7 @@ public:
 	Entity(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int m_depth);
 	Entity();
 	virtual ~Entity();
+	virtual void UpdateFSM();
 
 	const char *name = nullptr;
 	entity_type type;

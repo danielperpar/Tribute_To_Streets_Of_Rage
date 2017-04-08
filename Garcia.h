@@ -5,13 +5,19 @@
 #include "Enemy.h"
 
 class Animation;
+class GarciaFSM;
 class Garcia : public Enemy
 {
+
+private:
+	std::list<int*> m_animation_list;
+	GarciaFSM *garcia_fsm = nullptr;
+
 public:
 	Garcia(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Garcia(const Garcia &garcia);
 	~Garcia();
-
+	virtual void UpdateFSM();
 
 public:
 	
@@ -39,8 +45,7 @@ public:
 	Animation m_npc_garcia_up_left;
 
 
-private:
-	std::list<int*> m_animation_list;
+
 };
 
 

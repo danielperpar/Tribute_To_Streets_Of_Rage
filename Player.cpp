@@ -344,29 +344,49 @@ void Player::LoadPlayerAnimations()
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "downRight", animation_list, anim_down_right);
-	anim_down_right.loop = false;
-	anim_down_right.speed = 0.05f;
+	anim_down_right.loop = true;
+	anim_down_right.speed = 0.2f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "downLeft", animation_list, anim_down_left);
-	anim_down_left.loop = false;
-	anim_down_left.speed = 0.05f;
+	anim_down_left.loop = true;
+	anim_down_left.speed = 0.2f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "groundRight1", animation_list, anim_ground_right1);
+	anim_ground_right1.loop = false;
+	anim_ground_right1.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "groundRight2", animation_list, anim_ground_right2);
+	anim_ground_right2.loop = false;
+	anim_ground_right2.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "groundLeft1", animation_list, anim_ground_left1);
+	anim_ground_left1.loop = false;
+	anim_ground_left1.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::Load("assets/json/sprites_data.json", "groundLeft2", animation_list, anim_ground_left2);
+	anim_ground_left2.loop = false;
+	anim_ground_left2.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "upRight", animation_list, anim_up_right);
 	anim_up_right.loop = false;
-	anim_up_right.speed = 0.05f;
+	anim_up_right.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::Load("assets/json/sprites_data.json", "upLeft", animation_list, anim_up_left);
 	anim_up_left.loop = false;
-	anim_up_left.speed = 0.05f;
+	anim_up_left.speed = 0.1f;
 	Utilities::free_list(animation_list);
 }
 
 void Player::LoadStats()
 {
-
+	//cargar stats desde el json
 }
 
 void Player::UpdateFSM()

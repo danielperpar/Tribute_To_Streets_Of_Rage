@@ -23,7 +23,7 @@ private:
 		PRE_BACK_PUNCH,
 		BACK_PUNCH,
 		DAMAGED,
-		KNOCK_DOWN,
+		KNOCKED_DOWN,
 	};
 
 	State curr_state = State::START;
@@ -54,7 +54,7 @@ public:
 	void PreBackPunch();
 	void BackPunch();
 	void Damaged();
-	void KnockDown();
+	void KnockedDown();
 
 	State GetCurrState() const;
 	void SetCurrState(State state);

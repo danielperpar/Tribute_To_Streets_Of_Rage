@@ -21,7 +21,7 @@ public:
 
 	void LoadPlayerAnimations();
 	void LoadStats();
-	void UpdateFSM();
+	virtual void UpdateFSM();
 
 	int speed = 1;
 	int life = 100;
@@ -39,7 +39,11 @@ public:
 	bool hit_hold = false;
 	bool hit_down = false;
 	bool attack_finished = false;
+	bool damaged = false;
+	bool knocked_down = false;
 	//----------------------------------------------------------------------------------------------------------
+	
+
 	//jump
 	bool jump_up = true;
 	iPoint jump_start_pos = { 0 , 0 };
@@ -50,10 +54,17 @@ public:
 	//combo
 	int combo_max_time = 120;
 	bool in_combo_time = true;
-	size_t punch_combo_hits = 0;
+	int punch_combo_hits = 0;
 	bool enemy_at_range = true;
-	GameTimer cbo_timer;
-
+	 
+	//knocked down
+	int down_vel = 1;
+	int down_count = 0;
+	int down_frames = 20;
+	int down_inflection = 10;
+	bool up = false;
+	iPoint pos_before_knockdown = { 0,0 };
+	
 	size_t m_kick_hits = 0;
 	bool m_continue_combo_grab = false;
 
@@ -69,12 +80,7 @@ public:
 	bool m_dead = false;
 	
 
-	size_t m_down_accel = 2;
-	size_t m_down_vel = 1;
-	size_t m_down_count = 0;
-	size_t m_down_frames = 30;
-	size_t m_down_update_count = 0;
-	size_t m_down_update_time = 6;
+	
 
 	//Axis X origin taken from the upper left vertex related to the rectangle containing the player sprite to the player's back neck position
 	size_t m_x_ref = 70;
@@ -176,6 +182,11 @@ public:
 
 	Animation anim_down_right;
 	Animation anim_down_left;
+
+	Animation anim_ground_right1;
+	Animation anim_ground_right2;
+	Animation anim_ground_left1;
+	Animation anim_ground_left2;
 
 	Animation anim_up_right;
 	Animation anim_up_left;

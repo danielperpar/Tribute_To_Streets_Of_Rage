@@ -213,9 +213,23 @@ update_status ModuleSceneRound1::Update()
 		the_player->hit_down = true;
 	}
 	
+	//test damaged
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		the_player->damaged = true;
+	}
 
-	//----------------------------------------UPDATE PLAYER FSM ------------------------------------------------------------------
-	the_player->UpdateFSM();
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	{
+		the_player->knocked_down = true;
+	}
+
+	//----------------------------------------UPDATE ENTITIES FSM ------------------------------------------------------------------
+	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
+	{
+		(*it)->UpdateFSM();
+	}
+
 
 	// Draw everything --------------------------------------
 

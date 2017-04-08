@@ -9,3 +9,4 @@ Entity::Entity(SDL_Texture *texture,
 	int depth) : texture(texture), curr_anim(curr_anim), name(name), type(type), position(position), depth(depth) {}
 
 Entity::~Entity() {}
+void Entity::UpdateFSM() {}

@@ -34,6 +34,16 @@ void PlayerFSM::Update()
 			curr_state = State::SIMPLE_PUNCH;
 			break;
 		}
+		if (the_player->damaged)
+		{
+			curr_state = State::DAMAGED;
+			break;
+		}
+		if (the_player->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
 
 		break;
 	case State::WALK:
@@ -41,7 +51,7 @@ void PlayerFSM::Update()
 		prev_state = curr_state;
 		if (
 			!the_player->walk_left && !the_player->walk_right &&
-			!the_player->walk_up && !the_player->walk_down
+			!the_player->walk_up && !the_player->walk_down 
 			)
 		{
 			curr_state = State::IDLE;
@@ -57,7 +67,18 @@ void PlayerFSM::Update()
 			curr_state = State::SIMPLE_PUNCH;
 			break;
 		}
+		if (the_player->damaged)
+		{
+			curr_state = State::DAMAGED;
+			break;
+		}
+		if (the_player->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
 		break;
+
 	case State::JUMP:
 		Jump();
 		prev_state = curr_state;
@@ -76,6 +97,26 @@ void PlayerFSM::Update()
 		{
 			curr_state = State::IDLE;
 			the_player->attack_finished = false;
+			break;
+		}
+		break;
+
+	case State::DAMAGED:
+		Damaged();
+		prev_state = curr_state;
+		if (!the_player->damaged)
+		{
+			curr_state = State::IDLE;			
+			break;
+		}
+		break;
+
+	case State::KNOCKED_DOWN:
+		KnockedDown();
+		prev_state = curr_state;
+		if (!the_player->knocked_down)
+		{
+			curr_state = State::IDLE;		
 			break;
 		}
 		break;
@@ -375,11 +416,159 @@ void PlayerFSM::BackPunch()
 }
 void PlayerFSM::Damaged()
 {
+	if (prev_state != State::DAMAGED)
+	{
+		if (the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_damage_received_right);
 
+		if (!the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_damage_received_left);	
+	}
+	else
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->damaged = false;
+		}
+	}
 }
-void PlayerFSM::KnockDown()
+void PlayerFSM::KnockedDown()
 {
+	if (prev_state != State::KNOCKED_DOWN)
+	{
+		the_player->pos_before_knockdown = the_player->position;
 
+		if (the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_down_right);
+
+		if (!the_player->facing_right)
+			the_player->curr_anim = &(the_player->anim_down_left);
+	}
+	else 
+	{
+		//position offset
+		iPoint temp = the_player->position;
+		
+		the_player->down_count++;
+		if (the_player->down_count < the_player->down_frames)
+		{
+			if (the_player->facing_right)
+			{
+				if (the_player->down_count <= the_player->down_inflection)
+				{
+					temp.x -= the_player->speed * 3;
+					temp.y -= the_player->speed ;
+				}
+				else
+				{
+					temp.x -= the_player->speed * 3;
+					temp.y += the_player->speed;
+				}
+			}
+			if (!the_player->facing_right)
+			{
+				if (the_player->down_count <= the_player->down_inflection)
+				{
+					temp.x += the_player->speed * 3;
+					temp.y -= the_player->speed;
+				}
+				else
+				{
+					temp.x += the_player->speed * 3;
+					temp.y += the_player->speed;
+				}
+			}
+
+			the_player->position = temp;
+			the_player->depth = temp.y;
+			
+		}
+		if (the_player->down_count == the_player->down_frames)
+		{			
+			the_player->up = true;
+			the_player->curr_anim->Reset();
+			
+		}
+	
+		//right animations
+		if (the_player->curr_anim == &(the_player->anim_down_right))
+		{
+			if (the_player->up)
+			{						
+				if (the_player->curr_anim->Finished())
+				{
+					the_player->curr_anim->Reset();
+					the_player->curr_anim = &(the_player->anim_ground_right1);
+					the_player->up = false;					
+				}				 
+			}
+		}
+		else if (the_player->curr_anim == &(the_player->anim_ground_right1))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_ground_right2);
+			}
+		}
+		else if (the_player->curr_anim == &(the_player->anim_ground_right2))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_up_right);
+			}
+		}
+		else if (the_player->curr_anim == &(the_player->anim_up_right))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->knocked_down = false;
+				the_player->down_count = 0;
+			}
+		}
+
+		//left animations
+		if (the_player->curr_anim == &(the_player->anim_down_left))
+		{
+			if (the_player->up)
+			{
+				if (the_player->curr_anim->Finished())
+				{
+					the_player->curr_anim->Reset();
+					the_player->curr_anim = &(the_player->anim_ground_left1);
+					the_player->up = false;
+				}				
+			}
+		}
+		else if (the_player->curr_anim == &(the_player->anim_ground_left1))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_ground_left2);
+			}
+		}
+		else if (the_player->curr_anim == &(the_player->anim_ground_left2))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->curr_anim = &(the_player->anim_up_left);
+			}
+		}
+		else if (the_player->curr_anim == &(the_player->anim_up_left))
+		{
+			if (the_player->curr_anim->Finished())
+			{
+				the_player->curr_anim->Reset();
+				the_player->knocked_down = false;
+				the_player->down_count = 0;
+			}
+		}
+	}
 }
 
 PlayerFSM::State PlayerFSM::GetCurrState() const

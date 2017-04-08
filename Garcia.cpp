@@ -1,6 +1,7 @@
 #include "Garcia.h"
 #include "JSONDataLoader.h"
 #include "Utilities.h"
+#include "GarciaFSM.h"
 
 Garcia::Garcia(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Enemy(texture, curr_anim, name, type, position, depth) {
 
@@ -101,3 +102,8 @@ Garcia::Garcia(const Garcia &garcia) : Enemy(garcia)
 
 }
 Garcia::~Garcia() {}
+
+void Garcia::UpdateFSM()
+{
+	garcia_fsm->Update();
+}
