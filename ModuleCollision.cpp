@@ -183,19 +183,19 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 
 void Collider::OnCollision(Collider* collider1, Collider* collider2) const
 {
-	//collision between player and enemy
-	if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT ||
-		collider1->m_collider_type == COMMON_ENEMY_RANGED_ATTACK || collider2->m_collider_type == COMMON_ENEMY_RANGED_ATTACK
-		) 
-	{
-		Collider* enemy_collider = collider1->m_entity->type == entity_type::ENEMY ? collider1 : collider2;
-		((Enemy*)(enemy_collider->m_entity))->m_ai_walk = false;
-		((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
-		
+	////collision between player and enemy
+	//if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT ||
+	//	collider1->m_collider_type == COMMON_ENEMY_RANGED_ATTACK || collider2->m_collider_type == COMMON_ENEMY_RANGED_ATTACK
+	//	) 
+	//{
+	//	Collider* enemy_collider = collider1->m_entity->type == entity_type::ENEMY ? collider1 : collider2;
+	//	((Enemy*)(enemy_collider->m_entity))->m_ai_walk = false;
+	//	((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
+	//	
 
-		if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK && App->player->player->depth == ((Enemy*)(enemy_collider->m_entity))->depth)
-			((Enemy*)(enemy_collider->m_entity))->m_enemy_to_hit = true;
-	}
+	//	if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK && App->player->player->depth == ((Enemy*)(enemy_collider->m_entity))->depth)
+	//		((Enemy*)(enemy_collider->m_entity))->m_enemy_to_hit = true;
+	//}
 
 	
 	

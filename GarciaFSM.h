@@ -1,7 +1,7 @@
 #ifndef __GARCIAFSM_H__
 #define __GARCIAFSM_H__
 
-class Enemy;
+class Garcia;
 class GarciaFSM
 {
 private:
@@ -12,16 +12,18 @@ private:
 		CHASE,
 		FAST_CHASE,
 		ATTACK,
-		EVASIVE
+		EVASIVE,
+		DAMAGED,
+		KNOCKED_DOWN
 	};
 
 	State curr_state = State::START;
 	State prev_state = State::START;
 
-	Enemy *garcia = nullptr;
+	Garcia *garcia = nullptr;
 
 public:
-	GarciaFSM(Enemy *enemy);
+	GarciaFSM(Garcia *garcia);
 	~GarciaFSM();
 	
 	void Update();

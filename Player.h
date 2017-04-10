@@ -86,7 +86,7 @@ public:
 	size_t m_x_ref = 70;
 
 	//----------------------------------------  PLAYER TEXTURE -----------------------------------------------
-	SDL_Texture *tx_player = nullptr;
+	//SDL_Texture *tx_player = nullptr;
 
 	//---------------------------------------- PLAYER ANIMATIONS ---------------------------------------------
 	Animation anim_idle_right1;

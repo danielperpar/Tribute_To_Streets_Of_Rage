@@ -10,6 +10,7 @@ class ScenarioElement;
 class Entity;
 class GUI;
 class Player;
+class Garcia;
 class ModuleSceneRound1 : public Module
 {
 public:
@@ -26,6 +27,10 @@ public:
 	GUI *gui = nullptr;
 	Entity *foreground = nullptr;
 
+
+	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
+	bool first_trigger_reached = false;
+
 private:
 	std::list<int*> animation_list;
 	std::vector<Entity*> scenario_entities;
@@ -36,8 +41,8 @@ private:
 	SDL_Texture *tx_neons = nullptr;
 	SDL_Texture *tx_gui = nullptr;
 	SDL_Texture *tx_player = nullptr;
+	SDL_Texture *tx_garcia = nullptr;
 	
-	//Scenario animations
 	Animation neonPinEPot;
 	Animation neonBreakfastDiner;
 	Animation neonLDevo;
@@ -46,6 +51,13 @@ private:
 	Animation neonCafeRestaurant;
 
 	Player *the_player = nullptr;
+	
+	void GenerateEnemy(entity_type type, iPoint position, std::vector<Entity*> &dynamic_entities);
+	
+	//----------------------------------- ENEMIES PROTOTYPES---------------------------------------------------
+	Garcia *garcia_prototype = nullptr;
+
+
 
 
 };

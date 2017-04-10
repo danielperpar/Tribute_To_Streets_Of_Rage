@@ -9,7 +9,7 @@ enum class entity_type
 	WEAPON,
 	DESTROYABLE_ITEM,
 	PLAYER,
-	ENEMY,
+	GARCIA,
 	PARTICLE,
 	SCENARIO,
 	GUI
@@ -20,7 +20,7 @@ struct SDL_Texture;
 class Entity {
 
 public:
-	Entity(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int m_depth);
+	Entity(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Entity();
 	virtual ~Entity();
 	virtual void UpdateFSM();

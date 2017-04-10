@@ -457,12 +457,12 @@ void PlayerFSM::KnockedDown()
 			{
 				if (the_player->down_count <= the_player->down_inflection)
 				{
-					temp.x -= the_player->speed * 3;
-					temp.y -= the_player->speed ;
+					temp.x -= the_player->speed;
+					temp.y -= the_player->speed;
 				}
 				else
 				{
-					temp.x -= the_player->speed * 3;
+					temp.x -= the_player->speed;
 					temp.y += the_player->speed;
 				}
 			}
@@ -470,12 +470,12 @@ void PlayerFSM::KnockedDown()
 			{
 				if (the_player->down_count <= the_player->down_inflection)
 				{
-					temp.x += the_player->speed * 3;
+					temp.x += the_player->speed;
 					temp.y -= the_player->speed;
 				}
 				else
 				{
-					temp.x += the_player->speed * 3;
+					temp.x += the_player->speed;
 					temp.y += the_player->speed;
 				}
 			}

@@ -15,6 +15,8 @@
 #include "GUI.h"
 #include <algorithm>
 #include "PlayerFSM.h"
+#include "Garcia.h"
+#include "GarciaFSM.h"
 
 ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
@@ -86,10 +88,14 @@ bool ModuleSceneRound1::Start()
 	foreground = new ScenarioElement(tx_foreground, nullptr, "foreground", entity_type::SCENARIO, { 0,32 }, 0);
 	gui = new GUI(tx_gui, nullptr, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
 	
+	//---------------------------------------------------------------------------------------
 
 	LOG("Creating the player");
 	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, { 800, 150 }, 150);
 	dynamic_entities.push_back(the_player);
+
+	LOG("Creating enemy prototypes");
+	garcia_prototype = new Garcia(tx_garcia, nullptr, "garcia", entity_type::GARCIA, {0, 0}, 0);
 	
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
@@ -118,38 +124,6 @@ bool ModuleSceneRound1::Start()
 	return true;
 }
 
-// UnLoad assets
-bool ModuleSceneRound1::CleanUp()
-{
-	LOG("Unloading scene");
-
-	//release scene entities
-	for (std::vector<Entity*>::iterator it = scenario_entities.begin(); it != scenario_entities.end(); it++)
-	{
-		RELEASE(*it);
-	}
-	scenario_entities.clear();
-
-	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
-	{
-		RELEASE(*it);
-	}
-	dynamic_entities.clear();
-
-	RELEASE(foreground);
-	RELEASE(gui);
-
-	App->textures->Unload(tx_background);
-	App->textures->Unload(tx_foreground);
-	App->textures->Unload(tx_neons);
-	App->textures->Unload(tx_gui);
-	App->player->Disable();
-	App->enemies->Disable();
-	App->collision->Disable();
-	App->particles->Disable();
-
-	return true;
-}
 
 // Update: draw background
 update_status ModuleSceneRound1::Update()
@@ -224,6 +198,20 @@ update_status ModuleSceneRound1::Update()
 		the_player->knocked_down = true;
 	}
 
+	//---------------------------------------- GENERATE ENEMIES --------------------------------------------------------------------
+	//test enemies spawn
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+	{
+		first_trigger_reached = true;
+	}
+
+	if (first_trigger_reached)
+	{
+		first_trigger_reached = false;
+		GenerateEnemy(entity_type::GARCIA, { 850, 150 }, dynamic_entities);
+		GenerateEnemy(entity_type::GARCIA, { 900, 150 }, dynamic_entities);										 
+	}
+
 	//----------------------------------------UPDATE ENTITIES FSM ------------------------------------------------------------------
 	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
 	{
@@ -261,6 +249,57 @@ update_status ModuleSceneRound1::Update()
 	return UPDATE_CONTINUE;
 }
 
+
+// UnLoad assets
+bool ModuleSceneRound1::CleanUp()
+{
+	LOG("Unloading scene");
+
+	//release scene entities
+	for (std::vector<Entity*>::iterator it = scenario_entities.begin(); it != scenario_entities.end(); it++)
+	{
+		RELEASE(*it);
+	}
+	scenario_entities.clear();
+
+	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
+	{
+		RELEASE(*it);
+	}
+	dynamic_entities.clear();
+
+	RELEASE(foreground);
+	RELEASE(gui);
+
+	RELEASE(garcia_prototype);
+
+	App->textures->Unload(tx_background);
+	App->textures->Unload(tx_foreground);
+	App->textures->Unload(tx_neons);
+	App->textures->Unload(tx_gui);
+	App->player->Disable();
+	App->enemies->Disable();
+	App->collision->Disable();
+	App->particles->Disable();
+
+	return true;
+}
+//--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------
+
+void ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, std::vector<Entity*> &dynamic_entities)
+{
+	switch (type) 
+	{
+		case entity_type::GARCIA:
+			Garcia *garcia = new Garcia(*garcia_prototype);
+			garcia->position = position;
+			garcia->depth = position.y;
+			garcia->garcia_fsm = new GarciaFSM(garcia);			
+			dynamic_entities.push_back(garcia);
+		break;
+	}
+}
+
 void ModuleSceneRound1::LoadSceneAssets()
 {
 	//------------------------------------ LOAD SCENE TEXTURES ---------------------------------------------
@@ -274,7 +313,7 @@ void ModuleSceneRound1::LoadSceneAssets()
 	tx_player = App->textures->Load("assets/spritesheets/axel.png");
 
 	//Enemies
-
+	tx_garcia = App->textures->Load("assets/spritesheets/enemies.png");
 	//Scenario items
 
 	//------------------------------------ LOAD SCENE ANIMATIONS ----------------------------------------------

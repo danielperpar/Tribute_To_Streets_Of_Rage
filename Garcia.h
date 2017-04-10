@@ -1,48 +1,74 @@
 #ifndef __GARCIA_H__
 #define __GARCIA_H__
 
+#include "Animation.h"
 #include "Entity.h"
-#include "Enemy.h"
+#include <list>
 
 class Animation;
 class GarciaFSM;
-class Garcia : public Enemy
+class Garcia : public Entity
 {
 
 private:
-	std::list<int*> m_animation_list;
-	GarciaFSM *garcia_fsm = nullptr;
+	std::list<int*> animation_list;
+	
 
 public:
 	Garcia(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Garcia(const Garcia &garcia);
-	~Garcia();
+	virtual ~Garcia();
 	virtual void UpdateFSM();
+
+	GarciaFSM *garcia_fsm = nullptr;
+	int speed = 1;
+	int life = 100;
+
+	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
+	bool facing_right = false;
+	bool idle = true;
+	bool walk_left = false;
+	bool walk_right = false;
+	bool walk_up = false;
+	bool walk_down = false;
+	bool attack = false;
+	bool attack_finished = false;
+	bool damaged = false;
+	bool knocked_down = false;
+	bool player_in_sight = false;
+	bool player_at_range = false;
+	bool look_each_other = false;
+
+	//----------------------------------------------------------------------------------------------------------
 
 public:
 	
 	size_t m_punch_hits = 0;
 
-	Animation m_npc_garcia_idle_right;
-	Animation m_npc_garcia_idle_left;
+	//----------------------------------------  GARCIA TEXTURE -----------------------------------------------
+	//SDL_Texture *tx_garcia = nullptr;
 
-	Animation m_npc_garcia_walk_right;
-	Animation m_npc_garcia_walk_left;
+	//---------------------------------------- GARCIA ANIMATIONS ---------------------------------------------
+	Animation garcia_idle_right;
+	Animation garcia_idle_left;
 
-	Animation m_npc_garcia_punch_right1;
-	Animation m_npc_garcia_punch_right2;
+	Animation garcia_walk_right;
+	Animation garcia_walk_left;
 
-	Animation m_npc_garcia_punch_left1;
-	Animation m_npc_garcia_punch_left2;
+	Animation garcia_punch_right1;
+	Animation garcia_punch_right2;
 
-	Animation m_npc_garcia_damage_received_right;
-	Animation m_npc_garcia_damage_received_left;
+	Animation garcia_punch_left1;
+	Animation garcia_punch_left2;
 
-	Animation m_npc_garcia_down_right;
-	Animation m_npc_garcia_down_left;
+	Animation garcia_damaged_right;
+	Animation garcia_damage_left;
 
-	Animation m_npc_garcia_up_right;
-	Animation m_npc_garcia_up_left;
+	Animation garcia_down_right;
+	Animation garcia_down_left;
+
+	Animation garcia_up_right;
+	Animation garcia_up_left;
 
 
 
