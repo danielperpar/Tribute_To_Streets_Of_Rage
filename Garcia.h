@@ -7,6 +7,7 @@
 
 class Animation;
 class GarciaFSM;
+class Player;
 class Garcia : public Entity
 {
 
@@ -21,9 +22,13 @@ public:
 	virtual void UpdateFSM();
 
 	GarciaFSM *garcia_fsm = nullptr;
-	int speed = 1;
+	float move_inc = 0.0f;
 	int life = 100;
-
+	Player *the_player = nullptr;
+	size_t m_punch_hits = 0;
+	void SetPlayer(Player *player);
+	
+	
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;
 	bool idle = true;
@@ -35,18 +40,12 @@ public:
 	bool attack_finished = false;
 	bool damaged = false;
 	bool knocked_down = false;
-	bool player_in_sight = false;
+	bool player_in_sight = true; //test
 	bool player_at_range = false;
 	bool look_each_other = false;
 
 	//----------------------------------------------------------------------------------------------------------
 
-public:
-	
-	size_t m_punch_hits = 0;
-
-	//----------------------------------------  GARCIA TEXTURE -----------------------------------------------
-	//SDL_Texture *tx_garcia = nullptr;
 
 	//---------------------------------------- GARCIA ANIMATIONS ---------------------------------------------
 	Animation garcia_idle_right;

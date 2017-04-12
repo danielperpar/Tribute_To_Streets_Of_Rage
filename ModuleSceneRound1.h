@@ -30,6 +30,7 @@ public:
 
 	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
 	bool first_trigger_reached = false;
+	Player *the_player = nullptr;
 
 private:
 	std::list<int*> animation_list;
@@ -49,10 +50,9 @@ private:
 	Animation neonRachShop;
 	Animation neonAbcShop;
 	Animation neonCafeRestaurant;
-
-	Player *the_player = nullptr;
 	
-	void GenerateEnemy(entity_type type, iPoint position, std::vector<Entity*> &dynamic_entities);
+	
+	void GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities);
 	
 	//----------------------------------- ENEMIES PROTOTYPES---------------------------------------------------
 	Garcia *garcia_prototype = nullptr;

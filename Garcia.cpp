@@ -111,3 +111,8 @@ void Garcia::UpdateFSM()
 {
 	garcia_fsm->Update();
 }
+
+void Garcia::SetPlayer(Player *player)
+{
+	the_player = player;
+}

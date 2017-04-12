@@ -22,6 +22,7 @@ private:
 
 	Garcia *garcia = nullptr;
 
+
 public:
 	GarciaFSM(Garcia *garcia);
 	~GarciaFSM();

@@ -208,8 +208,8 @@ update_status ModuleSceneRound1::Update()
 	if (first_trigger_reached)
 	{
 		first_trigger_reached = false;
-		GenerateEnemy(entity_type::GARCIA, { 850, 150 }, dynamic_entities);
-		GenerateEnemy(entity_type::GARCIA, { 900, 150 }, dynamic_entities);										 
+		GenerateEnemy(entity_type::GARCIA, { 900, 150 }, the_player, dynamic_entities);
+		//GenerateEnemy(entity_type::GARCIA, { 950, 150 }, the_player, dynamic_entities);										 
 	}
 
 	//----------------------------------------UPDATE ENTITIES FSM ------------------------------------------------------------------
@@ -286,7 +286,7 @@ bool ModuleSceneRound1::CleanUp()
 }
 //--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------
 
-void ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, std::vector<Entity*> &dynamic_entities)
+void ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities)
 {
 	switch (type) 
 	{
@@ -294,7 +294,8 @@ void ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, std::ve
 			Garcia *garcia = new Garcia(*garcia_prototype);
 			garcia->position = position;
 			garcia->depth = position.y;
-			garcia->garcia_fsm = new GarciaFSM(garcia);			
+			garcia->garcia_fsm = new GarciaFSM(garcia);
+			garcia->SetPlayer(player);
 			dynamic_entities.push_back(garcia);
 		break;
 	}
