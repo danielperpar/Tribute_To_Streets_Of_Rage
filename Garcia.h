@@ -22,8 +22,8 @@ public:
 	virtual void UpdateFSM();
 
 	GarciaFSM *garcia_fsm = nullptr;
-	float move_inc = 0.0f;
 	int life = 100;
+	int speed = 1;
 	Player *the_player = nullptr;
 	size_t m_punch_hits = 0;
 	void SetPlayer(Player *player);

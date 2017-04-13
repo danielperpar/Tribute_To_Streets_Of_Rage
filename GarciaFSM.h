@@ -9,8 +9,7 @@ private:
 	{
 		START,
 		IDLE,
-		CHASE,
-		FAST_CHASE,
+		CHASE,		
 		ATTACK,
 		EVASIVE,
 		DAMAGED,
@@ -32,7 +31,6 @@ public:
 	//-----------------------------  ACTIONS TO PERFORM IN EACH STATE ------------------------------------
 	void Idle();
 	void Chase();
-	void FastChase();
 	void Attack();
 	void Evasive();
 

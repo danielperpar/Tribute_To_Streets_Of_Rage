@@ -29,10 +29,6 @@ void GarciaFSM::Update()
 
 	case State::CHASE:
 		Chase();
-
-		break;
-
-	case State::FAST_CHASE:
 		break;
 
 	case State::ATTACK:
@@ -92,7 +88,16 @@ void GarciaFSM::Chase()
 	if (target.y == 0)
 		direction.y = 0;
 	
-		garcia->position += {direction.x , direction.y};	
+		if(
+			garcia->facing_right && garcia->the_player->facing_right || 
+			!garcia->facing_right && !garcia->the_player->facing_right
+			)
+			garcia->speed = 2;
+		else		
+			garcia->speed = 1;
+		
+
+		garcia->position += {direction.x * garcia->speed , direction.y * garcia->speed};	
 
 
 	//set animations
@@ -116,10 +121,6 @@ void GarciaFSM::Chase()
 		}
 }
 	
-void GarciaFSM::FastChase()
-{
-
-}
 void GarciaFSM::Attack()
 {
 
