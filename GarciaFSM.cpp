@@ -61,7 +61,7 @@ void GarciaFSM::Chase()
 	target.x = garcia->the_player->position.x - garcia->position.x;
 	target.y = garcia->the_player->position.y - garcia->position.y;
 		
-	iPoint direction;
+	iPoint direction{ 0,0 };
 	
 	if (target.x > 0)
 	{
@@ -69,15 +69,13 @@ void GarciaFSM::Chase()
 		if (!garcia->facing_right)
 			garcia->facing_right = true;	
 	}
+
 	if(target.x < 0)
 	{
 		direction.x = -1;
 		if (garcia->facing_right)
-			garcia->facing_right = false;
-		
+			garcia->facing_right = false;	
 	}
-	if (target.x == 0)
-		direction.x = 0;
 
 	if (target.y > 0)	
 		direction.y = 1;		
@@ -85,40 +83,56 @@ void GarciaFSM::Chase()
 	if (target.y < 0)
 		direction.y = -1;		
 	
-	if (target.y == 0)
-		direction.y = 0;
-	
-		if(
-			garcia->facing_right && garcia->the_player->facing_right || 
-			!garcia->facing_right && !garcia->the_player->facing_right
-			)
-			garcia->speed = 2;
-		else		
-			garcia->speed = 1;
-		
 
-		garcia->position += {direction.x * garcia->speed , direction.y * garcia->speed};	
+	int distance_x = target.x > 0 ? target.x : -target.x;
+	int distance_y = target.y > 0 ? target.y : -target.y;
+
+	if (garcia->facing_right && garcia->the_player->facing_right || !garcia->facing_right && !garcia->the_player->facing_right)
+	{
+		if (distance_x < garcia->speed.x)
+		{
+			garcia->speed.x = 1;
+		}
+		else
+		{
+			garcia->speed.x = 2;
+		}
+
+		if (distance_y < garcia->speed.y)
+		{
+			garcia->speed.y = 1;
+		}
+		else
+		{
+			garcia->speed.y = 2;
+		}
+	}
+	else
+	{
+		garcia->speed = { 1,1 };
+	}
+	garcia->position += {direction.x * garcia->speed.x , direction.y * garcia->speed.y};	
 
 
 	//set animations
 		
-		if (!garcia->facing_right)
+	if (!garcia->facing_right)
+	{
+		if (garcia->curr_anim != &(garcia->garcia_walk_left))
 		{
-			if (garcia->curr_anim != &(garcia->garcia_walk_left))
-			{
-				garcia->curr_anim = &(garcia->garcia_walk_left);
-				garcia->curr_anim->Reset();
-			}
+			garcia->curr_anim = &(garcia->garcia_walk_left);
+			garcia->curr_anim->Reset();
 		}
+	}
 			
-		if (garcia->facing_right)
+	if (garcia->facing_right)
+	{
+		if (garcia->curr_anim != &(garcia->garcia_walk_right))
 		{
-			if (garcia->curr_anim != &(garcia->garcia_walk_right))
-			{
-				garcia->curr_anim = &(garcia->garcia_walk_right);
-				garcia->curr_anim->Reset();
-			}		
-		}
+			garcia->curr_anim = &(garcia->garcia_walk_right);
+			garcia->curr_anim->Reset();
+		}		
+	}
 }
 	
 void GarciaFSM::Attack()

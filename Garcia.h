@@ -23,7 +23,7 @@ public:
 
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
-	int speed = 1;
+	iPoint speed = { 1,1 };
 	Player *the_player = nullptr;
 	size_t m_punch_hits = 0;
 	void SetPlayer(Player *player);
