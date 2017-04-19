@@ -59,6 +59,8 @@ public:
 	State GetCurrState() const;
 	void SetCurrState(State state);
 
+	void UpdateColliderPosition();
+
 };
 
 #endif

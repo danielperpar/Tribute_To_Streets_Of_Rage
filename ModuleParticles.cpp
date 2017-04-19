@@ -109,7 +109,7 @@ update_status ModuleParticles::Update()
 
 void ModuleParticles::AddParticle(const Particle& particle, int x, int y, collider_type collider_type)
 {
-	m_particle = new Particle(particle);
+	/*m_particle = new Particle(particle);
 	m_particle->position.x = x;
 	m_particle->position.y = y;
 	m_particle->m_start_position.x = x;
@@ -126,7 +126,7 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, collid
 
 	m_particle->m_collider = App->collision->AddCollider(collider, m_particle, collider_type);
 	m_active.push_back(m_particle);
-
+*/
 }
 
 // -------------------------------------------------------------

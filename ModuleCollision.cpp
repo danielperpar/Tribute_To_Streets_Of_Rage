@@ -18,29 +18,24 @@ ModuleCollision::~ModuleCollision()
 
 bool ModuleCollision::Start()
 {
-	m_collision_matrix = new int[100];
-	memset(m_collision_matrix, 0, 100);
+	//collision_matrix = new int[100];
+	memset(collision_matrix, 0, sizeof(int) * 49);
 	
-	m_collision_matrix[COMMON_ENEMY_HIT * 10 + PLAYER] = 1;
-	m_collision_matrix[COMMON_ENEMY_GRAB * 10 + PLAYER] = 1;
-	m_collision_matrix[COMMON_ENEMY_RANGED_ATTACK * 10 + PLAYER] = 1;
-	m_collision_matrix[BOSS_ENEMY_HIT * 10 + PLAYER] = 1;
-	m_collision_matrix[BOSS_ENEMY_GRAB * 10 + PLAYER] = 1;
-	m_collision_matrix[WEAPON * 10 + PLAYER] = 1;
-	m_collision_matrix[FOOD * 10 + PLAYER] = 1;
-	m_collision_matrix[PLAYER * 10 + COMMON_ENEMY_HIT] = 1;
-	m_collision_matrix[PLAYER * 10 + COMMON_ENEMY_GRAB] = 1;
-	m_collision_matrix[PLAYER * 10 + COMMON_ENEMY_RANGED_ATTACK] = 1;
-	m_collision_matrix[PLAYER * 10 + BOSS_ENEMY_HIT] = 1;
-	m_collision_matrix[PLAYER * 10 + BOSS_ENEMY_GRAB] = 1;
-	m_collision_matrix[PLAYER * 10 + WEAPON] = 1;
-	m_collision_matrix[PLAYER * 10 + FOOD] = 1;
-	m_collision_matrix[PLAYER * 10 + BOSS_BOOMERANG] = 1;
-	m_collision_matrix[PLAYER * 10 + BOSS_BOOMERANG_AREA] = 1;
-	m_collision_matrix[PLAYER * 10 + DESTROYABLE_ITEM] = 1;
-	m_collision_matrix[BOSS_BOOMERANG * 10 + PLAYER] = 1;
-	m_collision_matrix[BOSS_BOOMERANG_AREA * 10 + PLAYER] = 1;
-	m_collision_matrix[DESTROYABLE_ITEM * 10 + PLAYER] = 1;
+	collision_matrix[ENEMY_BODY][PLAYER_BODY] = 1;
+	collision_matrix[ENEMY_BODY][PLAYER_HIT] = 1;
+	collision_matrix[ENEMY_BODY][DESTROYABLE] = 1;
+	collision_matrix[ENEMY_HIT][PLAYER_BODY] = 1;
+	collision_matrix[COLLECTABLE][PLAYER_BODY] = 1;
+	collision_matrix[PLAYER_BODY][ENEMY_BODY] = 1;
+	collision_matrix[PLAYER_BODY][ENEMY_HIT] = 1;
+	collision_matrix[PLAYER_BODY][COLLECTABLE] = 1;
+	collision_matrix[PLAYER_BODY][DESTROYABLE] = 1;
+	collision_matrix[PLAYER_BODY][BOSS_AOE] = 1;
+	collision_matrix[PLAYER_HIT][ENEMY_BODY] = 1;
+	collision_matrix[PLAYER_HIT][DESTROYABLE] = 1;
+	collision_matrix[DESTROYABLE][ENEMY_BODY] = 1;
+	collision_matrix[DESTROYABLE][PLAYER_BODY] = 1;
+	collision_matrix[BOSS_AOE][PLAYER_BODY] = 1;
 
 	return true;
 }
@@ -50,7 +45,7 @@ update_status ModuleCollision::PreUpdate()
 	// Remove all colliders scheduled for deletion
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
 	{
-		if ((*it)->m_to_delete == true)
+		if ((*it)->to_delete == true)
 		{
 			RELEASE(*it);
 			it = colliders.erase(it);
@@ -75,51 +70,40 @@ update_status ModuleCollision::PreUpdate()
 
 update_status ModuleCollision::Update()
 {
-	m_time = SDL_GetTicks();
-	if (m_time - m_update_time >= m_dt)
-	{
-		m_do_logic = true;
-	}
-	if (m_do_logic)
-	{
-		m_do_logic = false;
-		m_update_time = SDL_GetTicks();
+	//for (list<Collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1)
+	//{
+	//	for (list<Collider*>::iterator it2 = it1; it2 != colliders.end();)
+	//	{
+	//		if (colliders.end() != ++it2)
+	//		{
+	//			//if (m_collision_matrix[(*it1)->m_collider_type][(*it2)->m_collider_type] == 1)
+	//			if (m_collision_matrix[(*it1)->m_collider_type * 10 + (*it2)->m_collider_type] == 1)
+	//			{
+	//				bool collision = (*it1)->CheckCollision((*it2)->m_rect);
+	//				if (collision)
+	//				{
+	//					//DEBUG
+	//					//LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
+	//						(*it1)->OnCollision(*it1, *it2);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debug = !debug;
 
-		for (list<Collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1)
-		{
-			for (list<Collider*>::iterator it2 = it1; it2 != colliders.end();)
-			{
-				if (colliders.end() != ++it2)
-				{
-					//if (m_collision_matrix[(*it1)->m_collider_type][(*it2)->m_collider_type] == 1)
-					if (m_collision_matrix[(*it1)->m_collider_type * 10 + (*it2)->m_collider_type] == 1)
-					{
-						bool collision = (*it1)->CheckCollision((*it2)->m_rect);
-						if (collision)
-						{
-							//DEBUG
-							//LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
-								(*it1)->OnCollision(*it1, *it2);
-						}
-					}
-				}
-			}
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-			debug = !debug;
-
-		if (debug == true)
-			DebugDraw();
-	}
+	if (debug == true)
+		DebugDraw();
+	
 	return UPDATE_CONTINUE;
 }
 
 void ModuleCollision::DebugDraw()
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
-		App->renderer->DrawQuad((*it)->m_rect, 255, 0, 0, 80);
+		App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
 }
 
 // Called before quitting
@@ -132,14 +116,14 @@ bool ModuleCollision::CleanUp()
 
 	colliders.clear();
 
-	RELEASE_ARRAY(m_collision_matrix);
+	//RELEASE_ARRAY(collision_matrix);
 
 	return true;
 }
 
-Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, Entity *entity, collider_type c_type)
+Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, Entity *entity, collider_type col_t)
 {
-	Collider* ret = new Collider(rect, entity, c_type);
+	Collider* ret = new Collider(rect, entity, col_t);
 
 	colliders.push_back(ret);
 
@@ -154,26 +138,26 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 	bool collisionX = false;
 	bool collisionY = false;
 
-	if (r.x >= this->m_rect.x)
+	if (r.x >= this->rect.x)
 	{
-		if (r.x - this->m_rect.x <= this->m_rect.w)
+		if (r.x - this->rect.x <= this->rect.w)
 			collisionX = true;
 	}
 	else
 	{
-		if (this->m_rect.x - r.x <= r.w)
+		if (this->rect.x - r.x <= r.w)
 			collisionX = true;
 	}
 
-	if (r.y >= this->m_rect.y)
+	if (r.y >= this->rect.y)
 	{
-		if (r.y - this->m_rect.y <= this->m_rect.h) {
+		if (r.y - this->rect.y <= this->rect.h) {
 			collisionY = true;
 		}
 	}
 	else
 	{
-		if (this->m_rect.y - r.y <= r.h)
+		if (this->rect.y - r.y <= r.h)
 			collisionY = true;
 	}
 

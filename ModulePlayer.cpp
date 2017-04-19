@@ -34,8 +34,8 @@ bool ModulePlayer::Start()
 	collider.w = 36;
 	collider.h = 63;
 
-	m_player_collider = App->collision->AddCollider(collider, player, collider_type::PLAYER);
-	m_player_collider->SetPos(player->position.x + player->m_x_ref - collider.w/2, player->depth);
+	m_player_collider = App->collision->AddCollider(collider, player, collider_type::PLAYER_BODY);
+//	m_player_collider->SetPos(player->position.x + player->m_x_ref - collider.w/2, player->depth);
 
 	return true;
 }
@@ -93,7 +93,7 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::UpdateColliderPosition()
 {
-	m_player_collider->SetPos(player->position.x + player->m_x_ref - m_player_collider->m_rect.w / 2, player->depth);
+	//m_player_collider->SetPos(player->position.x + player->m_x_ref - m_player_collider->rect.w / 2, player->depth);
 }
 
 bool ModulePlayer::LookingEachOther(Enemy *enemy)

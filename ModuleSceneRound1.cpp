@@ -92,34 +92,20 @@ bool ModuleSceneRound1::Start()
 
 	LOG("Creating the player");
 	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, { 800, 150 }, 150);
+	
+	LOG("Adding the player colliders to ModuleCollision");
+	
+	the_player->body_collider = App->collision->AddCollider(the_player->body_rect, the_player, collider_type::PLAYER_BODY);
+	the_player->hit_collider= App->collision->AddCollider(the_player->hit_rect, the_player, collider_type::PLAYER_HIT);
+	the_player->body_collider->SetPos(the_player->position.x + the_player->body_collider_offset_right, the_player->position.y);
+	the_player->hit_collider->SetPos(the_player->position.x + the_player->hit_collider_offset_right, the_player->position.y);
+	
 	dynamic_entities.push_back(the_player);
 
 	LOG("Creating enemy prototypes");
 	garcia_prototype = new Garcia(tx_garcia, nullptr, "garcia", entity_type::GARCIA, {0, 0}, 0);
 	
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
-
-	// TODO 15: create some colliders for the walls
-	// solution wall coords: {0, 224, 3930, 16} {1375, 0, 111, 96} {1375, 145, 111, 96}
-
-	/*SDL_Rect colliderRect = SDL_Rect();
-	colliderRect.x = 0;
-	colliderRect.y = 224;
-	colliderRect.w = 3930;
-	colliderRect.h = 16;
-	App->collision->AddCollider(colliderRect, nullptr, collider_type::WALL);
-
-	colliderRect.x = 1375;
-	colliderRect.y = 0;
-	colliderRect.w = 111;
-	colliderRect.h = 96;
-	App->collision->AddCollider(colliderRect, nullptr, collider_type::WALL);
-
-	colliderRect.x = 1375;
-	colliderRect.y = 145;
-	colliderRect.w = 111;
-	colliderRect.h = 96;
-	App->collision->AddCollider(colliderRect, nullptr, collider_type::WALL);*/
 
 	return true;
 }
@@ -320,32 +306,32 @@ void ModuleSceneRound1::LoadSceneAssets()
 	//------------------------------------ LOAD SCENE ANIMATIONS ----------------------------------------------
 	//Scenario 
 	{
-		JSONDataLoader::Load("assets/json/sprites_data.json", "neonPinEPot", animation_list, neonPinEPot);
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonPinEPot", animation_list, neonPinEPot);
 		neonPinEPot.loop = true;
 		neonPinEPot.speed = 0.05f;
 		Utilities::free_list(animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "neonBreakfastDiner", animation_list, neonBreakfastDiner);
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonBreakfastDiner", animation_list, neonBreakfastDiner);
 		neonBreakfastDiner.loop = true;
 		neonBreakfastDiner.speed = 0.05f;
 		Utilities::free_list(animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "neonLDevo", animation_list, neonLDevo);
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonLDevo", animation_list, neonLDevo);
 		neonLDevo.loop = true;
 		neonLDevo.speed = 0.05f;
 		Utilities::free_list(animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "neonRachShop", animation_list, neonRachShop);
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonRachShop", animation_list, neonRachShop);
 		neonRachShop.loop = true;
 		neonRachShop.speed = 0.05f;
 		Utilities::free_list(animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "neonAbcShop", animation_list, neonAbcShop);
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonAbcShop", animation_list, neonAbcShop);
 		neonAbcShop.loop = true;
 		neonAbcShop.speed = 0.05f;
 		Utilities::free_list(animation_list);
 
-		JSONDataLoader::Load("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neonCafeRestaurant);
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neonCafeRestaurant);
 		neonCafeRestaurant.loop = true;
 		neonCafeRestaurant.speed = 0.05f;
 		Utilities::free_list(animation_list);

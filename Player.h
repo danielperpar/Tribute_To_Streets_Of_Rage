@@ -6,6 +6,8 @@
 #include "Entity.h"
 #include "Point.h"
 #include "GameTimer.h"
+#include "ModuleCollision.h"
+#include "SDL/include/SDL.h"
 
 struct SDL_Texture;
 class PlayerFSM;
@@ -21,11 +23,22 @@ public:
 
 	void LoadPlayerAnimations();
 	void LoadStats();
+	void LoadCollider();
 	virtual void UpdateFSM();
 
-	int speed = 1;
-	int life = 100;
-	
+	int speed = 0;
+	int life = 0;
+	//----------------------------------------  PLAYER COLLIDERS -----------------------------------------------
+	Collider *body_collider = nullptr;
+	Collider *hit_collider = nullptr;
+	SDL_Rect body_rect;
+	SDL_Rect hit_rect;
+
+	//int ref_x = 70;
+	int body_collider_offset_right = 0;
+	int hit_collider_offset_right = 0;
+	int body_collider_offset_left = 0;
+	int hit_collider_offset_left = 0;
 
 	// ----------------------------------  VARIABLES THAT CONTROL PLAYER FSM LOGIC -----------------------------------
 	bool facing_right = true;
@@ -79,15 +92,6 @@ public:
 
 	bool m_dead = false;
 	
-
-	
-
-	//Axis X origin taken from the upper left vertex related to the rectangle containing the player sprite to the player's back neck position
-	size_t m_x_ref = 70;
-
-	//----------------------------------------  PLAYER TEXTURE -----------------------------------------------
-	//SDL_Texture *tx_player = nullptr;
-
 	//---------------------------------------- PLAYER ANIMATIONS ---------------------------------------------
 	Animation anim_idle_right1;
 	Animation anim_idle_right2;

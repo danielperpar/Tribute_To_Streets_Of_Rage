@@ -11,21 +11,21 @@ class Entity;
 class Enemy;
 struct Collider
 {
-	SDL_Rect m_rect = { 0,0,0,0 };
-	bool m_to_delete = false;
-	collider_type m_collider_type;
-	Entity *m_entity;
+	SDL_Rect rect = { 0,0,0,0 };
+	bool to_delete = false;
+	collider_type type;
+	Entity *entity;
 
-	
+	Collider() {}
 
-	Collider(SDL_Rect rectangle, Entity *entity, collider_type c_type) : 
-		m_rect(rectangle), m_entity(entity), m_collider_type(c_type)
+	Collider(SDL_Rect rectangle, Entity *entity, collider_type col_t) : 
+		rect(rectangle), entity(entity), type(col_t)
 	{}
 
 	void SetPos(int x, int y)
 	{
-		m_rect.x = x;
-		m_rect.y = y;
+		rect.x = x;
+		rect.y = y;
 	}
 
 	bool CheckCollision(const SDL_Rect& r) const;
@@ -45,19 +45,15 @@ public:
 
 	bool CleanUp();
 
-	Collider* AddCollider(const SDL_Rect& rect, Entity *entity, collider_type c_type);
+	Collider* AddCollider(const SDL_Rect& rect, Entity *entity, collider_type col_t);
 	void DebugDraw();
 
 private:
 
 	std::list<Collider*> colliders;
-	int* m_collision_matrix;
+	int collision_matrix[7][7];
 	bool debug = false;
 	
-	Uint32 m_time = 0;
-	Uint32 m_update_time = 0;
-	Uint32 m_dt = 10;
-	bool m_do_logic = true;
 };
 
 #endif // __ModuleCollision_H__

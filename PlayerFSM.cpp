@@ -200,24 +200,28 @@ void PlayerFSM::Walk()
 		the_player->facing_right = false;
 		temp.x -= the_player->speed;
 		the_player->position = temp;
+		UpdateColliderPosition();
 	}
 	if (the_player->walk_right)
 	{
 		the_player->facing_right = true;
 		temp.x += the_player->speed;
 		the_player->position = temp;
+		UpdateColliderPosition();
 	}
 	if (the_player->walk_up)
 	{
 		temp.y -= the_player->speed;
 		the_player->position = temp;
 		the_player->depth = temp.y;
+		UpdateColliderPosition();
 	}
 	if (the_player->walk_down)
 	{
 		temp.y += the_player->speed;
 		the_player->position = temp;
 		the_player->depth = temp.y;
+		UpdateColliderPosition();
 	}
 
 	//set animation
@@ -309,11 +313,13 @@ void PlayerFSM::Jump()
 		{
 			the_player->facing_right = false;
 			temp.x -= the_player->speed;
+			UpdateColliderPosition();
 		}
 		if (the_player->walk_right)
 		{
 			the_player->facing_right = true;
 			temp.x += the_player->speed;
+			UpdateColliderPosition();
 		}
 
 		//set position y
@@ -339,6 +345,7 @@ void PlayerFSM::Jump()
 			the_player->jump_up = true;
 
 		the_player->position = temp;
+		UpdateColliderPosition();
 
 	}
 }
@@ -578,10 +585,23 @@ PlayerFSM::State PlayerFSM::GetCurrState() const
 
 void PlayerFSM::SetCurrState(State state)
 {	
-		curr_state = state;
-	
+		curr_state = state;	
 }
 
+void PlayerFSM::UpdateColliderPosition()
+{
+	if (the_player->facing_right)
+	{
+		the_player->body_collider->SetPos(the_player->position.x + the_player->body_collider_offset_right, the_player->position.y);
+		the_player->hit_collider->SetPos(the_player->position.x + the_player->hit_collider_offset_right, the_player->position.y);
+	}
+	else
+	{
+		the_player->body_collider->SetPos(the_player->position.x + the_player->body_collider_offset_left, the_player->position.y);
+		the_player->hit_collider->SetPos(the_player->position.x + the_player->hit_collider_offset_left, the_player->position.y);
+	}
+	
+}
 
 //------------------------------------- DESTRUCTOR ----------------------------
 PlayerFSM::~PlayerFSM()
