@@ -89,30 +89,30 @@ void GarciaFSM::Chase()
 
 	if (garcia->facing_right && garcia->the_player->facing_right || !garcia->facing_right && !garcia->the_player->facing_right)
 	{
-		if (distance_x < garcia->speed.x)
+		if (distance_x < garcia->speed_vect.x)
 		{
-			garcia->speed.x = 1;
+			garcia->speed_vect.x = 1;
 		}
 		else
 		{
-			garcia->speed.x = 2;
+			garcia->speed_vect.x = 2;
 		}
 
-		if (distance_y < garcia->speed.y)
+		if (distance_y < garcia->speed_vect.y)
 		{
-			garcia->speed.y = 1;
+			garcia->speed_vect.y = 1;
 		}
 		else
 		{
-			garcia->speed.y = 2;
+			garcia->speed_vect.y = 2;
 		}
 	}
 	else
 	{
-		garcia->speed = { 1,1 };
+		garcia->speed_vect = { 1,1 };
 	}
-	garcia->position += {direction.x * garcia->speed.x , direction.y * garcia->speed.y};	
-
+	garcia->position += {direction.x * garcia->speed_vect.x , direction.y * garcia->speed_vect.y};	
+	UpdateColliderPosition();
 
 	//set animations
 		
@@ -152,4 +152,19 @@ GarciaFSM::State GarciaFSM::GetCurrState()  const
 void GarciaFSM::SetCurrState(State state)
 {
 	curr_state = state;
+}
+
+void GarciaFSM::UpdateColliderPosition()
+{
+	if (garcia->facing_right)
+	{
+		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
+		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
+	}
+	else
+	{
+		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_left, garcia->position.y);
+		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_left, garcia->position.y);
+	}
+
 }

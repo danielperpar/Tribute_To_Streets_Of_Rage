@@ -16,14 +16,13 @@ class Player : public Entity{
 private:
 	std::list<int*> animation_list;
 	PlayerFSM *player_fsm = nullptr;
+	void LoadPlayerAnimations();
+	void LoadStats();
+	void LoadColliders();
 	
 public:
 	Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
-	virtual ~Player();
-
-	void LoadPlayerAnimations();
-	void LoadStats();
-	void LoadCollider();
+	virtual ~Player();	
 	virtual void UpdateFSM();
 
 	int speed = 0;

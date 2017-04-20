@@ -9,6 +9,17 @@
 		"hitCollider_Offset_Right" : 90,
 		"bodyCollider_Offset_Left" : 49,
 		"hitCollider_Offset_Left" : 35
+	},
+	"garcia" :
+	{
+		"bodyCollider" : [{"x" : 0}, {"y" : 0},{ "w" : 36},{ "h" : 63}],
+		"hitCollider" : [{"x" : 0},{ "y" : 0},{ "w" : 15},{ "h" : 33}],
+		"life" : 100,
+		"speed" : 1,
+		"bodyCollider_Offset_Right" : 55,
+		"hitCollider_Offset_Right" : 90,
+		"bodyCollider_Offset_Left" : 49,
+		"hitCollider_Offset_Left" : 35
 	}
 
 }

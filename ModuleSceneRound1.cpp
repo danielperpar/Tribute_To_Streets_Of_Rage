@@ -93,8 +93,7 @@ bool ModuleSceneRound1::Start()
 	LOG("Creating the player");
 	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, { 800, 150 }, 150);
 	
-	LOG("Adding the player colliders to ModuleCollision");
-	
+	LOG("Adding the player colliders to ModuleCollision");	
 	the_player->body_collider = App->collision->AddCollider(the_player->body_rect, the_player, collider_type::PLAYER_BODY);
 	the_player->hit_collider= App->collision->AddCollider(the_player->hit_rect, the_player, collider_type::PLAYER_HIT);
 	the_player->body_collider->SetPos(the_player->position.x + the_player->body_collider_offset_right, the_player->position.y);
@@ -194,7 +193,14 @@ update_status ModuleSceneRound1::Update()
 	if (first_trigger_reached)
 	{
 		first_trigger_reached = false;
-		GenerateEnemy(entity_type::GARCIA, { 900, 150 }, the_player, dynamic_entities);
+		Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 900, 150 }, the_player, dynamic_entities);
+
+		LOG("Adding garcia colliders to ModuleCollision");
+		garcia->body_collider = App->collision->AddCollider(the_player->body_rect, garcia, collider_type::ENEMY_BODY);
+		garcia->hit_collider = App->collision->AddCollider(the_player->hit_rect, garcia, collider_type::ENEMY_HIT);
+		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
+		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
+		
 		//GenerateEnemy(entity_type::GARCIA, { 950, 150 }, the_player, dynamic_entities);										 
 	}
 
@@ -272,8 +278,9 @@ bool ModuleSceneRound1::CleanUp()
 }
 //--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------
 
-void ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities)
+Entity* ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities)
 {
+	Entity *enemy = nullptr;
 	switch (type) 
 	{
 		case entity_type::GARCIA:
@@ -283,8 +290,11 @@ void ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, Player 
 			garcia->garcia_fsm = new GarciaFSM(garcia);
 			garcia->SetPlayer(player);
 			dynamic_entities.push_back(garcia);
+			enemy = garcia;
 		break;
 	}
+
+	return enemy;
 }
 
 void ModuleSceneRound1::LoadSceneAssets()

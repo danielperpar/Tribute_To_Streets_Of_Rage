@@ -15,10 +15,7 @@ Player::Player(
 		player_fsm = new PlayerFSM(this);
 		LoadPlayerAnimations();
 		LoadStats();
-		LoadCollider();
-
-		
-
+		LoadColliders();
 	}
 
 Player::~Player() {
@@ -38,7 +35,7 @@ void Player::UpdateFSM()
 	player_fsm->Update();
 }
 
-void Player::LoadCollider()
+void Player::LoadColliders()
 {
 	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "bodyCollider", body_rect);
 	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "hitCollider", hit_rect);

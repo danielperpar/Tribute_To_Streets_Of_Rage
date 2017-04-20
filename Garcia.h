@@ -4,16 +4,20 @@
 #include "Animation.h"
 #include "Entity.h"
 #include <list>
+#include "SDL/include/SDL.h"
 
 class Animation;
 class GarciaFSM;
 class Player;
+struct Collider;
 class Garcia : public Entity
 {
 
 private:
 	std::list<int*> animation_list;
-	
+	void LoadStats();
+	void LoadColliders();
+	void LoadGarciaAnimations();
 
 public:
 	Garcia(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
@@ -23,11 +27,24 @@ public:
 
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
-	iPoint speed = { 1,1 };
+	iPoint speed_vect = { 1,1 };
+	int speed = 0;
 	Player *the_player = nullptr;
 	size_t m_punch_hits = 0;
+
 	void SetPlayer(Player *player);
 	
+	//----------------------------------------  GARCIA COLLIDERS -----------------------------------------------
+	Collider *body_collider = nullptr;
+	Collider *hit_collider = nullptr;
+	SDL_Rect body_rect;
+	SDL_Rect hit_rect;
+
+	//int ref_x = 70;
+	int body_collider_offset_right = 0;
+	int hit_collider_offset_right = 0;
+	int body_collider_offset_left = 0;
+	int hit_collider_offset_left = 0;
 	
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;

@@ -20,7 +20,7 @@ private:
 	State prev_state = State::START;
 
 	Garcia *garcia = nullptr;
-
+	void UpdateColliderPosition();
 
 public:
 	GarciaFSM(Garcia *garcia);

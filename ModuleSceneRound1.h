@@ -52,7 +52,7 @@ private:
 	Animation neonCafeRestaurant;
 	
 	
-	void GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities);
+	Entity* GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities);
 	
 	//----------------------------------- ENEMIES PROTOTYPES---------------------------------------------------
 	Garcia *garcia_prototype = nullptr;

@@ -30,6 +30,7 @@ private:
 	State prev_state = State::START;
 
 	Player *the_player = nullptr;
+	void UpdateColliderPosition();
 		
 public:
 	PlayerFSM(Player *player);
@@ -59,7 +60,7 @@ public:
 	State GetCurrState() const;
 	void SetCurrState(State state);
 
-	void UpdateColliderPosition();
+	
 
 };
 
