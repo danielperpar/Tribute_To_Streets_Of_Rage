@@ -87,6 +87,11 @@ void Garcia::LoadColliders()
 	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hitCollider_Offset_Left");
 }
 
+void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
+{
+
+}
+
 void Garcia::OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
 {
 

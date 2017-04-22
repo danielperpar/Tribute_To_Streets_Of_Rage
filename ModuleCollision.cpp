@@ -173,7 +173,7 @@ void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const Coll
 	case collider_type::PLAYER_BODY:
 	{
 		Player *player = (Player*)(collider1->entity);
-		player->OnCollisionEnter(col_info1, col_info2);
+		player->OnCollision(col_info1, col_info2);
 	}
 	break;
 
@@ -181,7 +181,7 @@ void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const Coll
 		if (collider1->entity->type == entity_type::GARCIA)
 		{
 			Garcia *garcia = (Garcia*)(collider1->entity);
-			garcia->OnCollisionEnter(col_info1, col_info2);
+			garcia->OnCollision(col_info1, col_info2);
 		}
 		break;
 	}

@@ -25,6 +25,7 @@ public:
 	Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	virtual ~Player();	
 	virtual void UpdateFSM();
+	void OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
 	void OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
 	void OnCollisionExit(const CollisionInfo &col_info_other);
 

@@ -45,51 +45,57 @@ void Player::LoadColliders()
 	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hitCollider_Offset_Left");
 }
 
-void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
+void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
 {
-	LOG("Inside OnCollisionEnter");
+	LOG("Inside Player::OnCollision");
 
 	bool found = false;
-	for (std::list<CollisionInfo>::iterator it = body_collision_status.begin(); it !=body_collision_status.end() && !found; it++)
+	for (std::list<CollisionInfo>::iterator it = body_collision_status.begin(); it != body_collision_status.end() && !found; it++)
 	{
 		if ((*it).collider == col_info_other.collider)
 			found = true;
 	}
 
 	if (!found)
+		OnCollisionEnter(col_info_player, col_info_other);
+}
+
+
+void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
+{
+	LOG("Inside OnCollisionEnter");
+
+	body_collision_status.push_back(col_info_other);
+
+	if (col_info_other.collider->type == collider_type::ENEMY_BODY) 
 	{
-		body_collision_status.push_back(col_info_other);
-
-		if (col_info_other.collider->type == collider_type::ENEMY_BODY) 
+		if (col_info_player.contact_direction_x == contact_direction::LEFT)
 		{
-			if (col_info_player.contact_direction_x == contact_direction::LEFT)
-			{
-				colliding = true;
-				left_blocked = true;
-				left_block_count++;
-			}
-			else if (col_info_player.contact_direction_x == contact_direction::RIGHT)
-			{
-				colliding = true;
-				right_blocked = true;
-				right_block_count++;
-			}
-			if (col_info_player.contact_direction_y == contact_direction::UP)
-			{
-				colliding = true;
-				up_blocked = true;
-				up_block_count++;
-			}
-			else if (col_info_player.contact_direction_y == contact_direction::DOWN)
-			{
-				colliding = true;
-				down_blocked = true;
-				down_block_count++;
-			}
-
+			colliding = true;
+			left_blocked = true;
+			left_block_count++;
 		}
-			
-	}	
+		else if (col_info_player.contact_direction_x == contact_direction::RIGHT)
+		{
+			colliding = true;
+			right_blocked = true;
+			right_block_count++;
+		}
+		if (col_info_player.contact_direction_y == contact_direction::UP)
+		{
+			colliding = true;
+			up_blocked = true;
+			up_block_count++;
+		}
+		else if (col_info_player.contact_direction_y == contact_direction::DOWN)
+		{
+			colliding = true;
+			down_blocked = true;
+			down_block_count++;
+		}
+
+	}
+				
 }
 
 void Player:: OnCollisionExit(const CollisionInfo &col_info_other)
