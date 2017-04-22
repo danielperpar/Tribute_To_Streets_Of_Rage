@@ -20,11 +20,11 @@ void GarciaFSM::Update()
 		Idle();
 		prev_state = curr_state;
 
-		if (garcia->player_in_sight)
+		/*if (garcia->player_in_sight)
 		{
 			curr_state = State::CHASE;
 			break;
-		}
+		}*/
 		break;
 
 	case State::CHASE:

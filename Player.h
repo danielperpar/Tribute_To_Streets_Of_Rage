@@ -20,10 +20,13 @@ private:
 	void LoadStats();
 	void LoadColliders();
 	
+	
 public:
 	Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	virtual ~Player();	
 	virtual void UpdateFSM();
+	void OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
+	void OnCollisionExit(const CollisionInfo &col_info_other);
 
 	int speed = 0;
 	int life = 0;
@@ -38,6 +41,22 @@ public:
 	int hit_collider_offset_right = 0;
 	int body_collider_offset_left = 0;
 	int hit_collider_offset_left = 0;
+
+	// ---------------------------------------- COLLISION ----------------------------------------
+	bool colliding = false;
+	bool right_blocked = false;
+	bool left_blocked = false;
+	bool up_blocked = false;
+	bool down_blocked = false;
+
+	int left_block_count = 0;
+	int right_block_count = 0;
+	int up_block_count = 0;
+	int down_block_count = 0;
+
+	//colliders colliding with player's body
+	std::list<CollisionInfo> body_collision_status;
+	
 
 	// ----------------------------------  VARIABLES THAT CONTROL PLAYER FSM LOGIC -----------------------------------
 	bool facing_right = true;

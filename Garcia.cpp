@@ -2,6 +2,7 @@
 #include "JSONDataLoader.h"
 #include "Utilities.h"
 #include "GarciaFSM.h"
+#include "ModuleCollision.h"
 
 Garcia::Garcia(SDL_Texture *texture, 
 	Animation *curr_anim, 
@@ -84,6 +85,16 @@ void Garcia::LoadColliders()
 	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hitCollider_Offset_Right");
 	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "bodyCollider_Offset_Left");
 	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hitCollider_Offset_Left");
+}
+
+void Garcia::OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
+{
+
+}
+
+void Garcia::OnCollisionExit(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
+{
+
 }
 
 void Garcia::LoadGarciaAnimations()

@@ -10,6 +10,7 @@ class Animation;
 class GarciaFSM;
 class Player;
 struct Collider;
+struct CollisionInfo;
 class Garcia : public Entity
 {
 
@@ -24,6 +25,8 @@ public:
 	Garcia(const Garcia &garcia);
 	virtual ~Garcia();
 	virtual void UpdateFSM();
+	void OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
+	void OnCollisionExit(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
 
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
@@ -46,6 +49,20 @@ public:
 	int body_collider_offset_left = 0;
 	int hit_collider_offset_left = 0;
 	
+	// ---------------------------------------- COLLISION ----------------------------------------
+	bool colliding = false;
+	bool right_collision = false;
+	bool left_collision = false;
+	bool up_collision = false;
+	bool down_collision = false;
+
+	int left_block_count = 0;
+	int right_block_count = 0;
+	int up_block_count = 0;
+	int down_block_count = 0;
+
+	std::vector<std::pair<Collider*, contact_direction>> collision_vector;
+
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;
 	bool idle = true;

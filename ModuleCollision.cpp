@@ -6,6 +6,10 @@
 #include "ModuleEnemies.h"
 #include "ModulePlayer.h"
 #include <iostream>
+#include "Player.h"
+#include "Garcia.h"
+#include "ModuleSceneRound1.h"
+
 using namespace std;
 
 ModuleCollision::ModuleCollision()
@@ -42,6 +46,39 @@ bool ModuleCollision::Start()
 
 update_status ModuleCollision::PreUpdate()
 {
+
+	//update collision status
+	CollisionInfo ci1;
+	CollisionInfo ci2;
+	bool erased = false;
+
+	Player *the_player = App->scene_round1->the_player;
+	for (list<CollisionInfo>::iterator it = the_player->body_collision_status.begin(); it != the_player->body_collision_status.end();)
+	{
+		erased = false;
+		if ((*it).collider->to_delete)
+		{			
+			the_player->OnCollisionExit(*it);
+			it = the_player->body_collision_status.erase(it);
+			erased = true;
+		}
+		else
+		{
+			bool collision = the_player->body_collider->CheckCollision((*it).collider, ci1, ci2);
+			if (!collision)
+			{
+				the_player->OnCollisionExit(*it);
+				
+				it = the_player->body_collision_status.erase(it);
+				erased = true;
+			}
+		}
+
+		if (!erased)
+			it++;
+
+	}
+
 	// Remove all colliders scheduled for deletion
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
 	{
@@ -53,43 +90,33 @@ update_status ModuleCollision::PreUpdate()
 		else
 			++it;
 	}
+
 	
-	//Update collisions between enemies and player
-	/*for (std::list<Entity*>::iterator it = App->entities.begin(); it != App->entities.end(); it++)
-	{
-		if ((*it)->type == entity_type::ENEMY)
-		{
-			bool collision = App->player->m_player_collider->CheckCollision(((Enemy*)*it)->m_enemy_hit_collider->m_rect);
-			if (!collision)
-				((Enemy*)*it)->m_enemy_to_hit = false;
-		}
-	}*/
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleCollision::Update()
 {
-	//for (list<Collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1)
-	//{
-	//	for (list<Collider*>::iterator it2 = it1; it2 != colliders.end();)
-	//	{
-	//		if (colliders.end() != ++it2)
-	//		{
-	//			//if (m_collision_matrix[(*it1)->m_collider_type][(*it2)->m_collider_type] == 1)
-	//			if (m_collision_matrix[(*it1)->m_collider_type * 10 + (*it2)->m_collider_type] == 1)
-	//			{
-	//				bool collision = (*it1)->CheckCollision((*it2)->m_rect);
-	//				if (collision)
-	//				{
-	//					//DEBUG
-	//					//LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
-	//						(*it1)->OnCollision(*it1, *it2);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+	for (list<Collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); it1++)
+	{
+		for (list<Collider*>::iterator it2 = it1; it2 != colliders.end();)
+		{
+			if (colliders.end() != ++it2)
+			{
+				if (collision_matrix[(*it1)->type][(*it2)->type] == 1)		
+				{
+					bool collision = (*it1)->CheckCollision(*it2, collision_info1, collision_info2);
+					if (collision)
+					{
+						//DEBUG
+						//LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
+						OnCollision(collision_info1, collision_info2);
+					}
+				}
+			}
+		}
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
@@ -130,65 +157,97 @@ Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, Entity *entity, col
 	return ret;
 }
 
+void ModuleCollision::OnCollision(const CollisionInfo &col_info1, const CollisionInfo &col_info2) const
+{
+	NotifyCollision(col_info1, col_info2);
+	NotifyCollision(col_info2, col_info1);
+}
+
+void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const CollisionInfo &col_info2) const
+{
+	const Collider *collider1 = col_info1.collider;
+	const Collider *collider2 = col_info2.collider;
+
+	switch (collider1->type)
+	{
+	case collider_type::PLAYER_BODY:
+	{
+		Player *player = (Player*)(collider1->entity);
+		player->OnCollisionEnter(col_info1, col_info2);
+	}
+	break;
+
+	case collider_type::ENEMY_BODY:
+		if (collider1->entity->type == entity_type::GARCIA)
+		{
+			Garcia *garcia = (Garcia*)(collider1->entity);
+			garcia->OnCollisionEnter(col_info1, col_info2);
+		}
+		break;
+	}
+}
 // -----------------------------------------------------
 
-bool Collider::CheckCollision(const SDL_Rect& r) const
+bool Collider::CheckCollision(const Collider *collider, CollisionInfo &col_info1, CollisionInfo &col_info2) const
 {
-	
+	SDL_Rect r = collider->rect;
+
+	//Each collider will receive info about its collision.
+	//collision_info1 is related to "this" collider, collision_info2 is related to the other collider
+
+	CollisionInfo collision_info1 = CollisionInfo(this, contact_direction::LEFT, contact_direction::DOWN);
+	CollisionInfo collision_info2 = CollisionInfo(collider, contact_direction::LEFT, contact_direction::DOWN);
+
 	bool collisionX = false;
 	bool collisionY = false;
 
 	if (r.x >= this->rect.x)
 	{
 		if (r.x - this->rect.x <= this->rect.w)
+		{
 			collisionX = true;
+			collision_info1.contact_direction_x = contact_direction::RIGHT;
+			collision_info2.contact_direction_x = contact_direction::LEFT;
+		}
 	}
 	else
 	{
 		if (this->rect.x - r.x <= r.w)
+		{
 			collisionX = true;
+			collision_info1.contact_direction_x = contact_direction::LEFT;
+			collision_info2.contact_direction_x = contact_direction::RIGHT;
+		}
 	}
 
 	if (r.y >= this->rect.y)
 	{
-		if (r.y - this->rect.y <= this->rect.h) {
+		if (r.y - this->rect.y <= this->rect.h) 
+		{
 			collisionY = true;
+			collision_info1.contact_direction_y = contact_direction::DOWN;
+			collision_info2.contact_direction_y = contact_direction::UP;
 		}
 	}
 	else
 	{
 		if (this->rect.y - r.y <= r.h)
+		{
 			collisionY = true;
+			collision_info1.contact_direction_y = contact_direction::UP;
+			collision_info2.contact_direction_y = contact_direction::DOWN;
+		}
 	}
+
+	
+	col_info1 = collision_info1;
+	col_info2 = collision_info2;
+	
 
 	return collisionX && collisionY;
 
 }
 
-void Collider::OnCollision(Collider* collider1, Collider* collider2) const
-{
-	////collision between player and enemy
-	//if (collider1->m_collider_type == COMMON_ENEMY_HIT || collider2->m_collider_type == COMMON_ENEMY_HIT ||
-	//	collider1->m_collider_type == COMMON_ENEMY_RANGED_ATTACK || collider2->m_collider_type == COMMON_ENEMY_RANGED_ATTACK
-	//	) 
-	//{
-	//	Collider* enemy_collider = collider1->m_entity->type == entity_type::ENEMY ? collider1 : collider2;
-	//	((Enemy*)(enemy_collider->m_entity))->m_ai_walk = false;
-	//	((Enemy*)(enemy_collider->m_entity))->m_ai_attack = true;
-	//	
 
-	//	if(enemy_collider->m_collider_type != COMMON_ENEMY_RANGED_ATTACK && App->player->player->depth == ((Enemy*)(enemy_collider->m_entity))->depth)
-	//		((Enemy*)(enemy_collider->m_entity))->m_enemy_to_hit = true;
-	//}
 
-	
-	
 
-	//if (collider1->m_collider_type == BOSS_BOOMERANG_AREA || collider2->m_collider_type == BOSS_BOOMERANG_AREA) {
-	//	//throw boomerang special attack
-	//	App->enemies->m_enemy->m_ai_walk = false;
-	//	App->enemies->m_enemy->m_ai_attack = true;
-
-	//}
-
-}

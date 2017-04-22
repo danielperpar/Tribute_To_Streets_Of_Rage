@@ -29,6 +29,14 @@ enum collider_type
 	BOSS_AOE
 };
 
+enum contact_direction
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN
+};
+
 // Useful typedefs ---------
 typedef unsigned int uint;
 

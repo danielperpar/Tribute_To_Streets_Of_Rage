@@ -31,6 +31,7 @@ public:
 	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
 	bool first_trigger_reached = false;
 	Player *the_player = nullptr;
+	
 
 private:
 	std::list<int*> animation_list;
