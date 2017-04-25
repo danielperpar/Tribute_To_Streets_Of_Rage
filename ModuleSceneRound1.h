@@ -32,11 +32,11 @@ public:
 	bool first_trigger_reached = false;
 	Player *the_player = nullptr;
 	
+	std::vector<Entity*> dynamic_entities;
 
 private:
 	std::list<int*> animation_list;
 	std::vector<Entity*> scenario_entities;
-	std::vector<Entity*> dynamic_entities;
 	
 	SDL_Texture *tx_background = nullptr;
 	SDL_Texture *tx_foreground = nullptr;

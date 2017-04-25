@@ -14,7 +14,6 @@ Garcia::Garcia(SDL_Texture *texture,
 	LoadGarciaAnimations();
 	LoadStats();
 	LoadColliders();
-	
 }
 
 Garcia::Garcia(const Garcia &garcia) : Entity(garcia.texture, garcia.curr_anim, garcia.name, garcia.type, garcia.position, garcia.depth)
@@ -89,17 +88,37 @@ void Garcia::LoadColliders()
 
 void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
 {
+	//LOG("Inside Garcia::OnCollision");
 
+	if (col_info_other.collider->type == collider_type::PLAYER_BODY)
+	{		
+		OnCollisionEnter(col_info_garcia, col_info_other);
+		if (depth == col_info_other.collider->entity->depth)
+		{
+			attack = true;
+		}
+		else
+		{
+			attack = false;
+		}
+	}
+	
 }
 
 void Garcia::OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
 {
-
+	//LOG("Inside Garcia::OnCollisionEnter");
+	hit_collider_status = col_info_other;
+	
 }
 
-void Garcia::OnCollisionExit(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
+void Garcia::OnCollisionExit(const CollisionInfo &col_info_other)
 {
-
+	//LOG("Inside Garcia::OnCollisionExit");
+	if (col_info_other.collider->type == collider_type::PLAYER_BODY)
+	{
+		attack = false;
+	}
 }
 
 void Garcia::LoadGarciaAnimations()

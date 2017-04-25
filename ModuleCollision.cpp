@@ -46,10 +46,10 @@ bool ModuleCollision::Start()
 
 update_status ModuleCollision::PreUpdate()
 {
-
-	//update collision status
+	
 	CollisionInfo ci1;
 	CollisionInfo ci2;
+	//update body collision status
 	bool erased = false;
 
 	Player *the_player = App->scene_round1->the_player;
@@ -78,6 +78,36 @@ update_status ModuleCollision::PreUpdate()
 			it++;
 
 	}
+
+	//update enemy hit collider status
+	std::vector<Entity*> &dynamics = App->scene_round1->dynamic_entities;
+
+	for (std::vector<Entity*>::iterator it = dynamics.begin(); it != dynamics.end(); it++)
+	{
+		if ((*it)->type == entity_type::GARCIA)
+		{
+			Garcia *garcia = (Garcia*)(*it);
+			if (garcia->hit_collider->to_delete)
+			{
+				garcia->OnCollisionExit(garcia->hit_collider_status);
+				garcia->hit_collider_status.collider = nullptr;
+			}
+			else if(garcia->hit_collider_status.collider != nullptr)
+			{
+				bool collision = garcia->hit_collider->CheckCollision(garcia->hit_collider_status.collider, ci1, ci2);
+				if (!collision)
+				{
+					garcia->OnCollisionExit(garcia->hit_collider_status);
+					garcia->hit_collider_status.collider = nullptr;
+				}
+			}
+
+
+
+
+		}
+	}
+	
 
 	// Remove all colliders scheduled for deletion
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
@@ -177,7 +207,7 @@ void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const Coll
 	}
 	break;
 
-	case collider_type::ENEMY_BODY:
+	case collider_type::ENEMY_HIT:
 		if (collider1->entity->type == entity_type::GARCIA)
 		{
 			Garcia *garcia = (Garcia*)(collider1->entity);

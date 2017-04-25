@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include <list>
 #include "SDL/include/SDL.h"
+#include "ModuleCollision.h"
 
 class Animation;
 class GarciaFSM;
@@ -27,14 +28,14 @@ public:
 	virtual void UpdateFSM();
 	void OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
 	void OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
-	void OnCollisionExit(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
+	void OnCollisionExit(const CollisionInfo &col_info_other);
 
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
 	iPoint speed_vect = { 1,1 };
 	int speed = 0;
 	Player *the_player = nullptr;
-	size_t m_punch_hits = 0;
+	size_t punch_hits = 0;
 
 	void SetPlayer(Player *player);
 	
@@ -51,18 +52,17 @@ public:
 	int hit_collider_offset_left = 0;
 	
 	// ---------------------------------------- COLLISION ----------------------------------------
-	bool colliding = false;
 	bool right_collision = false;
 	bool left_collision = false;
 	bool up_collision = false;
 	bool down_collision = false;
 
-	int left_block_count = 0;
-	int right_block_count = 0;
-	int up_block_count = 0;
-	int down_block_count = 0;
+	bool left_blocked = false;
+	bool right_blocked = false;
+	bool up_blocked = false;
+	bool down_blocked = false;
 
-	std::vector<std::pair<Collider*, contact_direction>> collision_vector;
+	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;
@@ -72,12 +72,10 @@ public:
 	bool walk_up = false;
 	bool walk_down = false;
 	bool attack = false;
-	bool attack_finished = false;
+	bool evasive = false;
 	bool damaged = false;
 	bool knocked_down = false;
-	bool player_in_sight = true; //test
-	bool player_at_range = false;
-	bool look_each_other = false;
+	bool player_in_sight = true; // test
 
 	//----------------------------------------------------------------------------------------------------------
 
@@ -103,8 +101,6 @@ public:
 
 	Animation garcia_up_right;
 	Animation garcia_up_left;
-
-
 
 };
 

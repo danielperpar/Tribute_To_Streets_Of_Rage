@@ -20,18 +20,28 @@ void GarciaFSM::Update()
 		Idle();
 		prev_state = curr_state;
 
-		/*if (garcia->player_in_sight)
+		if (garcia->player_in_sight)
 		{
 			curr_state = State::CHASE;
 			break;
-		}*/
+		}
 		break;
 
 	case State::CHASE:
 		Chase();
+		if (garcia->attack)
+		{
+			curr_state = State::ATTACK;
+			break;
+		}
 		break;
 
 	case State::ATTACK:
+		Attack();
+		if (garcia->attack == false)
+		{
+			curr_state = State::CHASE;
+		}
 		break;
 
 	case State::EVASIVE:
@@ -59,7 +69,7 @@ void GarciaFSM::Chase()
 	iPoint target;
 
 	target.x = garcia->the_player->position.x - garcia->position.x;
-	target.y = garcia->the_player->position.y - garcia->position.y;
+	target.y = garcia->the_player->depth - garcia->position.y;
 		
 	iPoint direction{ 0,0 };
 	
@@ -111,7 +121,8 @@ void GarciaFSM::Chase()
 	{
 		garcia->speed_vect = { 1,1 };
 	}
-	garcia->position += {direction.x * garcia->speed_vect.x , direction.y * garcia->speed_vect.y};	
+	garcia->position += {direction.x * garcia->speed_vect.x , direction.y * garcia->speed_vect.y};
+	garcia->depth = garcia->position.y;
 	UpdateColliderPosition();
 
 	//set animations
@@ -137,7 +148,62 @@ void GarciaFSM::Chase()
 	
 void GarciaFSM::Attack()
 {
+	if (garcia->facing_right)
+	{
+		if (garcia->punch_hits == 0 || garcia->punch_hits == 1)
+		{
+			garcia->curr_anim = &garcia->garcia_punch_right1;
+			if (garcia->curr_anim->Finished())
+			{
+				garcia->curr_anim->Reset();
+				garcia->punch_hits++;
+			}
+		}
+		if (garcia->punch_hits == 2)
+		{
+			if (garcia->curr_anim != &garcia->garcia_punch_right2)
+			{
+				garcia->curr_anim = &garcia->garcia_punch_right2;
+				garcia->curr_anim->Reset();
+			}		
+			if (garcia->curr_anim->Finished())
+			{			
+				garcia->punch_hits++;
+			}
+		}
+	
+		if (garcia->punch_hits == 3)
+			garcia->punch_hits = 0;
+	}
 
+	if (garcia->facing_right == false)
+	{
+		if (garcia->punch_hits == 0 || garcia->punch_hits == 1)
+		{			
+			garcia->curr_anim = &garcia->garcia_punch_left1;
+						
+			if (garcia->curr_anim->Finished())
+			{			
+				garcia->curr_anim->Reset();
+				garcia->punch_hits++;
+			}
+		}
+		if (garcia->punch_hits == 2)
+		{
+			if (garcia->curr_anim != &garcia->garcia_punch_left2)
+			{
+				garcia->curr_anim = &garcia->garcia_punch_left2;
+				garcia->curr_anim->Reset();
+			}		
+			if (garcia->curr_anim->Finished())
+			{				
+				garcia->punch_hits++;
+			}
+		}
+
+		if (garcia->punch_hits == 3)
+			garcia->punch_hits = 0;
+	}
 }
 void GarciaFSM::Evasive()
 {

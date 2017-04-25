@@ -44,7 +44,6 @@ public:
 	int hit_collider_offset_left = 0;
 
 	// ---------------------------------------- COLLISION ----------------------------------------
-	bool colliding = false;
 	bool right_blocked = false;
 	bool left_blocked = false;
 	bool up_blocked = false;

@@ -47,7 +47,7 @@ void Player::LoadColliders()
 
 void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
 {
-	LOG("Inside Player::OnCollision");
+	//LOG("Inside Player::OnCollision");
 
 	bool found = false;
 	for (std::list<CollisionInfo>::iterator it = body_collision_status.begin(); it != body_collision_status.end() && !found; it++)
@@ -63,33 +63,29 @@ void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionIn
 
 void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
 {
-	LOG("Inside OnCollisionEnter");
-
-	body_collision_status.push_back(col_info_other);
+	//LOG("Inside player::OnCollisionEnter");
 
 	if (col_info_other.collider->type == collider_type::ENEMY_BODY) 
 	{
+		body_collision_status.push_back(col_info_other);
+
 		if (col_info_player.contact_direction_x == contact_direction::LEFT)
-		{
-			colliding = true;
+		{			
 			left_blocked = true;
 			left_block_count++;
 		}
 		else if (col_info_player.contact_direction_x == contact_direction::RIGHT)
-		{
-			colliding = true;
+		{		
 			right_blocked = true;
 			right_block_count++;
 		}
 		if (col_info_player.contact_direction_y == contact_direction::UP)
 		{
-			colliding = true;
 			up_blocked = true;
 			up_block_count++;
 		}
 		else if (col_info_player.contact_direction_y == contact_direction::DOWN)
 		{
-			colliding = true;
 			down_blocked = true;
 			down_block_count++;
 		}
@@ -100,7 +96,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 
 void Player:: OnCollisionExit(const CollisionInfo &col_info_other)
 {
-	LOG("Inside OnCollisionExit");
+	//LOG("Inside Player::OnCollisionExit");
 
 	if (col_info_other.collider->type == collider_type::ENEMY_BODY)
 	{
@@ -128,6 +124,7 @@ void Player:: OnCollisionExit(const CollisionInfo &col_info_other)
 			if (up_block_count == 0)
 				up_blocked = false;
 		}
+	
 	}
 }
 
