@@ -47,4 +47,9 @@ public:
 		current_frame = 0.0f;
 		loops = 0;
 	}
+
+	int GetCurrentFrameCount() const
+	{
+		return (int)current_frame;
+	}
 };

@@ -182,9 +182,13 @@ void GarciaFSM::Attack()
 		if (garcia->punch_hits == 0 || garcia->punch_hits == 1)
 		{
 			garcia->curr_anim = &garcia->garcia_punch_right1;
-			if (garcia->curr_anim->Finished())
+
+			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
 			{
 				garcia->the_player->damaged = true;	//Damage the player
+			}
+			if (garcia->curr_anim->Finished())
+			{			
 				garcia->curr_anim->Reset();
 				garcia->punch_hits++;
 			}
@@ -195,10 +199,15 @@ void GarciaFSM::Attack()
 			{
 				garcia->curr_anim = &garcia->garcia_punch_right2;
 				garcia->curr_anim->Reset();
-			}		
+			}
+
+			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
+			{
+				garcia->the_player->knocked_down = true;	//Knock down the player 
+			}
+
 			if (garcia->curr_anim->Finished())
 			{			
-				garcia->the_player->damaged = true;	//Knock down the player 
 				garcia->punch_hits++;
 				garcia->evasive = true;
 			}
@@ -213,10 +222,14 @@ void GarciaFSM::Attack()
 		if (garcia->punch_hits == 0 || garcia->punch_hits == 1)
 		{			
 			garcia->curr_anim = &garcia->garcia_punch_left1;
-						
-			if (garcia->curr_anim->Finished())
-			{			
+			
+			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
+			{
 				garcia->the_player->damaged = true;	//Damage the player
+			}
+
+			if (garcia->curr_anim->Finished())
+			{							
 				garcia->curr_anim->Reset();
 				garcia->punch_hits++;
 			}
@@ -227,10 +240,15 @@ void GarciaFSM::Attack()
 			{
 				garcia->curr_anim = &garcia->garcia_punch_left2;
 				garcia->curr_anim->Reset();
-			}		
+			}
+
+			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
+			{
+				garcia->the_player->knocked_down = true;	//Knock down the player 
+			}
+
 			if (garcia->curr_anim->Finished())
 			{				
-				garcia->the_player->knocked_down = true;	//Knock down the player 
 				garcia->punch_hits++;
 				garcia->evasive = true;
 			}
