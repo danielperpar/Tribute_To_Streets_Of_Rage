@@ -2,6 +2,8 @@
 #include "Garcia.h"
 #include "Player.h"
 #include "Point.h"
+#include "Application.h"
+#include "ModuleSceneRound1.h"
 
 GarciaFSM::GarciaFSM(Garcia *grc) : garcia(grc) 
 {
@@ -47,6 +49,21 @@ void GarciaFSM::Update()
 		{
 			garcia->punch_hits = 0;
 			garcia->evasive_started_facing_right = garcia->facing_right;
+			if ((garcia->position.y - garcia->evasive_v_offset) <= App->scene_round1->upper_limit)
+			{
+				evasion_upper = false;
+				evasion_lower = true;
+			}
+			else if ((garcia->position.y + garcia->evasive_v_offset) >= App->scene_round1->lower_limit)
+			{
+				evasion_upper = true;
+				evasion_lower = false;
+			}
+			else
+			{
+				evasion_upper = true;
+				evasion_lower = false;
+			}
 			curr_state = State::EVASIVE;			
 		}
 		break;
@@ -247,19 +264,59 @@ void GarciaFSM::EvasiveFirstStage()
 	{
 		if (evasive_go)
 		{
-			iPoint temp = garcia->position;
-			temp.y -= garcia->speed;
-			garcia->position = temp;
-			garcia->depth = temp.y;
-			evasive_v_count++;
+			if (evasion_upper)
+			{
+				iPoint temp = garcia->position;
+				temp.y -= garcia->speed;
+				garcia->position = temp;
+				garcia->depth = temp.y;
+				evasive_v_count++;
+			}
+			if (evasion_lower)
+			{
+				iPoint temp = garcia->position;
+				temp.y += garcia->speed;
+				garcia->position = temp;
+				garcia->depth = temp.y;
+				evasive_v_count++;
+			}
 		}
 		if (evasive_back)
 		{
-			iPoint temp = garcia->position;
-			temp.y += garcia->speed;
-			garcia->position = temp;
-			garcia->depth = temp.y;
-			evasive_v_count++;
+			if (evasion_upper)
+			{
+				iPoint temp = garcia->position;
+				temp.y += garcia->speed;
+				garcia->position = temp;
+				garcia->depth = temp.y;
+				evasive_v_count++;
+			}
+			if (evasion_lower)
+			{
+				iPoint temp = garcia->position;
+				temp.y -= garcia->speed;
+				garcia->position = temp;
+				garcia->depth = temp.y;
+				evasive_v_count++;
+			}
+		}
+
+		//set animation
+		if (garcia->facing_right)
+		{
+			if (garcia->curr_anim != &garcia->garcia_walk_right)
+			{
+				garcia->curr_anim = &garcia->garcia_walk_right;
+				garcia->curr_anim->Reset();
+			}
+		}
+		else
+		{
+			if (garcia->curr_anim != &garcia->garcia_walk_left)
+			{
+				garcia->curr_anim = &garcia->garcia_walk_left;
+				garcia->curr_anim->Reset();
+			}
 		}
 	}
 	else
@@ -368,7 +425,11 @@ void GarciaFSM::EvasiveThirdStage()
 			else
 				garcia->position.x += garcia->speed;
 
-			garcia->position.y += garcia->speed;
+			if(evasion_upper)
+				garcia->position.y += garcia->speed;
+			if(evasion_lower)
+				garcia->position.y -= garcia->speed;
+
 			evasive_v_count++;
 		}
 		if (evasive_back)
@@ -378,7 +439,11 @@ void GarciaFSM::EvasiveThirdStage()
 			else
 				garcia->position.x -= garcia->speed;
 
-			garcia->position.y -= garcia->speed;
+			if(evasion_upper)
+				garcia->position.y -= garcia->speed;
+			if(evasion_lower)
+				garcia->position.y += garcia->speed;
+
 			evasive_v_count++;
 		}
 	}

@@ -30,6 +30,8 @@ private:
 	int evasive_h_count = 0;
 	bool evasive_go = true;
 	bool evasive_back = false;
+	bool evasion_upper = false;
+	bool evasion_lower = false;
 
 	Garcia *garcia = nullptr;
 	void UpdateColliderPosition();
