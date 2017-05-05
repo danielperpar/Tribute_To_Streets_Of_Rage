@@ -18,7 +18,10 @@ Garcia::Garcia(SDL_Texture *texture,
 
 Garcia::Garcia(const Garcia &garcia) : Entity(garcia.texture, garcia.curr_anim, garcia.name, garcia.type, garcia.position, garcia.depth)
 {
-	
+	life = garcia.life;
+	speed = garcia.speed;
+	speed_vect = garcia.speed_vect;
+
 	garcia_idle_right = garcia.garcia_idle_right;
 	garcia_idle_left = garcia.garcia_idle_left;
 
@@ -74,16 +77,18 @@ void Garcia::LoadStats()
 {
 	life = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "life");
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "speed");
+	speed_vect.x = speed;
+	speed_vect.y = speed;
 }
 
 void Garcia::LoadColliders()
 {
-	JSONDataLoader::LoadColliderRect("assets/json/config.json", "garcia", "bodyCollider", body_rect);
-	JSONDataLoader::LoadColliderRect("assets/json/config.json", "garcia", "hitCollider", hit_rect);
-	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "bodyCollider_Offset_Right");
-	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hitCollider_Offset_Right");
-	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "bodyCollider_Offset_Left");
-	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hitCollider_Offset_Left");
+	JSONDataLoader::LoadColliderRect("assets/json/config.json", "garcia", "body_collider", body_rect);
+	JSONDataLoader::LoadColliderRect("assets/json/config.json", "garcia", "hit_collider", hit_rect);
+	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "body_collider_offset_right");
+	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hit_collider_offset_right");
+	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "body_collider_offset_left");
+	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hit_collider_offset_left");
 }
 
 void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
@@ -114,11 +119,7 @@ void Garcia::OnCollisionEnter(const CollisionInfo &col_info_garcia, const Collis
 
 void Garcia::OnCollisionExit(const CollisionInfo &col_info_other)
 {
-	//LOG("Inside Garcia::OnCollisionExit");
-	if (col_info_other.collider->type == collider_type::PLAYER_BODY)
-	{
-		attack = false;
-	}
+	attack = false;
 }
 
 void Garcia::LoadGarciaAnimations()

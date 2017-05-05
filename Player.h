@@ -31,6 +31,43 @@ public:
 
 	int speed = 0;
 	int life = 0;
+
+	//jump
+	bool jump_up = true;
+	iPoint jump_start_pos = { 0 , 0 };
+	int jump_speed = 2;
+	int max_jump_height = 20;
+	int jump_count = 0;
+
+	//combo
+	int combo_max_time = 120;
+	bool in_combo_time = true;
+	int punch_combo_hits = 0;
+	bool enemy_at_range = true;
+
+	//knocked down
+	int down_vel = 1;
+	int down_count = 0;
+	int down_frames = 20;
+	int down_inflection = 10;
+	bool up = false;
+	iPoint pos_before_knockdown = { 0,0 };
+
+	size_t m_kick_hits = 0;
+	bool m_continue_combo_grab = false;
+
+	bool m_carrying_weapon_pipe = false;
+	bool m_carrying_weapon_knife = false;
+
+	bool m_restart_animation = true;
+
+	bool m_float_attack = false;
+
+	bool m_looking_each_other = false;
+
+	bool m_dead = false;
+
+
 	//----------------------------------------  PLAYER COLLIDERS -----------------------------------------------
 	Collider *body_collider = nullptr;
 	Collider *hit_collider = nullptr;
@@ -73,42 +110,6 @@ public:
 	bool damaged = false;
 	bool knocked_down = false;
 	//----------------------------------------------------------------------------------------------------------
-	
-
-	//jump
-	bool jump_up = true;
-	iPoint jump_start_pos = { 0 , 0 };
-	int jump_speed = 2;
-	int max_jump_height = 20;
-	int jump_count = 0;
-
-	//combo
-	int combo_max_time = 120;
-	bool in_combo_time = true;
-	int punch_combo_hits = 0;
-	bool enemy_at_range = true;
-	 
-	//knocked down
-	int down_vel = 1;
-	int down_count = 0;
-	int down_frames = 20;
-	int down_inflection = 10;
-	bool up = false;
-	iPoint pos_before_knockdown = { 0,0 };
-	
-	size_t m_kick_hits = 0;
-	bool m_continue_combo_grab = false;
-
-	bool m_carrying_weapon_pipe = false;
-	bool m_carrying_weapon_knife = false;
-
-	bool m_restart_animation = true;
-
-	bool m_float_attack = false;
-
-	bool m_looking_each_other = false;
-
-	bool m_dead = false;
 	
 	//---------------------------------------- PLAYER ANIMATIONS ---------------------------------------------
 	Animation anim_idle_right1;

@@ -29,6 +29,7 @@ public:
 	void OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
 	void OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
 	void OnCollisionExit(const CollisionInfo &col_info_other);
+	void SetPlayer(Player *player);
 
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
@@ -36,9 +37,10 @@ public:
 	int speed = 0;
 	Player *the_player = nullptr;
 	size_t punch_hits = 0;
+	int evasive_v_offset = 20;
+	int evasive_h_offset = 120;
+	bool evasive_started_facing_right = false;
 
-	void SetPlayer(Player *player);
-	
 	//----------------------------------------  GARCIA COLLIDERS -----------------------------------------------
 	Collider *body_collider = nullptr;
 	Collider *hit_collider = nullptr;

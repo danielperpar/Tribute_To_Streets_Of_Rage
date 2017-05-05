@@ -27,6 +27,9 @@ public:
 	GUI *gui = nullptr;
 	Entity *foreground = nullptr;
 
+	//-------------------- SCENE BOUNDARIES -------------------
+	int upper_limit = 90;
+	int lower_limit = 150;
 
 	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
 	bool first_trigger_reached = false;

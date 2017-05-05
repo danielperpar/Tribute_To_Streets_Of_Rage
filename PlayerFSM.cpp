@@ -2,6 +2,8 @@
 #include "Globals.h"
 #include "ModulePlayer.h"
 #include "Player.h"
+#include "Application.h"
+#include "ModuleSceneRound1.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
@@ -211,17 +213,23 @@ void PlayerFSM::Walk()
 	}
 	if (the_player->walk_up)
 	{
-		temp.y -= the_player->speed;
-		the_player->position = temp;
-		the_player->depth = temp.y;
-		UpdateColliderPosition();
+		if (the_player->position.y > App->scene_round1->upper_limit)
+		{
+			temp.y -= the_player->speed;
+			the_player->position = temp;
+			the_player->depth = temp.y;
+			UpdateColliderPosition();
+		}
 	}
 	if (the_player->walk_down)
 	{
-		temp.y += the_player->speed;
-		the_player->position = temp;
-		the_player->depth = temp.y;
-		UpdateColliderPosition();
+		if (the_player->position.y < App->scene_round1->lower_limit)
+		{
+			temp.y += the_player->speed;
+			the_player->position = temp;
+			the_player->depth = temp.y;
+			UpdateColliderPosition();
+		}
 	}
 
 	//set animation
@@ -488,14 +496,13 @@ void PlayerFSM::KnockedDown()
 			}
 
 			the_player->position = temp;
-			the_player->depth = temp.y;
 			
 		}
 		if (the_player->down_count == the_player->down_frames)
 		{			
 			the_player->up = true;
 			the_player->curr_anim->Reset();
-			
+			UpdateColliderPosition();
 		}
 	
 		//right animations

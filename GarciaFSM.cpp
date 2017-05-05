@@ -40,11 +40,23 @@ void GarciaFSM::Update()
 		Attack();
 		if (garcia->attack == false)
 		{
+			garcia->punch_hits = 0;
 			curr_state = State::CHASE;
+		}
+		if (garcia->evasive)
+		{
+			garcia->punch_hits = 0;
+			garcia->evasive_started_facing_right = garcia->facing_right;
+			curr_state = State::EVASIVE;			
 		}
 		break;
 
 	case State::EVASIVE:
+		Evasive();
+		if (garcia->evasive == false)
+		{
+			curr_state = State::CHASE;
+		}
 		break;
 
 	case State::DAMAGED:
@@ -155,6 +167,7 @@ void GarciaFSM::Attack()
 			garcia->curr_anim = &garcia->garcia_punch_right1;
 			if (garcia->curr_anim->Finished())
 			{
+				garcia->the_player->damaged = true;	//Damage the player
 				garcia->curr_anim->Reset();
 				garcia->punch_hits++;
 			}
@@ -168,7 +181,9 @@ void GarciaFSM::Attack()
 			}		
 			if (garcia->curr_anim->Finished())
 			{			
+				garcia->the_player->damaged = true;	//Knock down the player 
 				garcia->punch_hits++;
+				garcia->evasive = true;
 			}
 		}
 	
@@ -184,6 +199,7 @@ void GarciaFSM::Attack()
 						
 			if (garcia->curr_anim->Finished())
 			{			
+				garcia->the_player->damaged = true;	//Damage the player
 				garcia->curr_anim->Reset();
 				garcia->punch_hits++;
 			}
@@ -197,7 +213,9 @@ void GarciaFSM::Attack()
 			}		
 			if (garcia->curr_anim->Finished())
 			{				
+				garcia->the_player->knocked_down = true;	//Knock down the player 
 				garcia->punch_hits++;
+				garcia->evasive = true;
 			}
 		}
 
@@ -207,7 +225,179 @@ void GarciaFSM::Attack()
 }
 void GarciaFSM::Evasive()
 {
+	switch (evasive_movement)
+	{
+	case EvasiveMovement::FIRST_STAGE:
+		EvasiveFirstStage();
+		break;
 
+	case EvasiveMovement::SECOND_STAGE:
+		EvasiveSecondStage();
+		break;
+
+	case EvasiveMovement::THIRD_STAGE:
+		EvasiveThirdStage();
+		break;
+	}
+}
+
+void GarciaFSM::EvasiveFirstStage()
+{
+	if (evasive_v_count < garcia->evasive_v_offset)
+	{
+		if (evasive_go)
+		{
+			iPoint temp = garcia->position;
+			temp.y -= garcia->speed;
+			garcia->position = temp;
+			garcia->depth = temp.y;
+			evasive_v_count++;
+		}
+		if (evasive_back)
+		{
+			iPoint temp = garcia->position;
+			temp.y += garcia->speed;
+			garcia->position = temp;
+			garcia->depth = temp.y;
+			evasive_v_count++;
+		}
+	}
+	else
+	{
+		evasive_v_count = 0;
+
+		if(evasive_go)
+			evasive_movement = EvasiveMovement::SECOND_STAGE;
+		if (evasive_back)
+		{
+			curr_state = State::CHASE;
+			evasive_back = false;
+			evasive_go = true;
+			garcia->evasive = false;
+		}
+	}
+
+	UpdateColliderPosition();
+}
+
+void GarciaFSM::EvasiveSecondStage()
+{
+	if (evasive_h_count < garcia->evasive_h_offset)
+	{
+		if (evasive_go)
+		{
+			if (garcia->evasive_started_facing_right)
+			{
+				iPoint temp = garcia->position;
+				temp.x += garcia->speed;
+				garcia->position = temp;
+				evasive_h_count++;
+			}
+			else 
+			{
+				iPoint temp = garcia->position;
+				temp.x -= garcia->speed;
+				garcia->position = temp;				
+				evasive_h_count++;
+			}
+		}
+		else if (evasive_back)
+		{
+			if (garcia->evasive_started_facing_right)
+			{
+				iPoint temp = garcia->position;
+				temp.x -= garcia->speed;
+				garcia->position = temp;
+				evasive_h_count++;
+			}
+			else
+			{
+				iPoint temp = garcia->position;
+				temp.x += garcia->speed;
+				garcia->position = temp;
+				evasive_h_count++;
+			}
+		}
+
+		//set enemy facing right or left
+		int target_x = garcia->the_player->position.x - garcia->position.x;
+
+		if (target_x >= 0)
+			garcia->facing_right = true;
+		else
+			garcia->facing_right = false;
+
+		//set animation
+		if (garcia->facing_right)
+		{
+			if (garcia->curr_anim != &garcia->garcia_walk_right)
+			{
+				garcia->curr_anim = &garcia->garcia_walk_right;
+				garcia->curr_anim->Reset();
+			}
+		}
+		else
+		{
+			if (garcia->curr_anim != &garcia->garcia_walk_left)
+			{
+				garcia->curr_anim = &garcia->garcia_walk_left;
+				garcia->curr_anim->Reset();
+			}
+		}
+	}
+	else
+	{
+		evasive_h_count = 0;
+		if (evasive_go)
+			evasive_movement = EvasiveMovement::THIRD_STAGE;
+		if (evasive_back)
+			evasive_movement = EvasiveMovement::FIRST_STAGE;
+	}
+
+	UpdateColliderPosition();
+}
+
+void GarciaFSM::EvasiveThirdStage()
+{
+	if (evasive_v_count < garcia->evasive_v_offset)
+	{
+		if (evasive_go)
+		{
+			if (garcia->evasive_started_facing_right)
+				garcia->position.x -= garcia->speed;
+			else
+				garcia->position.x += garcia->speed;
+
+			garcia->position.y += garcia->speed;
+			evasive_v_count++;
+		}
+		if (evasive_back)
+		{
+			if (garcia->evasive_started_facing_right)
+				garcia->position.x += garcia->speed;
+			else
+				garcia->position.x -= garcia->speed;
+
+			garcia->position.y -= garcia->speed;
+			evasive_v_count++;
+		}
+	}
+	else
+	{
+		if (evasive_go)
+		{
+			evasive_go = false;
+			evasive_back = true;
+		}
+		else if (evasive_back)
+		{
+			evasive_movement = EvasiveMovement::SECOND_STAGE;
+		}
+		
+		evasive_v_count = 0;
+	}
+
+	UpdateColliderPosition();
 }
 
 GarciaFSM::State GarciaFSM::GetCurrState()  const

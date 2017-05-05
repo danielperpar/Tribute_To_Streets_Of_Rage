@@ -27,7 +27,8 @@ void Player::LoadStats()
 {
 	life = JSONDataLoader::GetNumber("assets/json/config.json", "player", "life");
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "speed");
-	
+	jump_speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "jump_speed");
+
 }
 
 void Player::UpdateFSM()
@@ -37,12 +38,12 @@ void Player::UpdateFSM()
 
 void Player::LoadColliders()
 {
-	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "bodyCollider", body_rect);
-	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "hitCollider", hit_rect);
-	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "bodyCollider_Offset_Right");
-	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hitCollider_Offset_Right");
-	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "bodyCollider_Offset_Left");
-	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hitCollider_Offset_Left");
+	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "body_collider", body_rect);
+	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "hit_collider", hit_rect);
+	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "body_collider_offset_right");
+	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hit_collider_offset_right");
+	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "body_collider_offset_left");
+	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hit_collider_offset_left");
 }
 
 void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)

@@ -1,25 +1,30 @@
 {
 	"player" :
 	{
-		"bodyCollider" : [{"x" : 0}, {"y" : 0},{ "w" : 18},{ "h" : 63}],
-		"hitCollider" : [{"x" : 0},{ "y" : 0},{ "w" : 30},{ "h" : 33}],
 		"life" : 100,
 		"speed" : 1,
-		"bodyCollider_Offset_Right" : 60,
-		"hitCollider_Offset_Right" : 75,
-		"bodyCollider_Offset_Left" : 62,
-		"hitCollider_Offset_Left" : 35
+		"jump_speed" : 2,
+		"max_jump_height" : 20,
+		"down_vel" : 1,
+		"down_frames" : 20,
+		"down_inflection" : 10,
+		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 18},{ "h" : 63}],
+		"hit_collider" : [{"x" : 0},{ "y" : 0},{ "w" : 30},{ "h" : 33}],
+		"body_collider_offset_right" : 60,
+		"hit_collider_offset_right" : 75,
+		"body_collider_offset_left" : 62,
+		"hit_collider_offset_left" : 35	
 	},
 	"garcia" :
-	{
-		"bodyCollider" : [{"x" : 0}, {"y" : 0},{ "w" : 18},{ "h" : 63}],
-		"hitCollider" : [{"x" : 0},{ "y" : 0},{ "w" : 30},{ "h" : 33}],
+	{	
 		"life" : 100,
-		"speed" : 1,
-		"bodyCollider_Offset_Right" : 60,
-		"hitCollider_Offset_Right" : 75,
-		"bodyCollider_Offset_Left" : 62,
-		"hitCollider_Offset_Left" : 35
+		"speed" : 1,	
+		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 18},{ "h" : 63}],
+		"hit_collider" : [{"x" : 0},{ "y" : 0},{ "w" : 30},{ "h" : 33}],
+		"body_collider_offset_right" : 60,
+		"hit_collider_offset_right" : 75,
+		"body_collider_offset_left" : 62,
+		"hit_collider_offset_left" : 35
 	}
 
 }
