@@ -66,7 +66,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 {
 	//LOG("Inside player::OnCollisionEnter");
 
-	if (col_info_other.collider->type == collider_type::ENEMY_BODY) 
+	if (col_info_other.collider->type == collider_type::ENEMY_BODY)
 	{
 		body_collision_status.push_back(col_info_other);
 
@@ -90,9 +90,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 			down_blocked = true;
 			down_block_count++;
 		}
-
-	}
-				
+	}			
 }
 
 void Player:: OnCollisionExit(const CollisionInfo &col_info_other)

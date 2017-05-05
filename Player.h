@@ -91,6 +91,9 @@ public:
 	int up_block_count = 0;
 	int down_block_count = 0;
 
+	//Enemy to react to
+	Entity *enemy = nullptr;
+
 	//colliders colliding with player's body
 	std::list<CollisionInfo> body_collision_status;
 	

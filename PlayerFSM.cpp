@@ -431,6 +431,18 @@ void PlayerFSM::BackPunch()
 }
 void PlayerFSM::Damaged()
 {
+	//Set player facing the enemy to react to
+	if (the_player->enemy->position.x >= the_player->position.x)
+	{
+		if (the_player->facing_right == false)
+			the_player->facing_right = true;
+	}
+	else
+	{
+		if (the_player->facing_right)
+			the_player->facing_right = false;
+	}
+
 	if (prev_state != State::DAMAGED)
 	{
 		if (the_player->facing_right)
