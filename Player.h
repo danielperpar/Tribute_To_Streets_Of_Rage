@@ -27,7 +27,7 @@ public:
 	virtual void UpdateFSM();
 	void OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
 	void OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
-	void OnCollisionExit(const CollisionInfo &col_info_other);
+	void OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair);
 
 	int speed = 0;
 	int life = 0;
@@ -86,17 +86,16 @@ public:
 	bool up_blocked = false;
 	bool down_blocked = false;
 
-	int left_block_count = 0;
-	int right_block_count = 0;
-	int up_block_count = 0;
-	int down_block_count = 0;
+	bool enemy_to_grab = false;
 
 	//Enemy to react to
-	Entity *enemy = nullptr;
+	Entity *enemy_attacker = nullptr;
 
-	//colliders colliding with player's body
-	std::list<CollisionInfo> body_collision_status;
-	
+	//Grabbed enemy
+	Entity *enemy_grabbed = nullptr;
+
+	//colliders colliding with player's body or hit area
+	std::list<std::pair<CollisionInfo, CollisionInfo>> player_collision_status;
 
 	// ----------------------------------  VARIABLES THAT CONTROL PLAYER FSM LOGIC -----------------------------------
 	bool facing_right = true;

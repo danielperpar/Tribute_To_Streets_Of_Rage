@@ -46,6 +46,11 @@ void PlayerFSM::Update()
 			curr_state = State::KNOCKED_DOWN;
 			break;
 		}
+		if (the_player->enemy_to_grab)
+		{
+			curr_state = State::GRAB;
+			break;
+		}
 
 		break;
 	case State::WALK:
@@ -77,6 +82,11 @@ void PlayerFSM::Update()
 		if (the_player->knocked_down)
 		{
 			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
+		if (the_player->enemy_to_grab)
+		{			
+			curr_state = State::GRAB;
 			break;
 		}
 		break;
@@ -119,6 +129,25 @@ void PlayerFSM::Update()
 		if (!the_player->knocked_down)
 		{
 			curr_state = State::IDLE;		
+			break;
+		}
+		break;
+
+	case State::GRAB:
+		Grab();
+		prev_state = curr_state;
+		if (
+			the_player->walk_left && the_player->left_blocked == false	||
+			the_player->walk_right && the_player->right_blocked == false			
+			)
+		{
+			curr_state = State::WALK;
+			the_player->enemy_to_grab = false;
+			break;
+		}
+		if (the_player->damaged)
+		{
+			curr_state = State::DAMAGED;
 			break;
 		}
 		break;
@@ -394,6 +423,10 @@ void PlayerFSM::CboKick()
 
 void PlayerFSM::Grab()
 {
+	if (the_player->facing_right)
+		the_player->curr_anim = &the_player->anim_grab_right;
+	else
+		the_player->curr_anim = &the_player->anim_grab_left;
 
 }
 
@@ -432,7 +465,7 @@ void PlayerFSM::BackPunch()
 void PlayerFSM::Damaged()
 {
 	//Set player facing the enemy to react to
-	if (the_player->enemy->position.x >= the_player->position.x)
+	if (the_player->enemy_attacker->position.x >= the_player->position.x)
 	{
 		if (the_player->facing_right == false)
 			the_player->facing_right = true;

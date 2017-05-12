@@ -39,8 +39,8 @@ void GarciaFSM::Update()
 		break;
 
 	case State::ATTACK:
-		Attack();
-		if (garcia->attack == false)
+		//Attack();
+		/*if (garcia->attack == false)
 		{
 			garcia->punch_hits = 0;
 			curr_state = State::CHASE;
@@ -65,7 +65,7 @@ void GarciaFSM::Update()
 				evasion_lower = false;
 			}
 			curr_state = State::EVASIVE;			
-		}
+		}*/
 		break;
 
 	case State::EVASIVE:
@@ -185,8 +185,8 @@ void GarciaFSM::Attack()
 
 			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
 			{
-				garcia->the_player->damaged = true;	//Damage the player
-				garcia->the_player->enemy = garcia; //Notify enemy to react to
+				garcia->the_player->damaged = true;	//Damage the player	
+				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
 			}
 			if (garcia->curr_anim->Finished())
 			{			
@@ -204,7 +204,8 @@ void GarciaFSM::Attack()
 
 			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
 			{
-				garcia->the_player->knocked_down = true;	//Knock down the player 
+				garcia->the_player->knocked_down = true;	//Knock down the player
+				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
 			}
 
 			if (garcia->curr_anim->Finished())
@@ -226,8 +227,8 @@ void GarciaFSM::Attack()
 			
 			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
 			{
-				garcia->the_player->damaged = true;	//Damage the player
-				garcia->the_player->enemy = garcia; //Notify enemy to react to
+				garcia->the_player->damaged = true;	//Damage the player	
+				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
 			}
 
 			if (garcia->curr_anim->Finished())
@@ -247,6 +248,7 @@ void GarciaFSM::Attack()
 			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
 			{
 				garcia->the_player->knocked_down = true;	//Knock down the player 
+				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
 			}
 
 			if (garcia->curr_anim->Finished())

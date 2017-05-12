@@ -49,27 +49,27 @@ update_status ModuleCollision::PreUpdate()
 	
 	CollisionInfo ci1;
 	CollisionInfo ci2;
-	//update body collision status
+	//update player collision status
 	bool erased = false;
 
 	Player *the_player = App->scene_round1->the_player;
-	for (list<CollisionInfo>::iterator it = the_player->body_collision_status.begin(); it != the_player->body_collision_status.end();)
+	for (list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end();)
 	{
 		erased = false;
-		if ((*it).collider->to_delete)
+		if ((*it).second.collider->to_delete)
 		{			
 			the_player->OnCollisionExit(*it);
-			it = the_player->body_collision_status.erase(it);
+			it = the_player->player_collision_status.erase(it);
 			erased = true;
 		}
 		else
 		{
-			bool collision = the_player->body_collider->CheckCollision((*it).collider, ci1, ci2);
+			bool collision = the_player->body_collider->CheckCollision((*it).second.collider, ci1, ci2);
 			if (!collision)
 			{
 				the_player->OnCollisionExit(*it);
 				
-				it = the_player->body_collision_status.erase(it);
+				it = the_player->player_collision_status.erase(it);
 				erased = true;
 			}
 		}
@@ -87,24 +87,23 @@ update_status ModuleCollision::PreUpdate()
 		if ((*it)->type == entity_type::GARCIA)
 		{
 			Garcia *garcia = (Garcia*)(*it);
-			if (garcia->hit_collider->to_delete)
+			if (garcia->hit_collider_status.collider != nullptr)
 			{
-				garcia->OnCollisionExit(garcia->hit_collider_status);
-				garcia->hit_collider_status.collider = nullptr;
-			}
-			else if(garcia->hit_collider_status.collider != nullptr)
-			{
-				bool collision = garcia->hit_collider->CheckCollision(garcia->hit_collider_status.collider, ci1, ci2);
-				if (!collision)
+				if (garcia->hit_collider_status.collider->to_delete)
 				{
 					garcia->OnCollisionExit(garcia->hit_collider_status);
 					garcia->hit_collider_status.collider = nullptr;
 				}
-			}
-
-
-
-
+				else
+				{
+					bool collision = garcia->hit_collider->CheckCollision(garcia->hit_collider_status.collider, ci1, ci2);
+					if (!collision)
+					{
+						garcia->OnCollisionExit(garcia->hit_collider_status);
+						garcia->hit_collider_status.collider = nullptr;
+					}
+				}				
+			}		
 		}
 	}
 	
@@ -201,6 +200,7 @@ void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const Coll
 	switch (collider1->type)
 	{
 	case collider_type::PLAYER_BODY:
+	case collider_type::PLAYER_HIT:
 	{
 		Player *player = (Player*)(collider1->entity);
 		player->OnCollision(col_info1, col_info2);

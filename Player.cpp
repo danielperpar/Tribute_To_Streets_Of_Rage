@@ -2,7 +2,7 @@
 #include "JSONDataLoader.h"
 #include "Utilities.h"
 #include "PlayerFSM.h"
-
+#include "Garcia.h"
 
 Player::Player(
 	SDL_Texture *texture, 
@@ -34,6 +34,9 @@ void Player::LoadStats()
 void Player::UpdateFSM()
 {
 	player_fsm->Update();
+
+	//Debug
+	LOG("enemy_to_grab = %s", enemy_to_grab ? "true" : "false");
 }
 
 void Player::LoadColliders()
@@ -49,16 +52,40 @@ void Player::LoadColliders()
 void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
 {
 	//LOG("Inside Player::OnCollision");
-
 	bool found = false;
-	for (std::list<CollisionInfo>::iterator it = body_collision_status.begin(); it != body_collision_status.end() && !found; it++)
+
+	for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = player_collision_status.begin(); it != player_collision_status.end() && !found; it++)
 	{
-		if ((*it).collider == col_info_other.collider)
-			found = true;
+		if ((*it).first.collider == col_info_player.collider)
+		{
+			if ((*it).second.collider == col_info_other.collider)
+				found = true;
+		}
 	}
 
 	if (!found)
 		OnCollisionEnter(col_info_player, col_info_other);
+
+
+	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::ENEMY_BODY)
+	{
+		//Only garcia at the moment, so enemy type is not checked yet
+		Garcia *enemy = ((Garcia*)(col_info_other.collider->entity));
+
+		if (enemy->depth == depth)
+		{			
+			if (facing_right && enemy->facing_right == false)
+			{
+				enemy_to_grab = true;
+				enemy_grabbed = enemy;
+
+				if (col_info_player.contact_direction_x == contact_direction::RIGHT)
+					right_blocked = true;
+				if (col_info_player.contact_direction_x == contact_direction::LEFT)
+					left_blocked = true;
+			}
+		}
+	}
 }
 
 
@@ -66,65 +93,28 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 {
 	//LOG("Inside player::OnCollisionEnter");
 
-	if (col_info_other.collider->type == collider_type::ENEMY_BODY)
-	{
-		body_collision_status.push_back(col_info_other);
-
-		if (col_info_player.contact_direction_x == contact_direction::LEFT)
-		{			
-			left_blocked = true;
-			left_block_count++;
-		}
-		else if (col_info_player.contact_direction_x == contact_direction::RIGHT)
-		{		
-			right_blocked = true;
-			right_block_count++;
-		}
-		if (col_info_player.contact_direction_y == contact_direction::UP)
-		{
-			up_blocked = true;
-			up_block_count++;
-		}
-		else if (col_info_player.contact_direction_y == contact_direction::DOWN)
-		{
-			down_blocked = true;
-			down_block_count++;
-		}
-	}			
+	std::pair<CollisionInfo, CollisionInfo> collision_pair = std::make_pair(col_info_player, col_info_other);
+	player_collision_status.push_back(collision_pair);
+			
 }
 
-void Player:: OnCollisionExit(const CollisionInfo &col_info_other)
+void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair)
 {
 	//LOG("Inside Player::OnCollisionExit");
-
-	if (col_info_other.collider->type == collider_type::ENEMY_BODY)
+	if(col_info_pair.first.collider->type == PLAYER_BODY && col_info_pair.second.collider->type == ENEMY_BODY)
 	{
-		if (col_info_other.contact_direction_x == contact_direction::LEFT)
+		if (enemy_grabbed == col_info_pair.second.collider->entity)
 		{
-			right_block_count--;
-			if (right_block_count == 0)
+			enemy_to_grab = false;
+
+			if (col_info_pair.first.contact_direction_x == contact_direction::RIGHT)
 				right_blocked = false;
-		}
-		else if (col_info_other.contact_direction_x == contact_direction::RIGHT)
-		{
-			left_block_count--;
-			if (left_block_count == 0)
+			if (col_info_pair.first.contact_direction_x == contact_direction::LEFT)
 				left_blocked = false;
 		}
-		if (col_info_other.contact_direction_y == contact_direction::UP)
-		{
-			down_block_count--;
-			if (down_block_count == 0)
-				down_blocked = false;
-		}
-		else if (col_info_other.contact_direction_y == contact_direction::DOWN)
-		{
-			up_block_count--;
-			if (up_block_count == 0)
-				up_blocked = false;
-		}
-	
+		
 	}
+	
 }
 
 void Player::LoadPlayerAnimations()
