@@ -13,7 +13,8 @@
 		"body_collider_offset_right" : 60,
 		"hit_collider_offset_right" : 75,
 		"body_collider_offset_left" : 62,
-		"hit_collider_offset_left" : 35	
+		"hit_collider_offset_left" : 35,
+		"release_grab_offset" : 3
 	},
 	"garcia" :
 	{	

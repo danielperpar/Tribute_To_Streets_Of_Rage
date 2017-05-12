@@ -19,7 +19,7 @@ private:
 	void LoadPlayerAnimations();
 	void LoadStats();
 	void LoadColliders();
-	
+	void LoadOtherParameters();
 	
 public:
 	Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
@@ -79,7 +79,7 @@ public:
 	int hit_collider_offset_right = 0;
 	int body_collider_offset_left = 0;
 	int hit_collider_offset_left = 0;
-
+	
 	// ---------------------------------------- COLLISION ----------------------------------------
 	bool right_blocked = false;
 	bool left_blocked = false;
@@ -87,6 +87,7 @@ public:
 	bool down_blocked = false;
 
 	bool enemy_to_grab = false;
+	int release_grab_offset = 0;
 
 	//Enemy to react to
 	Entity *enemy_attacker = nullptr;

@@ -3,6 +3,7 @@
 #include "Utilities.h"
 #include "PlayerFSM.h"
 #include "Garcia.h"
+#include "GarciaFSM.h"
 
 Player::Player(
 	SDL_Texture *texture, 
@@ -16,6 +17,7 @@ Player::Player(
 		LoadPlayerAnimations();
 		LoadStats();
 		LoadColliders();
+		LoadOtherParameters();
 	}
 
 Player::~Player() {
@@ -49,6 +51,11 @@ void Player::LoadColliders()
 	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hit_collider_offset_left");
 }
 
+void Player::LoadOtherParameters()
+{
+	release_grab_offset = JSONDataLoader::GetNumber("assets/json/config.json", "player", "release_grab_offset");
+}
+
 void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
 {
 	//LOG("Inside Player::OnCollision");
@@ -66,26 +73,6 @@ void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionIn
 	if (!found)
 		OnCollisionEnter(col_info_player, col_info_other);
 
-
-	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::ENEMY_BODY)
-	{
-		//Only garcia at the moment, so enemy type is not checked yet
-		Garcia *enemy = ((Garcia*)(col_info_other.collider->entity));
-
-		if (enemy->depth == depth)
-		{			
-			if (facing_right && enemy->facing_right == false)
-			{
-				enemy_to_grab = true;
-				enemy_grabbed = enemy;
-
-				if (col_info_player.contact_direction_x == contact_direction::RIGHT)
-					right_blocked = true;
-				if (col_info_player.contact_direction_x == contact_direction::LEFT)
-					left_blocked = true;
-			}
-		}
-	}
 }
 
 
@@ -95,7 +82,35 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 
 	std::pair<CollisionInfo, CollisionInfo> collision_pair = std::make_pair(col_info_player, col_info_other);
 	player_collision_status.push_back(collision_pair);
-			
+
+	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::ENEMY_BODY)
+	{
+		//Only garcia at the moment, so enemy type is not checked yet
+		Garcia *garcia = ((Garcia*)(col_info_other.collider->entity));
+		bool allow_grab = true;
+
+		//Check whether looking each other
+		if (garcia->facing_right && facing_right)
+			allow_grab = false;
+
+		//Check player right state to grab
+		if (player_fsm->GetCurrState() != PlayerFSM::State::IDLE && player_fsm->GetCurrState() != PlayerFSM::State::WALK)
+		{
+			allow_grab = false;
+		}
+
+		if (garcia->depth == depth && allow_grab)
+		{
+			enemy_to_grab = true;
+			enemy_grabbed = garcia;
+			garcia->grabbed = true;
+
+			if (col_info_player.contact_direction_x == contact_direction::RIGHT)
+				right_blocked = true;
+			if (col_info_player.contact_direction_x == contact_direction::LEFT)
+				left_blocked = true;
+		}
+	}			
 }
 
 void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair)
@@ -105,8 +120,10 @@ void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col
 	{
 		if (enemy_grabbed == col_info_pair.second.collider->entity)
 		{
-			enemy_to_grab = false;
-
+			enemy_to_grab = false;			
+			((Garcia*)(enemy_grabbed))->grabbed = false;
+			enemy_grabbed = nullptr;
+			
 			if (col_info_pair.first.contact_direction_x == contact_direction::RIGHT)
 				right_blocked = false;
 			if (col_info_pair.first.contact_direction_x == contact_direction::LEFT)

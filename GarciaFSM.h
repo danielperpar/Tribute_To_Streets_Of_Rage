@@ -13,7 +13,8 @@ private:
 		ATTACK,
 		EVASIVE,
 		DAMAGED,
-		KNOCKED_DOWN
+		KNOCKED_DOWN,
+		GRABBED
 	};
 
 	enum class EvasiveMovement
@@ -34,14 +35,16 @@ private:
 	bool evasion_lower = false;
 
 	Garcia *garcia = nullptr;
-	void UpdateColliderPosition();
+	
+	int num_frames = 60;
+	int frames_counter = 0;
 
 public:
 	GarciaFSM(Garcia *garcia);
 	~GarciaFSM();
 	
 	void Update();
-
+	void UpdateColliderPosition();
 	//-----------------------------  ACTIONS TO PERFORM IN EACH STATE ------------------------------------
 	void Idle();
 	void Chase();
@@ -50,6 +53,7 @@ public:
 	void EvasiveFirstStage();
 	void EvasiveSecondStage();
 	void EvasiveThirdStage();
+	void Grabbed();
 	State GetCurrState()  const;
 	void SetCurrState(State state);
 };

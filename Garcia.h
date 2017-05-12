@@ -77,6 +77,7 @@ public:
 	bool evasive = false;
 	bool damaged = false;
 	bool knocked_down = false;
+	bool grabbed = false;
 	bool player_in_sight = true; // test
 
 	//----------------------------------------------------------------------------------------------------------
@@ -103,6 +104,9 @@ public:
 
 	Animation garcia_up_right;
 	Animation garcia_up_left;
+
+	Animation garcia_grabbed_right;
+	Animation garcia_grabbed_left;
 
 };
 

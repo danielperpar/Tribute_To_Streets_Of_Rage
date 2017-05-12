@@ -143,6 +143,13 @@ void PlayerFSM::Update()
 		{
 			curr_state = State::WALK;
 			the_player->enemy_to_grab = false;
+			if (the_player->facing_right)
+				the_player->position.x -= the_player->release_grab_offset;
+			else
+				the_player->position.x += the_player->release_grab_offset;
+
+			UpdateColliderPosition();
+
 			break;
 		}
 		if (the_player->damaged)

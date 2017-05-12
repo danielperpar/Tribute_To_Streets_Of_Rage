@@ -3,7 +3,8 @@
 
 class Player;
 class PlayerFSM{
-private:
+
+public:
 	enum class State
 	{
 		START,
@@ -25,6 +26,8 @@ private:
 		DAMAGED,
 		KNOCKED_DOWN,
 	};
+
+private:
 
 	State curr_state = State::START;
 	State prev_state = State::START;

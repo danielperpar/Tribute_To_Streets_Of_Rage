@@ -36,11 +36,17 @@ void GarciaFSM::Update()
 			curr_state = State::ATTACK;
 			break;
 		}
+		if (garcia->grabbed)
+		{
+			garcia->attack = false;
+			curr_state = State::GRABBED;
+			break;
+		}
 		break;
 
 	case State::ATTACK:
-		//Attack();
-		/*if (garcia->attack == false)
+		Attack();
+		if (garcia->attack == false)
 		{
 			garcia->punch_hits = 0;
 			curr_state = State::CHASE;
@@ -65,7 +71,18 @@ void GarciaFSM::Update()
 				evasion_lower = false;
 			}
 			curr_state = State::EVASIVE;			
-		}*/
+		}
+		if (garcia->grabbed)
+		{
+			garcia->attack = false;
+
+			// reset evasive state in case the enemy is grabbed while in evasive state
+			garcia->evasive = false;
+			evasive_v_count = 0;
+			garcia->punch_hits = 0;
+			curr_state = State::GRABBED;
+			break;
+		}
 		break;
 
 	case State::EVASIVE:
@@ -82,6 +99,26 @@ void GarciaFSM::Update()
 	case State::KNOCKED_DOWN:
 		break;
 
+	case State::GRABBED:
+		Grabbed();
+		if (!garcia->grabbed)
+		{
+			if (garcia->facing_right)
+			{
+				garcia->curr_anim = &(garcia->garcia_idle_right);
+			}
+			else
+			{
+				garcia->curr_anim = &(garcia->garcia_idle_left);
+			}
+			frames_counter++;
+			if (frames_counter >= num_frames)
+			{
+				frames_counter = 0;
+				curr_state = State::CHASE;
+			}
+		}
+		break;
 	}
 }
 
@@ -486,6 +523,17 @@ void GarciaFSM::EvasiveThirdStage()
 
 	UpdateColliderPosition();
 }
+
+void GarciaFSM::Grabbed()
+{
+	if (garcia->facing_right)
+		garcia->curr_anim = &garcia->garcia_grabbed_right;
+	else
+		garcia->curr_anim = &garcia->garcia_grabbed_left;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------
+
 
 GarciaFSM::State GarciaFSM::GetCurrState()  const
 {

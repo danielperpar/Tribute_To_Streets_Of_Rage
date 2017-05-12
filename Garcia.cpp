@@ -43,6 +43,9 @@ Garcia::Garcia(const Garcia &garcia) : Entity(garcia.texture, garcia.curr_anim, 
 	garcia_up_right = garcia.garcia_up_right;
 	garcia_up_left = garcia.garcia_up_left;
 
+	garcia_grabbed_right = garcia.garcia_grabbed_right;
+	garcia_grabbed_left = garcia.garcia_grabbed_left;
+
 	body_rect.x = garcia.body_rect.x;
 	body_rect.y = garcia.body_rect.y;
 	body_rect.w = garcia.body_rect.w;
@@ -193,4 +196,16 @@ void Garcia::LoadGarciaAnimations()
 	garcia_up_left.loop = false;
 	garcia_up_left.speed = 0.1f;
 	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaGrabbedRight", animation_list, garcia_grabbed_right);
+	garcia_grabbed_right.loop = false;
+	garcia_grabbed_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaGrabbedLeft", animation_list, garcia_grabbed_left);
+	garcia_grabbed_left.loop = false;
+	garcia_grabbed_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+
 }
