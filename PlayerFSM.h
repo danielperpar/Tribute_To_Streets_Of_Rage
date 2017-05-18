@@ -11,10 +11,7 @@ public:
 		IDLE,
 		WALK,
 		JUMP,
-		SIMPLE_PUNCH,
 		CBO_PUNCH,
-		CBO_LOW_PUNCH,
-		CBO_KICK,
 		GRAB,
 		LOW_KICK,
 		HEAD_HIT,
@@ -27,10 +24,19 @@ public:
 		KNOCKED_DOWN,
 	};
 
+	enum class CboPunchStage
+	{
+		HIGH_PUNCH,
+		LOW_PUNCH,
+		HIGH_KICK
+	};
+
 private:
 
 	State curr_state = State::START;
 	State prev_state = State::START;
+
+	CboPunchStage cbo_punch_stage = CboPunchStage::HIGH_PUNCH;
 
 	Player *the_player = nullptr;
 	void UpdateColliderPosition();
@@ -45,8 +51,8 @@ public:
 	void Idle();
 	void Walk();
 	void Jump();
-	void SimplePunch();
-	void CboPunch();
+	void Punch();
+	void CboHighPunch();
 	void CboLowPunch();
 	void CboKick();
 	void Grab();

@@ -40,10 +40,11 @@ public:
 	int jump_count = 0;
 
 	//combo
-	int combo_max_time = 120;
-	bool in_combo_time = true;
+	int combo_max_frames = 60;
 	int punch_combo_hits = 0;
 	bool enemy_at_range = true;
+	bool start_combo_timer = false;
+	int combo_timer_count = 0;
 
 	//knocked down
 	int down_vel = 1;

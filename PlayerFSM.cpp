@@ -33,7 +33,7 @@ void PlayerFSM::Update()
 		}
 		if (the_player->hit_down)
 		{
-			curr_state = State::SIMPLE_PUNCH;
+			curr_state = State::CBO_PUNCH;
 			break;
 		}
 		if (the_player->damaged)
@@ -71,7 +71,7 @@ void PlayerFSM::Update()
 		}
 		if (the_player->hit_down)
 		{
-			curr_state = State::SIMPLE_PUNCH;
+			curr_state = State::CBO_PUNCH;
 			break;
 		}
 		if (the_player->damaged)
@@ -102,8 +102,8 @@ void PlayerFSM::Update()
 		}
 
 		break;
-	case State::SIMPLE_PUNCH:
-		SimplePunch();
+	case State::CBO_PUNCH:
+		Punch();
 		prev_state = curr_state;
 		if (the_player->attack_finished)
 		{
@@ -223,6 +223,18 @@ void PlayerFSM::Idle()
 				//the_player->curr_anim->Reset();
 				the_player->curr_anim = &(the_player->anim_idle_left1);
 			}
+		}
+	}
+
+	//Update punch combo timer
+	if (the_player->start_combo_timer)
+	{
+		the_player->combo_timer_count++;
+		if (the_player->combo_timer_count >= the_player->combo_max_frames)
+		{
+			the_player->combo_timer_count = 0;
+			the_player->punch_combo_hits = 0;
+			cbo_punch_stage = CboPunchStage::HIGH_PUNCH;
 		}
 	}
 	
@@ -394,38 +406,113 @@ void PlayerFSM::Jump()
 	}
 }
 
-void PlayerFSM::SimplePunch()
+void PlayerFSM::Punch()
 {
-	//set animation
-	if (prev_state != State::SIMPLE_PUNCH)
+	the_player->enemy_at_range = false;
+
+	for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+	{
+		if ((*it).first.collider->type == collider_type::PLAYER_HIT)
+		{
+			the_player->enemy_at_range = true;
+			break;
+		}
+	}
+
+	if (the_player->enemy_at_range)
+	{	
+		switch (cbo_punch_stage)
+		{
+		case CboPunchStage::HIGH_PUNCH:
+			CboHighPunch();			
+			break;
+
+		case CboPunchStage::LOW_PUNCH:
+			CboLowPunch();
+			break;
+
+		case CboPunchStage::HIGH_KICK:
+			CboKick();
+			break;
+		}	
+	}
+	else
 	{
 		if (the_player->facing_right)
 			the_player->curr_anim = &(the_player->anim_punch_combo_right1);
 
 		if (!the_player->facing_right)
 			the_player->curr_anim = &(the_player->anim_punch_combo_left1);
+
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->attack_finished = true;
+		}
 	}
+
+}
+
+void PlayerFSM::CboHighPunch()
+{
+	if (the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_punch_combo_right1);
+
+	if (!the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_punch_combo_left1);
 
 	if (the_player->curr_anim->Finished())
 	{
 		the_player->curr_anim->Reset();
-		the_player->attack_finished = true;
+		the_player->punch_combo_hits++;
+		the_player->attack_finished = true; //go to IDLE
+		the_player->start_combo_timer = true;
+		the_player->combo_timer_count = 0;
 	}
-}
 
-void PlayerFSM::CboPunch()
-{
-
+	if (the_player->punch_combo_hits == 2)
+	{
+		cbo_punch_stage = CboPunchStage::LOW_PUNCH;
+		the_player->punch_combo_hits = 0;	
+	}
 }
 
 void PlayerFSM::CboLowPunch()
 {
+	if (the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_punch_combo_right2);
 
+	if (!the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_punch_combo_left2);
+
+	if (the_player->curr_anim->Finished())
+	{
+		the_player->curr_anim->Reset();		
+		cbo_punch_stage = CboPunchStage::HIGH_KICK;
+		the_player->attack_finished = true; //go to IDLE
+		the_player->start_combo_timer = true;
+		the_player->combo_timer_count = 0;
+	}
 }
 
 void PlayerFSM::CboKick()
 {
+	if (the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_punch_combo_right3);
 
+	if (!the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_punch_combo_left3);
+
+
+	if (the_player->curr_anim->Finished())
+	{
+		the_player->curr_anim->Reset();
+		cbo_punch_stage = CboPunchStage::HIGH_PUNCH;
+		the_player->attack_finished = true; //go to IDLE
+		the_player->start_combo_timer = false;
+		the_player->combo_timer_count = 0;
+		
+	}
 }
 
 void PlayerFSM::Grab()

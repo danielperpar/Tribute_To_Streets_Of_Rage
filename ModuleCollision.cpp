@@ -64,13 +64,25 @@ update_status ModuleCollision::PreUpdate()
 		}
 		else
 		{
-			bool collision = the_player->body_collider->CheckCollision((*it).second.collider, ci1, ci2);
-			if (!collision)
+			if ((*it).first.collider->type == collider_type::PLAYER_BODY)
 			{
-				the_player->OnCollisionExit(*it);
-				
-				it = the_player->player_collision_status.erase(it);
-				erased = true;
+				bool collision = the_player->body_collider->CheckCollision((*it).second.collider, ci1, ci2);
+				if (!collision)
+				{
+					the_player->OnCollisionExit(*it);
+
+					it = the_player->player_collision_status.erase(it);
+					erased = true;
+				}
+			}
+			else if ((*it).first.collider->type == collider_type::PLAYER_HIT)
+			{
+				bool collision = the_player->hit_collider->CheckCollision((*it).second.collider, ci1, ci2);
+				if (!collision)
+				{				
+					it = the_player->player_collision_status.erase(it);
+					erased = true;
+				}
 			}
 		}
 
@@ -200,20 +212,24 @@ void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const Coll
 	switch (collider1->type)
 	{
 	case collider_type::PLAYER_BODY:
+	{
+		Player *player = (Player*)(collider1->entity);
+		player->OnCollision(col_info1, col_info2);
+		break;
+	}
 	case collider_type::PLAYER_HIT:
 	{
 		Player *player = (Player*)(collider1->entity);
 		player->OnCollision(col_info1, col_info2);
+		break;
 	}
-	break;
-
 	case collider_type::ENEMY_HIT:
 		if (collider1->entity->type == entity_type::GARCIA)
 		{
 			Garcia *garcia = (Garcia*)(collider1->entity);
 			garcia->OnCollision(col_info1, col_info2);
-		}
-		break;
+			break;
+		}	
 	}
 }
 // -----------------------------------------------------

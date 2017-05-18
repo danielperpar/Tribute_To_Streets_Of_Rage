@@ -45,7 +45,7 @@ void GarciaFSM::Update()
 		break;
 
 	case State::ATTACK:
-		Attack();
+		//Attack();
 		if (garcia->attack == false)
 		{
 			garcia->punch_hits = 0;
