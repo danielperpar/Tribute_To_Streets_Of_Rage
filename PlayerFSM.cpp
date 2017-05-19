@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Application.h"
 #include "ModuleSceneRound1.h"
+#include "Garcia.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
@@ -38,6 +39,7 @@ void PlayerFSM::Update()
 		}
 		if (the_player->damaged)
 		{
+			LOG("entro damage");
 			curr_state = State::DAMAGED;
 			break;
 		}
@@ -412,9 +414,10 @@ void PlayerFSM::Punch()
 
 	for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 	{
-		if ((*it).first.collider->type == collider_type::PLAYER_HIT)
+		if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 		{
 			the_player->enemy_at_range = true;
+			the_player->target_enemy = (*it).second.collider->entity;
 			break;
 		}
 	}
@@ -468,6 +471,8 @@ void PlayerFSM::CboHighPunch()
 		the_player->attack_finished = true; //go to IDLE
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
+		//Only garcia enemy atm, enemy type not checked
+		((Garcia*)(the_player->target_enemy))->damaged = true;
 	}
 
 	if (the_player->punch_combo_hits == 2)
@@ -492,6 +497,7 @@ void PlayerFSM::CboLowPunch()
 		the_player->attack_finished = true; //go to IDLE
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
+		((Garcia*)(the_player->target_enemy))->damaged = true;
 	}
 }
 
@@ -511,6 +517,8 @@ void PlayerFSM::CboKick()
 		the_player->attack_finished = true; //go to IDLE
 		the_player->start_combo_timer = false;
 		the_player->combo_timer_count = 0;
+		//((Garcia*)(the_player->target_enemy))->knocked_down = true;
+		((Garcia*)(the_player->target_enemy))->damaged = true;
 		
 	}
 }
@@ -570,20 +578,18 @@ void PlayerFSM::Damaged()
 			the_player->facing_right = false;
 	}
 
-	if (prev_state != State::DAMAGED)
-	{
-		if (the_player->facing_right)
-			the_player->curr_anim = &(the_player->anim_damage_received_right);
+	if (the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_damage_received_right);
 
-		if (!the_player->facing_right)
-			the_player->curr_anim = &(the_player->anim_damage_received_left);	
-	}
+	if (!the_player->facing_right)
+		the_player->curr_anim = &(the_player->anim_damage_received_left);	
+	
 	else
 	{
 		if (the_player->curr_anim->Finished())
 		{
 			the_player->curr_anim->Reset();
-			the_player->damaged = false;
+			the_player->damaged = false;			
 		}
 	}
 }

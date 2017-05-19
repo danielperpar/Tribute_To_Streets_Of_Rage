@@ -35,7 +35,7 @@ Garcia::Garcia(const Garcia &garcia) : Entity(garcia.texture, garcia.curr_anim, 
 	garcia_punch_left2 = garcia.garcia_punch_left2;
 
 	garcia_damaged_right = garcia.garcia_damaged_right;
-	garcia_damage_left = garcia.garcia_damage_left;
+	garcia_damaged_left = garcia.garcia_damaged_left;
 
 	garcia_down_right = garcia.garcia_down_right;
 	garcia_down_left = garcia.garcia_down_left;
@@ -149,17 +149,17 @@ void Garcia::LoadGarciaAnimations()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchRight1", animation_list, garcia_punch_right1);
 	garcia_punch_right1.loop = false;
-	garcia_punch_right1.speed = 0.1f;
+	garcia_punch_right1.speed = 0.2f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchRight2", animation_list, garcia_punch_right2);
 	garcia_punch_right2.loop = false;
-	garcia_punch_right2.speed = 0.1f;
+	garcia_punch_right2.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchLeft1", animation_list, garcia_punch_left1);
 	garcia_punch_left1.loop = false;
-	garcia_punch_left1.speed = 0.1f;
+	garcia_punch_left1.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchLeft2", animation_list, garcia_punch_left2);
@@ -172,9 +172,9 @@ void Garcia::LoadGarciaAnimations()
 	garcia_damaged_right.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
-	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaDamageReceivedLeft", animation_list, garcia_damage_left);
-	garcia_damage_left.loop = false;
-	garcia_damage_left.speed = 0.1f;
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaDamageReceivedLeft", animation_list, garcia_damaged_left);
+	garcia_damaged_left.loop = false;
+	garcia_damaged_left.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaDownRight", animation_list, garcia_down_right);

@@ -38,6 +38,7 @@ private:
 	
 	int num_frames = 60;
 	int frames_counter = 0;
+	bool punch_wait = false;
 
 public:
 	GarciaFSM(Garcia *garcia);
@@ -54,6 +55,8 @@ public:
 	void EvasiveSecondStage();
 	void EvasiveThirdStage();
 	void Grabbed();
+	void Damaged();
+	void KnockedDown();
 	State GetCurrState()  const;
 	void SetCurrState(State state);
 };

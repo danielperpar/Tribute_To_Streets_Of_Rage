@@ -93,8 +93,8 @@ public:
 	//Enemy to react to
 	Entity *enemy_attacker = nullptr;
 
-	//Grabbed enemy
-	Entity *enemy_grabbed = nullptr;
+	//Attacked, Grabbed enemy
+	Entity *target_enemy = nullptr;
 
 	//colliders colliding with player's body or hit area
 	std::list<std::pair<CollisionInfo, CollisionInfo>> player_collision_status;

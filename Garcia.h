@@ -97,7 +97,7 @@ public:
 	Animation garcia_punch_left2;
 
 	Animation garcia_damaged_right;
-	Animation garcia_damage_left;
+	Animation garcia_damaged_left;
 
 	Animation garcia_down_right;
 	Animation garcia_down_left;

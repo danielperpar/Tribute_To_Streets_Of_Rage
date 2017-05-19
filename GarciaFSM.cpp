@@ -22,6 +22,22 @@ void GarciaFSM::Update()
 		Idle();
 		prev_state = curr_state;
 
+		if (garcia->attack)
+		{
+			curr_state = State::ATTACK;
+			break;
+		}
+		if (garcia->grabbed)
+		{
+			garcia->attack = false;
+			curr_state = State::GRABBED;
+			break;
+		}
+		if (garcia->damaged)
+		{
+			curr_state = State::DAMAGED;
+			break;
+		}
 		if (garcia->player_in_sight)
 		{
 			curr_state = State::CHASE;
@@ -42,18 +58,24 @@ void GarciaFSM::Update()
 			curr_state = State::GRABBED;
 			break;
 		}
+		if (garcia->damaged)
+		{
+			curr_state = State::DAMAGED;
+			break;
+		}
 		break;
 
-	case State::ATTACK:
-		//Attack();
+	case State::ATTACK:			
+		Attack();
+		
 		if (garcia->attack == false)
 		{
-			garcia->punch_hits = 0;
-			curr_state = State::CHASE;
+			//garcia->punch_hits = 0;
+			curr_state = State::IDLE;
 		}
 		if (garcia->evasive)
 		{
-			garcia->punch_hits = 0;
+			//garcia->punch_hits = 0;
 			garcia->evasive_started_facing_right = garcia->facing_right;
 			if ((garcia->position.y - garcia->evasive_v_offset) <= App->scene_round1->upper_limit)
 			{
@@ -74,13 +96,15 @@ void GarciaFSM::Update()
 		}
 		if (garcia->grabbed)
 		{
-			garcia->attack = false;
-
-			// reset evasive state in case the enemy is grabbed while in evasive state
-			garcia->evasive = false;
-			evasive_v_count = 0;
-			garcia->punch_hits = 0;
+			garcia->attack = false;		
 			curr_state = State::GRABBED;
+			break;
+		}
+		if (garcia->damaged)
+		{								
+			garcia->punch_hits = 0;
+			garcia->attack = false;
+			curr_state = State::DAMAGED;
 			break;
 		}
 		break;
@@ -89,11 +113,32 @@ void GarciaFSM::Update()
 		Evasive();
 		if (garcia->evasive == false)
 		{
-			curr_state = State::CHASE;
+			curr_state = State::IDLE;
+		}
+		if (garcia->damaged)
+		{
+			garcia->evasive = false;
+			evasive_v_count = 0;
+			evasive_h_count = 0;
+			curr_state = State::DAMAGED;
+			break;
+		}
+		if (garcia->grabbed)
+		{		
+			garcia->evasive = false;
+			evasive_v_count = 0;
+			evasive_h_count = 0;
+			curr_state = State::GRABBED;
+			break;
 		}
 		break;
 
 	case State::DAMAGED:
+		Damaged();
+		if (garcia->damaged == false)
+		{
+			curr_state = State::IDLE;
+		}
 		break;
 
 	case State::KNOCKED_DOWN:
@@ -115,7 +160,7 @@ void GarciaFSM::Update()
 			if (frames_counter >= num_frames)
 			{
 				frames_counter = 0;
-				curr_state = State::CHASE;
+				curr_state = State::IDLE;
 			}
 		}
 		break;
@@ -218,85 +263,106 @@ void GarciaFSM::Attack()
 	{
 		if (garcia->punch_hits == 0 || garcia->punch_hits == 1)
 		{
-			garcia->curr_anim = &garcia->garcia_punch_right1;
-
-			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
+			if (!punch_wait)
 			{
-				garcia->the_player->damaged = true;	//Damage the player	
-				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+				garcia->curr_anim = &garcia->garcia_punch_right1;
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->the_player->damaged = true;	//Damage the player	
+					garcia->the_player->enemy_attacker = garcia;	//enemy to react to					
+					garcia->punch_hits++;
+					punch_wait = true;
+				}
 			}
-			if (garcia->curr_anim->Finished())
-			{			
-				garcia->curr_anim->Reset();
-				garcia->punch_hits++;
-			}
+			else
+			{
+				garcia->curr_anim = &garcia->garcia_idle_right;
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					punch_wait = false;
+				}
+			}		
 		}
 		if (garcia->punch_hits == 2)
 		{
-			if (garcia->curr_anim != &garcia->garcia_punch_right2)
+			if (!punch_wait)
 			{
 				garcia->curr_anim = &garcia->garcia_punch_right2;
-				garcia->curr_anim->Reset();
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->the_player->knocked_down = true;	//Knock down the player
+					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+					garcia->punch_hits = 0;
+					garcia->evasive = true;
+					punch_wait = true;
+				}
 			}
-
-			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
+			else
 			{
-				garcia->the_player->knocked_down = true;	//Knock down the player
-				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
-			}
-
-			if (garcia->curr_anim->Finished())
-			{			
-				garcia->punch_hits++;
-				garcia->evasive = true;
-			}
-		}
-	
-		if (garcia->punch_hits == 3)
-			garcia->punch_hits = 0;
+				garcia->curr_anim = &garcia->garcia_idle_right;
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					punch_wait = false;
+				}
+			}			
+		}		
 	}
 
 	if (garcia->facing_right == false)
 	{
 		if (garcia->punch_hits == 0 || garcia->punch_hits == 1)
 		{			
-			garcia->curr_anim = &garcia->garcia_punch_left1;
-			
-			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
+			if (!punch_wait)
 			{
-				garcia->the_player->damaged = true;	//Damage the player	
-				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+				garcia->curr_anim = &garcia->garcia_punch_left1;
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->the_player->damaged = true;	//Damage the player	
+					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+					garcia->punch_hits++;
+					punch_wait = true;
+				}
 			}
-
-			if (garcia->curr_anim->Finished())
-			{							
-				garcia->curr_anim->Reset();
-				garcia->punch_hits++;
+			else
+			{
+				garcia->curr_anim = &garcia->garcia_idle_left;
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					punch_wait = false;
+				}
 			}
 		}
 		if (garcia->punch_hits == 2)
 		{
-			if (garcia->curr_anim != &garcia->garcia_punch_left2)
+			if (!punch_wait)
 			{
 				garcia->curr_anim = &garcia->garcia_punch_left2;
-				garcia->curr_anim->Reset();
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->the_player->knocked_down = true;	//Knock down the player
+					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+					garcia->punch_hits = 0;
+					garcia->evasive = true;
+					punch_wait = true;
+				}
 			}
-
-			if (garcia->curr_anim->GetCurrentFrameCount() == 1)
+			else
 			{
-				garcia->the_player->knocked_down = true;	//Knock down the player 
-				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+				garcia->curr_anim = &garcia->garcia_idle_left;
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					punch_wait = false;
+				}
 			}
-
-			if (garcia->curr_anim->Finished())
-			{				
-				garcia->punch_hits++;
-				garcia->evasive = true;
-			}
-		}
-
-		if (garcia->punch_hits == 3)
-			garcia->punch_hits = 0;
+		}	
 	}
 }
 void GarciaFSM::Evasive()
@@ -530,6 +596,34 @@ void GarciaFSM::Grabbed()
 		garcia->curr_anim = &garcia->garcia_grabbed_right;
 	else
 		garcia->curr_anim = &garcia->garcia_grabbed_left;
+}
+
+void GarciaFSM::Damaged()
+{
+	if (garcia->facing_right)
+		garcia->curr_anim = &garcia->garcia_damaged_right;
+	else
+		garcia->curr_anim = &garcia->garcia_damaged_left;
+
+	if (garcia->curr_anim->Finished())
+	{
+		garcia->curr_anim->Reset();
+		garcia->damaged = false;
+	}
+}
+
+void GarciaFSM::KnockedDown()
+{
+	if (garcia->facing_right)
+		garcia->curr_anim = &garcia->garcia_down_right;
+	else
+		garcia->curr_anim = &garcia->garcia_down_right;
+
+	if (garcia->curr_anim->Finished())
+	{
+		garcia->curr_anim->Reset();
+		garcia->knocked_down = false;
+	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
