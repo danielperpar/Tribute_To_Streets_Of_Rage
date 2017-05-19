@@ -149,17 +149,17 @@ void Garcia::LoadGarciaAnimations()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchRight1", animation_list, garcia_punch_right1);
 	garcia_punch_right1.loop = false;
-	garcia_punch_right1.speed = 0.2f;
+	garcia_punch_right1.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchRight2", animation_list, garcia_punch_right2);
 	garcia_punch_right2.loop = false;
-	garcia_punch_right2.speed = 0.05f;
+	garcia_punch_right2.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchLeft1", animation_list, garcia_punch_left1);
 	garcia_punch_left1.loop = false;
-	garcia_punch_left1.speed = 0.05f;
+	garcia_punch_left1.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaPunchLeft2", animation_list, garcia_punch_left2);

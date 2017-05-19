@@ -70,8 +70,12 @@ void GarciaFSM::Update()
 		
 		if (garcia->attack == false)
 		{
-			//garcia->punch_hits = 0;
-			curr_state = State::IDLE;
+			frames_counter++;
+			if (frames_counter >= num_frames)
+			{
+				curr_state = State::IDLE;
+				frames_counter = 0;
+			}
 		}
 		if (garcia->evasive)
 		{
