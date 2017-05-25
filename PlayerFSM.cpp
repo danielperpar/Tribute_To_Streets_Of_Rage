@@ -440,7 +440,10 @@ void PlayerFSM::Punch()
 		}
 	}
 
-	if (the_player->enemy_at_range)
+	//Only Garcia atm
+	Garcia *garcia = (Garcia*)(the_player->target_enemy);
+
+	if (the_player->enemy_at_range && garcia->knocked_down == false)
 	{	
 		switch (cbo_punch_stage)
 		{

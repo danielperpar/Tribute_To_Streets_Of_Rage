@@ -89,6 +89,10 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 		//Check whether looking each other
 		if (garcia->facing_right && facing_right)
 			allow_grab = false;
+		
+		//Don't allow grab when enemy is knocked down
+		if (garcia->knocked_down)
+			allow_grab = false;
 
 		//Check player right state to grab
 		if (player_fsm->GetCurrState() != PlayerFSM::State::IDLE && player_fsm->GetCurrState() != PlayerFSM::State::WALK)
