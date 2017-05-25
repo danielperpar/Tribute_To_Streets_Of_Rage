@@ -131,12 +131,12 @@ void Garcia::LoadGarciaAnimations()
 {
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaIdleRight", animation_list, garcia_idle_right);
 	garcia_idle_right.loop = true;
-	garcia_idle_right.speed = 0.1f;
+	garcia_idle_right.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaIdleLeft", animation_list, garcia_idle_left);
 	garcia_idle_left.loop = true;
-	garcia_idle_left.speed = 0.1f;
+	garcia_idle_left.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaWalkRight", animation_list, garcia_walk_right);
