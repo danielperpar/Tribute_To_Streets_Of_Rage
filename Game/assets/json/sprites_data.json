@@ -797,22 +797,28 @@
 		  "sprite" : [{"x" : 1402},{"y" : 260},{"w" : 97},{"h" : 63}]
 		}
 	],
-	"npcGarciaDownRight" : 
+	"npcGarciaDownRight1" : 
 	[
 		{
-		  "sprite" : [{"x" : 861},{"y" : 256},{"w" : 90},{"h" : 63}]
-		},
-		{
-		  "sprite" : [{"x" : 665},{"y" : 263},{"w" : 90},{"h" : 63}]
+		  "sprite" : [{"x" : 836},{"y" : 256},{"w" : 89},{"h" : 63}]
 		}
 	],
-	"npcGarciaDownLeft" : 
+	"npcGarciaDownRight2" : 
 	[
 		{
-		  "sprite" : [{"x" : 1862},{"y" : 256},{"w" : 150},{"h" : 63}]
-		},
+		  "sprite" : [{"x" : 640},{"y" : 263},{"w" : 89},{"h" : 63}]
+		}
+	],
+	"npcGarciaDownLeft1" : 
+	[
 		{
-		  "sprite" : [{"x" : 2074},{"y" : 263},{"w" : 140},{"h" : 63}]
+		  "sprite" : [{"x" : 1897},{"y" : 256},{"w" : 115},{"h" : 63}]
+		}
+	],
+	"npcGarciaDownLeft2" : 
+	[
+		{
+		  "sprite" : [{"x" : 2098},{"y" : 263},{"w" : 116},{"h" : 63}]
 		}
 	],
 	"npcGarciaUpRight" : 

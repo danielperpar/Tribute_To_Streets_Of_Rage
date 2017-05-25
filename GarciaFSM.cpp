@@ -38,6 +38,11 @@ void GarciaFSM::Update()
 			curr_state = State::DAMAGED;
 			break;
 		}
+		if (garcia->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
 		if (garcia->player_in_sight)
 		{
 			curr_state = State::CHASE;
@@ -63,6 +68,11 @@ void GarciaFSM::Update()
 			curr_state = State::DAMAGED;
 			break;
 		}
+		if (garcia->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
 		break;
 
 	case State::ATTACK:			
@@ -75,11 +85,11 @@ void GarciaFSM::Update()
 			{
 				curr_state = State::IDLE;
 				frames_counter = 0;
+				garcia->punch_hits = 0;
 			}
 		}
 		if (garcia->evasive)
 		{
-			//garcia->punch_hits = 0;
 			garcia->evasive_started_facing_right = garcia->facing_right;
 			if ((garcia->position.y - garcia->evasive_v_offset) <= App->scene_round1->upper_limit)
 			{
@@ -111,6 +121,11 @@ void GarciaFSM::Update()
 			curr_state = State::DAMAGED;
 			break;
 		}
+		if (garcia->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
 		break;
 
 	case State::EVASIVE:
@@ -125,6 +140,11 @@ void GarciaFSM::Update()
 			evasive_v_count = 0;
 			evasive_h_count = 0;
 			curr_state = State::DAMAGED;
+			break;
+		}
+		if (garcia->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
 			break;
 		}
 		if (garcia->grabbed)
@@ -146,6 +166,12 @@ void GarciaFSM::Update()
 		break;
 
 	case State::KNOCKED_DOWN:
+		KnockedDown();
+		prev_state = curr_state;
+		if (garcia->knocked_down == false)
+		{
+			curr_state = State::IDLE;
+		}
 		break;
 
 	case State::GRABBED:
@@ -618,15 +644,116 @@ void GarciaFSM::Damaged()
 
 void GarciaFSM::KnockedDown()
 {
-	if (garcia->facing_right)
-		garcia->curr_anim = &garcia->garcia_down_right;
-	else
-		garcia->curr_anim = &garcia->garcia_down_right;
-
-	if (garcia->curr_anim->Finished())
+	if (prev_state != State::KNOCKED_DOWN)
 	{
-		garcia->curr_anim->Reset();
-		garcia->knocked_down = false;
+		garcia->pos_before_knockdown = garcia->position;
+
+		if (garcia->facing_right)
+			garcia->curr_anim = &(garcia->garcia_down_right1);
+
+		if (!garcia->facing_right)
+			garcia->curr_anim = &(garcia->garcia_down_left1);
+	}
+	else
+	{
+		//position offset
+		iPoint temp = garcia->position;
+
+		garcia->down_count++;
+		if (garcia->down_count < garcia->down_frames)
+		{
+			if (garcia->facing_right)
+			{
+				if (garcia->down_count <= garcia->down_inflection)
+				{
+					temp.x -= garcia->speed;
+					temp.y -= garcia->speed;
+				}
+				else
+				{
+					temp.x -= garcia->speed;
+					temp.y += garcia->speed;
+				}
+			}
+			if (!garcia->facing_right)
+			{
+				if (garcia->down_count <= garcia->down_inflection)
+				{
+					temp.x += garcia->speed;
+					temp.y -= garcia->speed;
+				}
+				else
+				{
+					temp.x += garcia->speed;
+					temp.y += garcia->speed;
+				}
+			}
+
+			garcia->position = temp;
+			UpdateColliderPosition();
+		}
+		if (garcia->down_count == garcia->down_frames)
+		{
+			garcia->up = true;
+			garcia->curr_anim->Reset();			
+		}
+
+		if (garcia->up)
+		{
+			//right animations
+			if (garcia->curr_anim == &(garcia->garcia_down_right1))
+			{
+				garcia->curr_anim->Reset();
+				garcia->curr_anim = &(garcia->garcia_down_right2);
+			}
+			else if (garcia->curr_anim == &(garcia->garcia_down_right2))
+			{
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->curr_anim = &(garcia->garcia_up_right);
+				}
+			}
+			else if (garcia->curr_anim == &(garcia->garcia_up_right))
+			{
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->knocked_down = false;					
+					garcia->up = false;
+					garcia->down_count = 0;
+					garcia->position.y = garcia->pos_before_knockdown.y;
+					garcia->depth = garcia->position.y;
+				}
+			}
+
+			//left animations
+			if (garcia->curr_anim == &(garcia->garcia_down_left1))
+			{
+				garcia->curr_anim->Reset();
+				garcia->curr_anim = &(garcia->garcia_down_left2);
+			}
+			else if (garcia->curr_anim == &(garcia->garcia_down_left2))
+			{
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->curr_anim = &(garcia->garcia_up_left);
+				}
+			}
+			else if (garcia->curr_anim == &(garcia->garcia_up_left))
+			{
+				if (garcia->curr_anim->Finished())
+				{
+					garcia->curr_anim->Reset();
+					garcia->knocked_down = false;					
+					garcia->up = false;
+					garcia->down_count = 0;
+					garcia->position.y = garcia->pos_before_knockdown.y;
+					garcia->depth = garcia->position.y;
+				}
+			}
+		}
 	}
 }
 

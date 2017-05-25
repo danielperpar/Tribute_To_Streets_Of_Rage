@@ -517,8 +517,7 @@ void PlayerFSM::CboKick()
 		the_player->attack_finished = true; //go to IDLE
 		the_player->start_combo_timer = false;
 		the_player->combo_timer_count = 0;
-		//((Garcia*)(the_player->target_enemy))->knocked_down = true;
-		((Garcia*)(the_player->target_enemy))->damaged = true;
+		((Garcia*)(the_player->target_enemy))->knocked_down = true;
 		
 	}
 }
@@ -584,14 +583,12 @@ void PlayerFSM::Damaged()
 	if (!the_player->facing_right)
 		the_player->curr_anim = &(the_player->anim_damage_received_left);	
 	
-	else
+	if (the_player->curr_anim->Finished())
 	{
-		if (the_player->curr_anim->Finished())
-		{
-			the_player->curr_anim->Reset();
-			the_player->damaged = false;			
-		}
+		the_player->curr_anim->Reset();
+		the_player->damaged = false;			
 	}
+	
 }
 void PlayerFSM::KnockedDown()
 {

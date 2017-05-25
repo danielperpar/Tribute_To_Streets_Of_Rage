@@ -37,9 +37,16 @@ public:
 	int speed = 0;
 	Player *the_player = nullptr;
 	size_t punch_hits = 0;
+
 	int evasive_v_offset = 20;
 	int evasive_h_offset = 120;
 	bool evasive_started_facing_right = false;
+
+	iPoint pos_before_knockdown;
+	int down_count = 0;
+	int down_frames = 20;
+	int down_inflection = 10;
+	bool up = false;
 
 	//----------------------------------------  GARCIA COLLIDERS -----------------------------------------------
 	Collider *body_collider = nullptr;
@@ -99,8 +106,11 @@ public:
 	Animation garcia_damaged_right;
 	Animation garcia_damaged_left;
 
-	Animation garcia_down_right;
-	Animation garcia_down_left;
+	Animation garcia_down_right1;
+	Animation garcia_down_left1;
+
+	Animation garcia_down_right2;
+	Animation garcia_down_left2;
 
 	Animation garcia_up_right;
 	Animation garcia_up_left;
