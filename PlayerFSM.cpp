@@ -683,6 +683,8 @@ void PlayerFSM::KnockedDown()
 				the_player->curr_anim->Reset();
 				the_player->knocked_down = false;
 				the_player->down_count = 0;
+				the_player->position.y = the_player->pos_before_knockdown.y;
+				the_player->depth = the_player->position.y;
 			}
 		}
 
@@ -722,6 +724,8 @@ void PlayerFSM::KnockedDown()
 				the_player->curr_anim->Reset();
 				the_player->knocked_down = false;
 				the_player->down_count = 0;
+				the_player->position.y = the_player->pos_before_knockdown.y;
+				the_player->depth = the_player->position.y;
 			}
 		}
 	}
