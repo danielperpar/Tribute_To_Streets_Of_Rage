@@ -161,7 +161,10 @@ void GarciaFSM::Update()
 		Damaged();
 		if (garcia->damaged == false)
 		{
-			curr_state = State::IDLE;
+			if (prev_state != State::GRABBED)
+				curr_state = State::IDLE;
+			else
+				curr_state = State::GRABBED;
 		}
 		break;
 
@@ -192,6 +195,17 @@ void GarciaFSM::Update()
 				frames_counter = 0;
 				curr_state = State::IDLE;
 			}
+		}
+		if (garcia->damaged)
+		{
+			curr_state = State::DAMAGED;
+			prev_state = State::GRABBED;
+			break;
+		}
+		if (garcia->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
 		}
 		break;
 	}

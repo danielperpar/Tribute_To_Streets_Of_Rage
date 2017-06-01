@@ -16,6 +16,7 @@ void PlayerFSM::Update()
 {
 	switch (curr_state)
 	{
+		
 	case State::IDLE:
 		Idle();
 		prev_state = curr_state;
@@ -154,12 +155,35 @@ void PlayerFSM::Update()
 
 			break;
 		}
+		if (the_player->hit_down)
+		{
+			if (the_player->grab_hit_counter < the_player->max_grab_kick)
+			{
+				the_player->grab_hit_counter++;
+				curr_state = State::LOW_KICK;
+			}
+			else
+			{
+				the_player->grab_hit_counter = 0;
+				curr_state = State::HEAD_HIT;
+			}
+			break;
+		}
 		if (the_player->damaged)
 		{
 			curr_state = State::DAMAGED;
 			break;
 		}
 		break;
+
+	case State::LOW_KICK:
+		LowKick();
+		break;
+
+	case State::HEAD_HIT:
+		HeadHit();
+		break;
+
 	}
 }
 
@@ -554,12 +578,34 @@ void PlayerFSM::Grab()
 
 void PlayerFSM::LowKick()
 {
+	if (the_player->facing_right)
+		the_player->curr_anim = &the_player->anim_grab_kick_head_combo_right1;
+	else
+		the_player->curr_anim = &the_player->anim_grab_kick_head_combo_left1;
+
+	if (the_player->curr_anim->Finished())
+	{
+		((Garcia*)(the_player->target_enemy))->damaged = true;
+		the_player->curr_anim->Reset();
+		curr_state = State::GRAB;
+	}
 
 }
 
 void PlayerFSM::HeadHit()
 {
+	if (the_player->facing_right)
+		the_player->curr_anim = &the_player->anim_grab_kick_head_combo_right2;
+	else
+		the_player->curr_anim = &the_player->anim_grab_kick_head_combo_left2;
 
+	if (the_player->curr_anim->Finished())
+	{
+		((Garcia*)(the_player->target_enemy))->knocked_down = true;
+		the_player->curr_anim->Reset();
+		the_player->enemy_to_grab = false;
+		curr_state = State::IDLE;
+	}
 }
 
 void PlayerFSM::AirAttack()

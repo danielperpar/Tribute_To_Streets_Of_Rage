@@ -46,6 +46,11 @@ public:
 	bool start_combo_timer = false;
 	int combo_timer_count = 0;
 
+	//grab hit
+	bool allow_grab = true;
+	int grab_hit_counter = 0;
+	int max_grab_kick = 2;
+
 	//knocked down
 	int down_vel = 1;
 	int down_count = 0;

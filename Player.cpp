@@ -69,7 +69,7 @@ void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionIn
 
 	if (!found)
 		OnCollisionEnter(col_info_player, col_info_other);
-
+	
 }
 
 
@@ -84,16 +84,16 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 	{
 		//Only garcia at the moment, so enemy type is not checked yet
 		Garcia *garcia = ((Garcia*)(col_info_other.collider->entity));
-		bool allow_grab = true;
+		allow_grab = true;
+
+		//Don't allow grab when enemy is knocked down
+		if (garcia->knocked_down)
+			allow_grab = false;
 
 		//Check whether looking each other
 		if (garcia->facing_right && facing_right)
 			allow_grab = false;
 		
-		//Don't allow grab when enemy is knocked down
-		if (garcia->knocked_down)
-			allow_grab = false;
-
 		//Check player right state to grab
 		if (player_fsm->GetCurrState() != PlayerFSM::State::IDLE && player_fsm->GetCurrState() != PlayerFSM::State::WALK)
 		{
@@ -264,12 +264,12 @@ void Player::LoadPlayerAnimations()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabKickHeadRight1", animation_list, anim_grab_kick_head_combo_right1);
 	anim_grab_kick_head_combo_right1.loop = false;
-	anim_grab_kick_head_combo_right1.speed = 1.0f;
+	anim_grab_kick_head_combo_right1.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabKickHeadRight2", animation_list, anim_grab_kick_head_combo_right2);
 	anim_grab_kick_head_combo_right2.loop = false;
-	anim_grab_kick_head_combo_right2.speed = 0.1f;
+	anim_grab_kick_head_combo_right2.speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabLeft", animation_list, anim_grab_left);
@@ -279,12 +279,12 @@ void Player::LoadPlayerAnimations()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabKickHeadLeft1", animation_list, anim_grab_kick_head_combo_left1);
 	anim_grab_kick_head_combo_left1.loop = false;
-	anim_grab_kick_head_combo_left1.speed = 1.0f;
+	anim_grab_kick_head_combo_left1.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabKickHeadLeft2", animation_list, anim_grab_kick_head_combo_left2);
 	anim_grab_kick_head_combo_left2.loop = false;
-	anim_grab_kick_head_combo_left2.speed = 0.1f;
+	anim_grab_kick_head_combo_left2.speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinRight1", animation_list, anim_grab_air_spin_combo_right1);
