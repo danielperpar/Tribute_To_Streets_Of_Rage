@@ -313,9 +313,13 @@ void GarciaFSM::Attack()
 				if (garcia->curr_anim->Finished())
 				{
 					garcia->curr_anim->Reset();
-					garcia->the_player->damaged = true;	//Damage the player	
-					garcia->the_player->enemy_attacker = garcia;	//enemy to react to					
-					garcia->punch_hits++;
+
+					if (garcia->attack)
+					{
+						garcia->the_player->damaged = true;	//Damage the player	
+						garcia->the_player->enemy_attacker = garcia;	//enemy to react to					
+						garcia->punch_hits++;
+					}
 					punch_wait = true;
 				}
 			}
@@ -337,10 +341,13 @@ void GarciaFSM::Attack()
 				if (garcia->curr_anim->Finished())
 				{
 					garcia->curr_anim->Reset();
-					garcia->the_player->knocked_down = true;	//Knock down the player
-					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
-					garcia->punch_hits = 0;
-					garcia->evasive = true;
+					if (garcia->attack)
+					{
+						garcia->the_player->knocked_down = true;	//Knock down the player
+						garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+						garcia->punch_hits = 0;
+						garcia->evasive = true;
+					}
 					punch_wait = true;
 				}
 			}
@@ -366,9 +373,12 @@ void GarciaFSM::Attack()
 				if (garcia->curr_anim->Finished())
 				{
 					garcia->curr_anim->Reset();
-					garcia->the_player->damaged = true;	//Damage the player	
-					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
-					garcia->punch_hits++;
+					if (garcia->attack)
+					{
+						garcia->the_player->damaged = true;	//Damage the player	
+						garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+						garcia->punch_hits++;
+					}
 					punch_wait = true;
 				}
 			}
@@ -390,10 +400,13 @@ void GarciaFSM::Attack()
 				if (garcia->curr_anim->Finished())
 				{
 					garcia->curr_anim->Reset();
-					garcia->the_player->knocked_down = true;	//Knock down the player
-					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
-					garcia->punch_hits = 0;
-					garcia->evasive = true;
+					if (garcia->attack)
+					{
+						garcia->the_player->knocked_down = true;	//Knock down the player
+						garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+						garcia->punch_hits = 0;
+						garcia->evasive = true;
+					}
 					punch_wait = true;
 				}
 			}
