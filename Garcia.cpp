@@ -181,7 +181,7 @@ void Garcia::LoadGarciaAnimations()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaDownRight1", animation_list, garcia_down_right1);
 	garcia_down_right1.loop = false;
-	garcia_down_right1.speed = 0.1f;
+	garcia_down_right1.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaDownRight2", animation_list, garcia_down_right2);
@@ -191,7 +191,7 @@ void Garcia::LoadGarciaAnimations()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaDownLeft1", animation_list, garcia_down_left1);
 	garcia_down_left1.loop = false;
-	garcia_down_left1.speed = 0.1f;
+	garcia_down_left1.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaDownLeft2", animation_list, garcia_down_left2);
