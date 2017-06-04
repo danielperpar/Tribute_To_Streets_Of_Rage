@@ -15,7 +15,7 @@ class Player : public Entity{
 
 private:
 	std::list<int*> animation_list;
-	PlayerFSM *player_fsm = nullptr;
+	
 	void LoadPlayerAnimations();
 	void LoadStats();
 	void LoadColliders();
@@ -24,13 +24,15 @@ private:
 public:
 	Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	virtual ~Player();	
+	PlayerFSM *player_fsm = nullptr;
 	virtual void UpdateFSM();
 	void OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
 	void OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
 	void OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair);
-
+	
 	int speed = 0;
-	int life = 0;
+	int life = 0;	
+
 
 	//jump
 	bool jump_up = true;
@@ -99,7 +101,7 @@ public:
 	Entity *enemy_attacker = nullptr;
 
 	//Attacked, Grabbed enemy
-	Entity *target_enemy = nullptr;
+	Entity *grabbed_enemy = nullptr;
 
 	//colliders colliding with player's body or hit area
 	std::list<std::pair<CollisionInfo, CollisionInfo>> player_collision_status;

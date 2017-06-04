@@ -151,7 +151,7 @@ update_status ModuleSceneRound1::Update()
 		the_player->walk_down = false;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN && (the_player->player_fsm->GetCurrState() == PlayerFSM::State::WALK || the_player->player_fsm->GetCurrState() == PlayerFSM::State::IDLE))
 	{
 		the_player->jump = true;
 		the_player->landed = false;

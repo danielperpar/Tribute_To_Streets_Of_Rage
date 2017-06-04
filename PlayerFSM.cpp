@@ -14,6 +14,7 @@ PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 // ------------------------------- UPDATE THE FSM -------------------------------------------------------
 void PlayerFSM::Update()
 {
+
 	switch (curr_state)
 	{
 		
@@ -391,7 +392,7 @@ void PlayerFSM::Jump()
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
 				the_player->enemy_at_range = true;
-				the_player->target_enemy = (*it).second.collider->entity;
+				the_player->grabbed_enemy = (*it).second.collider->entity;
 				break;
 			}
 		}
@@ -399,7 +400,11 @@ void PlayerFSM::Jump()
 		if (the_player->enemy_at_range)
 		{
 			//Only garcia enemy atm, enemy type not checked
-			((Garcia*)(the_player->target_enemy))->knocked_down = true;
+			for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+			{
+				if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
+					((Garcia*)((*it).second.collider->entity))->knocked_down = true;
+			}
 		}
 	}
 
@@ -459,13 +464,13 @@ void PlayerFSM::Punch()
 		if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 		{
 			the_player->enemy_at_range = true;
-			the_player->target_enemy = (*it).second.collider->entity;
+			the_player->grabbed_enemy = (*it).second.collider->entity;
 			break;
 		}
 	}
 
 	//Only Garcia atm
-	Garcia *garcia = (Garcia*)(the_player->target_enemy);
+	Garcia *garcia = (Garcia*)(the_player->grabbed_enemy);
 
 	if (the_player->enemy_at_range && garcia->knocked_down == false)
 	{	
@@ -516,8 +521,13 @@ void PlayerFSM::CboHighPunch()
 		the_player->attack_finished = true; //go to IDLE
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
+
 		//Only garcia enemy atm, enemy type not checked
-		((Garcia*)(the_player->target_enemy))->damaged = true;
+		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+		{
+			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
+				((Garcia*)((*it).second.collider->entity))->damaged = true;			
+		}
 	}
 
 	if (the_player->punch_combo_hits == 2)
@@ -542,7 +552,13 @@ void PlayerFSM::CboLowPunch()
 		the_player->attack_finished = true; //go to IDLE
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
-		((Garcia*)(the_player->target_enemy))->damaged = true;
+
+		//Only garcia enemy atm, enemy type not checked
+		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+		{
+			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
+				((Garcia*)((*it).second.collider->entity))->damaged = true;
+		}
 	}
 }
 
@@ -562,7 +578,13 @@ void PlayerFSM::CboKick()
 		the_player->attack_finished = true; //go to IDLE
 		the_player->start_combo_timer = false;
 		the_player->combo_timer_count = 0;
-		((Garcia*)(the_player->target_enemy))->knocked_down = true;
+
+		//Only garcia enemy atm, enemy type not checked
+		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+		{
+			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
+				((Garcia*)((*it).second.collider->entity))->knocked_down = true;
+		}
 		
 	}
 }
@@ -585,7 +607,7 @@ void PlayerFSM::LowKick()
 
 	if (the_player->curr_anim->Finished())
 	{
-		((Garcia*)(the_player->target_enemy))->damaged = true;
+		((Garcia*)(the_player->grabbed_enemy))->damaged = true;
 		the_player->curr_anim->Reset();
 		curr_state = State::GRAB;
 	}
@@ -601,7 +623,7 @@ void PlayerFSM::HeadHit()
 
 	if (the_player->curr_anim->Finished())
 	{
-		((Garcia*)(the_player->target_enemy))->knocked_down = true;
+		((Garcia*)(the_player->grabbed_enemy))->knocked_down = true;
 		the_player->curr_anim->Reset();
 		the_player->enemy_to_grab = false;
 		curr_state = State::IDLE;
@@ -653,7 +675,14 @@ void PlayerFSM::Damaged()
 	if (the_player->curr_anim->Finished())
 	{
 		the_player->curr_anim->Reset();
-		the_player->damaged = false;			
+		the_player->damaged = false;
+
+		
+		if (the_player->enemy_to_grab)
+		{
+			the_player->enemy_to_grab = false;
+			((Garcia*)the_player->grabbed_enemy)->grabbed = false;
+		}
 	}
 	
 }

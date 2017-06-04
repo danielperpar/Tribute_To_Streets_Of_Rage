@@ -103,15 +103,17 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 		if (garcia->depth == depth && allow_grab)
 		{
 			enemy_to_grab = true;
-			target_enemy = garcia;
+			grabbed_enemy = garcia;
 			garcia->grabbed = true;
 
 			if (col_info_player.contact_direction_x == contact_direction::RIGHT)
 				right_blocked = true;
 			if (col_info_player.contact_direction_x == contact_direction::LEFT)
 				left_blocked = true;
+			
 		}
-	}			
+	}
+
 }
 
 void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair)
@@ -119,16 +121,17 @@ void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col
 	//LOG("Inside Player::OnCollisionExit");
 	if(col_info_pair.first.collider->type == PLAYER_BODY && col_info_pair.second.collider->type == ENEMY_BODY)
 	{
-		if (target_enemy == col_info_pair.second.collider->entity)
+		if (grabbed_enemy == col_info_pair.second.collider->entity)
 		{
 			enemy_to_grab = false;			
-			((Garcia*)(target_enemy))->grabbed = false;
-			target_enemy = nullptr;
+			((Garcia*)(grabbed_enemy))->grabbed = false;
+			grabbed_enemy = nullptr;
 			
 			if (col_info_pair.first.contact_direction_x == contact_direction::RIGHT)
 				right_blocked = false;
 			if (col_info_pair.first.contact_direction_x == contact_direction::LEFT)
 				left_blocked = false;
+			
 		}
 		
 	}
