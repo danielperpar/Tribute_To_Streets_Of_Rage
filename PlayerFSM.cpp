@@ -170,6 +170,11 @@ void PlayerFSM::Update()
 			}
 			break;
 		}
+		if (the_player->jump)
+		{
+			curr_state = State::AIR_ATTACK;
+			break;
+		}
 		if (the_player->damaged)
 		{
 			curr_state = State::DAMAGED;
@@ -384,28 +389,14 @@ void PlayerFSM::Jump()
 		{
 			the_player->curr_anim = &(the_player->anim_air_kick_left);
 		}
-
-		the_player->enemy_at_range = false;
-
+		
+		//Only garcia enemy atm, enemy type not checked
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
-			{
-				the_player->enemy_at_range = true;
-				the_player->grabbed_enemy = (*it).second.collider->entity;
-				break;
-			}
+				((Garcia*)((*it).second.collider->entity))->knocked_down = true;
 		}
-
-		if (the_player->enemy_at_range)
-		{
-			//Only garcia enemy atm, enemy type not checked
-			for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
-			{
-				if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
-					((Garcia*)((*it).second.collider->entity))->knocked_down = true;
-			}
-		}
+		
 	}
 
 	if (
