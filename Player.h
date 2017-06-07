@@ -97,6 +97,51 @@ public:
 	bool enemy_to_grab = false;
 	int release_grab_offset = 0;
 
+	//------ position offsets in air somersault -------- TODO: Poner valores en el json
+	//right
+	int offset_right_x_1 = 6;
+	int offset_right_y_1 = 5;
+
+	int offset_right_x_2 = 0;
+	int offset_right_y_2 = 40;
+
+	int offset_right_x_3 = 4;
+	int offset_right_y_3 = 65;
+	
+	int offset_right_x_4 = 4;
+	int offset_right_y_4 = 65;
+
+	int offset_right_x_5 = 0;
+	int offset_right_y_5 = 40;
+
+	int offset_right_x_6 = 0;
+	int offset_right_y_6 = 6;
+
+	int offset_right_x_7 = 40;
+	int offset_right_y_7 = 0;
+
+	//left
+	int offset_left_x_1 = 6;
+	int offset_left_y_1 = 5;
+
+	int offset_left_x_2 = 0;
+	int offset_left_y_2 = 40;
+
+	int offset_left_x_3 = 2;
+	int offset_left_y_3 = 65;
+
+	int offset_left_x_4 = 2;
+	int offset_left_y_4 = 65;
+
+	int offset_left_x_5 = 0;
+	int offset_left_y_5 = 40;
+
+	int offset_left_x_6 = 3;
+	int offset_left_y_6 = 6;
+
+	int offset_left_x_7 = 40;
+	int offset_left_y_7 = 0;
+
 	//Enemy to react to
 	Entity *enemy_attacker = nullptr;
 
@@ -120,6 +165,8 @@ public:
 	bool attack_finished = false;
 	bool damaged = false;
 	bool knocked_down = false;
+	bool somersault_finished = false;
+	bool finisher_finished = false;
 	//----------------------------------------------------------------------------------------------------------
 	
 	//---------------------------------------- PLAYER ANIMATIONS ---------------------------------------------

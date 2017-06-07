@@ -55,8 +55,8 @@ void PlayerFSM::Update()
 			curr_state = State::GRAB;
 			break;
 		}
-
 		break;
+
 	case State::WALK:
 		Walk();
 		prev_state = curr_state;
@@ -101,42 +101,37 @@ void PlayerFSM::Update()
 		if (the_player->landed)
 		{
 			curr_state = State::IDLE;
-			the_player->jump = false;
-			break;
+			the_player->jump = false;			
 		}
-
 		break;
+
 	case State::CBO_PUNCH:
 		Punch();
 		prev_state = curr_state;
 		if (the_player->attack_finished)
 		{
 			curr_state = State::IDLE;
-			the_player->attack_finished = false;
-			break;
+			the_player->attack_finished = false;			
 		}
 		break;
-
 	case State::DAMAGED:
 		Damaged();
 		prev_state = curr_state;
 		if (!the_player->damaged)
 		{
-			curr_state = State::IDLE;			
-			break;
+			curr_state = State::IDLE;						
 		}
 		break;
-
+		
 	case State::KNOCKED_DOWN:
 		KnockedDown();
 		prev_state = curr_state;
 		if (!the_player->knocked_down)
 		{
-			curr_state = State::IDLE;		
-			break;
+			curr_state = State::IDLE;					
 		}
 		break;
-
+		
 	case State::GRAB:
 		Grab();
 		prev_state = curr_state;
@@ -161,7 +156,7 @@ void PlayerFSM::Update()
 			if (the_player->grab_hit_counter < the_player->max_grab_kick)
 			{
 				the_player->grab_hit_counter++;
-				curr_state = State::LOW_KICK;
+				curr_state = State::LOW_KICK;				
 			}
 			else
 			{
@@ -173,6 +168,7 @@ void PlayerFSM::Update()
 		if (the_player->jump)
 		{
 			curr_state = State::AIR_ATTACK;
+			the_player->jump_start_pos = the_player->position;
 			break;
 		}
 		if (the_player->damaged)
@@ -190,6 +186,34 @@ void PlayerFSM::Update()
 		HeadHit();
 		break;
 
+	case State::AIR_ATTACK:
+		AirAttack();
+		prev_state = curr_state;
+		if (the_player->somersault_finished)
+		{
+			if (the_player->hit_down)
+			{
+				curr_state = State::FINISHER;
+				break;
+			}
+			if (the_player->damaged)
+			{
+				the_player->somersault_finished = false;
+				curr_state = State::DAMAGED;
+				break;
+			}
+		}
+		break;
+
+	case State::FINISHER:
+		Finisher();
+		prev_state = curr_state;
+		if (the_player->finisher_finished)
+		{
+			the_player->finisher_finished = false;
+			curr_state = State::IDLE;			
+		}
+		break;
 	}
 }
 
@@ -623,11 +647,235 @@ void PlayerFSM::HeadHit()
 
 void PlayerFSM::AirAttack()
 {
+	if (prev_state != State::AIR_ATTACK)
+	{
+		if (the_player->facing_right)
+		{
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right1;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_right_x_1;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_1;
+		}
+		else
+		{
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left1;
+			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_left_x_1;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_1;
+		}
+	}
 
+	//Right animations
+	if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right1)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right2;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_right_x_2;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_2;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right2)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right3;
+			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_right_x_3;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_3;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right3)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right4;
+			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_right_x_4;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_4;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right4)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right5;
+			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_right_x_5;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_5;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right5)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right6;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_right_x_6;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_6;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right6)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right7;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_right_x_7;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_7;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right7)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->somersault_finished = true;
+		}
+	}
+
+	//Left animations
+	if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_left1)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left2;
+			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_left_x_2;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_2;
+
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_left2)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left3;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_left_x_3;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_3;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_left3)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left4;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_left_x_4;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_4;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_left4)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left5;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_left_x_5;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_5;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_left5)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left6;
+			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_left_x_6;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_6;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_left6)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left7;
+			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_left_x_7;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_7;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_left7)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->somersault_finished = true;
+		}
+	}
 }
 
 void PlayerFSM::Finisher()
 {
+	if (prev_state != State::FINISHER)
+	{
+		if (the_player->facing_right)
+		{
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right1;
+		}
+		else
+		{
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left1;
+		}
+	}
+
+	//right animations
+	if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right1)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right2;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right2)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right3;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right3)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->finisher_finished = true;
+			the_player->facing_right = false;
+			UpdateColliderPosition();
+			the_player->jump = false;
+		}
+	}
+
+	//left animations
+	if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left1)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left2;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left2)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left3;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left3)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->finisher_finished = true;
+			the_player->facing_right = true;
+			UpdateColliderPosition();
+			the_player->jump = false;
+		}
+	}
 
 }
 void PlayerFSM::Release()
