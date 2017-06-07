@@ -110,7 +110,8 @@ void GarciaFSM::Update()
 		}
 		if (garcia->grabbed)
 		{
-			garcia->attack = false;		
+			garcia->attack = false;
+			garcia->punch_hits = 0;
 			curr_state = State::GRABBED;
 			break;
 		}
