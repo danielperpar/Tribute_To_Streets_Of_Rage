@@ -1,3 +1,3 @@
 # Tribute To Streets Of Rage
 
-Under revision and refactor
+Under revision and refactoring
