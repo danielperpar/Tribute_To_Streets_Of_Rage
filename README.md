@@ -1,3 +1,3 @@
-# Tribute-to-Streets-of-Rage
+# Tribute To Streets Of Rage
 
-In progress
+Under revision and refactor
