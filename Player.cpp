@@ -80,7 +80,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 	std::pair<CollisionInfo, CollisionInfo> collision_pair = std::make_pair(col_info_player, col_info_other);
 	player_collision_status.push_back(collision_pair);
 
-	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::ENEMY_BODY)
+	if (grabbed_enemy == nullptr && col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::ENEMY_BODY)
 	{
 		//Only garcia at the moment, so enemy type is not checked yet
 		Garcia *garcia = ((Garcia*)(col_info_other.collider->entity));
