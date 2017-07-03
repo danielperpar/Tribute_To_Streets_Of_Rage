@@ -857,6 +857,18 @@
 		  "sprite" : [{"x" : 1740},{"y" : 264},{"w" : 93},{"h" : 63}]
 		}
 	],
+	"npcGarciaGrabbedFinisherHorizRight" :
+	[
+		{
+		  "sprite" : [{"x" : 1001},{"y" : 184},{"w" : 123},{"h" : 40}]
+		}
+	],
+	"npcGarciaGrabbedFinisherHorizLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1222},{"y" : 184},{"w" : 71},{"h" : 40}]
+		}
+	],
 	"npcPunkyIdleRight" : 
 	[
 		{

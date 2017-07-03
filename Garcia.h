@@ -73,6 +73,27 @@ public:
 
 	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 
+	// -------------- Offsets in somersault animation -> TODO:poner valores en el json
+	//right
+	int offset_right_x_3 = 0;
+	int offset_right_y_3 = 0;
+
+	int offset_right_x_4 = 0;
+	int offset_right_y_4 = 0;
+
+	int offset_right_x_5 = 0;
+	int offset_right_y_5 = 0;
+
+	//left
+	int offset_left_x_3 = 0;
+	int offset_left_y_3 = 0;
+
+	int offset_left_x_4 = 0;
+	int offset_left_y_4 = 0;
+
+	int offset_left_x_5 = 0;
+	int offset_left_y_5 = 0;
+
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;
 	bool idle = true;
@@ -117,6 +138,12 @@ public:
 
 	Animation garcia_grabbed_right;
 	Animation garcia_grabbed_left;
+
+	Animation garcia_grabbed_finisher_right;
+	Animation garcia_grabbed_finisher_left;
+
+	Animation garcia_grabbed_finisher_horiz_right;
+	Animation garcia_grabbed_finisher_horiz_left;
 
 };
 

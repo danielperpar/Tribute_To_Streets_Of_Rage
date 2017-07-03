@@ -55,10 +55,27 @@ public:
 	void EvasiveSecondStage();
 	void EvasiveThirdStage();
 	void Grabbed();
+	void GrabbedFirstStage();
+	void GrabbedSecondStage();
+	void GrabbedThirdStage();
+	void GrabbedFourthStage();
+	void GrabbedFifthStage();
 	void Damaged();
 	void KnockedDown();
 	State GetCurrState()  const;
 	void SetCurrState(State state);
+
+	enum class GrabStage
+	{
+		FIRST_STAGE,
+		SECOND_STAGE,
+		THIRD_STAGE,
+		FOURTH_STAGE,
+		FIFTH_STAGE
+	};
+
+	GrabStage grab_stage = GrabStage::FIRST_STAGE;
+	
 };
 
 

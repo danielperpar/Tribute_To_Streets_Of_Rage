@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ModuleSceneRound1.h"
 #include "Garcia.h"
+#include "GarciaFSM.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
@@ -721,7 +722,7 @@ void PlayerFSM::AirAttack()
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right7;
 			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_right_x_7;
-			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_7;
+			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_7;			
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_right7)
@@ -730,6 +731,7 @@ void PlayerFSM::AirAttack()
 		{
 			the_player->curr_anim->Reset();
 			the_player->somersault_finished = true;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SECOND_STAGE;
 		}
 	}
 
@@ -801,6 +803,7 @@ void PlayerFSM::AirAttack()
 		{
 			the_player->curr_anim->Reset();
 			the_player->somersault_finished = true;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SECOND_STAGE;
 		}
 	}
 }

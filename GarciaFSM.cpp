@@ -650,10 +650,55 @@ void GarciaFSM::EvasiveThirdStage()
 
 void GarciaFSM::Grabbed()
 {
+	switch (grab_stage)
+	{
+	case GrabStage::FIRST_STAGE:
+		GrabbedFirstStage();
+		break;
+	case GrabStage::SECOND_STAGE:
+		GrabbedSecondStage();
+		break;
+	case GrabStage::THIRD_STAGE:
+		GrabbedThirdStage();
+		break;
+	case GrabStage::FOURTH_STAGE:
+		GrabbedFourthStage();
+		break;
+	case GrabStage::FIFTH_STAGE:
+		GrabbedFifthStage();
+		break;
+	}	
+}
+
+void GarciaFSM::GrabbedFirstStage()
+{
 	if (garcia->facing_right)
 		garcia->curr_anim = &garcia->garcia_grabbed_right;
 	else
 		garcia->curr_anim = &garcia->garcia_grabbed_left;
+}
+
+void GarciaFSM::GrabbedSecondStage()
+{
+	if (garcia->facing_right)
+		garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
+	else
+		garcia->curr_anim = &garcia->garcia_grabbed_finisher_left;
+}
+
+void GarciaFSM::GrabbedThirdStage()
+{
+
+}
+
+void GarciaFSM::GrabbedFourthStage()
+{
+
+}
+
+void GarciaFSM::GrabbedFifthStage()
+{
+
 }
 
 void GarciaFSM::Damaged()

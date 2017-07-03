@@ -105,6 +105,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 			enemy_to_grab = true;
 			grabbed_enemy = garcia;
 			garcia->grabbed = true;
+			garcia->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIRST_STAGE;
 
 			if (col_info_player.contact_direction_x == contact_direction::RIGHT)
 				right_blocked = true;
