@@ -161,8 +161,7 @@ update_status ModuleSceneRound1::Update()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
 	{
-		the_player->jump = false;
-		the_player->landed = true;
+		the_player->jump = false;		
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
