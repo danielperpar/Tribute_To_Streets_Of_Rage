@@ -171,7 +171,12 @@ update_status ModuleCollision::Update()
 void ModuleCollision::DebugDraw()
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
-		App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+	{
+		if((*it)->type == collider_type::PLAYER_BODY || (*it)->type == collider_type::PLAYER_HIT)
+			App->renderer->DrawQuad((*it)->rect, 0, 255, 0, 80);
+		else
+			App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+	}
 }
 
 // Called before quitting

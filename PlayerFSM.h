@@ -16,6 +16,8 @@ public:
 		LOW_KICK,
 		HEAD_HIT,
 		AIR_ATTACK,
+		POST_AIR_ATTACK,
+		AIR_ATTACK_REVERSE,
 		FINISHER,
 		RELEASE,
 		PRE_BACK_PUNCH,
@@ -59,6 +61,7 @@ public:
 	void LowKick();
 	void HeadHit();
 	void AirAttack();
+	void AirAttackReverse();
 	void Finisher();
 	void Release();
 	void PreBackPunch();

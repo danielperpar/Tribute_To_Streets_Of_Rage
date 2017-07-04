@@ -152,10 +152,17 @@ update_status ModuleSceneRound1::Update()
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN && (the_player->player_fsm->GetCurrState() == PlayerFSM::State::WALK || 
-		the_player->player_fsm->GetCurrState() == PlayerFSM::State::IDLE || the_player->player_fsm->GetCurrState() == PlayerFSM::State::GRAB))
+		the_player->player_fsm->GetCurrState() == PlayerFSM::State::IDLE || 
+		the_player->player_fsm->GetCurrState() == PlayerFSM::State::GRAB ||
+		the_player->player_fsm->GetCurrState() == PlayerFSM::State::POST_AIR_ATTACK))
 	{
 		the_player->jump = true;
 		the_player->landed = false;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+	{
+		the_player->jump = false;
+		the_player->landed = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
@@ -197,8 +204,8 @@ update_status ModuleSceneRound1::Update()
 		Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 900, 150 }, the_player, dynamic_entities);
 
 		LOG("Adding garcia colliders to ModuleCollision");
-		garcia->body_collider = App->collision->AddCollider(the_player->body_rect, garcia, collider_type::ENEMY_BODY);
-		garcia->hit_collider = App->collision->AddCollider(the_player->hit_rect, garcia, collider_type::ENEMY_HIT);
+		garcia->body_collider = App->collision->AddCollider(garcia->body_rect, garcia, collider_type::ENEMY_BODY);
+		garcia->hit_collider = App->collision->AddCollider(garcia->hit_rect, garcia, collider_type::ENEMY_HIT);
 		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
 		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
 		
