@@ -1019,11 +1019,11 @@ void PlayerFSM::Finisher()
 	{
 		if (the_player->facing_right)
 		{
-			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right1;
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left1;
 		}
 		else
 		{
-			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left1;
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right1;
 		}
 	}
 
