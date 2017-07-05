@@ -54,6 +54,9 @@ Garcia::Garcia(const Garcia &garcia) : Entity(garcia.texture, garcia.curr_anim, 
 	garcia_grabbed_finisher_horiz_right = garcia.garcia_grabbed_finisher_horiz_right;
 	garcia_grabbed_finisher_horiz_left = garcia.garcia_grabbed_finisher_horiz_left;
 
+	garcia_grabbed_finisher_vert_right = garcia.garcia_grabbed_finisher_vert_right;
+	garcia_grabbed_finisher_vert_left = garcia.garcia_grabbed_finisher_vert_left;
+
 	body_rect.x = garcia.body_rect.x;
 	body_rect.y = garcia.body_rect.y;
 	body_rect.w = garcia.body_rect.w;
@@ -243,6 +246,16 @@ void Garcia::LoadGarciaAnimations()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaGrabbedFinisherHorizLeft", animation_list, garcia_grabbed_finisher_horiz_left);
 	garcia_grabbed_finisher_horiz_left.loop = false;
 	garcia_grabbed_finisher_horiz_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaGrabbedFinisherVertRight", animation_list, garcia_grabbed_finisher_vert_right);
+	garcia_grabbed_finisher_vert_right.loop = false;
+	garcia_grabbed_finisher_vert_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaGrabbedFinisherVertLeft", animation_list, garcia_grabbed_finisher_vert_left);
+	garcia_grabbed_finisher_vert_left.loop = false;
+	garcia_grabbed_finisher_vert_left.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 }

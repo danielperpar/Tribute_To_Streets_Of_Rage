@@ -145,6 +145,8 @@ public:
 	Animation garcia_grabbed_finisher_horiz_right;
 	Animation garcia_grabbed_finisher_horiz_left;
 
+	Animation garcia_grabbed_finisher_vert_right;
+	Animation garcia_grabbed_finisher_vert_left;
 };
 
 

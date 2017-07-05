@@ -863,10 +863,22 @@
 		  "sprite" : [{"x" : 1001},{"y" : 184},{"w" : 123},{"h" : 40}]
 		}
 	],
+	"npcGarciaGrabbedFinisherVertRight" :
+	[
+		{
+		  "sprite" : [{"x" : 1067},{"y" : 375},{"w" : 32},{"h" : 58}]
+		}
+	],
 	"npcGarciaGrabbedFinisherHorizLeft" :
 	[
 		{
 		  "sprite" : [{"x" : 1222},{"y" : 184},{"w" : 71},{"h" : 40}]
+		}
+	],
+	"npcGarciaGrabbedFinisherVertLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 1250},{"y" : 375},{"w" : 32},{"h" : 58}]
 		}
 	],
 	"npcPunkyIdleRight" : 
