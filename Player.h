@@ -233,10 +233,16 @@ public:
 	Animation anim_grab_air_spin_combo_finisher_right1;
 	Animation anim_grab_air_spin_combo_finisher_right2;
 	Animation anim_grab_air_spin_combo_finisher_right3;
+	Animation anim_grab_air_spin_combo_finisher_right4;
+	Animation anim_grab_air_spin_combo_finisher_right5;
+	Animation anim_grab_air_spin_combo_finisher_right6;
 
 	Animation anim_grab_air_spin_combo_finisher_left1;
 	Animation anim_grab_air_spin_combo_finisher_left2;
 	Animation anim_grab_air_spin_combo_finisher_left3;
+	Animation anim_grab_air_spin_combo_finisher_left4;
+	Animation anim_grab_air_spin_combo_finisher_left5;
+	Animation anim_grab_air_spin_combo_finisher_left6;
 
 	Animation anim_weapon_pipe_idle_right;
 	Animation anim_weapon_pipe_walk_right;

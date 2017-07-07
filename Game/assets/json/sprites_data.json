@@ -379,31 +379,39 @@
 	"grabAirSpinFinisherRight1" :
 	[
 		{
-		  "sprite" : [{"x" : 2299},{"y" : 345},{"w" : 98},{"h" : 63}]
-		},
-		{
-		  "sprite" : [{"x" : 2155},{"y" : 345},{"w" : 108},{"h" : 64}]
-		},
-		{
-		  "sprite" : [{"x" : 2003},{"y" : 338},{"w" : 127},{"h" : 63}]
-		}	
+		  "sprite" : [{"x" : 156},{"y" : 345},{"w" : 69},{"h" : 63}]
+		}
 	],
 	"grabAirSpinFinisherRight2" :
 	[
 		{
-		  "sprite" : [{"x" : 1853 },{"y" : 335},{"w" : 131},{"h" : 63}]
+		  "sprite" : [{"x" : 283},{"y" : 345},{"w" : 85},{"h" : 64}]
 		}
 	],
 	"grabAirSpinFinisherRight3" :
 	[
 		{
-		  "sprite" : [{"x" : 2003},{"y" : 338},{"w" : 127},{"h" : 63}]
-		},
+		  "sprite" : [{"x" : 453},{"y" : 338},{"w" : 62},{"h" : 63}]
+		}	
+	],
+	"grabAirSpinFinisherRight4" :
+	[
 		{
-		  "sprite" : [{"x" : 2155},{"y" : 345},{"w" : 108},{"h" : 64}]
+		  "sprite" : [{"x" : 604},{"y" : 335},{"w" : 68},{"h" : 63}]
 		}
 	],
-	
+	"grabAirSpinFinisherRight5" :
+	[
+		{
+		  "sprite" : [{"x" : 453},{"y" : 338},{"w" : 62},{"h" : 63}]
+		}
+	],
+	"grabAirSpinFinisherRight6" :
+	[
+		{
+		  "sprite" : [{"x" : 283},{"y" : 345},{"w" : 85},{"h" : 64}]
+		}
+	],
 	"grabAirSpinLeft1" :
 	[
 		{
@@ -449,28 +457,37 @@
 	"grabAirSpinFinisherLeft1" :
 	[
 		{
-		  "sprite" : [{"x" : 156},{"y" : 345},{"w" : 69},{"h" : 63}]
-		},
-		{
-		  "sprite" : [{"x" : 283},{"y" : 345},{"w" : 85},{"h" : 64}]
-		},
-		{
-		  "sprite" : [{"x" : 453},{"y" : 338},{"w" : 62},{"h" : 63}]
-		}	
+		  "sprite" : [{"x" : 2299},{"y" : 345},{"w" : 98},{"h" : 63}]
+		}
 	],
 	"grabAirSpinFinisherLeft2" :
 	[
 		{
-		  "sprite" : [{"x" : 604},{"y" : 335},{"w" : 68},{"h" : 63}]
+		  "sprite" : [{"x" : 2155},{"y" : 345},{"w" : 108},{"h" : 64}]
 		}
 	],
 	"grabAirSpinFinisherLeft3" :
 	[
 		{
-		  "sprite" : [{"x" : 453},{"y" : 338},{"w" : 62},{"h" : 63}]
-		},
+		  "sprite" : [{"x" : 2003},{"y" : 338},{"w" : 127},{"h" : 63}]
+		}	
+	],
+	"grabAirSpinFinisherLeft4" :
+	[
 		{
-		  "sprite" : [{"x" : 283},{"y" : 345},{"w" : 85},{"h" : 64}]
+		  "sprite" : [{"x" : 1853 },{"y" : 335},{"w" : 131},{"h" : 63}]
+		}
+	],
+	"grabAirSpinFinisherLeft5" :
+	[
+		{
+		  "sprite" : [{"x" : 2003},{"y" : 338},{"w" : 127},{"h" : 63}]
+		}
+	],
+	"grabAirSpinFinisherLeft6" :
+	[
+		{
+		  "sprite" : [{"x" : 2155},{"y" : 345},{"w" : 108},{"h" : 64}]
 		}
 	],
 	"weaponPipeIdleRight" :
@@ -836,7 +853,7 @@
 	"npcGarciaGrabbedRight" :
 	[
 		{
-		  "sprite" : [{"x" : 444},{"y" : 263},{"w" : 78},{"h" : 63}]
+		  "sprite" : [{"x" : 440},{"y" : 263},{"w" : 82},{"h" : 63}]
 		}
 	],
 	"npcGarciaGrabbedLeft" :

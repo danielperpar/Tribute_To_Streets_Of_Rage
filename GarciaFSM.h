@@ -60,6 +60,9 @@ public:
 	void GrabbedThirdStage();
 	void GrabbedFourthStage();
 	void GrabbedFifthStage();
+	void GrabbedSixthStage();
+	void GrabbedSeventhDownStage();
+	void GrabbedEighthBouncing();
 	void Damaged();
 	void KnockedDown();
 	State GetCurrState()  const;
@@ -71,7 +74,10 @@ public:
 		SECOND_STAGE,
 		THIRD_STAGE,
 		FOURTH_STAGE,
-		FIFTH_STAGE
+		FIFTH_STAGE,
+		SIXTH_STAGE,
+		SEVENTH_DOWN_STAGE,
+		EIGHTH_FLOOR_BOUNCING
 	};
 
 	GrabStage grab_stage = GrabStage::FIRST_STAGE;

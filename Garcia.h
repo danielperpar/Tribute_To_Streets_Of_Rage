@@ -74,26 +74,42 @@ public:
 	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 
 	// -------------- Offsets in somersault animation -> TODO:poner valores en el json
+	iPoint start_pos = { 0,0 };
+	bool offset_applied = false;
+	bool offset_applied_2 = false;
+
 	//right
-	int offset_right_x_3 = 0;
-	int offset_right_y_3 = 0;
+	int offset_right_x_2 = 10;
+	
+	int offset_right_x_3 = 15;
+	
+	int offset_right_x_4 = 25;
+	int offset_right_y_4 = 15;
 
-	int offset_right_x_4 = 0;
-	int offset_right_y_4 = 0;
+	int offset_right_x_5 = 20;
+	int offset_right_y_5 = 20;
 
-	int offset_right_x_5 = 0;
-	int offset_right_y_5 = 0;
+	int offset_right_x_6 = 20;
+	int offset_right_y_6 = 40;
+
+	int offset_right_x_7 = 50;
+	
 
 	//left
-	int offset_left_x_3 = 0;
-	int offset_left_y_3 = 0;
+	
+	int offset_left_x_3 = 15;
 
-	int offset_left_x_4 = 0;
-	int offset_left_y_4 = 0;
+	int offset_left_x_4 = 40;
+	int offset_left_y_4 = 15;
 
-	int offset_left_x_5 = 0;
-	int offset_left_y_5 = 0;
+	int offset_left_x_5 = 65;
+	int offset_left_y_5 = 20;
 
+	int offset_left_x_6 = 20;
+	int offset_left_y_6 = 40;
+
+	int offset_left_x_7 = 50;
+	
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;
 	bool idle = true;

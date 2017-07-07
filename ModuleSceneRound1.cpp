@@ -200,7 +200,7 @@ update_status ModuleSceneRound1::Update()
 	if (first_trigger_reached)
 	{
 		first_trigger_reached = false;
-		Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 900, 150 }, the_player, dynamic_entities);
+		Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 800, 150 }, the_player, dynamic_entities);
 
 		LOG("Adding garcia colliders to ModuleCollision");
 		garcia->body_collider = App->collision->AddCollider(garcia->body_rect, garcia, collider_type::ENEMY_BODY);

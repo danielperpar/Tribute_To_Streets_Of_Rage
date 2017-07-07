@@ -31,6 +31,7 @@ void GarciaFSM::Update()
 		{
 			garcia->attack = false;
 			curr_state = State::GRABBED;
+			garcia->start_pos = garcia->position;
 			break;
 		}
 		if (garcia->damaged)
@@ -61,6 +62,7 @@ void GarciaFSM::Update()
 		{
 			garcia->attack = false;
 			curr_state = State::GRABBED;
+			garcia->start_pos = garcia->position;
 			break;
 		}
 		if (garcia->damaged)
@@ -113,6 +115,7 @@ void GarciaFSM::Update()
 			garcia->attack = false;
 			garcia->punch_hits = 0;
 			curr_state = State::GRABBED;
+			garcia->start_pos = garcia->position;
 			break;
 		}
 		if (garcia->damaged)
@@ -154,6 +157,7 @@ void GarciaFSM::Update()
 			evasive_v_count = 0;
 			evasive_h_count = 0;
 			curr_state = State::GRABBED;
+			garcia->start_pos = garcia->position;
 			break;
 		}
 		break;
@@ -667,6 +671,15 @@ void GarciaFSM::Grabbed()
 	case GrabStage::FIFTH_STAGE:
 		GrabbedFifthStage();
 		break;
+	case GrabStage::SIXTH_STAGE:
+		GrabbedSixthStage();
+		break;
+	case GrabStage::SEVENTH_DOWN_STAGE:
+		GrabbedSeventhDownStage();
+		break;
+	case GrabStage::EIGHTH_FLOOR_BOUNCING:
+		GrabbedEighthBouncing();
+		break;
 	}	
 }
 
@@ -675,28 +688,168 @@ void GarciaFSM::GrabbedFirstStage()
 	if (garcia->facing_right)
 		garcia->curr_anim = &garcia->garcia_grabbed_right;
 	else
-		garcia->curr_anim = &garcia->garcia_grabbed_left;
+		garcia->curr_anim = &garcia->garcia_grabbed_left;	
 }
 
 void GarciaFSM::GrabbedSecondStage()
 {
 	if (garcia->facing_right)
-		garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
+	{
+		if (garcia->curr_anim != &garcia->garcia_grabbed_finisher_right)
+		{
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
+			garcia->position.x += garcia->offset_right_x_2;
+		}
+	}
 	else
 		garcia->curr_anim = &garcia->garcia_grabbed_finisher_left;
 }
 
 void GarciaFSM::GrabbedThirdStage()
 {
-
+	if (garcia->facing_right)
+	{
+		if (garcia->offset_applied == false)
+		{
+			//añadir offsets
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
+			garcia->position.x -= garcia->offset_right_x_3;
+			garcia->offset_applied = true;
+		}
+	}
+	else
+	{
+		if (garcia->offset_applied == false)
+		{
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_left;
+			garcia->position.x += garcia->offset_left_x_3;
+			garcia->offset_applied = true;
+		}
+	}
 }
 
 void GarciaFSM::GrabbedFourthStage()
 {
+	garcia->offset_applied = false; //reset flag
+	//falta poner offsets
 
+	if (garcia->facing_right)
+	{
+		if (garcia->curr_anim != &garcia->garcia_grabbed_finisher_horiz_right)
+		{
+			garcia->position.x -= garcia->offset_right_x_4;
+			garcia->position.y -= garcia->offset_right_y_4;
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_horiz_right;
+		}
+	}
+	else
+	{
+		if (garcia->curr_anim != &garcia->garcia_grabbed_finisher_horiz_left)
+		{
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_horiz_left;
+			garcia->position.x += garcia->offset_left_x_4;
+			garcia->position.y -= garcia->offset_left_y_4;
+		}
+	}
 }
 
 void GarciaFSM::GrabbedFifthStage()
+{
+	//falta poner offsets
+
+	if (garcia->facing_right)
+	{
+		if (garcia->offset_applied == false)
+		{
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_right;
+			garcia->position.x += garcia->offset_right_x_5;
+			garcia->position.y -= garcia->offset_right_y_5;
+			garcia->offset_applied = true;
+		}
+	}
+	else
+	{
+		if (garcia->offset_applied == false)
+		{
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_left;
+			garcia->position.x += garcia->offset_left_x_5;
+			garcia->position.y -= garcia->offset_left_y_5;
+			garcia->offset_applied = true;
+		}
+	}
+}
+
+void GarciaFSM::GrabbedSixthStage()
+{
+	if (garcia->offset_applied)
+	{
+		//reset flag and animation
+		garcia->offset_applied = false;
+		garcia->curr_anim->Reset();
+	}
+	
+	if (garcia->facing_right)
+	{
+		if (garcia->offset_applied_2 == false)
+		{
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_right;
+			garcia->position.x -= garcia->offset_right_x_6;
+			garcia->position.y += garcia->offset_right_y_6;
+			garcia->offset_applied_2 = true;
+		}
+	}
+	else
+	{
+		if (garcia->offset_applied_2 == false)
+		{
+			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_left;
+			garcia->position.x += garcia->offset_left_x_6;
+			garcia->position.y += garcia->offset_left_y_6;
+			garcia->offset_applied_2 = true;
+		}
+	}
+
+	if (garcia->curr_anim->Finished())
+	{
+		grab_stage = GrabStage::SEVENTH_DOWN_STAGE;		
+		garcia->offset_applied_2 = false;
+	}
+}
+
+void GarciaFSM::GrabbedSeventhDownStage()
+{
+	//falta poner offsets y movimiento parabólico de caída
+
+	if (garcia->facing_right)
+	{
+		if (garcia->offset_applied_2 == false)
+		{
+			garcia->curr_anim = &garcia->garcia_down_right2;
+			garcia->position.x -= garcia->offset_right_x_7;
+			garcia->position.y = garcia->start_pos.y;
+			garcia->offset_applied_2 = true;
+		}
+	}
+	else
+	{
+		if (garcia->offset_applied_2 == false)
+		{
+			garcia->curr_anim = &garcia->garcia_down_left2;
+			garcia->position.x -= garcia->offset_left_x_7;
+			garcia->position.y = garcia->start_pos.y;
+			garcia->offset_applied_2 = true;
+		}
+	}
+
+	if (garcia->curr_anim->Finished())
+	{		
+		garcia->curr_anim->Reset();
+		garcia->offset_applied_2 = false;		
+		grab_stage = GrabStage::EIGHTH_FLOOR_BOUNCING;		
+	}
+}
+
+void GarciaFSM::GrabbedEighthBouncing()
 {
 
 }

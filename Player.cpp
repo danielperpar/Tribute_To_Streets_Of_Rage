@@ -376,6 +376,21 @@ void Player::LoadPlayerAnimations()
 	anim_grab_air_spin_combo_finisher_right3.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherRight4", animation_list, anim_grab_air_spin_combo_finisher_right4);
+	anim_grab_air_spin_combo_finisher_right4.loop = false;
+	anim_grab_air_spin_combo_finisher_right4.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherRight5", animation_list, anim_grab_air_spin_combo_finisher_right5);
+	anim_grab_air_spin_combo_finisher_right5.loop = false;
+	anim_grab_air_spin_combo_finisher_right5.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherRight6", animation_list, anim_grab_air_spin_combo_finisher_right6);
+	anim_grab_air_spin_combo_finisher_right6.loop = false;
+	anim_grab_air_spin_combo_finisher_right6.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherLeft1", animation_list, anim_grab_air_spin_combo_finisher_left1);
 	anim_grab_air_spin_combo_finisher_left1.loop = false;
 	anim_grab_air_spin_combo_finisher_left1.speed = 0.1f;
@@ -389,6 +404,21 @@ void Player::LoadPlayerAnimations()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherLeft3", animation_list, anim_grab_air_spin_combo_finisher_left3);
 	anim_grab_air_spin_combo_finisher_left3.loop = false;
 	anim_grab_air_spin_combo_finisher_left3.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherLeft4", animation_list, anim_grab_air_spin_combo_finisher_left4);
+	anim_grab_air_spin_combo_finisher_left4.loop = false;
+	anim_grab_air_spin_combo_finisher_left4.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherLeft5", animation_list, anim_grab_air_spin_combo_finisher_left5);
+	anim_grab_air_spin_combo_finisher_left5.loop = false;
+	anim_grab_air_spin_combo_finisher_left5.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "grabAirSpinFinisherLeft6", animation_list, anim_grab_air_spin_combo_finisher_left6);
+	anim_grab_air_spin_combo_finisher_left6.loop = false;
+	anim_grab_air_spin_combo_finisher_left6.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "weaponPipeIdleRight", animation_list, anim_weapon_pipe_idle_right);

@@ -1019,11 +1019,13 @@ void PlayerFSM::Finisher()
 	{
 		if (the_player->facing_right)
 		{
-			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left1;
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right1;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::THIRD_STAGE;
 		}
 		else
 		{
-			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right1;
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left1;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::THIRD_STAGE;
 		}
 	}
 
@@ -1034,6 +1036,7 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right2;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FOURTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right2)
@@ -1042,6 +1045,7 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right3;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIFTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right3)
@@ -1049,12 +1053,37 @@ void PlayerFSM::Finisher()
 		if (the_player->curr_anim->Finished())
 		{
 			the_player->curr_anim->Reset();
-			the_player->finisher_finished = true;
-			the_player->facing_right = false;
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right4;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right4)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right5;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right5)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right6;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right6)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->finisher_finished = true;			
 			UpdateColliderPosition();
 			the_player->jump = false;
 		}
 	}
+
 
 	//left animations
 	if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left1)
@@ -1063,6 +1092,7 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left2;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FOURTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left2)
@@ -1071,6 +1101,7 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left3;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIFTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left3)
@@ -1078,13 +1109,36 @@ void PlayerFSM::Finisher()
 		if (the_player->curr_anim->Finished())
 		{
 			the_player->curr_anim->Reset();
-			the_player->finisher_finished = true;
-			the_player->facing_right = true;
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left4;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left4)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left5;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left5)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left6;
+		}
+	}
+	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left6)
+	{
+		if (the_player->curr_anim->Finished())
+		{
+			the_player->curr_anim->Reset();
+			the_player->finisher_finished = true;			
 			UpdateColliderPosition();
 			the_player->jump = false;
 		}
 	}
-
 }
 void PlayerFSM::Release()
 {
