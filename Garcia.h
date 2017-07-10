@@ -95,8 +95,7 @@ public:
 	int offset_right_x_7 = 50;
 	
 
-	//left
-	
+	//left	
 	int offset_left_x_3 = 15;
 
 	int offset_left_x_4 = 40;
@@ -110,6 +109,11 @@ public:
 
 	int offset_left_x_7 = 50;
 	
+	bool bouncing_down = false;
+	int bouncing_frames = 20;
+	int bouncing_inflection = 10;
+	int bouncing_frames_count = 0;
+
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;
 	bool idle = true;
@@ -124,9 +128,7 @@ public:
 	bool grabbed = false;
 	bool player_in_sight = true; // test
 
-	//----------------------------------------------------------------------------------------------------------
-
-
+	
 	//---------------------------------------- GARCIA ANIMATIONS ---------------------------------------------
 	Animation garcia_idle_right;
 	Animation garcia_idle_left;

@@ -1054,7 +1054,7 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right4;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;			
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right4)
@@ -1110,7 +1110,7 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left4;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;			
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left4)

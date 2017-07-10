@@ -14,7 +14,8 @@ private:
 		EVASIVE,
 		DAMAGED,
 		KNOCKED_DOWN,
-		GRABBED
+		GRABBED,
+		DEAD
 	};
 
 	enum class EvasiveMovement
@@ -62,9 +63,9 @@ public:
 	void GrabbedFifthStage();
 	void GrabbedSixthStage();
 	void GrabbedSeventhDownStage();
-	void GrabbedEighthBouncing();
 	void Damaged();
 	void KnockedDown();
+	void Dead();
 	State GetCurrState()  const;
 	void SetCurrState(State state);
 
@@ -76,8 +77,7 @@ public:
 		FOURTH_STAGE,
 		FIFTH_STAGE,
 		SIXTH_STAGE,
-		SEVENTH_DOWN_STAGE,
-		EIGHTH_FLOOR_BOUNCING
+		SEVENTH_DOWN_STAGE
 	};
 
 	GrabStage grab_stage = GrabStage::FIRST_STAGE;

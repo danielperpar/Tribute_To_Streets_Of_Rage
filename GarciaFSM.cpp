@@ -213,6 +213,10 @@ void GarciaFSM::Update()
 			break;
 		}
 		break;
+
+	case State::DEAD:
+		Dead();
+		break;
 	}
 }
 
@@ -677,9 +681,6 @@ void GarciaFSM::Grabbed()
 	case GrabStage::SEVENTH_DOWN_STAGE:
 		GrabbedSeventhDownStage();
 		break;
-	case GrabStage::EIGHTH_FLOOR_BOUNCING:
-		GrabbedEighthBouncing();
-		break;
 	}	
 }
 
@@ -818,40 +819,19 @@ void GarciaFSM::GrabbedSixthStage()
 
 void GarciaFSM::GrabbedSeventhDownStage()
 {
-	//falta poner offsets y movimiento parabólico de caída
-
 	if (garcia->facing_right)
 	{
-		if (garcia->offset_applied_2 == false)
-		{
-			garcia->curr_anim = &garcia->garcia_down_right2;
-			garcia->position.x -= garcia->offset_right_x_7;
-			garcia->position.y = garcia->start_pos.y;
-			garcia->offset_applied_2 = true;
-		}
+		garcia->curr_anim = &garcia->garcia_down_right2;
+		garcia->position.x -= garcia->offset_right_x_7;
+		garcia->position.y = garcia->start_pos.y;	
 	}
 	else
 	{
-		if (garcia->offset_applied_2 == false)
-		{
-			garcia->curr_anim = &garcia->garcia_down_left2;
-			garcia->position.x -= garcia->offset_left_x_7;
-			garcia->position.y = garcia->start_pos.y;
-			garcia->offset_applied_2 = true;
-		}
-	}
-
-	if (garcia->curr_anim->Finished())
-	{		
-		garcia->curr_anim->Reset();
-		garcia->offset_applied_2 = false;		
-		grab_stage = GrabStage::EIGHTH_FLOOR_BOUNCING;		
-	}
-}
-
-void GarciaFSM::GrabbedEighthBouncing()
-{
-
+		garcia->curr_anim = &garcia->garcia_down_left2;
+		garcia->position.x -= garcia->offset_left_x_7;
+		garcia->position.y = garcia->start_pos.y;		
+	}	
+		garcia->knocked_down = true;
 }
 
 void GarciaFSM::Damaged()
@@ -981,6 +961,11 @@ void GarciaFSM::KnockedDown()
 			}
 		}
 	}
+}
+
+void GarciaFSM::Dead()
+{
+	//hacer parpadear el sprite
 }
 
 //---------------------------------------------------------------------------------------------------------------------------
