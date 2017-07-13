@@ -30,9 +30,11 @@ public:
 	void OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
 	void OnCollisionExit(const CollisionInfo &col_info_other);
 	void SetPlayer(Player *player);
+	void ApplyDamage(int damage);
 
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
+	bool destroy_this = false;
 	iPoint speed_vect = { 1,1 };
 	int speed = 0;
 	Player *the_player = nullptr;
@@ -114,6 +116,14 @@ public:
 	int bouncing_inflection = 10;
 	int bouncing_frames_count = 0;
 
+	//------------------------- DEAD BLINK EFFECT ---------------------------
+
+	bool blink = true;
+	int blink_counter = 0;
+	int blink_wait_frames = 10;
+	int blink_times_counter = 0;
+	int blink_max_times = 5;
+	
 	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
 	bool facing_right = false;
 	bool idle = true;
@@ -165,6 +175,8 @@ public:
 
 	Animation garcia_grabbed_finisher_vert_right;
 	Animation garcia_grabbed_finisher_vert_left;
+
+	Animation garcia_dead_blink_effect;
 };
 
 

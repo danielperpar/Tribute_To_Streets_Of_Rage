@@ -19,6 +19,7 @@ public:
 
 	bool Init();
 	bool Start();
+	update_status PreUpdate();
 	update_status Update();
 	bool CleanUp();
 
@@ -35,7 +36,8 @@ public:
 	bool first_trigger_reached = false;
 	Player *the_player = nullptr;
 	
-	std::vector<Entity*> dynamic_entities;
+	std::list<Entity*> dynamic_entities;
+	bool entity_erased = false;
 
 private:
 	std::list<int*> animation_list;
@@ -56,7 +58,7 @@ private:
 	Animation neonCafeRestaurant;
 	
 	
-	Entity* GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities);
+	Entity* GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities);
 	
 	//----------------------------------- ENEMIES PROTOTYPES---------------------------------------------------
 	Garcia *garcia_prototype = nullptr;

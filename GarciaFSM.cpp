@@ -36,7 +36,14 @@ void GarciaFSM::Update()
 		}
 		if (garcia->damaged)
 		{
-			curr_state = State::DAMAGED;
+			if (garcia->life > 0)
+				curr_state = State::DAMAGED;
+			else
+			{
+				garcia->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+			}
+				
 			break;
 		}
 		if (garcia->knocked_down)
@@ -67,7 +74,13 @@ void GarciaFSM::Update()
 		}
 		if (garcia->damaged)
 		{
-			curr_state = State::DAMAGED;
+			if (garcia->life > 0)
+				curr_state = State::DAMAGED;
+			else
+			{
+				garcia->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+			}
 			break;
 		}
 		if (garcia->knocked_down)
@@ -122,7 +135,14 @@ void GarciaFSM::Update()
 		{								
 			garcia->punch_hits = 0;
 			garcia->attack = false;
-			curr_state = State::DAMAGED;
+
+			if (garcia->life > 0)
+				curr_state = State::DAMAGED;
+			else
+			{
+				garcia->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+			}
 			break;
 		}
 		if (garcia->knocked_down)
@@ -143,7 +163,14 @@ void GarciaFSM::Update()
 			garcia->evasive = false;
 			evasive_v_count = 0;
 			evasive_h_count = 0;
-			curr_state = State::DAMAGED;
+
+			if (garcia->life > 0)
+				curr_state = State::DAMAGED;
+			else
+			{
+				garcia->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+			}
 			break;
 		}
 		if (garcia->knocked_down)
@@ -178,7 +205,10 @@ void GarciaFSM::Update()
 		prev_state = curr_state;
 		if (garcia->knocked_down == false)
 		{
-			curr_state = State::IDLE;
+			if (garcia->life > 0)
+				curr_state = State::IDLE;
+			else
+				curr_state = State::DEAD;
 		}
 		break;
 
@@ -203,7 +233,14 @@ void GarciaFSM::Update()
 		}
 		if (garcia->damaged)
 		{
-			curr_state = State::DAMAGED;
+			if (garcia->life > 0)
+				curr_state = State::DAMAGED;
+			else
+			{
+				garcia->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+			}
+
 			prev_state = State::GRABBED;
 			break;
 		}
@@ -687,7 +724,15 @@ void GarciaFSM::Grabbed()
 void GarciaFSM::GrabbedFirstStage()
 {
 	if (garcia->facing_right)
+	{
 		garcia->curr_anim = &garcia->garcia_grabbed_right;
+
+		if (from_second_stage)
+		{
+			garcia->position.x -= garcia->offset_right_x_2;
+			from_second_stage = false;
+		}
+	}
 	else
 		garcia->curr_anim = &garcia->garcia_grabbed_left;	
 }
@@ -700,10 +745,12 @@ void GarciaFSM::GrabbedSecondStage()
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
 			garcia->position.x += garcia->offset_right_x_2;
+			from_second_stage = true;
 		}
 	}
 	else
 		garcia->curr_anim = &garcia->garcia_grabbed_finisher_left;
+	
 }
 
 void GarciaFSM::GrabbedThirdStage()
@@ -917,7 +964,12 @@ void GarciaFSM::KnockedDown()
 				if (garcia->curr_anim->Finished())
 				{
 					garcia->curr_anim->Reset();
-					garcia->curr_anim = &(garcia->garcia_up_right);
+
+					if(garcia->life > 0)
+						garcia->curr_anim = &(garcia->garcia_up_right);
+					else					
+						garcia->knocked_down = false;						
+					
 				}
 			}
 			else if (garcia->curr_anim == &(garcia->garcia_up_right))
@@ -944,7 +996,11 @@ void GarciaFSM::KnockedDown()
 				if (garcia->curr_anim->Finished())
 				{
 					garcia->curr_anim->Reset();
-					garcia->curr_anim = &(garcia->garcia_up_left);
+
+					if(garcia->life > 0)
+						garcia->curr_anim = &(garcia->garcia_up_left);
+					else
+						garcia->knocked_down = false;
 				}
 			}
 			else if (garcia->curr_anim == &(garcia->garcia_up_left))
@@ -965,7 +1021,40 @@ void GarciaFSM::KnockedDown()
 
 void GarciaFSM::Dead()
 {
-	//hacer parpadear el sprite
+	//Mark colliders as deleteable
+	if(garcia->body_collider != nullptr)
+		garcia->body_collider->to_delete = true;
+	
+	if (garcia->hit_collider != nullptr)
+		garcia->hit_collider->to_delete = true;
+
+	if (garcia->facing_right)
+	{
+		if (garcia->blink)
+			garcia->curr_anim = &garcia->garcia_dead_blink_effect;
+		else
+			garcia->curr_anim = &garcia->garcia_down_right2;
+	}
+	else
+	{
+		if (garcia->blink)
+			garcia->curr_anim = &garcia->garcia_dead_blink_effect;
+		else
+			garcia->curr_anim = &garcia->garcia_down_left2;
+	}
+
+	garcia->blink_counter++;
+	if (garcia->blink_counter == garcia->blink_wait_frames)
+	{
+		garcia->blink_counter = 0;
+		garcia->blink = !garcia->blink;
+		garcia->blink_times_counter++;
+		if (garcia->blink_times_counter > garcia->blink_max_times)
+		{
+			//destroy de entity
+			garcia->destroy_this = true;			
+		}
+	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------------

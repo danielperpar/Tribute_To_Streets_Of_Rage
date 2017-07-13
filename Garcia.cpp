@@ -57,6 +57,8 @@ Garcia::Garcia(const Garcia &garcia) : Entity(garcia.texture, garcia.curr_anim, 
 	garcia_grabbed_finisher_vert_right = garcia.garcia_grabbed_finisher_vert_right;
 	garcia_grabbed_finisher_vert_left = garcia.garcia_grabbed_finisher_vert_left;
 
+	garcia_dead_blink_effect = garcia.garcia_dead_blink_effect;
+
 	body_rect.x = garcia.body_rect.x;
 	body_rect.y = garcia.body_rect.y;
 	body_rect.w = garcia.body_rect.w;
@@ -85,6 +87,11 @@ void Garcia::UpdateFSM()
 void Garcia::SetPlayer(Player *player)
 {
 	the_player = player;
+}
+
+void Garcia::ApplyDamage(int damage)
+{
+	life -= damage;
 }
 
 void Garcia::LoadStats()
@@ -256,6 +263,11 @@ void Garcia::LoadGarciaAnimations()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcGarciaGrabbedFinisherVertLeft", animation_list, garcia_grabbed_finisher_vert_left);
 	garcia_grabbed_finisher_vert_left.loop = false;
 	garcia_grabbed_finisher_vert_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffect", animation_list, garcia_dead_blink_effect);
+	garcia_dead_blink_effect.loop = false;
+	garcia_dead_blink_effect.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 }

@@ -75,6 +75,10 @@ public:
 
 	bool m_dead = false;
 
+	//------------------------------- ATTACKS DAMAGES----------------
+	int simple_damage = 35;
+	int air_finisher_damage = 100;
+
 
 	//----------------------------------------  PLAYER COLLIDERS -----------------------------------------------
 	Collider *body_collider = nullptr;
@@ -146,8 +150,9 @@ public:
 	Entity *enemy_attacker = nullptr;
 
 	//Attacked, Grabbed enemy
+	Entity *punched_enemy = nullptr;
 	Entity *grabbed_enemy = nullptr;
-
+	
 	//colliders colliding with player's body or hit area
 	std::list<std::pair<CollisionInfo, CollisionInfo>> player_collision_status;
 

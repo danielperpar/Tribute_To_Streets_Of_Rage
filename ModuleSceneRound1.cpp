@@ -109,6 +109,31 @@ bool ModuleSceneRound1::Start()
 	return true;
 }
 
+update_status ModuleSceneRound1::PreUpdate()
+{
+	if (dynamic_entities.size() != 0)
+	{
+		for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end();)
+		{
+			entity_erased = false;
+			
+			if ((*it)->type == entity_type::GARCIA)
+			{
+				if (((Garcia*)(*it))->destroy_this)
+				{
+					RELEASE(*it);
+					it = dynamic_entities.erase(it);
+					entity_erased = true;
+				}			
+			}
+
+			if (!entity_erased)
+				it++;
+		}
+	}
+	return UPDATE_CONTINUE;
+}
+
 
 // Update: draw background
 update_status ModuleSceneRound1::Update()
@@ -212,7 +237,7 @@ update_status ModuleSceneRound1::Update()
 	}
 
 	//----------------------------------------UPDATE ENTITIES FSM ------------------------------------------------------------------
-	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
+	for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
 	{
 		(*it)->UpdateFSM();
 	}
@@ -221,7 +246,9 @@ update_status ModuleSceneRound1::Update()
 	// Draw everything --------------------------------------
 
 	//Sort dynamic entitites according to its depth in ascendant order
-	std::sort(dynamic_entities.begin(), dynamic_entities.end(), [](Entity *e1, Entity *e2) {return (e1->depth < e2->depth); });
+	//std::sort(dynamic_entities.begin(), dynamic_entities.end(), [](Entity *e1, Entity *e2) {return (e1->depth < e2->depth); });
+	dynamic_entities.sort([](Entity *e1, Entity *e2) {return (e1->depth < e2->depth); });
+
 
 	//Draw scenario
 	for (std::vector<Entity*>::iterator it = scenario_entities.begin(); it != scenario_entities.end(); it++)
@@ -233,7 +260,7 @@ update_status ModuleSceneRound1::Update()
 	}
 
 	//Draw dynamic entities, i.e. : player, enemy, etc
-	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
+	for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
 	{
 		if ((*it)->curr_anim != nullptr)
 			App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, &((*it)->curr_anim->GetCurrentFrame()));
@@ -261,7 +288,7 @@ bool ModuleSceneRound1::CleanUp()
 	}
 	scenario_entities.clear();
 
-	for (std::vector<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
+	for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
 	{
 		RELEASE(*it);
 	}
@@ -285,7 +312,7 @@ bool ModuleSceneRound1::CleanUp()
 }
 //--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------
 
-Entity* ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, Player *player, std::vector<Entity*> &dynamic_entities)
+Entity* ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities)
 {
 	Entity *enemy = nullptr;
 	switch (type) 

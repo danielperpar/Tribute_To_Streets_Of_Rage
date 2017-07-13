@@ -438,7 +438,10 @@ void PlayerFSM::Jump()
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
+			{
 				((Garcia*)((*it).second.collider->entity))->knocked_down = true;
+				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage * 2);
+			}
 		}
 		
 	}
@@ -499,13 +502,13 @@ void PlayerFSM::Punch()
 		if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 		{
 			the_player->enemy_at_range = true;
-			the_player->grabbed_enemy = (*it).second.collider->entity;
+			the_player->punched_enemy = (*it).second.collider->entity;
 			break;
 		}
 	}
 
 	//Only Garcia atm
-	Garcia *garcia = (Garcia*)(the_player->grabbed_enemy);
+	Garcia *garcia = (Garcia*)(the_player->punched_enemy);
 
 	if (the_player->enemy_at_range && garcia->knocked_down == false)
 	{	
@@ -561,7 +564,10 @@ void PlayerFSM::CboHighPunch()
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
-				((Garcia*)((*it).second.collider->entity))->damaged = true;			
+			{
+				((Garcia*)((*it).second.collider->entity))->damaged = true;
+				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+			}
 		}
 	}
 
@@ -592,7 +598,10 @@ void PlayerFSM::CboLowPunch()
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
+			{
 				((Garcia*)((*it).second.collider->entity))->damaged = true;
+				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+			}
 		}
 	}
 }
@@ -618,7 +627,10 @@ void PlayerFSM::CboKick()
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
+			{
 				((Garcia*)((*it).second.collider->entity))->knocked_down = true;
+				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+			}
 		}
 		
 	}
@@ -643,6 +655,7 @@ void PlayerFSM::LowKick()
 	if (the_player->curr_anim->Finished())
 	{
 		((Garcia*)(the_player->grabbed_enemy))->damaged = true;
+		((Garcia*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
 		the_player->curr_anim->Reset();
 		curr_state = State::GRAB;
 	}
@@ -659,6 +672,7 @@ void PlayerFSM::HeadHit()
 	if (the_player->curr_anim->Finished())
 	{
 		((Garcia*)(the_player->grabbed_enemy))->knocked_down = true;
+		((Garcia*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
 		the_player->curr_anim->Reset();
 		the_player->enemy_to_grab = false;
 		curr_state = State::IDLE;
@@ -1054,7 +1068,9 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right4;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;			
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+			((Garcia*)the_player->grabbed_enemy)->ApplyDamage(the_player->air_finisher_damage);
+
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right4)
@@ -1110,7 +1126,8 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left4;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;			
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+			((Garcia*)the_player->grabbed_enemy)->ApplyDamage(the_player->air_finisher_damage);
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left4)

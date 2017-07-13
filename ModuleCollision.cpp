@@ -92,9 +92,9 @@ update_status ModuleCollision::PreUpdate()
 	}
 
 	//update enemy hit collider status
-	std::vector<Entity*> &dynamics = App->scene_round1->dynamic_entities;
+	std::list<Entity*> &dynamics = App->scene_round1->dynamic_entities;
 
-	for (std::vector<Entity*>::iterator it = dynamics.begin(); it != dynamics.end(); it++)
+	for (std::list<Entity*>::iterator it = dynamics.begin(); it != dynamics.end(); it++)
 	{
 		if ((*it)->type == entity_type::GARCIA)
 		{
