@@ -3,6 +3,7 @@
 #include "Utilities.h"
 #include "GarciaFSM.h"
 #include "ModuleCollision.h"
+#include "Player.h"
 
 Garcia::Garcia(SDL_Texture *texture, 
 	Animation *curr_anim, 
@@ -119,7 +120,7 @@ void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionIn
 	if (col_info_other.collider->type == collider_type::PLAYER_BODY)
 	{		
 		OnCollisionEnter(col_info_garcia, col_info_other);
-		if (depth == col_info_other.collider->entity->depth)
+		if (depth == col_info_other.collider->entity->depth && the_player->landed && !the_player->knocked_down)
 		{
 			attack = true;
 		}
