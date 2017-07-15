@@ -919,12 +919,12 @@ void GarciaFSM::KnockedDown()
 			{
 				if (garcia->down_count <= garcia->down_inflection)
 				{
-					temp.x -= garcia->speed;
+					temp.x -= 2 * garcia->speed;
 					temp.y -= garcia->speed;
 				}
 				else
 				{
-					temp.x -= garcia->speed;
+					temp.x -= 2 * garcia->speed;
 					temp.y += garcia->speed;
 				}
 			}
@@ -932,12 +932,12 @@ void GarciaFSM::KnockedDown()
 			{
 				if (garcia->down_count <= garcia->down_inflection)
 				{
-					temp.x += garcia->speed;
+					temp.x += 2 * garcia->speed;
 					temp.y -= garcia->speed;
 				}
 				else
 				{
-					temp.x += garcia->speed;
+					temp.x += 2 * garcia->speed;
 					temp.y += garcia->speed;
 				}
 			}

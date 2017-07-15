@@ -177,6 +177,11 @@ void PlayerFSM::Update()
 			curr_state = State::DAMAGED;
 			break;
 		}
+		if (the_player->enemy_to_grab == false)
+		{
+			curr_state = State::IDLE;
+			break;
+		}
 		break;
 
 	case State::LOW_KICK:
