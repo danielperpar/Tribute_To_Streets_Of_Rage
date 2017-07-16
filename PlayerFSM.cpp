@@ -444,8 +444,12 @@ void PlayerFSM::Jump()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				((Garcia*)((*it).second.collider->entity))->knocked_down = true;
-				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage * 2);
+				if (((Garcia*)((*it).second.collider->entity))->knocked_down == false)
+				{
+					((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage * 2);
+				}
+				
+				((Garcia*)((*it).second.collider->entity))->knocked_down = true;				
 			}
 		}
 		
