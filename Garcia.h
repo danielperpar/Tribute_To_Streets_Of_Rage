@@ -25,9 +25,9 @@ public:
 	Garcia(const Garcia &garcia);
 	virtual ~Garcia();
 	virtual void UpdateFSM();
-	void OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
+	virtual void OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
 	void OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
-	void OnCollisionExit(const CollisionInfo &col_info_other);
+	virtual void OnCollisionExit(const CollisionInfo &col_info_other);
 	void SetPlayer(Player *player);
 	void ApplyDamage(int damage);
 
