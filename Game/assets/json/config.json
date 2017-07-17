@@ -26,6 +26,16 @@
 		"hit_collider_offset_right" : 85,
 		"body_collider_offset_left" : 62,
 		"hit_collider_offset_left" : 37
+	},
+	"antonio" :
+	{
+		"life" : 100,
+		"speed" :1,
+		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 25},{ "h" : 63}],
+		"hit_collider" : [{"x" : 0},{ "y" : 0},{ "w" : 25},{ "h" : 33}],
+		"body_collider_offset_right" : 60,
+		"hit_collider_offset_right" : 85,
+		"body_collider_offset_left" : 62,
+		"hit_collider_offset_left" : 37
 	}
-
 }

@@ -2,7 +2,7 @@
 #define __GARCIA_H__
 
 #include "Animation.h"
-#include "Entity.h"
+#include "Enemy.h"
 #include <list>
 #include "SDL/include/SDL.h"
 #include "ModuleCollision.h"
@@ -12,13 +12,13 @@ class GarciaFSM;
 class Player;
 struct Collider;
 struct CollisionInfo;
-class Garcia : public Entity
+class Garcia : public Enemy
 {
 
 private:
 	std::list<int*> animation_list;
 	void LoadStats();
-	void LoadColliders();
+	//void LoadColliders();
 	void LoadGarciaAnimations();
 
 public:
@@ -51,29 +51,29 @@ public:
 	bool up = false;
 
 	//----------------------------------------  GARCIA COLLIDERS -----------------------------------------------
-	Collider *body_collider = nullptr;
-	Collider *hit_collider = nullptr;
-	SDL_Rect body_rect;
-	SDL_Rect hit_rect;
+	//Collider *body_collider = nullptr;
+	//Collider *hit_collider = nullptr;
+	//SDL_Rect body_rect;
+	//SDL_Rect hit_rect;
 
-	//int ref_x = 70;
-	int body_collider_offset_right = 0;
-	int hit_collider_offset_right = 0;
-	int body_collider_offset_left = 0;
-	int hit_collider_offset_left = 0;
+	////int ref_x = 70;
+	//int body_collider_offset_right = 0;
+	//int hit_collider_offset_right = 0;
+	//int body_collider_offset_left = 0;
+	//int hit_collider_offset_left = 0;
 	
-	// ---------------------------------------- COLLISION ----------------------------------------
-	bool right_collision = false;
-	bool left_collision = false;
-	bool up_collision = false;
-	bool down_collision = false;
+	//// ---------------------------------------- COLLISION ----------------------------------------
+	//bool right_collision = false;
+	//bool left_collision = false;
+	//bool up_collision = false;
+	//bool down_collision = false;
 
-	bool left_blocked = false;
-	bool right_blocked = false;
-	bool up_blocked = false;
-	bool down_blocked = false;
+	//bool left_blocked = false;
+	//bool right_blocked = false;
+	//bool up_blocked = false;
+	//bool down_blocked = false;
 
-	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
+	//CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 
 	// -------------- Offsets in somersault animation -> TODO:poner valores en el json
 	iPoint start_pos = { 0,0 };
@@ -111,6 +111,8 @@ public:
 
 	int offset_left_x_7 = 50;
 	
+	//------------------- KNOCKDOWN MOVEMENT -------------------------
+
 	bool bouncing_down = false;
 	int bouncing_frames = 20;
 	int bouncing_inflection = 10;

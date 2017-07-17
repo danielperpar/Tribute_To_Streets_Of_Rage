@@ -124,6 +124,9 @@
     <ClInclude Include="GarciaFSM.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
+    <ClInclude Include="AntonioFSM.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -220,6 +223,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="GarciaFSM.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="AntonioFSM.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>

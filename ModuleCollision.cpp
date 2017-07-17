@@ -8,7 +8,9 @@
 #include <iostream>
 #include "Player.h"
 #include "Garcia.h"
+#include "Antonio.h"
 #include "ModuleSceneRound1.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -22,7 +24,6 @@ ModuleCollision::~ModuleCollision()
 
 bool ModuleCollision::Start()
 {
-	//collision_matrix = new int[100];
 	memset(collision_matrix, 0, sizeof(int) * 49);
 	
 	collision_matrix[ENEMY_BODY][PLAYER_BODY] = 1;
@@ -93,26 +94,34 @@ update_status ModuleCollision::PreUpdate()
 
 	//update enemy hit collider status
 	std::list<Entity*> &dynamics = App->scene_round1->dynamic_entities;
-
+	Enemy *enemy = nullptr;
 	for (std::list<Entity*>::iterator it = dynamics.begin(); it != dynamics.end(); it++)
 	{
-		if ((*it)->type == entity_type::GARCIA)
+		if ((*it)->type == entity_type::GARCIA || (*it)->type == entity_type::ANTONIO)
 		{
-			Garcia *garcia = (Garcia*)(*it);
-			if (garcia->hit_collider_status.collider != nullptr)
+			if ((*it)->type == entity_type::GARCIA)
 			{
-				if (garcia->hit_collider_status.collider->to_delete)
+				enemy = (Garcia*)(*it);
+			}
+			else if ((*it)->type == entity_type::ANTONIO)
+			{
+				enemy = (Antonio*)(*it);
+			}
+
+			if (enemy->hit_collider_status.collider != nullptr)
+			{
+				if (enemy->hit_collider_status.collider->to_delete)
 				{
-					garcia->OnCollisionExit(garcia->hit_collider_status);
-					garcia->hit_collider_status.collider = nullptr;
+					enemy->OnCollisionExit(enemy->hit_collider_status);
+					enemy->hit_collider_status.collider = nullptr;
 				}
 				else
 				{
-					bool collision = garcia->hit_collider->CheckCollision(garcia->hit_collider_status.collider, ci1, ci2);
+					bool collision = enemy->hit_collider->CheckCollision(enemy->hit_collider_status.collider, ci1, ci2);
 					if (!collision)
 					{
-						garcia->OnCollisionExit(garcia->hit_collider_status);
-						garcia->hit_collider_status.collider = nullptr;
+						enemy->OnCollisionExit(enemy->hit_collider_status);
+						enemy->hit_collider_status.collider = nullptr;
 					}
 				}				
 			}		

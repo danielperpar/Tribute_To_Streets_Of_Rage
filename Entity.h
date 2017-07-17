@@ -10,6 +10,7 @@ enum class entity_type
 	DESTROYABLE_ITEM,
 	PLAYER,
 	GARCIA,
+	ANTONIO,
 	PARTICLE,
 	SCENARIO,
 	GUI

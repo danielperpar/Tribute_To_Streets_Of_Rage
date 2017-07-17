@@ -1095,19 +1095,19 @@ update_status ModuleEnemies::Update()
 void ModuleEnemies::UpdateColliderPosition(Enemy* enemy)
 {
 	
-	if (strcmp(enemy->name, "antonio"))
-	{
-		enemy->m_enemy_grab_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_grab_collider->rect.w / 2, enemy->depth);
-		enemy->m_enemy_hit_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_hit_collider->rect.w / 2, enemy->depth);
-		
-	}
-	//boss anntonio
-	if (!strcmp(enemy->name, "antonio"))
-	{
-		enemy->m_enemy_grab_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_grab_collider->rect.w / 2, enemy->depth + enemy->m_y_ref);
-		enemy->m_enemy_hit_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_hit_collider->rect.w / 2, enemy->depth + enemy->m_y_ref);
-		//m_enemy_boss_special_attack_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_boss_special_attack_collider->m_rect.w / 2, m_enemy->m_depth + m_enemy->m_y_ref);
-	}
+	//if (strcmp(enemy->name, "antonio"))
+	//{
+	//	enemy->m_enemy_grab_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_grab_collider->rect.w / 2, enemy->depth);
+	//	enemy->m_enemy_hit_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_hit_collider->rect.w / 2, enemy->depth);
+	//	
+	//}
+	////boss anntonio
+	//if (!strcmp(enemy->name, "antonio"))
+	//{
+	//	enemy->m_enemy_grab_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_grab_collider->rect.w / 2, enemy->depth + enemy->m_y_ref);
+	//	enemy->m_enemy_hit_collider->SetPos(enemy->position.x + enemy->m_x_ref - enemy->m_enemy_hit_collider->rect.w / 2, enemy->depth + enemy->m_y_ref);
+	//	//m_enemy_boss_special_attack_collider->SetPos(m_enemy->m_position.x + m_enemy->m_x_ref - m_enemy_boss_special_attack_collider->m_rect.w / 2, m_enemy->m_depth + m_enemy->m_y_ref);
+	//}
 
 }
 

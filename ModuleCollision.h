@@ -38,7 +38,7 @@ struct CollisionInfo
 public:
 	CollisionInfo() : collider(nullptr), contact_direction_x(contact_direction::DOWN), contact_direction_y(contact_direction::DOWN) {}
 	
-	CollisionInfo(const Collider *col, contact_direction bdx, contact_direction bdy) : collider(col), contact_direction_x(bdx), contact_direction_y(bdy){}
+	CollisionInfo(const Collider *col, contact_direction cdx, contact_direction cdy) : collider(col), contact_direction_x(cdx), contact_direction_y(cdy){}
 	
 	CollisionInfo(const CollisionInfo &col_info)
 	{

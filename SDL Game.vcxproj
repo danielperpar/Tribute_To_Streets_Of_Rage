@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Antonio.h" />
+    <ClInclude Include="AntonioFSM.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="DestroyableItem.h" />
     <ClInclude Include="Enemy.h" />
@@ -108,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Antonio.cpp" />
+    <ClCompile Include="AntonioFSM.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="DestroyableItem.cpp" />
