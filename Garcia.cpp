@@ -14,7 +14,6 @@ Garcia::Garcia(SDL_Texture *texture,
 {
 	LoadGarciaAnimations();
 	LoadStats();
-	//LoadColliders();
 }
 
 Garcia::Garcia(const Garcia &garcia) : Enemy(garcia.texture, garcia.curr_anim, garcia.name, garcia.type, garcia.position, garcia.depth)
@@ -59,25 +58,6 @@ Garcia::Garcia(const Garcia &garcia) : Enemy(garcia.texture, garcia.curr_anim, g
 	garcia_grabbed_finisher_vert_left = garcia.garcia_grabbed_finisher_vert_left;
 
 	garcia_dead_blink_effect = garcia.garcia_dead_blink_effect;
-
-	/*body_rect.x = garcia.body_rect.x;
-	body_rect.y = garcia.body_rect.y;
-	body_rect.w = garcia.body_rect.w;
-	body_rect.h = garcia.body_rect.h;
-
-	body_rect = garcia.body_rect;
-
-	hit_rect.x = garcia.hit_rect.x;
-	hit_rect.y = garcia.hit_rect.y;
-	hit_rect.w = garcia.hit_rect.w;
-	hit_rect.h = garcia.hit_rect.h;
-
-	hit_rect = garcia.hit_rect;
-
-	body_collider_offset_right = garcia.body_collider_offset_right;
-	hit_collider_offset_right = garcia.hit_collider_offset_right;
-	body_collider_offset_left = garcia.body_collider_offset_left;
-	hit_collider_offset_left = garcia.hit_collider_offset_left;*/
 }
 Garcia::~Garcia() 
 {
@@ -106,16 +86,6 @@ void Garcia::LoadStats()
 	speed_vect.x = speed;
 	speed_vect.y = speed;
 }
-
-//void Garcia::LoadColliders()
-//{
-//	JSONDataLoader::LoadColliderRect("assets/json/config.json", "garcia", "body_collider", body_rect);
-//	JSONDataLoader::LoadColliderRect("assets/json/config.json", "garcia", "hit_collider", hit_rect);
-//	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "body_collider_offset_right");
-//	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hit_collider_offset_right");
-//	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "body_collider_offset_left");
-//	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "hit_collider_offset_left");
-//}
 
 void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
 {

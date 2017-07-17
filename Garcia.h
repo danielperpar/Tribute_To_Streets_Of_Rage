@@ -18,7 +18,6 @@ class Garcia : public Enemy
 private:
 	std::list<int*> animation_list;
 	void LoadStats();
-	//void LoadColliders();
 	void LoadGarciaAnimations();
 
 public:
@@ -49,31 +48,6 @@ public:
 	int down_frames = 20;
 	int down_inflection = 10;
 	bool up = false;
-
-	//----------------------------------------  GARCIA COLLIDERS -----------------------------------------------
-	//Collider *body_collider = nullptr;
-	//Collider *hit_collider = nullptr;
-	//SDL_Rect body_rect;
-	//SDL_Rect hit_rect;
-
-	////int ref_x = 70;
-	//int body_collider_offset_right = 0;
-	//int hit_collider_offset_right = 0;
-	//int body_collider_offset_left = 0;
-	//int hit_collider_offset_left = 0;
-	
-	//// ---------------------------------------- COLLISION ----------------------------------------
-	//bool right_collision = false;
-	//bool left_collision = false;
-	//bool up_collision = false;
-	//bool down_collision = false;
-
-	//bool left_blocked = false;
-	//bool right_blocked = false;
-	//bool up_blocked = false;
-	//bool down_blocked = false;
-
-	//CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 
 	// -------------- Offsets in somersault animation -> TODO:poner valores en el json
 	iPoint start_pos = { 0,0 };

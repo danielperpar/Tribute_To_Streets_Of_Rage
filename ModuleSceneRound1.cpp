@@ -90,17 +90,6 @@ bool ModuleSceneRound1::Start()
 	
 	//---------------------------------------------------------------------------------------
 
-	LOG("Creating the player");
-	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, { 800, 150 }, 150);
-	
-	LOG("Adding the player colliders to ModuleCollision");	
-	the_player->body_collider = App->collision->AddCollider(the_player->body_rect, the_player, collider_type::PLAYER_BODY);
-	the_player->hit_collider= App->collision->AddCollider(the_player->hit_rect, the_player, collider_type::PLAYER_HIT);
-	the_player->body_collider->SetPos(the_player->position.x + the_player->body_collider_offset_right, the_player->position.y);
-	the_player->hit_collider->SetPos(the_player->position.x + the_player->hit_collider_offset_right, the_player->position.y);
-	
-	dynamic_entities.push_back(the_player);
-
 	LOG("Creating enemy prototypes");
 	garcia_prototype = new Garcia(tx_garcia, nullptr, "garcia", entity_type::GARCIA, {0, 0}, 0);
 	
@@ -138,83 +127,6 @@ update_status ModuleSceneRound1::PreUpdate()
 // Update: draw background
 update_status ModuleSceneRound1::Update()
 {
-	// ------------------------------------------------  RECEIVE PLAYER INPUT -----------------------------------------
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	{
-		the_player->walk_left = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-	{
-		the_player->walk_left = false;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		the_player->walk_right = true;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
-	{
-		the_player->walk_right = false;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-	{
-		the_player->walk_up = true;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_IDLE)
-	{
-		the_player->walk_up = false;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		the_player->walk_down = true;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_IDLE)
-	{
-		the_player->walk_down = false;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN && (the_player->player_fsm->GetCurrState() == PlayerFSM::State::WALK || 
-		the_player->player_fsm->GetCurrState() == PlayerFSM::State::IDLE || 
-		the_player->player_fsm->GetCurrState() == PlayerFSM::State::GRAB ||
-		the_player->player_fsm->GetCurrState() == PlayerFSM::State::POST_AIR_ATTACK))
-	{
-		the_player->jump = true;
-		the_player->landed = false;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
-	{
-		the_player->jump = false;		
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		the_player->hit_hold = true;
-		the_player->hit_down = false;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
-	{
-		the_player->hit_hold = false;
-		the_player->hit_down = false;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	{
-		the_player->hit_down = true;
-	}
-	
-	//test damaged
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-	{
-		the_player->damaged = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-	{
-		the_player->knocked_down = true;
-	}
-
 	//---------------------------------------- GENERATE ENEMIES --------------------------------------------------------------------
 	//test enemies spawn
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
@@ -225,7 +137,7 @@ update_status ModuleSceneRound1::Update()
 	if (first_trigger_reached)
 	{
 		first_trigger_reached = false;
-		Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 800, 150 }, the_player, dynamic_entities);
+		Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 800, 150 }, App->player->the_player, dynamic_entities);
 
 		LOG("Adding garcia colliders to ModuleCollision");
 		garcia->body_collider = App->collision->AddCollider(garcia->body_rect, garcia, collider_type::ENEMY_BODY);
@@ -339,9 +251,6 @@ void ModuleSceneRound1::LoadSceneAssets()
 	tx_foreground = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_foreground.png");
 	tx_neons = App->textures->Load("assets/spritesheets/neones.png");
 	tx_gui = App->textures->Load("assets/spritesheets/gui.png");
-
-	//Player
-	tx_player = App->textures->Load("assets/spritesheets/axel.png");
 
 	//Enemies
 	tx_garcia = App->textures->Load("assets/spritesheets/enemies.png");

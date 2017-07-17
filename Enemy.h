@@ -37,7 +37,9 @@ public:
 	bool down_blocked = false;
 
 	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
+	virtual void OnCollision(const CollisionInfo &col_info_this, const CollisionInfo &col_info_other) = 0;
 	virtual void OnCollisionExit(const CollisionInfo &col_info_other) = 0;
+
 
 private:
 	void LoadColliders(const char *name);

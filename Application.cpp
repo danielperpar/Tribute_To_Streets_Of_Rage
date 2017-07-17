@@ -26,7 +26,7 @@ Application::Application()
 
 	// Game Modules
 	modules.push_back(scene_round1 = new ModuleSceneRound1(true));
-	modules.push_back(player = new ModulePlayer(false));
+	modules.push_back(player = new ModulePlayer(true));
 	modules.push_back(enemies = new ModuleEnemies(false));
 
 	// Modules to draw on top of game logic

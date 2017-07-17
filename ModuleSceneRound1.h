@@ -34,8 +34,7 @@ public:
 
 	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
 	bool first_trigger_reached = false;
-	Player *the_player = nullptr;
-	
+
 	std::list<Entity*> dynamic_entities;
 	bool entity_erased = false;
 
@@ -47,7 +46,6 @@ private:
 	SDL_Texture *tx_foreground = nullptr;
 	SDL_Texture *tx_neons = nullptr;
 	SDL_Texture *tx_gui = nullptr;
-	SDL_Texture *tx_player = nullptr;
 	SDL_Texture *tx_garcia = nullptr;
 	
 	Animation neonPinEPot;

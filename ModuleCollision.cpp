@@ -1,11 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
-#include "ModuleRender.h"
 #include "ModuleCollision.h"
-#include "ModuleEnemies.h"
 #include "ModulePlayer.h"
-#include <iostream>
+#include "ModuleRender.h"
 #include "Player.h"
 #include "Garcia.h"
 #include "Antonio.h"
@@ -53,7 +51,7 @@ update_status ModuleCollision::PreUpdate()
 	//update player collision status
 	bool erased = false;
 
-	Player *the_player = App->scene_round1->the_player;
+	Player *the_player = App->player->the_player;
 	for (list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end();)
 	{
 		erased = false;
@@ -222,28 +220,36 @@ void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const Coll
 {
 	const Collider *collider1 = col_info1.collider;
 	const Collider *collider2 = col_info2.collider;
+	Enemy *enemy = nullptr;
 
 	switch (collider1->type)
 	{
-	case collider_type::PLAYER_BODY:
-	{
-		Player *player = (Player*)(collider1->entity);
-		player->OnCollision(col_info1, col_info2);
-		break;
-	}
-	case collider_type::PLAYER_HIT:
-	{
-		Player *player = (Player*)(collider1->entity);
-		player->OnCollision(col_info1, col_info2);
-		break;
-	}
-	case collider_type::ENEMY_HIT:
-		if (collider1->entity->type == entity_type::GARCIA)
+		case collider_type::PLAYER_BODY:
 		{
-			Garcia *garcia = (Garcia*)(collider1->entity);
-			garcia->OnCollision(col_info1, col_info2);
+			Player *player = (Player*)(collider1->entity);
+			player->OnCollision(col_info1, col_info2);
 			break;
-		}	
+		}
+		case collider_type::PLAYER_HIT:
+		{
+			Player *player = (Player*)(collider1->entity);
+			player->OnCollision(col_info1, col_info2);
+			break;
+		}
+		case collider_type::ENEMY_HIT:
+		{
+			if (collider1->entity->type == entity_type::GARCIA)
+			{
+				enemy = (Garcia*)(collider1->entity);
+			}
+			else if (collider1->entity->type == entity_type::ANTONIO)
+			{
+				enemy = (Antonio*)(collider1->entity);
+			}
+
+			enemy->OnCollision(col_info1, col_info2);
+			break;
+		}
 	}
 }
 // -----------------------------------------------------

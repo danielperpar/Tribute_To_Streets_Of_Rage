@@ -30,7 +30,7 @@ bool ModuleEnemies::Start()
 
 	LOG("Loading enemies");
 	graphics = App->textures->Load("assets/spritesheets/enemies.png");
-	m_player = App->player->player;
+	//m_player = App->player->player;
 
 	//Enemy1
 	/*m_garcia1 = (Garcia*)EntityManager::CreateEntity(graphics, "garcia", entity_type::ENEMY, { 1000, 100 }, 100);
