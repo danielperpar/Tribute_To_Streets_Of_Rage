@@ -2,8 +2,9 @@
 #define __MODULESCENEROUND1_H__
 
 #include "Module.h"
-#include <vector>
 #include <list>
+#include <vector>
+#include "Animation.h"
 
 struct SDL_Texture;
 class ScenarioElement;
@@ -56,10 +57,10 @@ private:
 	Animation neonCafeRestaurant;
 	
 	
-	Entity* GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities);
+	//Entity* GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities);
 	
 	//----------------------------------- ENEMIES PROTOTYPES---------------------------------------------------
-	Garcia *garcia_prototype = nullptr;
+	//Garcia *garcia_prototype = nullptr;
 
 
 

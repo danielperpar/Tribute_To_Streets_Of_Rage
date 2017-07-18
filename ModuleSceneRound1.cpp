@@ -14,9 +14,8 @@
 #include "ScenarioElement.h"
 #include "GUI.h"
 #include <algorithm>
-#include "PlayerFSM.h"
-#include "Garcia.h"
-#include "GarciaFSM.h"
+#include "Enemy.h"
+
 
 ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
@@ -89,9 +88,6 @@ bool ModuleSceneRound1::Start()
 	gui = new GUI(tx_gui, nullptr, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
 	
 	//---------------------------------------------------------------------------------------
-
-	LOG("Creating enemy prototypes");
-	garcia_prototype = new Garcia(tx_garcia, nullptr, "garcia", entity_type::GARCIA, {0, 0}, 0);
 	
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
@@ -106,9 +102,9 @@ update_status ModuleSceneRound1::PreUpdate()
 		{
 			entity_erased = false;
 			
-			if ((*it)->type == entity_type::GARCIA)
+			if ((*it)->type == entity_type::GARCIA || (*it)->type == entity_type::ANTONIO)
 			{
-				if (((Garcia*)(*it))->destroy_this)
+				if (((Enemy*)(*it))->destroy_this)
 				{
 					RELEASE(*it);
 					it = dynamic_entities.erase(it);
@@ -127,27 +123,6 @@ update_status ModuleSceneRound1::PreUpdate()
 // Update: draw background
 update_status ModuleSceneRound1::Update()
 {
-	//---------------------------------------- GENERATE ENEMIES --------------------------------------------------------------------
-	//test enemies spawn
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
-	{
-		first_trigger_reached = true;
-	}
-
-	if (first_trigger_reached)
-	{
-		first_trigger_reached = false;
-		Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 800, 150 }, App->player->the_player, dynamic_entities);
-
-		LOG("Adding garcia colliders to ModuleCollision");
-		garcia->body_collider = App->collision->AddCollider(garcia->body_rect, garcia, collider_type::ENEMY_BODY);
-		garcia->hit_collider = App->collision->AddCollider(garcia->hit_rect, garcia, collider_type::ENEMY_HIT);
-		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
-		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
-		
-		//GenerateEnemy(entity_type::GARCIA, { 950, 150 }, the_player, dynamic_entities);										 
-	}
-
 	//----------------------------------------UPDATE ENTITIES FSM ------------------------------------------------------------------
 	for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end(); it++)
 	{
@@ -158,7 +133,6 @@ update_status ModuleSceneRound1::Update()
 	// Draw everything --------------------------------------
 
 	//Sort dynamic entitites according to its depth in ascendant order
-	//std::sort(dynamic_entities.begin(), dynamic_entities.end(), [](Entity *e1, Entity *e2) {return (e1->depth < e2->depth); });
 	dynamic_entities.sort([](Entity *e1, Entity *e2) {return (e1->depth < e2->depth); });
 
 
@@ -209,8 +183,6 @@ bool ModuleSceneRound1::CleanUp()
 	RELEASE(foreground);
 	RELEASE(gui);
 
-	RELEASE(garcia_prototype);
-
 	App->textures->Unload(tx_background);
 	App->textures->Unload(tx_foreground);
 	App->textures->Unload(tx_neons);
@@ -222,26 +194,6 @@ bool ModuleSceneRound1::CleanUp()
 
 	return true;
 }
-//--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------
-
-Entity* ModuleSceneRound1::GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities)
-{
-	Entity *enemy = nullptr;
-	switch (type) 
-	{
-		case entity_type::GARCIA:
-			Garcia *garcia = new Garcia(*garcia_prototype);
-			garcia->position = position;
-			garcia->depth = position.y;
-			garcia->garcia_fsm = new GarciaFSM(garcia);
-			garcia->SetPlayer(player);
-			dynamic_entities.push_back(garcia);
-			enemy = garcia;
-		break;
-	}
-
-	return enemy;
-}
 
 void ModuleSceneRound1::LoadSceneAssets()
 {
@@ -251,10 +203,6 @@ void ModuleSceneRound1::LoadSceneAssets()
 	tx_foreground = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_foreground.png");
 	tx_neons = App->textures->Load("assets/spritesheets/neones.png");
 	tx_gui = App->textures->Load("assets/spritesheets/gui.png");
-
-	//Enemies
-	tx_garcia = App->textures->Load("assets/spritesheets/enemies.png");
-	//Scenario items
 
 	//------------------------------------ LOAD SCENE ANIMATIONS ----------------------------------------------
 	//Scenario 

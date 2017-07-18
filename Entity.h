@@ -32,6 +32,7 @@ public:
 	int depth = 0;
 	SDL_Texture *texture = nullptr;
 	Animation *curr_anim = nullptr;
+	bool destroy_this = false;
 };
 
 
