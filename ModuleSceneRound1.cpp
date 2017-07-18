@@ -3,14 +3,9 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModuleRender.h"
-#include "ModulePlayer.h"
-#include "ModuleCollision.h"
-#include "ModuleParticles.h"
-#include "ModuleEnemies.h"
 #include "ModuleSceneRound1.h"
 #include "JSONDataLoader.h"
 #include "Utilities.h"
-#include "ModuleInput.h"
 #include "ScenarioElement.h"
 #include "GUI.h"
 #include <algorithm>
@@ -182,15 +177,6 @@ bool ModuleSceneRound1::CleanUp()
 
 	RELEASE(foreground);
 	RELEASE(gui);
-
-	App->textures->Unload(tx_background);
-	App->textures->Unload(tx_foreground);
-	App->textures->Unload(tx_neons);
-	App->textures->Unload(tx_gui);
-	App->player->Disable();
-	App->enemies->Disable();
-	App->collision->Disable();
-	App->particles->Disable();
 
 	return true;
 }
