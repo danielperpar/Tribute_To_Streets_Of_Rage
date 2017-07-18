@@ -22,9 +22,9 @@ void AntonioFSM::Update()
 void AntonioFSM::Idle()
 {
 	if (antonio->facing_right)
-		antonio->curr_anim = &antonio->antonio_idle_right;
+		antonio->curr_anim = &antonio->antonio_boomerang_idle_right;
 	else
-		antonio->curr_anim = &antonio->antonio_idle_left;
+		antonio->curr_anim = &antonio->antonio_boomerang_idle_left;
 }
 
 void AntonioFSM::Chase()
@@ -115,13 +115,13 @@ void AntonioFSM::UpdateColliderPosition()
 {
 	if (antonio->facing_right)
 	{
-		antonio->body_collider->SetPos(antonio->position.x + antonio->body_collider_offset_right, antonio->position.y);
-		antonio->hit_collider->SetPos(antonio->position.x + antonio->hit_collider_offset_right, antonio->position.y);
+		antonio->body_collider->SetPos(antonio->position.x + antonio->body_collider_offset_right, antonio->position.y + antonio->body_collider_offset_y);
+		antonio->hit_collider->SetPos(antonio->position.x + antonio->hit_collider_offset_right, antonio->position.y + antonio->hit_collider_offset_y);
 	}
 	else
 	{
-		antonio->body_collider->SetPos(antonio->position.x + antonio->body_collider_offset_left, antonio->position.y);
-		antonio->hit_collider->SetPos(antonio->position.x + antonio->hit_collider_offset_left, antonio->position.y);
+		antonio->body_collider->SetPos(antonio->position.x + antonio->body_collider_offset_left, antonio->position.y + antonio->body_collider_offset_y);
+		antonio->hit_collider->SetPos(antonio->position.x + antonio->hit_collider_offset_left, antonio->position.y + antonio->hit_collider_offset_y);
 	}
 
 }

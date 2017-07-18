@@ -8,6 +8,7 @@
 
 
 class Garcia;
+class Antonio;
 struct SDL_Texture;
 class Player;
 class ModuleEnemies : public Module
@@ -23,8 +24,9 @@ public:
 	bool first_trigger_reached = false;
 	
 private:
-	SDL_Texture *tx_garcia = nullptr;
+	SDL_Texture *tx_enemies = nullptr;
 	Garcia *garcia_prototype = nullptr;
+	Antonio *antonio_prototype = nullptr;
 	Entity* GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities);
 };
 

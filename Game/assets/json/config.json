@@ -30,12 +30,15 @@
 	"antonio" :
 	{
 		"life" : 100,
-		"speed" :1,
-		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 25},{ "h" : 63}],
+		"speed" : 1,
+		"ref_y" : 51, 
+		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 18},{ "h" : 63}],
 		"hit_collider" : [{"x" : 0},{ "y" : 0},{ "w" : 25},{ "h" : 33}],
 		"body_collider_offset_right" : 60,
 		"hit_collider_offset_right" : 85,
-		"body_collider_offset_left" : 62,
-		"hit_collider_offset_left" : 37
+		"body_collider_offset_left" : 68,
+		"hit_collider_offset_left" : 37,
+		"body_collider_offset_y" : 47,
+		"hit_collider_offset_y" : 70
 	}
 }

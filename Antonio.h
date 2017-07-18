@@ -22,6 +22,7 @@ private:
 public:
 
 	Antonio(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
+	Antonio(const Antonio &antonio);
 	virtual ~Antonio();
 
 	virtual void UpdateFSM();
@@ -37,8 +38,11 @@ public:
 	iPoint speed_vect = { 1,1 };
 	int speed = 0;
 	Player *the_player = nullptr;
-
-
+	// ----------------------------- SPRITE HEIGHT REFERENCE ----------------------
+	int ref_y = 51;
+	// ----------------------------- COLLIDER Y OFFSET ---------------------------
+	int body_collider_offset_y = 47;
+	int hit_collider_offset_y = 70;
 	/*bool m_carrying_boomerang = false;
 	bool m_ai_throw_boomerang = false;
 

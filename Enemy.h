@@ -19,6 +19,7 @@ public:
 	SDL_Rect body_rect;
 	SDL_Rect hit_rect;
 
+	//---------------------------------------- X OFFSETS ------------------------
 	//int ref_x = 70;
 	int body_collider_offset_right = 0;
 	int hit_collider_offset_right = 0;

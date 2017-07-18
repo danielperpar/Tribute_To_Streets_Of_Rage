@@ -16,6 +16,36 @@ Antonio::Antonio(SDL_Texture *texture,
 	LoadStats();
 }
 
+Antonio::Antonio(const Antonio &antonio) : Enemy(antonio.texture, antonio.curr_anim, antonio.name, antonio.type, antonio.position, antonio.depth)
+{
+	life = antonio.life;
+	speed = antonio.speed;
+	speed_vect = antonio.speed_vect;
+	
+	antonio_boomerang_idle_right = antonio.antonio_boomerang_idle_right;
+	antonio_boomerang_idle_left = antonio.antonio_boomerang_idle_left;
+
+	antonio_idle_right = antonio.antonio_idle_right;
+	antonio_idle_left = antonio.antonio_idle_left;
+
+	antonio_boomerang_walk_right = antonio.antonio_boomerang_walk_right;
+	antonio_boomerang_walk_left = antonio.antonio_boomerang_walk_left;
+
+	antonio_walk_right = antonio.antonio_walk_right;
+	antonio_walk_left = antonio.antonio_walk_left;
+
+	antonio_kick_right = antonio.antonio_kick_right;
+	antonio_kick_left = antonio.antonio_kick_left;
+	
+	antonio_throw_boomerang_right = antonio.antonio_throw_boomerang_right;
+	antonio_throw_boomerang_left = antonio.antonio_throw_boomerang_left;
+	
+	antonio_recover_boomerang_right = antonio.antonio_recover_boomerang_right;
+	antonio_recover_boomerang_left = antonio.antonio_recover_boomerang_left;
+
+	antonio_dead_blink_effect = antonio.antonio_dead_blink_effect;	
+}
+
 Antonio::~Antonio() 
 {
 	RELEASE(antonio_fsm);
@@ -23,7 +53,7 @@ Antonio::~Antonio()
 
 void Antonio::UpdateFSM()
 {
-	
+	antonio_fsm->Update();
 }
 
 void Antonio::SetPlayer(Player *player)
@@ -42,6 +72,9 @@ void Antonio::LoadStats()
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "speed");
 	speed_vect.x = speed;
 	speed_vect.y = speed;
+	ref_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "ref_y");
+	body_collider_offset_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_offset_y");
+	hit_collider_offset_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "hit_collider_offset_y");
 }
 
 void Antonio::OnCollision(const CollisionInfo &col_info_antonio, const CollisionInfo &col_info_other)
@@ -145,5 +178,10 @@ void Antonio::LoadAntonioAnimations()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioRecoverBoomerangLeft", animation_list, antonio_recover_boomerang_left);
 	antonio_recover_boomerang_left.loop = false;
 	antonio_recover_boomerang_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffect", animation_list, antonio_dead_blink_effect);
+	antonio_dead_blink_effect.loop = false;
+	antonio_dead_blink_effect.speed = 0.1f;
 	Utilities::free_list(animation_list);
 }

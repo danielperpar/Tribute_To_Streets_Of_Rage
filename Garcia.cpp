@@ -59,6 +59,7 @@ Garcia::Garcia(const Garcia &garcia) : Enemy(garcia.texture, garcia.curr_anim, g
 
 	garcia_dead_blink_effect = garcia.garcia_dead_blink_effect;
 }
+
 Garcia::~Garcia() 
 {
 	RELEASE(garcia_fsm);
