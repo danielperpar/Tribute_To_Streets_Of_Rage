@@ -1396,6 +1396,30 @@
 		  "sprite" : [{"x" : 1930},{"y" : 1751},{"w" : 102},{"h" : 114}]
 		}
 	],
+	"npcAntonioGrabbedFinisherHorizRight" :
+	[
+		{
+		  "sprite" : [{"x" : 408},{"y" : 1742},{"w" : 67},{"h" : 53}]
+		}
+	],
+	"npcAntonioGrabbedFinisherHorizLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 679},{"y" : 1742},{"w" : 67},{"h" : 53}]
+		}
+	],
+	"npcAntonioGrabbedFinisherVertRight" :
+	[
+		{
+		  "sprite" : [{"x" : 420},{"y" : 1840},{"w" : 50},{"h" : 69}]
+		}
+	],
+	"npcAntonioGrabbedFinisherVertLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 684},{"y" : 1840},{"w" : 50},{"h" : 69}]
+		}
+	],
 	"playerHitEffectRight" : 
 	[
 		{

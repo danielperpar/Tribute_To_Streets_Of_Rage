@@ -4,6 +4,9 @@
 #include "PlayerFSM.h"
 #include "Garcia.h"
 #include "GarciaFSM.h"
+#include "Antonio.h"
+#include "AntonioFSM.h"
+#include "Enemy.h"
 
 Player::Player(
 	SDL_Texture *texture, 
@@ -82,16 +85,15 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 
 	if (grabbed_enemy == nullptr && col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::ENEMY_BODY)
 	{
-		//Only garcia at the moment, so enemy type is not checked yet
-		Garcia *garcia = ((Garcia*)(col_info_other.collider->entity));
+		Enemy *enemy = ((Enemy*)(col_info_other.collider->entity));
 		allow_grab = true;
 
 		//Don't allow grab when enemy is knocked down
-		if (garcia->knocked_down)
+		if (enemy->knocked_down)
 			allow_grab = false;
 
 		//Check whether looking each other
-		if (garcia->facing_right && facing_right)
+		if (enemy->facing_right && facing_right)
 			allow_grab = false;
 		
 		//Check player right state to grab
@@ -100,12 +102,21 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 			allow_grab = false;
 		}
 
-		if (garcia->depth == depth && allow_grab)
+		if (enemy->depth == depth && allow_grab)
 		{
 			enemy_to_grab = true;
-			grabbed_enemy = garcia;
-			garcia->grabbed = true;
-			garcia->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIRST_STAGE;
+			if (enemy->type == entity_type::GARCIA)
+			{
+				grabbed_enemy = enemy;
+				enemy->grabbed = true;
+				((Garcia*)enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIRST_STAGE;
+			}
+			else if (enemy->type == entity_type::ANTONIO)
+			{
+				grabbed_enemy = enemy;
+				enemy->grabbed = true;
+				((Antonio*)enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::FIRST_STAGE;
+			}
 
 			if (col_info_player.contact_direction_x == contact_direction::RIGHT)
 				right_blocked = true;

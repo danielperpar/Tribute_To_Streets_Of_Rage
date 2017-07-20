@@ -29,7 +29,7 @@ public:
 	void OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other);
 	virtual void OnCollisionExit(const CollisionInfo &col_info_other);
 	void SetPlayer(Player *player);
-	void ApplyDamage(int damage);
+	virtual void ApplyDamage(int damage);
 
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
@@ -98,21 +98,6 @@ public:
 	int blink_wait_frames = 10;
 	int blink_times_counter = 0;
 	int blink_max_times = 5;
-	
-	// ----------------------------------  VARIABLES THAT CONTROL GARCIA FSM LOGIC -----------------------------------
-	bool facing_right = false;
-	bool idle = true;
-	bool walk_left = false;
-	bool walk_right = false;
-	bool walk_up = false;
-	bool walk_down = false;
-	bool attack = false;
-	bool evasive = false;
-	bool damaged = false;
-	bool knocked_down = false;
-	bool grabbed = false;
-	bool player_in_sight = true; // test
-
 	
 	//---------------------------------------- GARCIA ANIMATIONS ---------------------------------------------
 	Animation garcia_idle_right;

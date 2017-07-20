@@ -6,6 +6,9 @@
 #include "ModuleSceneRound1.h"
 #include "Garcia.h"
 #include "GarciaFSM.h"
+#include "Antonio.h"
+#include "AntonioFSM.h"
+#include "Enemy.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
@@ -444,12 +447,12 @@ void PlayerFSM::Jump()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				if (((Garcia*)((*it).second.collider->entity))->knocked_down == false)
+				if (((Enemy*)((*it).second.collider->entity))->knocked_down == false)
 				{
-					((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage * 2);
+					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage * 2);
 				}
 				
-				((Garcia*)((*it).second.collider->entity))->knocked_down = true;				
+				((Enemy*)((*it).second.collider->entity))->knocked_down = true;
 			}
 		}
 		
@@ -516,10 +519,9 @@ void PlayerFSM::Punch()
 		}
 	}
 
-	//Only Garcia atm
-	Garcia *garcia = (Garcia*)(the_player->punched_enemy);
+	Enemy *enemy = (Enemy*)(the_player->punched_enemy);
 
-	if (the_player->enemy_at_range && garcia->knocked_down == false)
+	if (the_player->enemy_at_range && enemy->knocked_down == false)
 	{	
 		switch (cbo_punch_stage)
 		{
@@ -569,13 +571,12 @@ void PlayerFSM::CboHighPunch()
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
 
-		//Only garcia enemy atm, enemy type not checked
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				((Garcia*)((*it).second.collider->entity))->damaged = true;
-				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				((Enemy*)((*it).second.collider->entity))->damaged = true;
+				((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
 			}
 		}
 	}
@@ -603,13 +604,12 @@ void PlayerFSM::CboLowPunch()
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
 
-		//Only garcia enemy atm, enemy type not checked
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				((Garcia*)((*it).second.collider->entity))->damaged = true;
-				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				((Enemy*)((*it).second.collider->entity))->damaged = true;
+				((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
 			}
 		}
 	}
@@ -632,13 +632,12 @@ void PlayerFSM::CboKick()
 		the_player->start_combo_timer = false;
 		the_player->combo_timer_count = 0;
 
-		//Only garcia enemy atm, enemy type not checked
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				((Garcia*)((*it).second.collider->entity))->knocked_down = true;
-				((Garcia*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				((Enemy*)((*it).second.collider->entity))->knocked_down = true;
+				((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
 			}
 		}
 		
@@ -663,8 +662,8 @@ void PlayerFSM::LowKick()
 
 	if (the_player->curr_anim->Finished())
 	{
-		((Garcia*)(the_player->grabbed_enemy))->damaged = true;
-		((Garcia*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
+		((Enemy*)(the_player->grabbed_enemy))->damaged = true;
+		((Enemy*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
 		the_player->curr_anim->Reset();
 		curr_state = State::GRAB;
 	}
@@ -680,8 +679,8 @@ void PlayerFSM::HeadHit()
 
 	if (the_player->curr_anim->Finished())
 	{
-		((Garcia*)(the_player->grabbed_enemy))->knocked_down = true;
-		((Garcia*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
+		((Enemy*)(the_player->grabbed_enemy))->knocked_down = true;
+		((Enemy*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
 		the_player->curr_anim->Reset();
 		the_player->enemy_to_grab = false;
 		curr_state = State::IDLE;
@@ -775,7 +774,11 @@ void PlayerFSM::AirAttack()
 			the_player->somersault_finished = true;
 			the_player->facing_right = false;
 			UpdateColliderPosition();
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SECOND_STAGE;
+
+			if(the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SECOND_STAGE;
+			else if(the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::SECOND_STAGE;
 		}
 	}
 
@@ -849,7 +852,11 @@ void PlayerFSM::AirAttack()
 			the_player->somersault_finished = true;
 			the_player->facing_right = true;
 			UpdateColliderPosition();
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SECOND_STAGE;
+
+			if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SECOND_STAGE;
+			else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::SECOND_STAGE;
 		}
 	}
 }
@@ -858,7 +865,10 @@ void PlayerFSM::AirAttackReverse()
 {
 	if (prev_state != State::AIR_ATTACK_REVERSE)
 	{
-		((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIRST_STAGE;
+		if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIRST_STAGE;
+		else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+			((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::FIRST_STAGE;
 
 		if (the_player->facing_right)
 		{
@@ -1041,15 +1051,15 @@ void PlayerFSM::Finisher()
 	if (prev_state != State::FINISHER)
 	{
 		if (the_player->facing_right)
-		{
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right1;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::THIRD_STAGE;
-		}
-		else
-		{
+		else		
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left1;
+			
+		if (the_player->grabbed_enemy->type == entity_type::GARCIA)
 			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::THIRD_STAGE;
-		}
+		else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+			((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::THIRD_STAGE;
+
 	}
 
 	//right animations
@@ -1059,7 +1069,11 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right2;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FOURTH_STAGE;
+			
+			if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FOURTH_STAGE;
+			else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::FOURTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right2)
@@ -1068,7 +1082,11 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right3;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIFTH_STAGE;
+						
+			if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIFTH_STAGE;
+			else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::FIFTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_right3)
@@ -1077,8 +1095,13 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_right4;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
-			((Garcia*)the_player->grabbed_enemy)->ApplyDamage(the_player->air_finisher_damage);
+			
+			if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+			else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::SIXTH_STAGE;
+
+			((Enemy*)the_player->grabbed_enemy)->ApplyDamage(the_player->air_finisher_damage);
 
 		}
 	}
@@ -1117,7 +1140,11 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left2;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FOURTH_STAGE;
+			
+			if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FOURTH_STAGE;
+			else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::FOURTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left2)
@@ -1126,7 +1153,11 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left3;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIFTH_STAGE;
+						
+			if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIFTH_STAGE;
+			else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::FIFTH_STAGE;
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left3)
@@ -1135,8 +1166,13 @@ void PlayerFSM::Finisher()
 		{
 			the_player->curr_anim->Reset();
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_finisher_left4;
-			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
-			((Garcia*)the_player->grabbed_enemy)->ApplyDamage(the_player->air_finisher_damage);
+			
+			if (the_player->grabbed_enemy->type == entity_type::GARCIA)
+				((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::SIXTH_STAGE;
+			else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+				((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::SIXTH_STAGE;
+
+			((Enemy*)the_player->grabbed_enemy)->ApplyDamage(the_player->air_finisher_damage);
 		}
 	}
 	else if (the_player->curr_anim == &the_player->anim_grab_air_spin_combo_finisher_left4)
@@ -1208,7 +1244,7 @@ void PlayerFSM::Damaged()
 		if (the_player->enemy_to_grab)
 		{
 			the_player->enemy_to_grab = false;
-			((Garcia*)the_player->grabbed_enemy)->grabbed = false;
+			((Enemy*)the_player->grabbed_enemy)->grabbed = false;
 		}
 	}
 	

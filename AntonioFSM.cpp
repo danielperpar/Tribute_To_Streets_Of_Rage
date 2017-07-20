@@ -16,6 +16,44 @@ void AntonioFSM::Update()
 	case State::IDLE:
 		Idle();
 		break;
+	case State::GRABBED:
+		Grabbed();
+		if (!antonio->grabbed)
+		{
+			if (antonio->facing_right)
+			{
+				antonio->curr_anim = &(antonio->antonio_idle_right);
+			}
+			else
+			{
+				antonio->curr_anim = &(antonio->antonio_idle_left);
+			}
+			frames_counter++;
+			if (frames_counter >= num_frames)
+			{
+				frames_counter = 0;
+				curr_state = State::IDLE;
+			}
+		}
+		if (antonio->damaged)
+		{
+			if (antonio->life > 0)
+				curr_state = State::DAMAGED;
+			else
+			{
+				antonio->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+			}
+
+			prev_state = State::GRABBED;
+			break;
+		}
+		if (antonio->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
+		break;
 	}
 }
 
@@ -44,12 +82,38 @@ void AntonioFSM::ThrowBoomerang()
 
 void AntonioFSM::Grabbed()
 {
-
+	switch (grab_stage)
+	{
+	case GrabStage::FIRST_STAGE:
+		GrabbedFirstStage();
+		break;
+	case GrabStage::SECOND_STAGE:
+		GrabbedSecondStage();
+		break;
+	case GrabStage::THIRD_STAGE:
+		GrabbedThirdStage();
+		break;
+	case GrabStage::FOURTH_STAGE:
+		GrabbedFourthStage();
+		break;
+	case GrabStage::FIFTH_STAGE:
+		GrabbedFifthStage();
+		break;
+	case GrabStage::SIXTH_STAGE:
+		GrabbedSixthStage();
+		break;
+	case GrabStage::SEVENTH_DOWN_STAGE:
+		GrabbedSeventhDownStage();
+		break;
+	}
 }
 
 void AntonioFSM::GrabbedFirstStage()
 {
-
+	if (antonio->facing_right)
+		antonio->curr_anim = &antonio->antonio_grabbed_right;	
+	else
+		antonio->curr_anim = &antonio->antonio_grabbed_left;
 }
 
 void AntonioFSM::GrabbedSecondStage()

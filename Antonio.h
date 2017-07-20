@@ -63,19 +63,6 @@ public:
 	int blink_times_counter = 0;
 	int blink_max_times = 5;
 
-	// ----------------------------------  VARIABLES THAT CONTROL ANTONIO FSM LOGIC -----------------------------------
-	bool facing_right = false;
-	bool idle = true;
-	bool walk_left = false;
-	bool walk_right = false;
-	bool walk_up = false;
-	bool walk_down = false;
-	bool kick = false;
-	bool damaged = false;
-	bool knocked_down = false;
-	bool grabbed = false;
-	bool player_in_sight = true; // test
-
 	//-------------------------------------- ANIMATIONS --------------------------
 	Animation antonio_boomerang_idle_right;
 	Animation antonio_boomerang_idle_left;
@@ -97,6 +84,18 @@ public:
 
 	Animation antonio_recover_boomerang_right;
 	Animation antonio_recover_boomerang_left;
+
+	Animation antonio_grabbed_right;
+	Animation antonio_grabbed_left;
+
+	Animation antonio_grabbed_finisher_right;
+	Animation antonio_grabbed_finisher_left;
+
+	Animation antonio_grabbed_finisher_horiz_right;
+	Animation antonio_grabbed_finisher_horiz_left;
+
+	Animation antonio_grabbed_finisher_vert_right;
+	Animation antonio_grabbed_finisher_vert_left;
 
 	Animation antonio_dead_blink_effect;
 };

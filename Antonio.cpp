@@ -43,6 +43,18 @@ Antonio::Antonio(const Antonio &antonio) : Enemy(antonio.texture, antonio.curr_a
 	antonio_recover_boomerang_right = antonio.antonio_recover_boomerang_right;
 	antonio_recover_boomerang_left = antonio.antonio_recover_boomerang_left;
 
+	antonio_grabbed_right = antonio.antonio_grabbed_right;
+	antonio_grabbed_left = antonio.antonio_grabbed_left;
+
+	antonio_grabbed_finisher_right = antonio.antonio_grabbed_finisher_right;
+	antonio_grabbed_finisher_left = antonio.antonio_grabbed_finisher_left;
+
+	antonio_grabbed_finisher_vert_right = antonio.antonio_grabbed_finisher_vert_right;
+	antonio_grabbed_finisher_vert_left = antonio.antonio_grabbed_finisher_vert_left;
+
+	antonio_grabbed_finisher_horiz_right = antonio.antonio_grabbed_finisher_horiz_right;
+	antonio_grabbed_finisher_horiz_left = antonio.antonio_grabbed_finisher_horiz_left;
+
 	antonio_dead_blink_effect = antonio.antonio_dead_blink_effect;	
 }
 
@@ -179,6 +191,47 @@ void Antonio::LoadAntonioAnimations()
 	antonio_recover_boomerang_left.loop = false;
 	antonio_recover_boomerang_left.speed = 0.1f;
 	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedRight", animation_list, antonio_grabbed_right);
+	antonio_grabbed_right.loop = false;
+	antonio_grabbed_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedLeft", animation_list, antonio_grabbed_left);
+	antonio_grabbed_left.loop = false;
+	antonio_grabbed_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherRight", animation_list, antonio_grabbed_finisher_right);
+	antonio_grabbed_finisher_right.loop = false;
+	antonio_grabbed_finisher_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherLeft", animation_list, antonio_grabbed_finisher_left);
+	antonio_grabbed_finisher_left.loop = false;
+	antonio_grabbed_finisher_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherHorizRight", animation_list, antonio_grabbed_finisher_horiz_right);
+	antonio_grabbed_finisher_horiz_right.loop = false;
+	antonio_grabbed_finisher_horiz_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherHorizLeft", animation_list, antonio_grabbed_finisher_horiz_left);
+	antonio_grabbed_finisher_horiz_left.loop = false;
+	antonio_grabbed_finisher_horiz_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherVertRight", animation_list, antonio_grabbed_finisher_vert_right);
+	antonio_grabbed_finisher_vert_right.loop = false;
+	antonio_grabbed_finisher_vert_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherVertLeft", animation_list, antonio_grabbed_finisher_vert_left);
+	antonio_grabbed_finisher_vert_left.loop = false;
+	antonio_grabbed_finisher_vert_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffect", animation_list, antonio_dead_blink_effect);
 	antonio_dead_blink_effect.loop = false;

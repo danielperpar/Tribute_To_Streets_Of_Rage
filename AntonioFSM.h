@@ -23,6 +23,9 @@ private:
 	State curr_state = State::START;
 	State prev_state = State::START;
 
+	int num_frames = 60;
+	int frames_counter = 0;
+
 public:
 	AntonioFSM(Antonio *antonio);
 	~AntonioFSM();

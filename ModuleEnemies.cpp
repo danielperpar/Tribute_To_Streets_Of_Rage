@@ -57,7 +57,7 @@ update_status ModuleEnemies::Update()
 		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
 		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);*/
 
-		Antonio* antonio = (Antonio*)GenerateEnemy(entity_type::ANTONIO, { 900, 80 }, App->player->the_player, App->scene_round1->dynamic_entities);
+		Antonio* antonio = (Antonio*)GenerateEnemy(entity_type::ANTONIO, { 850, 80 }, App->player->the_player, App->scene_round1->dynamic_entities);
 		
 		LOG("Adding antonio colliders to ModuleCollision");
 		antonio->body_collider = App->collision->AddCollider(antonio->body_rect, antonio, collider_type::ENEMY_BODY);

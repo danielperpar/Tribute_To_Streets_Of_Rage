@@ -37,10 +37,25 @@ public:
 	bool up_blocked = false;
 	bool down_blocked = false;
 
+	// ----------------------------------  VARIABLES THAT CONTROL FSM LOGIC -----------------------------------
+	bool facing_right = false;
+	bool idle = true;
+	bool walk_left = false;
+	bool walk_right = false;
+	bool walk_up = false;
+	bool walk_down = false;
+	bool attack = false;
+	bool evasive = false;
+	bool damaged = false;
+	bool knocked_down = false;
+	bool grabbed = false;
+	bool kick = false;
+	bool player_in_sight = true; // test
+
 	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 	virtual void OnCollision(const CollisionInfo &col_info_this, const CollisionInfo &col_info_other) = 0;
 	virtual void OnCollisionExit(const CollisionInfo &col_info_other) = 0;
-
+	virtual void ApplyDamage(int damage) = 0;
 
 private:
 	void LoadColliders(const char *name);
