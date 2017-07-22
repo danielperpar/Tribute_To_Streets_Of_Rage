@@ -63,6 +63,43 @@ public:
 	int blink_times_counter = 0;
 	int blink_max_times = 5;
 
+	iPoint pos_before_knockdown;
+	int down_count = 0;
+	int down_frames = 20;
+	int down_inflection = 10;
+	bool up = false;
+	// -------------- Offsets in somersault animation -> TODO:poner valores en el json
+	iPoint start_pos = { 0,0 };
+	bool offset_applied = false;
+	bool offset_applied_2 = false;
+	int depth_margin = 3;
+	int body_collider_wide = 36;
+	int body_collider_original = 18;
+
+
+	//right
+	int offset_right_x1 = 0;
+	int offsett_right_x2 = 0;
+	int offset_right_x3 = 0;
+	int offset_right_x4 = 0;
+	int offset_right_y4 = 0;
+	int offset_right_x5 = 0;
+	int offset_right_y5 = 0;
+	int offset_right_x6 = 0;
+	int offset_right_y6 = 0;
+	int offset_right_x7 = 0;
+	int offset_right_y7 = 0;
+
+	//left
+	int offset_left_x1 = 20;
+	int offset_left_x2 = 30;
+	int offset_left_x3 = 15;
+	int offset_left_x4 = 77;
+	int offset_left_y4 = 20;
+	int offset_left_x5 = 15;
+	int offset_left_y5 = 3;
+	int offset_left_x6 = 50;
+	int offset_left_y6 = 40;
 	//-------------------------------------- ANIMATIONS --------------------------
 	Animation antonio_boomerang_idle_right;
 	Animation antonio_boomerang_idle_left;
@@ -96,6 +133,15 @@ public:
 
 	Animation antonio_grabbed_finisher_vert_right;
 	Animation antonio_grabbed_finisher_vert_left;
+
+	Animation antonio_down_right1;
+	Animation antonio_down_right2;
+
+	Animation antonio_down_left1;
+	Animation antonio_down_left2;
+
+	Animation antonio_up_right;
+	Animation antonio_up_left;
 
 	Animation antonio_dead_blink_effect;
 };

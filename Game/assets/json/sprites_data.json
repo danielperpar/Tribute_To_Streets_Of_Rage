@@ -1345,55 +1345,73 @@
 	"npcAntonioDamageReceivedRight" :
 	[
 		{
-		  "sprite" : [{"x" : 73},{"y" : 1379},{"w" : 86},{"h" : 114}]
+		  "sprite" : [{"x" : 381},{"y" : 1382},{"w" : 112},{"h" : 114}]
 		}
 	],
 	"npcAntonioDamageReceivedLeft" :
 	[
 		{
-		  "sprite" : [{"x" : 2097},{"y" : 1752},{"w" : 110},{"h" : 114}]
+		  "sprite" : [{"x" : 1784},{"y" : 1755},{"w" : 106},{"h" : 114}]
 		}
 	],
-	"npcAntonioDownRight" : 
+	"npcAntonioDownRight1" : 
 	[
 		{
 		  "sprite" : [{"x" : 561},{"y" : 1374},{"w" : 150},{"h" : 114}]
-		},
+		}
+	],
+	"npcAntonioDownRight2" : 
+	[
 		{
 		  "sprite" : [{"x" : 788},{"y" : 1374},{"w" : 160},{"h" : 114}]
 		}
 	],
-	"npcAntonioDownLeft" : 
+	"npcAntonioDownLeft1" : 
 	[
 		{
 		  "sprite" : [{"x" : 1590},{"y" : 1747},{"w" : 82},{"h" : 114}]
-		},
+		}
+	],
+	"npcAntonioDownLeft2" : 
+	[
 		{
 		  "sprite" : [{"x" : 1349},{"y" : 1747},{"w" : 80},{"h" : 114}]
+		}
+	],
+	"npcAntonioUpRight" : 
+	[
+		{
+		  "sprite" : [{"x" : 1142},{"y" : 1378},{"w" : 43},{"h" : 114}]
+		}
+	],
+	"npcAntonioUpLeft" : 
+	[
+		{
+		  "sprite" : [{"x" : 1126},{"y" : 1751},{"w" : 43},{"h" : 114}]
 		}
 	],
 	"npcAntonioGrabbedRight" : 
 	[
 		{
-		  "sprite" : [{"x" : 240},{"y" : 1378},{"w" : 94},{"h" : 114}]
+		  "sprite" : [{"x" : 239},{"y" : 1378},{"w" : 114},{"h" : 114}]
 		}
 	],
 	"npcAntonioGrabbedLeft" : 
 	[
 		{
-		  "sprite" : [{"x" : 1930},{"y" : 1751},{"w" : 102},{"h" : 114}]
+		  "sprite" : [{"x" : 1924},{"y" : 1751},{"w" : 108},{"h" : 114}]
 		}
 	],
 	"npcantonioGrabbedFinisherRight" :
 	[
 		{
-		  "sprite" : [{"x" : 240},{"y" : 1378},{"w" : 94},{"h" : 114}]
+		  "sprite" : [{"x" : 72},{"y" : 1379},{"w" : 114},{"h" : 114}]
 		}
 	],
 	"npcAntonioGrabbedFinisherLeft" : 
 	[
 		{
-		  "sprite" : [{"x" : 1930},{"y" : 1751},{"w" : 102},{"h" : 114}]
+		  "sprite" : [{"x" : 2091},{"y" : 1752},{"w" : 116},{"h" : 114}]
 		}
 	],
 	"npcAntonioGrabbedFinisherHorizRight" :

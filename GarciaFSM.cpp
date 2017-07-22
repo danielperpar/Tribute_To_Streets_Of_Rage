@@ -758,8 +758,7 @@ void GarciaFSM::GrabbedThirdStage()
 	if (garcia->facing_right)
 	{
 		if (garcia->offset_applied == false)
-		{
-			//añadir offsets
+		{			
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
 			garcia->position.x -= garcia->offset_right_x_3;
 			garcia->offset_applied = true;
