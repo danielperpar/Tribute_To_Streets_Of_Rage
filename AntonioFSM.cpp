@@ -364,6 +364,7 @@ void AntonioFSM::GrabbedSeventhDownStage()
 		antonio->position.y = antonio->start_pos.y;
 	}
 	antonio->knocked_down = true;
+	antonio->body_collider->rect.w = antonio->body_collider_original;
 }
 
 void AntonioFSM::Damaged()
