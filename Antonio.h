@@ -34,7 +34,6 @@ public:
 
 	AntonioFSM *antonio_fsm = nullptr;
 	int life = 100;
-	bool destroy_this = false;
 	iPoint speed_vect = { 1,1 };
 	int speed = 0;
 	Player *the_player = nullptr;

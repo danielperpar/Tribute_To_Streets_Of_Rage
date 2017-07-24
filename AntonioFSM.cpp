@@ -166,7 +166,13 @@ void AntonioFSM::Update()
 			break;
 		}
 		break;
+
+	case State::DEAD:
+		Dead();
+		break;
 	}
+
+
 }
 
 void AntonioFSM::Idle()
@@ -498,7 +504,40 @@ void AntonioFSM::KnockedDown()
 
 void AntonioFSM::Dead()
 {
+	//Mark colliders as deleteable
+	if (antonio->body_collider != nullptr)
+		antonio->body_collider->to_delete = true;
 
+	if (antonio->hit_collider != nullptr)
+		antonio->hit_collider->to_delete = true;
+
+	if (antonio->facing_right)
+	{
+		if (antonio->blink)
+			antonio->curr_anim = &antonio->antonio_dead_blink_effect;
+		else
+			antonio->curr_anim = &antonio->antonio_down_right2;
+	}
+	else
+	{
+		if (antonio->blink)
+			antonio->curr_anim = &antonio->antonio_dead_blink_effect;
+		else
+			antonio->curr_anim = &antonio->antonio_down_left2;
+	}
+
+	antonio->blink_counter++;
+	if (antonio->blink_counter == antonio->blink_wait_frames)
+	{
+		antonio->blink_counter = 0;
+		antonio->blink = !antonio->blink;
+		antonio->blink_times_counter++;
+		if (antonio->blink_times_counter > antonio->blink_max_times)
+		{
+			//destroy de entity
+			antonio->destroy_this = true;
+		}
+	}
 }
 
 

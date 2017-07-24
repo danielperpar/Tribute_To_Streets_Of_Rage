@@ -93,7 +93,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 			allow_grab = false;
 
 		//Check whether looking each other
-		if (enemy->facing_right && facing_right)
+		if (enemy->facing_right == facing_right)
 			allow_grab = false;
 		
 		//Check player right state to grab
