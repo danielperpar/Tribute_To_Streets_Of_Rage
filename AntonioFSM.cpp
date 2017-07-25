@@ -189,6 +189,8 @@ void AntonioFSM::Idle()
 			antonio->offset_applied = false;
 		}
 	}
+
+	UpdateColliderPosition(); //provisional. Ponerlo en el chase como en GarciaFSM ---------------------------------------------------------------------------------------
 }
 
 void AntonioFSM::Chase()
@@ -238,13 +240,22 @@ void AntonioFSM::Grabbed()
 void AntonioFSM::GrabbedFirstStage()
 {
 	if (antonio->facing_right)
-		antonio->curr_anim = &antonio->antonio_grabbed_right;	
+	{
+		if (antonio->curr_anim != &antonio->antonio_grabbed_right)
+		{
+			antonio->curr_anim = &antonio->antonio_grabbed_right;
+			antonio->position.x -= antonio->offset_right_x1;
+			antonio->position.y += antonio->offset_right_y1;
+			antonio->offset_applied = true;
+		}
+	}
 	else
 	{
 		if (antonio->curr_anim != &antonio->antonio_grabbed_left)
 		{
 			antonio->curr_anim = &antonio->antonio_grabbed_left;
 			antonio->position.x += antonio->offset_left_x1;
+			antonio->position.y += antonio->offset_left_y1;
 			antonio->offset_applied = true;
 		}
 		
@@ -254,15 +265,21 @@ void AntonioFSM::GrabbedFirstStage()
 void AntonioFSM::GrabbedSecondStage()
 {
 	if (antonio->facing_right)
-	{		
-		antonio->curr_anim = &antonio->antonio_grabbed_finisher_right;
+	{
+		if(antonio->curr_anim != &antonio->antonio_grabbed_finisher_right)
+		{
+			antonio->curr_anim = &antonio->antonio_grabbed_finisher_right;
+			antonio->position.x += antonio->offset_right_x2;
+			antonio->position.y += antonio->offset_right_y2;
+		}
 	}
 	else
 	{
 		if (antonio->curr_anim != &antonio->antonio_grabbed_finisher_left)
 		{
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_left;
-			antonio->position.x -= antonio->offset_left_x2;			
+			antonio->position.x -= antonio->offset_left_x2;
+			antonio->position.y += antonio->offset_left_y2;
 		}
 	}
 }
@@ -271,8 +288,13 @@ void AntonioFSM::GrabbedThirdStage()
 {
 	if (antonio->facing_right)
 	{
-		antonio->curr_anim = &antonio->antonio_grabbed_finisher_right;
-		antonio->offset_applied = false; //reset flag
+		if (antonio->offset_applied_2 == false)
+		{
+			antonio->offset_applied = false; //reset flag
+			antonio->curr_anim = &antonio->antonio_grabbed_finisher_right;
+			antonio->position.x -= antonio->offset_right_x3;
+			antonio->offset_applied_2 = true;
+		}
 	}
 	else
 	{
@@ -292,8 +314,10 @@ void AntonioFSM::GrabbedFourthStage()
 	{
 		if(antonio->curr_anim != &antonio->antonio_grabbed_finisher_horiz_right)
 		{
-			antonio->curr_anim = &antonio->antonio_grabbed_finisher_horiz_right;
 			antonio->offset_applied_2 = false; //reset flag
+			antonio->curr_anim = &antonio->antonio_grabbed_finisher_horiz_right;
+			antonio->position.x += antonio->offset_right_x4;
+			antonio->position.y += antonio->offset_right_y4;
 		}
 	}
 	else
@@ -312,7 +336,12 @@ void AntonioFSM::GrabbedFifthStage()
 {
 	if (antonio->facing_right)
 	{
-		antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_right;
+		if (antonio->offset_applied == false)
+		{
+			antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_right;
+			antonio->position.x -= antonio->offset_right_x5;
+			antonio->offset_applied = true;
+		}
 	}
 	else
 	{
@@ -333,7 +362,14 @@ void AntonioFSM::GrabbedSixthStage()
 {
 	if (antonio->facing_right)
 	{
-		antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_right;
+		if (antonio->offset_applied_2 == false)
+		{
+			antonio->curr_anim->Reset();
+			antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_right;
+			antonio->position.x -= antonio->offset_left_x6;
+			antonio->position.y += antonio->offset_left_y6;
+			antonio->offset_applied_2 = true;
+		}
 	}
 	else
 	{
@@ -341,6 +377,7 @@ void AntonioFSM::GrabbedSixthStage()
 		{
 			if (antonio->offset_applied_2 == false)
 			{
+				antonio->curr_anim->Reset();
 				antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_left;
 				antonio->position.x += antonio->offset_left_x6;
 				antonio->position.y += antonio->offset_left_y6;
@@ -363,14 +400,20 @@ void AntonioFSM::GrabbedSeventhDownStage()
 		antonio->curr_anim = &antonio->antonio_down_right2;
 		antonio->position.x -= antonio->offset_right_x7;
 		antonio->position.y = antonio->start_pos.y;
+		if (antonio->body_coll_adjustment_made)
+		{
+			antonio->body_collider->rect.x += antonio->body_collider_adjusted_x;
+			antonio->body_coll_adjustment_made = false;
+		}
 	}
 	else
 	{
 		antonio->curr_anim = &antonio->antonio_down_left2;
 		antonio->position.y = antonio->start_pos.y;
+		antonio->body_collider->rect.w = antonio->body_collider_original;
 	}
 	antonio->knocked_down = true;
-	antonio->body_collider->rect.w = antonio->body_collider_original;
+	
 }
 
 void AntonioFSM::Damaged()

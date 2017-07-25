@@ -1402,7 +1402,7 @@
 		  "sprite" : [{"x" : 1924},{"y" : 1751},{"w" : 108},{"h" : 114}]
 		}
 	],
-	"npcantonioGrabbedFinisherRight" :
+	"npcAntonioGrabbedFinisherRight" :
 	[
 		{
 		  "sprite" : [{"x" : 72},{"y" : 1379},{"w" : 114},{"h" : 114}]

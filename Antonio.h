@@ -74,24 +74,29 @@ public:
 	int depth_margin = 3;
 	int body_collider_wide = 36;
 	int body_collider_original = 18;
+	int body_collider_adjusted_x = 10;
+	bool body_coll_adjustment_made = false;
 
 
 	//right
-	int offset_right_x1 = 0;
-	int offsett_right_x2 = 0;
-	int offset_right_x3 = 0;
-	int offset_right_x4 = 0;
-	int offset_right_y4 = 0;
-	int offset_right_x5 = 0;
-	int offset_right_y5 = 0;
-	int offset_right_x6 = 0;
-	int offset_right_y6 = 0;
-	int offset_right_x7 = 0;
+	int offset_right_x1 = 10;
+	int offset_right_y1 = 5;
+	int offset_right_x2 = 25;
+	int offset_right_y2 = 5;
+	int offset_right_x3 = 20;
+	int offset_right_x4 = 20;
+	int offset_right_y4 = 10;
+	int offset_right_x5 = 30;
+	int offset_right_x6 = 20;
+	int offset_right_y6 = 15;
+	int offset_right_x7 = 90;
 	int offset_right_y7 = 0;
 
 	//left
-	int offset_left_x1 = 20;
-	int offset_left_x2 = 30;
+	int offset_left_x1 = 10;
+	int offset_left_y1 = 5;
+	int offset_left_x2 = 25;
+	int offset_left_y2 = 5;
 	int offset_left_x3 = 15;
 	int offset_left_x4 = 77;
 	int offset_left_y4 = 20;
