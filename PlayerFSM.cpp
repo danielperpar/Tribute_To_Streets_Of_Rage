@@ -877,17 +877,17 @@ void PlayerFSM::AirAttackReverse()
 	{
 		if (the_player->grabbed_enemy->type == entity_type::GARCIA)
 			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::FIRST_STAGE;
-		else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+		else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)		
 			((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::FIRST_STAGE;
-
+		
 		if (the_player->facing_right)
-		{
+		{						
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left7;
 			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_left_x_7;
 			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_7;
 		}
 		else
-		{
+		{			
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_right7;
 			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_right_x_7;
 			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_7;
@@ -972,6 +972,9 @@ void PlayerFSM::AirAttackReverse()
 			the_player->somersault_finished = true;
 			the_player->position = the_player->jump_start_pos;
 			UpdateColliderPosition();
+			//Undo adjustments
+			((Antonio*)the_player->grabbed_enemy)->body_collider->rect.w = ((Antonio*)the_player->grabbed_enemy)->body_collider_original;
+
 		}
 	}
 
@@ -1053,6 +1056,8 @@ void PlayerFSM::AirAttackReverse()
 			the_player->somersault_finished = true;
 			the_player->position = the_player->jump_start_pos;
 			UpdateColliderPosition();
+			//Undo adjustments
+			((Antonio*)the_player->grabbed_enemy)->body_collider->rect.x += ((Antonio*)the_player->grabbed_enemy)->body_collider_adjusted_x;
 		}
 	}
 }

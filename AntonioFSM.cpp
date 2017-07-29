@@ -252,8 +252,9 @@ void AntonioFSM::GrabbedFirstStage()
 	if (antonio->facing_right)
 	{
 		if (antonio->curr_anim != &antonio->antonio_grabbed_right)
-		{
-			//antonio->pos_before_knockdown = antonio->position;			
+		{	
+			//in case player is comming from reverse air sommersault, position offsets must be erased
+			antonio->position = antonio->start_pos; 
 			antonio->curr_anim = &antonio->antonio_grabbed_right;
 			antonio->position.x -= antonio->offset_right_x1;
 			antonio->position.y += antonio->offset_right_y1;
@@ -263,8 +264,8 @@ void AntonioFSM::GrabbedFirstStage()
 	else
 	{
 		if (antonio->curr_anim != &antonio->antonio_grabbed_left)
-		{
-			//antonio->pos_before_knockdown = antonio->position;			
+		{	
+			antonio->position = antonio->start_pos; //in case player is comming from reverse air sommersault, position offsets must be undone
 			antonio->curr_anim = &antonio->antonio_grabbed_left;
 			antonio->position.x += antonio->offset_left_x1;
 			antonio->position.y += antonio->offset_left_y1;
