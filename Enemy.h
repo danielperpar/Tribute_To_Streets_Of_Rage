@@ -38,7 +38,7 @@ public:
 	bool down_blocked = false;
 
 	// ----------------------------------  VARIABLES THAT CONTROL FSM LOGIC -----------------------------------
-	bool facing_right = true;
+	bool facing_right = false;
 	bool idle = true;
 	bool walk_left = false;
 	bool walk_right = false;

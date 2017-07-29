@@ -33,7 +33,7 @@ public:
 	void ApplyDamage(int damage);
 
 	AntonioFSM *antonio_fsm = nullptr;
-	int life = 100;
+	int life = 400;
 	iPoint speed_vect = { 1,1 };
 	int speed = 0;
 	Player *the_player = nullptr;

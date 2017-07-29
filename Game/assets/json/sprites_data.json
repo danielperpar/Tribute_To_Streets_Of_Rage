@@ -1381,13 +1381,13 @@
 	"npcAntonioUpRight" : 
 	[
 		{
-		  "sprite" : [{"x" : 1142},{"y" : 1378},{"w" : 43},{"h" : 114}]
+		  "sprite" : [{"x" : 1094},{"y" : 1378},{"w" : 91},{"h" : 114}]
 		}
 	],
 	"npcAntonioUpLeft" : 
 	[
 		{
-		  "sprite" : [{"x" : 1126},{"y" : 1751},{"w" : 43},{"h" : 114}]
+		  "sprite" : [{"x" : 1068},{"y" : 1751},{"w" : 101},{"h" : 114}]
 		}
 	],
 	"npcAntonioGrabbedRight" : 
