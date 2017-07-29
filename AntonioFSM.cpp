@@ -178,7 +178,16 @@ void AntonioFSM::Update()
 void AntonioFSM::Idle()
 {
 	if (antonio->facing_right)
+	{
 		antonio->curr_anim = &antonio->antonio_boomerang_idle_right;
+
+		if (antonio->offset_applied)
+		{
+			antonio->position.x += antonio->offset_right_x1;
+			antonio->position.y -= antonio->offset_right_y1;
+			antonio->offset_applied = false;
+		}
+	}
 	else
 	{
 		antonio->curr_anim = &antonio->antonio_boomerang_idle_left;
@@ -186,6 +195,7 @@ void AntonioFSM::Idle()
 		if (antonio->offset_applied)
 		{
 			antonio->position.x -= antonio->offset_left_x1;
+			antonio->position.y -= antonio->offset_left_y1;
 			antonio->offset_applied = false;
 		}
 	}
