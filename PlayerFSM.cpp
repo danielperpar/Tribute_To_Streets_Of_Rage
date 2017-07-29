@@ -885,6 +885,7 @@ void PlayerFSM::AirAttackReverse()
 			the_player->curr_anim = &the_player->anim_grab_air_spin_combo_left7;
 			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_left_x_7;
 			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_7;
+			((Antonio*)the_player->grabbed_enemy)->body_coll_adjustment_made = false; //reset flag
 		}
 		else
 		{			
