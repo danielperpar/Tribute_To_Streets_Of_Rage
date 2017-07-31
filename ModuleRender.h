@@ -29,7 +29,7 @@ public:
 
 	int m_max_screen_pos_x = 3870;
 	int m_min_screen_pos_x = 700;
-	int camera_speed = 10;
+	int camera_speed = 1;
 	int moving = 0; // -1:moving left, 0:stopped, 1:moving right
 	
 };

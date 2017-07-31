@@ -77,7 +77,6 @@ public:
 	int body_collider_adjusted_x = 10;
 	bool body_coll_adjustment_made = false;
 
-
 	//right
 	int offset_right_x1 = 10;
 	int offset_right_y1 = 5;
@@ -104,6 +103,15 @@ public:
 	int offset_left_y5 = 3;
 	int offset_left_x6 = 50;
 	int offset_left_y6 = 40;
+
+	//-------------------------------- BOOMERANG ATTACK CASTING SPOTS
+	int offset_cast_y = 50;
+	int offset_cast_x_left = 25;
+	int offset_cast_x_right = 110;
+	iPoint cast_left = { 0,0 };
+	iPoint cast_right = { 0,0 };
+	iPoint spawn_position = { 0, 0 };
+
 	//-------------------------------------- ANIMATIONS --------------------------
 	Animation antonio_boomerang_idle_right;
 	Animation antonio_boomerang_idle_left;

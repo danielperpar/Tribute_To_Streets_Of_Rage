@@ -108,8 +108,11 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 			if (enemy->depth == depth)
 				right_depth = true;
 		}
-		else
+		else if(enemy->type == entity_type::ANTONIO)
 		{
+			//debug
+			LOG("antonio depth = %d    player depth = %d", enemy->depth, depth);
+
 			if(enemy->depth < depth && enemy->depth >= depth - ((Antonio*)(enemy))->depth_margin)
 				right_depth = true;
 		}

@@ -64,6 +64,11 @@ Antonio::Antonio(const Antonio &antonio) : Enemy(antonio.texture, antonio.curr_a
 	antonio_up_left = antonio.antonio_up_left;
 
 	antonio_dead_blink_effect = antonio.antonio_dead_blink_effect;	
+
+	cast_left = antonio.cast_left;
+	cast_right = antonio.cast_right;
+
+	spawn_position = antonio.spawn_position;
 }
 
 Antonio::~Antonio() 

@@ -35,6 +35,7 @@ public:
 
 
 	//-----------------------------  ACTIONS TO PERFORM IN EACH STATE ------------------------------------
+	void Start();
 	void Idle();
 	void Chase();
 	void Kick();

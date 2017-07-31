@@ -1,10 +1,11 @@
 #include "AntonioFSM.h"
 #include "Antonio.h"
+#include "Player.h"
 
 AntonioFSM::AntonioFSM(Antonio *ant) : antonio(ant) 
 {
 	prev_state = State::START;
-	curr_state = State::IDLE;
+	curr_state = State::START;
 }
 
 AntonioFSM::~AntonioFSM() {}
@@ -13,6 +14,16 @@ void AntonioFSM::Update()
 {
 	switch (curr_state)
 	{
+
+	case State::START:
+		Start();
+		if (antonio->throw_boomerang)
+		{
+			curr_state = State::THROW_BOOMERANG;
+			break;
+		}
+		break;
+
 	case State::IDLE:
 		Idle();
 		prev_state = curr_state;
@@ -167,12 +178,33 @@ void AntonioFSM::Update()
 		}
 		break;
 
+	case State::THROW_BOOMERANG:
+		ThrowBoomerang();
+		if (antonio->throw_boomerang == false)
+		{
+			curr_state = State::CHASE;
+			break;
+		}
+		break;
+
 	case State::DEAD:
 		Dead();
 		break;
 	}
 
 
+}
+
+void AntonioFSM::Start()
+{
+	//facing left by default
+
+	antonio->position.x -= antonio->speed_vect.x;
+	if (antonio->position.x == antonio->cast_right.x)
+		antonio->throw_boomerang = true;
+
+	antonio->curr_anim = &antonio->antonio_walk_left;
+	LOG("antonio pos = (%d, %d)", antonio->position.x, antonio->position.y);
 }
 
 void AntonioFSM::Idle()
@@ -199,13 +231,63 @@ void AntonioFSM::Idle()
 			antonio->offset_applied = false;
 		}
 	}
-
-	UpdateColliderPosition(); //provisional. Ponerlo en el chase como en GarciaFSM ---------------------------------------------------------------------------------------
+	
 }
 
 void AntonioFSM::Chase()
 {
+	iPoint target;
 
+	target.x = antonio->the_player->position.x - antonio->position.x;
+	target.y = antonio->the_player->depth - antonio->ref_y - 1 - antonio->position.y; //one pixel behind the player for right draw order when the player grabs Antonio
+
+	int direction_x = 0;
+	int direction_y = 0;
+
+	if (target.x > 0)
+	{
+		direction_x = 1;
+		if (!antonio->facing_right)
+			antonio->facing_right = true;
+	}
+
+	if (target.x < 0)
+	{
+		direction_x = -1;
+		if (antonio->facing_right)
+			antonio->facing_right = false;
+	}
+
+	if (target.y > 0)
+		direction_y = 1;
+
+	if (target.y < 0)
+		direction_y = -1;
+
+
+	antonio->position += {direction_x * antonio->speed_vect.x, direction_y * antonio->speed_vect.y};
+	antonio->depth = antonio->position.y + antonio->ref_y;
+	UpdateColliderPosition();
+
+	//set animations
+
+	if (!antonio->facing_right)
+	{
+		if (antonio->curr_anim != &(antonio->antonio_walk_left))
+		{
+			antonio->curr_anim = &(antonio->antonio_walk_left);
+			antonio->curr_anim->Reset();
+		}
+	}
+
+	if (antonio->facing_right)
+	{
+		if (antonio->curr_anim != &(antonio->antonio_walk_right))
+		{
+			antonio->curr_anim = &(antonio->antonio_walk_right);
+			antonio->curr_anim->Reset();
+		}
+	}
 }
 
 void AntonioFSM::Kick()
@@ -216,6 +298,16 @@ void AntonioFSM::Kick()
 
 void AntonioFSM::ThrowBoomerang()
 {
+	if (antonio->facing_right)
+		antonio->curr_anim = &antonio->antonio_throw_boomerang_right;
+	else
+		antonio->curr_anim = &antonio->antonio_throw_boomerang_left;
+
+	if (antonio->curr_anim->Finished())
+	{
+		antonio->curr_anim->Reset();
+		antonio->throw_boomerang = false;
+	}
 
 }
 

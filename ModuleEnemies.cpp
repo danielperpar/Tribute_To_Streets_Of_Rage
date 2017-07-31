@@ -9,6 +9,7 @@
 #include "GarciaFSM.h"
 #include "Antonio.h"
 #include "AntonioFSM.h"
+#include "ModuleRender.h"
 
 ModuleEnemies::ModuleEnemies(bool active) : Module(active) {}
 
@@ -24,7 +25,9 @@ bool ModuleEnemies::Start()
 
 	garcia_prototype = new Garcia(tx_enemies, nullptr, "garcia", entity_type::GARCIA, { 0, 0 }, 0);
 	antonio_prototype = new Antonio(tx_enemies, nullptr, "antonio", entity_type::ANTONIO, { 0, 0 }, 0);
-
+	antonio_prototype->cast_left = { -App->renderer->camera.x * App->renderer ->camera_speed/SCREEN_SIZE - antonio_prototype->offset_cast_x_left, antonio_prototype->offset_cast_y };
+	antonio_prototype->cast_right = { -App->renderer->camera.x * App->renderer->camera_speed /SCREEN_SIZE + SCREEN_WIDTH - antonio_prototype->offset_cast_x_right, antonio_prototype->offset_cast_y };
+	antonio_prototype->spawn_position = { -App->renderer->camera.x * App->renderer->camera_speed /SCREEN_SIZE + SCREEN_WIDTH, antonio_prototype->offset_cast_y };
 	return true;
 }
 
@@ -57,7 +60,7 @@ update_status ModuleEnemies::Update()
 		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
 		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
 		*/
-		Antonio* antonio = (Antonio*)GenerateEnemy(entity_type::ANTONIO, { 790, 80 }, App->player->the_player, App->scene_round1->dynamic_entities);
+		Antonio* antonio = (Antonio*)GenerateEnemy(entity_type::ANTONIO, antonio_prototype->spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
 		
 		LOG("Adding antonio colliders to ModuleCollision");
 		antonio->body_collider = App->collision->AddCollider(antonio->body_rect, antonio, collider_type::ENEMY_BODY);
