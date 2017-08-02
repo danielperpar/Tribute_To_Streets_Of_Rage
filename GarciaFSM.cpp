@@ -95,11 +95,11 @@ void GarciaFSM::Update()
 		
 		if (garcia->attack == false)
 		{
-			frames_counter++;
-			if (frames_counter >= num_frames)
+			garcia->frames_counter++;
+			if (garcia->frames_counter >= garcia->num_frames)
 			{
 				curr_state = State::IDLE;
-				frames_counter = 0;
+				garcia->frames_counter = 0;
 				garcia->punch_hits = 0;
 			}
 		}
@@ -224,10 +224,10 @@ void GarciaFSM::Update()
 			{
 				garcia->curr_anim = &(garcia->garcia_idle_left);
 			}
-			frames_counter++;
-			if (frames_counter >= num_frames)
+			garcia->frames_counter++;
+			if (garcia->frames_counter >= garcia->num_frames)
 			{
-				frames_counter = 0;
+				garcia->frames_counter = 0;
 				curr_state = State::IDLE;
 			}
 		}

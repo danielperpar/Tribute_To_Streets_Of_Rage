@@ -37,8 +37,6 @@ private:
 
 	Garcia *garcia = nullptr;
 	
-	int num_frames = 60;
-	int frames_counter = 0;
 	bool punch_wait = false;
 
 	bool from_second_stage = false;

@@ -2,6 +2,10 @@
 #include "Antonio.h"
 #include "Player.h"
 
+//-------------------- test boomerang
+#include "ModuleInput.h"
+#include "Application.h"
+
 AntonioFSM::AntonioFSM(Antonio *ant) : antonio(ant) 
 {
 	prev_state = State::START;
@@ -12,6 +16,14 @@ AntonioFSM::~AntonioFSM() {}
 
 void AntonioFSM::Update()
 {
+
+	//test recover boomerang
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+	{
+		antonio->recover_boomerang = true;
+	}
+//--------------------------------------------------
+
 	switch (curr_state)
 	{
 
@@ -26,11 +38,16 @@ void AntonioFSM::Update()
 
 	case State::IDLE:
 		Idle();
-		prev_state = curr_state;
-
+		
 		if (antonio->kick)
 		{
+			prev_state = curr_state;
 			curr_state = State::KICK;
+			break;
+		}
+		if (antonio->recover_boomerang)
+		{
+			curr_state = State::RECOVER_BOOMERANG;
 			break;
 		}
 		if (antonio->grabbed)
@@ -42,6 +59,8 @@ void AntonioFSM::Update()
 		}
 		if (antonio->damaged)
 		{
+			prev_state = State::IDLE;
+
 			if (antonio->life > 0)
 				curr_state = State::DAMAGED;
 			else
@@ -49,25 +68,20 @@ void AntonioFSM::Update()
 				antonio->knocked_down = true;
 				curr_state = State::KNOCKED_DOWN;
 			}
-
 			break;
 		}
 		if (antonio->knocked_down)
 		{
 			curr_state = State::KNOCKED_DOWN;
 			break;
-		}
-		/*if (antonio->player_in_sight)
-		{
-			curr_state = State::CHASE;
-			break;
-		}*/
+		}		
 		break;
 	
 	case State::CHASE:
 		Chase();
 		if (antonio->kick)
 		{
+			prev_state = curr_state;
 			curr_state = State::KICK;
 			break;
 		}
@@ -93,6 +107,11 @@ void AntonioFSM::Update()
 		{
 			curr_state = State::KNOCKED_DOWN;
 			break;
+		}
+		if (antonio->chase_counter == antonio->chase_time_out)
+		{
+			antonio->chase_counter = 0;
+			curr_state = State::CAST;
 		}
 		break;
 
@@ -103,13 +122,43 @@ void AntonioFSM::Update()
 			curr_state = State::THROW_BOOMERANG;
 			break;
 		}
+		if (antonio->damaged)
+		{
+			if (antonio->life > 0)
+				curr_state = State::DAMAGED;
+			else
+			{
+				antonio->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+			}
+			break;
+		}
+		if (antonio->knocked_down)
+		{
+			curr_state = State::KNOCKED_DOWN;
+			break;
+		}
 		break;
 
 	case State::KICK:
 		Kick();
 		if (antonio->kick == false)
-		{			
-			curr_state = State::CAST;		
+		{	
+			antonio->frames_counter++;
+			if (antonio->frames_counter == antonio->num_frames)
+			{
+				antonio->frames_counter = 0;
+				antonio->curr_anim->Reset();
+
+				if (prev_state == State::IDLE)
+				{
+					curr_state = State::IDLE;
+				}
+				else
+				{
+					curr_state = State::CAST;
+				}
+			}		
 		}
 		
 		if (antonio->grabbed)
@@ -139,14 +188,56 @@ void AntonioFSM::Update()
 		}
 		break;
 
+	case State::DAMAGED:
+		Damaged();
+		if (antonio->damaged == false)
+		{
+			if (antonio->life > 0)
+			{
+				antonio->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
 
+				switch (prev_state)
+				{
+				case State::IDLE:
+					curr_state = State::IDLE;
+					break;
+				case State::CHASE:
+					curr_state = State::CHASE;
+					break;
+				case State::CAST:
+					curr_state = State::CAST;
+					break;
+				}
+			}
+			else
+			{
+				antonio->knocked_down = true;
+				curr_state = State::KNOCKED_DOWN;
+				break;
+			}
+		}
+		break;
 	case State::KNOCKED_DOWN:
 		KnockedDown();
 		prev_state = curr_state;
 		if (antonio->knocked_down == false)
 		{
 			if (antonio->life > 0)
-				curr_state = State::IDLE;
+			{
+				switch (prev_state)
+				{
+				case State::IDLE:
+					curr_state = State::IDLE;
+					break;
+				case State::CHASE:
+					curr_state = State::CHASE;
+					break;
+				case State::CAST:
+					curr_state = State::CAST;
+					break;
+				}
+			}
 			else
 				curr_state = State::DEAD;
 		}
@@ -191,6 +282,15 @@ void AntonioFSM::Update()
 		ThrowBoomerang();
 		if (antonio->throw_boomerang == false)
 		{
+			curr_state = State::IDLE;
+			break;
+		}
+		break;
+
+	case State::RECOVER_BOOMERANG:
+		RecoverBoomerang();
+		if (antonio->recover_boomerang == false)
+		{
 			curr_state = State::CHASE;
 			break;
 		}
@@ -213,6 +313,8 @@ void AntonioFSM::Start()
 		antonio->throw_boomerang = true;
 
 	antonio->curr_anim = &antonio->antonio_walk_left;
+
+	UpdateColliderPosition();
 }
 
 void AntonioFSM::Idle()
@@ -398,11 +500,14 @@ void AntonioFSM::Kick()
 		antonio->curr_anim = &antonio->antonio_kick_left;		
 	}
 
-	if (antonio->curr_anim->Finished())
-	{
-		antonio->the_player->knocked_down = true;
-		antonio->curr_anim->Reset();
-		antonio->kick = false;
+	if (antonio->curr_anim->GetCurrentFrameCount() == 1)
+	{		
+		if (antonio->kick)
+		{
+			antonio->the_player->knocked_down = true;
+			antonio->kick = false;
+		}
+		
 	}
 }
 
@@ -416,9 +521,23 @@ void AntonioFSM::ThrowBoomerang()
 	if (antonio->curr_anim->Finished())
 	{
 		antonio->curr_anim->Reset();
-		antonio->throw_boomerang = false;// provisional - debug - boomerang flag is reset when the boomerang is recovered by the boss
+		antonio->throw_boomerang = false;
 	}
 
+}
+
+void AntonioFSM::RecoverBoomerang()
+{
+	if (antonio->facing_right)
+		antonio->curr_anim = &antonio->antonio_recover_boomerang_right;
+	else
+		antonio->curr_anim = &antonio->antonio_recover_boomerang_left;
+
+	if (antonio->curr_anim->Finished())
+	{
+		antonio->curr_anim->Reset();
+		antonio->recover_boomerang = false;
+	}
 }
 
 void AntonioFSM::Grabbed()
@@ -635,7 +754,16 @@ void AntonioFSM::GrabbedSeventhDownStage()
 
 void AntonioFSM::Damaged()
 {
+	if (antonio->facing_right)
+		antonio->curr_anim = &antonio->antonio_damaged_right;
+	else
+		antonio->curr_anim = &antonio->antonio_damaged_left;
 
+	if (antonio->curr_anim->Finished())
+	{
+		antonio->curr_anim->Reset();
+		antonio->damaged = false;
+	}
 }
 
 void AntonioFSM::KnockedDown()

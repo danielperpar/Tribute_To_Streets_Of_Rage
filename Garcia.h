@@ -31,6 +31,10 @@ public:
 	void SetPlayer(Player *player);
 	virtual void ApplyDamage(int damage);
 
+	//frames to allow attack animation to finish before transition
+	int num_frames = 60;
+	int frames_counter = 0;
+
 	GarciaFSM *garcia_fsm = nullptr;
 	int life = 100;
 	iPoint speed_vect = { 1,1 };

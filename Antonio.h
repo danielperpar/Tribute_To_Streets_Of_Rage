@@ -112,6 +112,14 @@ public:
 	iPoint cast_right = { 0,0 };
 	iPoint spawn_position = { 0, 0 };
 
+	//Chase time out frames
+	int chase_time_out = 180;
+	int chase_counter = 0;
+
+	//frames to allow attack animation to finish before transition
+	int num_frames = 30;
+	int frames_counter = 0;
+
 	//-------------------------------------- ANIMATIONS --------------------------
 	Animation antonio_boomerang_idle_right;
 	Animation antonio_boomerang_idle_left;
@@ -156,6 +164,9 @@ public:
 	Animation antonio_up_left;
 
 	Animation antonio_dead_blink_effect;
+
+	Animation antonio_damaged_right;
+	Animation antonio_damaged_left;
 };
 
 

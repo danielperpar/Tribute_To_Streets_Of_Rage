@@ -1166,13 +1166,13 @@
 	[
 		{
 		  "sprite" : [{"x" : 73},{"y" : 1555},{"w" : 113},{"h" : 114}]
-		 }
+		}
 	],
 	"npcAntonioBoomerangIdleLeft":
 	[
 		{
 		  "sprite" : [{"x" : 2078},{"y" : 1555},{"w" : 111},{"h" : 114}]
-		 }
+		}
 	],
 	"npcAntonioWalkRight" :
 	[
@@ -1241,6 +1241,9 @@
 		},
 		{
 		  "sprite" : [{"x" : 868},{"y" : 803},{"w" : 128},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 73},{"y" : 1555},{"w" : 113},{"h" : 114}]
 		}
 	],
 	"npcAntonioKickLeft" :
@@ -1250,6 +1253,9 @@
 		},
 		{
 		  "sprite" : [{"x" : 1293},{"y" : 803},{"w" : 87},{"h" : 114}]
+		},
+		{
+		  "sprite" : [{"x" : 2078},{"y" : 1555},{"w" : 111},{"h" : 114}]
 		}
 	],
 	"npcAntonioThrowBoomerangRight":

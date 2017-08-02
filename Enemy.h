@@ -51,6 +51,7 @@ public:
 	bool grabbed = false;
 	bool kick = false;
 	bool throw_boomerang = false;
+	bool recover_boomerang = false;
 	bool player_in_sight = true; // test
 
 	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);

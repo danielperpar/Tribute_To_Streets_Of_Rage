@@ -65,6 +65,9 @@ Antonio::Antonio(const Antonio &antonio) : Enemy(antonio.texture, antonio.curr_a
 
 	antonio_dead_blink_effect = antonio.antonio_dead_blink_effect;	
 
+	antonio_damaged_right = antonio.antonio_damaged_right;
+	antonio_damaged_left = antonio.antonio_damaged_left;
+
 	cast_left = antonio.cast_left;
 	cast_right = antonio.cast_right;
 
@@ -278,5 +281,15 @@ void Antonio::LoadAntonioAnimations()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffect", animation_list, antonio_dead_blink_effect);
 	antonio_dead_blink_effect.loop = false;
 	antonio_dead_blink_effect.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDamageReceivedRight", animation_list, antonio_damaged_right);
+	antonio_damaged_right.loop = false;
+	antonio_damaged_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDamageReceivedLeft", animation_list, antonio_damaged_left);
+	antonio_damaged_right.loop = false;
+	antonio_damaged_right.speed = 0.1f;
 	Utilities::free_list(animation_list);
 }

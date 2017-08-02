@@ -14,6 +14,7 @@ private:
 		CAST,
 		KICK,
 		THROW_BOOMERANG,
+		RECOVER_BOOMERANG,
 		DAMAGED,
 		KNOCKED_DOWN,
 		GRABBED,
@@ -23,9 +24,6 @@ private:
 	Antonio *antonio = nullptr;
 	State curr_state = State::START;
 	State prev_state = State::START;
-
-	int num_frames = 60;
-	int frames_counter = 0;
 
 public:
 	AntonioFSM(Antonio *antonio);
@@ -42,6 +40,7 @@ public:
 	void MoveToCastPosition();
 	void Kick();
 	void ThrowBoomerang();
+	void RecoverBoomerang();
 	void Grabbed();
 	void GrabbedFirstStage();
 	void GrabbedSecondStage();
