@@ -11,6 +11,7 @@ private:
 		START,
 		IDLE,
 		CHASE,
+		CAST,
 		KICK,
 		THROW_BOOMERANG,
 		DAMAGED,
@@ -38,6 +39,7 @@ public:
 	void Start();
 	void Idle();
 	void Chase();
+	void MoveToCastPosition();
 	void Kick();
 	void ThrowBoomerang();
 	void Grabbed();

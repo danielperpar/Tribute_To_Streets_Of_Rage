@@ -57,11 +57,11 @@ void AntonioFSM::Update()
 			curr_state = State::KNOCKED_DOWN;
 			break;
 		}
-		if (antonio->player_in_sight)
+		/*if (antonio->player_in_sight)
 		{
 			curr_state = State::CHASE;
 			break;
-		}
+		}*/
 		break;
 	
 	case State::CHASE:
@@ -96,11 +96,20 @@ void AntonioFSM::Update()
 		}
 		break;
 
+	case State::CAST:
+		MoveToCastPosition();
+		if (antonio->throw_boomerang)
+		{
+			curr_state = State::THROW_BOOMERANG;
+			break;
+		}
+		break;
+
 	case State::KICK:
 		Kick();
 		if (antonio->kick == false)
 		{			
-			curr_state = State::IDLE;		
+			curr_state = State::CAST;		
 		}
 		
 		if (antonio->grabbed)
@@ -204,7 +213,6 @@ void AntonioFSM::Start()
 		antonio->throw_boomerang = true;
 
 	antonio->curr_anim = &antonio->antonio_walk_left;
-	LOG("antonio pos = (%d, %d)", antonio->position.x, antonio->position.y);
 }
 
 void AntonioFSM::Idle()
@@ -290,10 +298,112 @@ void AntonioFSM::Chase()
 	}
 }
 
+void AntonioFSM::MoveToCastPosition()
+{
+	
+	if (antonio->the_player->position.x >= antonio->position.x)
+	{
+		if (!antonio->facing_right)
+			antonio->facing_right = true;
+	}
+	else
+	{
+		if (antonio->facing_right)
+			antonio->facing_right = false;
+	}
+
+	//animations
+	if (antonio->facing_right)
+		antonio->curr_anim = &antonio->antonio_walk_right;
+	else
+		antonio->curr_anim = &antonio->antonio_walk_left;
+
+	//compute distances from antonio to casting points
+	int sign_right_x = 1;
+	int sign_right_y = 1;
+
+	int sign_left_x = 1;
+	int sign_left_y = 1;
+
+	int dist_right_x = antonio->cast_right.x - antonio->position.x;
+	if (dist_right_x < 0)
+	{
+		dist_right_x = -dist_right_x;
+		sign_right_x = -1;
+	}
+
+	int dist_right_y = antonio->cast_right.y - antonio->position.y;
+	if (dist_right_y < 0)
+	{
+		sign_right_y = -1;
+	}
+	else if (dist_right_y == 0)
+	{
+		sign_right_y = 0;
+	}
+
+	int dist_left_x = antonio->position.x - antonio->cast_left.x;
+	if (dist_left_x < 0)
+	{
+		dist_left_x = -dist_left_x;
+	}
+	else
+		sign_left_x = -1;
+
+	int dist_left_y = antonio->position.y - antonio->cast_left.y;
+	if (dist_left_y > 0)
+	{
+		sign_left_y = -1;
+	}
+	else if (dist_left_y == 0)
+	{
+		sign_left_y = 0;
+	}
+
+	//antonio closer to the left casting point
+	if (dist_left_x < dist_right_x)
+	{
+		antonio->position.x += sign_left_x * antonio->speed_vect.x;
+		antonio->position.y += sign_left_y * antonio->speed_vect.y;
+
+		if (antonio->position.x == antonio->cast_left.x)
+		{
+			antonio->throw_boomerang = true;
+		}
+
+	}
+	else //antonio closer to the right casting point
+	{
+		antonio->position.x += sign_right_x * antonio->speed_vect.x;
+		antonio->position.y += sign_right_y * antonio->speed_vect.y;
+
+		if (antonio->position.x == antonio->cast_right.x)
+		{
+			antonio->throw_boomerang = true;
+		}
+	}
+
+	UpdateColliderPosition();
+}
+
 void AntonioFSM::Kick()
 {
 	//kick finished
-	antonio->kick = false;
+	if (antonio->facing_right)
+	{
+		antonio->curr_anim = &antonio->antonio_kick_right;		
+	}
+	else
+	{
+		antonio->curr_anim = &antonio->antonio_kick_left;		
+	}
+
+	if (antonio->curr_anim->Finished())
+	{
+		antonio->the_player->knocked_down = true;
+		antonio->curr_anim->Reset();
+		antonio->kick = false;
+	}
 }
 
 void AntonioFSM::ThrowBoomerang()
@@ -306,7 +416,7 @@ void AntonioFSM::ThrowBoomerang()
 	if (antonio->curr_anim->Finished())
 	{
 		antonio->curr_anim->Reset();
-		antonio->throw_boomerang = false;
+		antonio->throw_boomerang = false;// provisional - debug - boomerang flag is reset when the boomerang is recovered by the boss
 	}
 
 }
