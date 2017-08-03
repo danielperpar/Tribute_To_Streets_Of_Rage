@@ -17,7 +17,7 @@ bool ModulePlayer::Start()
 	tx_player = App->textures->Load("assets/spritesheets/axel.png");
 
 	LOG("Creating the player");
-	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, { 800, 100 }, 150);
+	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, { 800, 100 }, 100); //depth = position.y
 
 	LOG("Adding the player colliders to ModuleCollision");
 	the_player->body_collider = App->collision->AddCollider(the_player->body_rect, the_player, collider_type::PLAYER_BODY);

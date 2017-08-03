@@ -112,7 +112,9 @@ void Antonio::OnCollision(const CollisionInfo &col_info_antonio, const Collision
 	if (col_info_other.collider->type == collider_type::PLAYER_BODY)
 	{
 		OnCollisionEnter(col_info_antonio, col_info_other);
-		if (depth == col_info_other.collider->entity->depth -1 && the_player->landed && !the_player->knocked_down) //player is one pixel advanced in depth to allow drawing the player in the first plane
+		int player_depth = col_info_other.collider->entity->depth;
+		bool depth_condition = depth >= player_depth - depth_margin && depth < player_depth;
+		if (depth_condition && the_player->landed && !the_player->knocked_down) 
 		{
 			kick = true;
 		}

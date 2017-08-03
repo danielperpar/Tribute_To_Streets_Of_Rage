@@ -37,8 +37,7 @@ void AntonioFSM::Update()
 		break;
 
 	case State::IDLE:
-		Idle();
-		
+		Idle();	
 		if (antonio->kick)
 		{
 			prev_state = curr_state;
@@ -59,7 +58,7 @@ void AntonioFSM::Update()
 		}
 		if (antonio->damaged)
 		{
-			prev_state = State::IDLE;
+			prev_state = curr_state;
 
 			if (antonio->life > 0)
 				curr_state = State::DAMAGED;
@@ -72,6 +71,7 @@ void AntonioFSM::Update()
 		}
 		if (antonio->knocked_down)
 		{
+			prev_state = curr_state;
 			curr_state = State::KNOCKED_DOWN;
 			break;
 		}		
@@ -94,6 +94,8 @@ void AntonioFSM::Update()
 		}
 		if (antonio->damaged)
 		{
+			prev_state = curr_state;
+
 			if (antonio->life > 0)
 				curr_state = State::DAMAGED;
 			else
@@ -105,6 +107,7 @@ void AntonioFSM::Update()
 		}
 		if (antonio->knocked_down)
 		{
+			prev_state = curr_state;
 			curr_state = State::KNOCKED_DOWN;
 			break;
 		}
@@ -124,6 +127,8 @@ void AntonioFSM::Update()
 		}
 		if (antonio->damaged)
 		{
+			prev_state = curr_state;
+
 			if (antonio->life > 0)
 				curr_state = State::DAMAGED;
 			else
@@ -135,6 +140,7 @@ void AntonioFSM::Update()
 		}
 		if (antonio->knocked_down)
 		{
+			prev_state = curr_state;
 			curr_state = State::KNOCKED_DOWN;
 			break;
 		}
@@ -146,17 +152,28 @@ void AntonioFSM::Update()
 		{	
 			antonio->frames_counter++;
 			if (antonio->frames_counter == antonio->num_frames)
-			{
+			{					
 				antonio->frames_counter = 0;
 				antonio->curr_anim->Reset();
-
+				
 				if (prev_state == State::IDLE)
 				{
 					curr_state = State::IDLE;
+					if (antonio->facing_right)
+						antonio->curr_anim = &antonio->antonio_idle_right;
+					else
+						antonio->curr_anim = &antonio->antonio_idle_left;
+
+					break;
 				}
-				else
+				else if(prev_state == State::CHASE)
 				{
 					curr_state = State::CAST;
+					if (antonio->facing_right)
+						antonio->curr_anim = &antonio->antonio_boomerang_walk_right;
+					else
+						antonio->curr_anim = &antonio->antonio_boomerang_walk_left;
+					break;
 				}
 			}		
 		}
@@ -220,7 +237,6 @@ void AntonioFSM::Update()
 		break;
 	case State::KNOCKED_DOWN:
 		KnockedDown();
-		prev_state = curr_state;
 		if (antonio->knocked_down == false)
 		{
 			if (antonio->life > 0)
@@ -300,8 +316,6 @@ void AntonioFSM::Update()
 		Dead();
 		break;
 	}
-
-
 }
 
 void AntonioFSM::Start()
@@ -312,7 +326,7 @@ void AntonioFSM::Start()
 	if (antonio->position.x == antonio->cast_right.x)
 		antonio->throw_boomerang = true;
 
-	antonio->curr_anim = &antonio->antonio_walk_left;
+	antonio->curr_anim = &antonio->antonio_boomerang_walk_left;
 
 	UpdateColliderPosition();
 }
@@ -321,7 +335,11 @@ void AntonioFSM::Idle()
 {
 	if (antonio->facing_right)
 	{
-		antonio->curr_anim = &antonio->antonio_boomerang_idle_right;
+		if (antonio->curr_anim != &antonio->antonio_idle_right)
+		{
+			antonio->curr_anim->Reset();
+			antonio->curr_anim = &antonio->antonio_idle_right;
+		}
 
 		if (antonio->offset_applied)
 		{
@@ -332,7 +350,11 @@ void AntonioFSM::Idle()
 	}
 	else
 	{
-		antonio->curr_anim = &antonio->antonio_boomerang_idle_left;
+		if (antonio->curr_anim != &antonio->antonio_idle_left)
+		{
+			antonio->curr_anim->Reset();
+			antonio->curr_anim = &antonio->antonio_idle_left;
+		}
 
 		if (antonio->offset_applied)
 		{
@@ -383,18 +405,18 @@ void AntonioFSM::Chase()
 
 	if (!antonio->facing_right)
 	{
-		if (antonio->curr_anim != &(antonio->antonio_walk_left))
+		if (antonio->curr_anim != &(antonio->antonio_boomerang_walk_left))
 		{
-			antonio->curr_anim = &(antonio->antonio_walk_left);
+			antonio->curr_anim = &(antonio->antonio_boomerang_walk_left);
 			antonio->curr_anim->Reset();
 		}
 	}
 
 	if (antonio->facing_right)
 	{
-		if (antonio->curr_anim != &(antonio->antonio_walk_right))
+		if (antonio->curr_anim != &(antonio->antonio_boomerang_walk_right))
 		{
-			antonio->curr_anim = &(antonio->antonio_walk_right);
+			antonio->curr_anim = &(antonio->antonio_boomerang_walk_right);
 			antonio->curr_anim->Reset();
 		}
 	}
@@ -416,9 +438,9 @@ void AntonioFSM::MoveToCastPosition()
 
 	//animations
 	if (antonio->facing_right)
-		antonio->curr_anim = &antonio->antonio_walk_right;
+		antonio->curr_anim = &antonio->antonio_boomerang_walk_right;
 	else
-		antonio->curr_anim = &antonio->antonio_walk_left;
+		antonio->curr_anim = &antonio->antonio_boomerang_walk_left;
 
 	//compute distances from antonio to casting points
 	int sign_right_x = 1;
@@ -467,6 +489,7 @@ void AntonioFSM::MoveToCastPosition()
 	{
 		antonio->position.x += sign_left_x * antonio->speed_vect.x;
 		antonio->position.y += sign_left_y * antonio->speed_vect.y;
+		antonio->depth += sign_left_y * antonio->speed_vect.y;
 
 		if (antonio->position.x == antonio->cast_left.x)
 		{
@@ -478,6 +501,7 @@ void AntonioFSM::MoveToCastPosition()
 	{
 		antonio->position.x += sign_right_x * antonio->speed_vect.x;
 		antonio->position.y += sign_right_y * antonio->speed_vect.y;
+		antonio->depth += sign_right_y * antonio->speed_vect.y;
 
 		if (antonio->position.x == antonio->cast_right.x)
 		{
@@ -505,9 +529,8 @@ void AntonioFSM::Kick()
 		if (antonio->kick)
 		{
 			antonio->the_player->knocked_down = true;
-			antonio->kick = false;
-		}
-		
+			antonio->kick = false;			
+		}	
 	}
 }
 
@@ -522,6 +545,11 @@ void AntonioFSM::ThrowBoomerang()
 	{
 		antonio->curr_anim->Reset();
 		antonio->throw_boomerang = false;
+
+		if (antonio->facing_right)
+			antonio->curr_anim = &antonio->antonio_idle_right;
+		else
+			antonio->curr_anim = &antonio->antonio_idle_left;
 	}
 
 }
@@ -768,8 +796,9 @@ void AntonioFSM::Damaged()
 
 void AntonioFSM::KnockedDown()
 {
-	if (prev_state != State::KNOCKED_DOWN)
+	if (antonio->entered_knocked_down == false)
 	{
+		antonio->entered_knocked_down = true;
 		antonio->pos_before_knockdown = antonio->position;
 
 		if (antonio->facing_right)
@@ -853,10 +882,9 @@ void AntonioFSM::KnockedDown()
 					antonio->knocked_down = false;
 					antonio->up = false;
 					antonio->down_count = 0;
-					antonio->position.y = antonio->pos_before_knockdown.y;
-					LOG("antonio position = (%d,%d)", antonio->position.x, antonio->position.y);
-
+					antonio->position.y = antonio->pos_before_knockdown.y;					
 					antonio->depth = antonio->position.y + antonio->ref_y;
+					antonio->entered_knocked_down = false;
 				}
 			}
 
@@ -888,6 +916,7 @@ void AntonioFSM::KnockedDown()
 					antonio->down_count = 0;
 					antonio->position.y = antonio->pos_before_knockdown.y;
 					antonio->depth = antonio->position.y + antonio->ref_y;
+					antonio->entered_knocked_down = false;
 				}
 			}
 		}

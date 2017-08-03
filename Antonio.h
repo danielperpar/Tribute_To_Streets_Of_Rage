@@ -37,6 +37,7 @@ public:
 	iPoint speed_vect = { 1,1 };
 	int speed = 0;
 	Player *the_player = nullptr;
+	bool entered_knocked_down = false;
 	// ----------------------------- SPRITE HEIGHT REFERENCE ----------------------
 	int ref_y = 50;
 	// ----------------------------- COLLIDER Y OFFSET ---------------------------
@@ -106,8 +107,8 @@ public:
 
 	//-------------------------------- BOOMERANG ATTACK CASTING SPOTS
 	int offset_cast_y = 50;
-	int offset_cast_x_left = 25;
-	int offset_cast_x_right = 110;
+	int offset_cast_x_left = 20;
+	int offset_cast_x_right = 115;
 	iPoint cast_left = { 0,0 };
 	iPoint cast_right = { 0,0 };
 	iPoint spawn_position = { 0, 0 };
