@@ -153,9 +153,7 @@ void AntonioFSM::Update()
 			antonio->frames_counter++;
 			if (antonio->frames_counter == antonio->num_frames)
 			{					
-				antonio->frames_counter = 0;
-				antonio->curr_anim->Reset();
-				
+				antonio->frames_counter = 0;							
 				if (prev_state == State::IDLE)
 				{
 					curr_state = State::IDLE;
@@ -515,22 +513,38 @@ void AntonioFSM::MoveToCastPosition()
 void AntonioFSM::Kick()
 {
 	//kick finished
-	if (antonio->facing_right)
+	if (antonio->facing_right && antonio->kick)
 	{
 		antonio->curr_anim = &antonio->antonio_kick_right;		
 	}
-	else
+	else if(!antonio->facing_right && antonio->kick)
 	{
 		antonio->curr_anim = &antonio->antonio_kick_left;		
 	}
 
-	if (antonio->curr_anim->GetCurrentFrameCount() == 1)
-	{		
+	if (antonio->curr_anim->Finished())
+	{			
+		antonio->curr_anim->Reset();
 		if (antonio->kick)
 		{
 			antonio->the_player->knocked_down = true;
 			antonio->kick = false;			
-		}	
+		}
+
+		if (prev_state == State::IDLE)
+		{
+			if (antonio->facing_right)
+				antonio->curr_anim = &antonio->antonio_idle_right;
+			else
+				antonio->curr_anim = &antonio->antonio_idle_left;
+		}
+		else if (prev_state == State::CHASE)
+		{
+			if (antonio->facing_right)
+				antonio->curr_anim = &antonio->antonio_boomerang_idle_right;
+			else
+				antonio->curr_anim = &antonio->antonio_boomerang_idle_left;
+		}
 	}
 }
 
