@@ -346,6 +346,21 @@ void AntonioFSM::Start()
 
 void AntonioFSM::Idle()
 {
+	int target_x = 0;
+	target_x = antonio->the_player->position.x - antonio->position.x;
+	
+	if (target_x > 0)
+	{
+		if (!antonio->facing_right)
+			antonio->facing_right = true;
+	}
+
+	if (target_x < 0)
+	{
+		if (antonio->facing_right)
+			antonio->facing_right = false;
+	}
+
 	if (antonio->facing_right)
 	{
 		if (antonio->curr_anim != &antonio->antonio_idle_right)
