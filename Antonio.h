@@ -121,6 +121,10 @@ public:
 	int num_frames = 30;
 	int frames_counter = 0;
 
+	//prekick frames to allow player to attack the boss
+	int prekick_frames = 30;
+	int prekick_counter = 0;
+
 	//-------------------------------------- ANIMATIONS --------------------------
 	Animation antonio_boomerang_idle_right;
 	Animation antonio_boomerang_idle_left;

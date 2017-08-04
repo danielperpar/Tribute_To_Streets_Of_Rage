@@ -114,13 +114,13 @@ void Antonio::OnCollision(const CollisionInfo &col_info_antonio, const Collision
 		OnCollisionEnter(col_info_antonio, col_info_other);
 		int player_depth = col_info_other.collider->entity->depth;
 		bool depth_condition = depth >= player_depth - depth_margin && depth < player_depth;
-		if (depth_condition && the_player->landed && !the_player->knocked_down) 
+		if (depth_condition && !the_player->jump && !the_player->knocked_down) 
 		{
-			kick = true;
+			prekick = true;
 		}
 		else
 		{
-			kick = false;
+			prekick = false;
 		}
 	}
 
@@ -135,7 +135,7 @@ void Antonio::OnCollisionEnter(const CollisionInfo &col_info_antonio, const Coll
 
 void Antonio::OnCollisionExit(const CollisionInfo &col_info_other)
 {
-	kick = false;
+	prekick = false;
 }
 
 void Antonio::LoadAntonioAnimations()
@@ -291,7 +291,7 @@ void Antonio::LoadAntonioAnimations()
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDamageReceivedLeft", animation_list, antonio_damaged_left);
-	antonio_damaged_right.loop = false;
-	antonio_damaged_right.speed = 0.1f;
+	antonio_damaged_left.loop = false;
+	antonio_damaged_left.speed = 0.1f;
 	Utilities::free_list(animation_list);
 }

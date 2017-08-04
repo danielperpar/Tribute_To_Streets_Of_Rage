@@ -102,10 +102,9 @@ void PlayerFSM::Update()
 	case State::JUMP:
 		Jump();
 		prev_state = curr_state;
-		if (the_player->landed)
-		{
-			curr_state = State::IDLE;
-			the_player->jump = false;			
+		if (!the_player->jump)
+		{		
+			curr_state = State::IDLE;					
 		}
 		break;
 
@@ -442,7 +441,6 @@ void PlayerFSM::Jump()
 			the_player->curr_anim = &(the_player->anim_air_kick_left);
 		}
 		
-		//Only garcia enemy atm, enemy type not checked
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
@@ -493,12 +491,11 @@ void PlayerFSM::Jump()
 			the_player->jump_count--;
 			if (the_player->jump_count == 0)
 			{
-				the_player->landed = true;
+				the_player->jump = false;
+				the_player->jump_up = true; //reset jump_up
 			}
 		}
-		if (the_player->landed) //reset jump_up
-			the_player->jump_up = true;
-
+		
 		the_player->position = temp;
 		UpdateColliderPosition();
 

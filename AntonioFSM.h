@@ -12,6 +12,7 @@ private:
 		IDLE,
 		CHASE,
 		CAST,
+		PRE_KICK,
 		KICK,
 		THROW_BOOMERANG,
 		RECOVER_BOOMERANG,
@@ -38,6 +39,7 @@ public:
 	void Idle();
 	void Chase();
 	void MoveToCastPosition();
+	void PreKick();
 	void Kick();
 	void ThrowBoomerang();
 	void RecoverBoomerang();

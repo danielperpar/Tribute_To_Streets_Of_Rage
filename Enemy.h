@@ -49,6 +49,7 @@ public:
 	bool damaged = false;
 	bool knocked_down = false;
 	bool grabbed = false;
+	bool prekick = false;
 	bool kick = false;
 	bool throw_boomerang = false;
 	bool recover_boomerang = false;

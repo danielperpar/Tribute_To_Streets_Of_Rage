@@ -77,13 +77,8 @@ update_status ModulePlayer::Update()
 		the_player->player_fsm->GetCurrState() == PlayerFSM::State::POST_AIR_ATTACK))
 	{
 		the_player->jump = true;
-		the_player->landed = false;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
-	{
-		the_player->jump = false;
-	}
-
+	
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		the_player->hit_hold = true;
