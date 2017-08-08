@@ -276,15 +276,31 @@ void AntonioFSM::Update()
 		Grabbed();
 		if (!antonio->grabbed)
 		{
+			//TODO check if antonio is carrying the boomerang or not
 			if (antonio->facing_right)
 			{
 				antonio->curr_anim = &(antonio->antonio_boomerang_idle_right);
 			}
 			else
 			{
-				antonio->curr_anim = &(antonio->antonio_boomerang_idle_left);				
+				antonio->curr_anim = &(antonio->antonio_boomerang_idle_left);
 			}
-						
+
+			if (antonio->offset_applied)
+			{
+				if (antonio->facing_right)
+				{
+					antonio->position.x += antonio->offset_right_x1;
+					antonio->position.y -= antonio->offset_right_y1;
+					antonio->offset_applied = false;
+				}			
+				else
+				{
+					antonio->position.x -= antonio->offset_left_x1;
+					antonio->position.y -= antonio->offset_left_y1;
+					antonio->offset_applied = false;
+				}		
+			}						
 			curr_state = State::CHASE;		
 		}
 		if (antonio->damaged)
@@ -686,7 +702,7 @@ void AntonioFSM::GrabbedFirstStage()
 	{
 		if (antonio->curr_anim != &antonio->antonio_grabbed_left)
 		{	
-			antonio->position = antonio->start_pos; //in case player is comming from reverse air sommersault, position offsets must be undone
+			antonio->position = antonio->start_pos; //in case player is comming from reverse air sommersault, position offsets must be erased
 			antonio->curr_anim = &antonio->antonio_grabbed_left;
 			antonio->position.x += antonio->offset_left_x1;
 			antonio->position.y += antonio->offset_left_y1;

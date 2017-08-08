@@ -164,6 +164,7 @@ public:
 	bool walk_up = false;
 	bool walk_down = false;
 	bool jump = false;
+	bool jump_finished = false;
 	bool hit_hold = false;
 	bool hit_down = false;
 	bool attack_finished = false;

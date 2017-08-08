@@ -26,6 +26,7 @@ private:
 	State curr_state = State::START;
 	State prev_state = State::START;
 
+
 public:
 	AntonioFSM(Antonio *antonio);
 	~AntonioFSM();

@@ -102,8 +102,9 @@ void PlayerFSM::Update()
 	case State::JUMP:
 		Jump();
 		prev_state = curr_state;
-		if (!the_player->jump)
-		{		
+		if (the_player->jump_finished)
+		{	
+			the_player->jump_finished = false;
 			curr_state = State::IDLE;					
 		}
 		break;
@@ -303,7 +304,7 @@ void PlayerFSM::Idle()
 		{
 			if (the_player->curr_anim->Finished())
 			{
-				//the_player->curr_anim->Reset();
+				the_player->curr_anim->Reset();
 				the_player->curr_anim = &(the_player->anim_idle_left1);
 			}
 		}
@@ -491,7 +492,7 @@ void PlayerFSM::Jump()
 			the_player->jump_count--;
 			if (the_player->jump_count == 0)
 			{
-				the_player->jump = false;
+				the_player->jump_finished = true;
 				the_player->jump_up = true; //reset jump_up
 			}
 		}

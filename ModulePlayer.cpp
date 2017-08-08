@@ -78,7 +78,11 @@ update_status ModulePlayer::Update()
 	{
 		the_player->jump = true;
 	}
-	
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+	{
+		the_player->jump = false;
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		the_player->hit_hold = true;
