@@ -7,6 +7,9 @@
 #include "ModuleSceneRound1.h"
 #include "ModuleTextures.h"
 
+//---------------- test particles
+#include "ModuleParticles.h"
+
 ModulePlayer::ModulePlayer(bool active) : Module(active) {}
 
 ModulePlayer::~ModulePlayer(){}
@@ -108,6 +111,15 @@ update_status ModulePlayer::Update()
 	{
 		the_player->knocked_down = true;
 	}
+
+	//test particles
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	{
+		Particle *particle = App->particles->GenerateParticle(entity_type::PARTICLE_BOOMERANG, the_player->position);
+		((HitEffect*)particle)->curr_anim = &((HitEffect*)particle)->anim_left;
+	}
+	
+
 	return UPDATE_CONTINUE;
 }
 

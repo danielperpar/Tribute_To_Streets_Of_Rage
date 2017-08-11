@@ -7,7 +7,7 @@
 #include "Animation.h"
 #include "Point.h"
 #include "Entity.h"
-class AIController;
+
 struct SDL_Texture;
 struct Collider;
 class Animation;
@@ -15,56 +15,88 @@ class Particle : public Entity
 {
 
 public:
-	bool m_to_delete = false;
-	bool m_face_right = true;
-	bool m_forward = true;
-	float m_speed_x = 0.0f;
-	float m_speed_y = 0.0f;
-
-	iPoint m_start_position;
-	Animation *m_animation_right = nullptr;
-	Animation *m_animation_left = nullptr;
-	AIController *m_ai_controller = nullptr;
-	Entity *m_owner = nullptr;
-	Collider *m_collider = nullptr;
-	std::list<int*> m_animation_list;
-
-public:
+	bool to_delete = false;
+	bool facing_right = true;
+		
 	Particle(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
-	Particle(const Particle& p);
-	~Particle();
-	bool Update();
+	virtual ~Particle();
+	virtual bool Update() = 0;
+	void UpdateColliderPosition();
+	
 };
+//------------------------------------------- BOOMERANG PARTICLE---------------
+class Boomerang : public Particle
+{
+public:
+	Animation anim_right;
+	Animation anim_left;
+	SDL_Rect boomerang_rect;
+	Collider *collider = nullptr;
+	iPoint speed_vect = { 0,0 };
+	int speed = 0;
+	bool forward = true;
 
+	Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
+	Boomerang(const Boomerang &boomerang);
+	virtual ~Boomerang();
+	virtual bool Update();
+	void LoadParticleAnimations();
+	void LoadSoundFX();
+	void LoadColliders();
+	void LoadStats();
+
+private:
+	std::list<int*> animation_list;
+
+};
+//------------------------------------------- HIT EFFECT PARTICLE----------------
+class HitEffect : public Particle
+{
+public:
+	Animation anim_right;
+	Animation anim_left;
+	SDL_Rect hit_rect;
+	Collider *collider = nullptr;
+	uint hit_sound = 0;
+
+	HitEffect(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
+	HitEffect(const HitEffect &h_effect);
+	virtual ~HitEffect();
+	virtual bool Update();
+	void LoadParticleAnimations();
+	void LoadSoundFX();
+	
+
+private:
+	std::list<int*> animation_list;
+
+};
+//--------------------------------------------- MODULE PARTICLES--------------
 class ModuleParticles : public Module
 {
 public:
+
+	std::list<Particle*> active;
+	//prototype particles
+	HitEffect *hit_effect_prototype = nullptr;	
+	Boomerang *boomerang_prototype = nullptr;	
+
 	ModuleParticles();
-	~ModuleParticles();
+	virtual ~ModuleParticles();
 
 	bool Start();
+	update_status PreUpdate();
 	update_status Update();
 	bool CleanUp();
+	Particle* GenerateParticle(entity_type type, iPoint position);
 
-	void AddParticle(const Particle& particle, int x, int y, collider_type collider_type); 
 
 private:
-
-	SDL_Texture* graphics = nullptr;
-	std::list<Particle*> m_active;
-
-public:
-
-	uint m_hit_sound = 0;
-	Particle *m_particle = nullptr;
-
-
-	//prototype particles
-	Particle *m_hit_effect = nullptr;
-	Particle *m_boomerang = nullptr;
 	
-	SDL_Rect anim_R;
-	SDL_Rect anim_L;
+	SDL_Texture *graphics_hit_effect = nullptr;
+	SDL_Texture *graphics_boomerang = nullptr;
+	
+		
 };
 
 #endif // __MODULEPARTICLES_H__

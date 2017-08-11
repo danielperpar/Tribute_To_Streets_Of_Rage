@@ -33,12 +33,12 @@ bool ModuleCollision::Start()
 	collision_matrix[PLAYER_BODY][ENEMY_HIT] = 1;
 	collision_matrix[PLAYER_BODY][COLLECTABLE] = 1;
 	collision_matrix[PLAYER_BODY][DESTROYABLE] = 1;
-	collision_matrix[PLAYER_BODY][BOSS_AOE] = 1;
+	collision_matrix[PLAYER_BODY][BOOMERANG] = 1;
 	collision_matrix[PLAYER_HIT][ENEMY_BODY] = 1;
 	collision_matrix[PLAYER_HIT][DESTROYABLE] = 1;
 	collision_matrix[DESTROYABLE][ENEMY_BODY] = 1;
 	collision_matrix[DESTROYABLE][PLAYER_BODY] = 1;
-	collision_matrix[BOSS_AOE][PLAYER_BODY] = 1;
+	collision_matrix[BOOMERANG][PLAYER_BODY] = 1;
 
 	return true;
 }

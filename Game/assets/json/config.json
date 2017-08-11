@@ -40,5 +40,10 @@
 		"hit_collider_offset_left" : 37,
 		"body_collider_offset_y" : 47,
 		"hit_collider_offset_y" : 70
+	},
+	"boomerang" :
+	{
+		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 0},{ "h" : 0}],
+		"speed" : 1
 	}
 }

@@ -26,7 +26,7 @@ enum collider_type
 	PLAYER_BODY,
 	PLAYER_HIT,
 	DESTROYABLE,
-	BOSS_AOE
+	BOOMERANG
 };
 
 enum contact_direction

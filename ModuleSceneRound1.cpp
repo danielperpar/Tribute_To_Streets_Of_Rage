@@ -10,7 +10,7 @@
 #include "GUI.h"
 #include <algorithm>
 #include "Enemy.h"
-
+#include "ModuleParticles.h"
 
 ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
@@ -147,6 +147,12 @@ update_status ModuleSceneRound1::Update()
 			App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, &((*it)->curr_anim->GetCurrentFrame()));
 		else
 			App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, nullptr);
+	}
+
+	//Draw particles
+	for (std::list<Particle*>::iterator it = App->particles->active.begin(); it != App->particles->active.end(); it++)
+	{
+		App->renderer->Blit((*it)->texture, (*it)->position.x, (*it)->position.y, &(*it)->curr_anim->GetCurrentFrame());
 	}
 
 	//Draw foreground elements
