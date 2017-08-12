@@ -1,6 +1,7 @@
 #include "AntonioFSM.h"
 #include "Antonio.h"
 #include "Player.h"
+#include "ModuleParticles.h"
 
 //-------------------- test boomerang
 #include "ModuleInput.h"
@@ -21,6 +22,7 @@ void AntonioFSM::Update()
 	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 	{
 		antonio->recover_boomerang = true;
+		antonio->carrying_boomerang = true;
 	}
 //--------------------------------------------------
 
@@ -625,9 +627,37 @@ void AntonioFSM::Kick()
 void AntonioFSM::ThrowBoomerang()
 {
 	if (antonio->facing_right)
+	{
 		antonio->curr_anim = &antonio->antonio_throw_boomerang_right;
+		if (antonio->carrying_boomerang && antonio->curr_anim->GetCurrentFrameCount() == 1)
+		{
+			Particle *particle = App->particles->GenerateParticle(entity_type::PARTICLE_BOOMERANG, { antonio->position.x + antonio->boomerang_offset_right_x, antonio->position.y + antonio->boomerang_offset_right_y });
+			((Boomerang*)particle)->curr_anim = &((Boomerang*)particle)->anim_right;
+			((Boomerang*)particle)->moving_right = true;
+			((Boomerang*)particle)->start_pos = ((Boomerang*)particle)->position;
+
+			LOG("Adding boomerang collider to ModuleCollision");
+			((Boomerang*)particle)->collider = App->collision->AddCollider(((Boomerang*)particle)->boomerang_rect, ((Boomerang*)particle), collider_type::BOOMERANG);
+
+			antonio->carrying_boomerang = false;
+		}
+	}
 	else
+	{
 		antonio->curr_anim = &antonio->antonio_throw_boomerang_left;
+		if (antonio->carrying_boomerang && antonio->curr_anim->GetCurrentFrameCount() == 1)
+		{
+			Particle *particle = App->particles->GenerateParticle(entity_type::PARTICLE_BOOMERANG, { antonio->position.x - antonio->boomerang_offset_left_x, antonio->position.y + antonio->boomerang_offset_left_y });
+			((Boomerang*)particle)->curr_anim = &((Boomerang*)particle)->anim_left;
+			((Boomerang*)particle)->moving_right = false;
+			((Boomerang*)particle)->start_pos = ((Boomerang*)particle)->position;
+
+			LOG("Adding boomerang collider to ModuleCollision");
+			((Boomerang*)particle)->collider = App->collision->AddCollider(((Boomerang*)particle)->boomerang_rect, ((Boomerang*)particle), collider_type::BOOMERANG);
+
+			antonio->carrying_boomerang = false;
+		}
+	}
 
 	if (antonio->curr_anim->Finished())
 	{

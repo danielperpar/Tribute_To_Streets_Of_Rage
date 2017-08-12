@@ -22,13 +22,21 @@ Boomerang::Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *nam
 	LoadColliders();
 	LoadSoundFX();
 	LoadParticleAnimations();
+
+	max_range_left = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE, max_range_y };
+	max_range_right = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE + SCREEN_WIDTH, max_range_y };
+	
 }
 
 Boomerang::Boomerang(const Boomerang &boomerang) : Particle(boomerang.texture, boomerang.curr_anim, boomerang.name, boomerang.type, boomerang.position, boomerang.depth)
 {
-	speed = boomerang.speed;
+	speed_vect = boomerang.speed_vect;
 	anim_right = boomerang.anim_right;
 	anim_left = boomerang.anim_left;
+	boomerang_rect = boomerang.boomerang_rect;
+	max_range_left = boomerang.max_range_left;
+	max_range_right = boomerang.max_range_right;
+	
 }
 
 
@@ -37,7 +45,37 @@ Boomerang::~Boomerang() {}
 bool Boomerang::Update()
 {
 	bool ret = true;
-	//create boomerang movement behaviour
+	//boomerang movement behaviour
+
+	if (moving_right)
+	{
+		if (!max_distance_reached)
+		{	
+			position.x += speed_vect.x;
+			if (position.x >= max_range_right.x - boomerang_rect.w)
+				max_distance_reached = true;
+		}
+		else
+		{
+
+		}
+	}
+
+	if (!moving_right)
+	{
+		if (!max_distance_reached)
+		{
+			position.x -= speed_vect.x;
+			if (position.x <= max_range_left.x)
+				max_distance_reached = true;
+		}
+		else
+		{
+
+		}
+	}
+
+	UpdateColliderPosition();
 	return ret;
 }
 
@@ -54,7 +92,7 @@ void Boomerang::LoadColliders()
 
 void Boomerang::LoadStats()
 {
-	speed = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "speed");
+	speed = JSONDataLoader::GetNumber("assets/json/config.json", "boomerang", "speed");
 	speed_vect.x = speed;
 	speed_vect.y = speed;
 }
@@ -63,15 +101,19 @@ void Boomerang::LoadParticleAnimations()
 {
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcItemBoomerangRight", animation_list, anim_right);
 	anim_right.loop = true;
-	anim_right.speed = 0.1f;
+	anim_right.speed = 0.2f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcItemBoomerangLeft", animation_list, anim_left);
 	anim_left.loop = true;
-	anim_left.speed = 0.1f;
+	anim_left.speed = 0.2f;
 	Utilities::free_list(animation_list);
 }
 
+void Boomerang::UpdateColliderPosition()
+{
+	collider->SetPos(position.x, position.y);
+}
 
 //--------------------------------- HIT EFFECT --------------
 HitEffect::HitEffect(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Particle(texture, curr_anim, name, type, position, depth) 
@@ -131,10 +173,6 @@ bool ModuleParticles::Start()
 
 	hit_effect_prototype = new HitEffect(graphics_hit_effect, nullptr, "hit_effect", entity_type::PARTICLE_HIT_EFFECT, { 0,0 }, 0);
 	boomerang_prototype = new Boomerang(graphics_boomerang, nullptr, "boomerang", entity_type::PARTICLE_BOOMERANG, { 0,0 }, 0);
-
-	//------------------------------------------------------------------------------------------  Code to use when instantiating the boomerang in the scene
-	/*LOG("Adding boomerang collider to ModuleCollision");
-	boomerang_prototype->collider = App->collision->AddCollider(boomerang_prototype->boomerang_rect, boomerang_prototype, collider_type::BOOMERANG);*/
 
 	return true;
 }

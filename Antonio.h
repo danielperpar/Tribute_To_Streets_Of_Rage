@@ -38,16 +38,13 @@ public:
 	int speed = 0;
 	Player *the_player = nullptr;
 	bool entered_knocked_down = false;
+	bool carrying_boomerang = true;
+
 	// ----------------------------- SPRITE HEIGHT REFERENCE ----------------------
 	int ref_y = 50;
 	// ----------------------------- COLLIDER Y OFFSET ---------------------------
 	int body_collider_offset_y = 47;
 	int hit_collider_offset_y = 70;
-	/*bool m_carrying_boomerang = false;
-	bool m_ai_throw_boomerang = false;
-
-	Particle *m_boomerang = nullptr;
-	*/
 	
 	//------------------- KNOCKDOWN MOVEMENT -------------------------
 	bool bouncing_down = false;
@@ -113,6 +110,11 @@ public:
 	iPoint cast_right = { 0,0 };
 	iPoint spawn_position = { 0, 0 };
 
+	int boomerang_offset_left_x = 10;
+	int boomerang_offset_left_y = 40;
+	int boomerang_offset_right_x = 100;
+	int boomerang_offset_right_y = 40;
+	
 	//Chase time out frames
 	int chase_time_out = 180;
 	int chase_counter = 0;

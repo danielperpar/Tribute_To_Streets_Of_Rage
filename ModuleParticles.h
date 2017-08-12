@@ -21,7 +21,6 @@ public:
 	Particle(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	virtual ~Particle();
 	virtual bool Update() = 0;
-	void UpdateColliderPosition();
 	
 };
 //------------------------------------------- BOOMERANG PARTICLE---------------
@@ -34,7 +33,8 @@ public:
 	Collider *collider = nullptr;
 	iPoint speed_vect = { 0,0 };
 	int speed = 0;
-	bool forward = true;
+	bool moving_right = false;
+	iPoint start_pos = { 0,0 };
 
 	Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Boomerang(const Boomerang &boomerang);
@@ -44,10 +44,15 @@ public:
 	void LoadSoundFX();
 	void LoadColliders();
 	void LoadStats();
+	void UpdateColliderPosition();
 
 private:
 	std::list<int*> animation_list;
-
+	
+	iPoint max_range_right = { 0,0 };
+	iPoint max_range_left = { 0, 0 };
+	bool max_distance_reached = false;
+	int max_range_y = 50; //antonio->offset_cast_y
 };
 //------------------------------------------- HIT EFFECT PARTICLE----------------
 class HitEffect : public Particle
