@@ -141,6 +141,11 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 		}
 	}
 
+	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::BOOMERANG)
+	{
+		knocked_down = true;
+	}
+
 }
 
 void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair)

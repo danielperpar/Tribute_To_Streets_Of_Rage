@@ -31,7 +31,7 @@ public:
 
 	//-------------------- SCENE BOUNDARIES -------------------
 	int upper_limit = 90;
-	int lower_limit = 150;
+	int lower_limit = 160;
 
 	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
 	bool first_trigger_reached = false;
