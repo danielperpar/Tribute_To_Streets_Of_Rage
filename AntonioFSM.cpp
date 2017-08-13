@@ -635,6 +635,7 @@ void AntonioFSM::ThrowBoomerang()
 			((Boomerang*)particle)->curr_anim = &((Boomerang*)particle)->anim_right;
 			((Boomerang*)particle)->moving_right = true;
 			((Boomerang*)particle)->start_pos = ((Boomerang*)particle)->position;
+			((Boomerang*)particle)->antonio = antonio;
 
 			LOG("Adding boomerang collider to ModuleCollision");
 			((Boomerang*)particle)->collider = App->collision->AddCollider(((Boomerang*)particle)->boomerang_rect, ((Boomerang*)particle), collider_type::BOOMERANG);
@@ -651,6 +652,7 @@ void AntonioFSM::ThrowBoomerang()
 			((Boomerang*)particle)->curr_anim = &((Boomerang*)particle)->anim_left;
 			((Boomerang*)particle)->moving_right = false;
 			((Boomerang*)particle)->start_pos = ((Boomerang*)particle)->position;
+			((Boomerang*)particle)->antonio = antonio;
 
 			LOG("Adding boomerang collider to ModuleCollision");
 			((Boomerang*)particle)->collider = App->collision->AddCollider(((Boomerang*)particle)->boomerang_rect, ((Boomerang*)particle), collider_type::BOOMERANG);

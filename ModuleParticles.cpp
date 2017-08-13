@@ -8,7 +8,7 @@
 #include "Animation.h"
 #include "JSONDataLoader.h"
 #include "Utilities.h"
-
+#include "Antonio.h"
 // --------------------------------------- PARTICLE ----------------------
 
 Particle::Particle(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Entity(texture, curr_anim, name, type, position, depth){}
@@ -25,7 +25,6 @@ Boomerang::Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *nam
 
 	max_range_left = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE, max_range_y };
 	max_range_right = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE + SCREEN_WIDTH, max_range_y };
-	
 }
 
 Boomerang::Boomerang(const Boomerang &boomerang) : Particle(boomerang.texture, boomerang.curr_anim, boomerang.name, boomerang.type, boomerang.position, boomerang.depth)
@@ -36,47 +35,95 @@ Boomerang::Boomerang(const Boomerang &boomerang) : Particle(boomerang.texture, b
 	boomerang_rect = boomerang.boomerang_rect;
 	max_range_left = boomerang.max_range_left;
 	max_range_right = boomerang.max_range_right;
-	
 }
 
 
 Boomerang::~Boomerang() {}
 
-bool Boomerang::Update()
+void Boomerang::Update()
 {
-	bool ret = true;
 	//boomerang movement behaviour
 
-	if (moving_right)
+	switch (movement_stage)
 	{
-		if (!max_distance_reached)
-		{	
-			position.x += speed_vect.x;
-			if (position.x >= max_range_right.x - boomerang_rect.w)
-				max_distance_reached = true;
-		}
-		else
-		{
-
-		}
+	case move_stage::FORWARD_MOVE_STAGE:
+		ForwardStage();
+		break;
+	case move_stage::BACKWARDS_MOVE_STAGE:
+		BackwardStage();
+		break;
+	case move_stage::RECOVER_BOOMERANG:
+		RecoverBoomerang();
+		break;
 	}
+}
 
-	if (!moving_right)
-	{
-		if (!max_distance_reached)
-		{
-			position.x -= speed_vect.x;
-			if (position.x <= max_range_left.x)
-				max_distance_reached = true;
-		}
-		else
-		{
-
-		}
+void Boomerang::ForwardStage()
+{
+	if (moving_right)
+	{	
+		position.x += speed_vect.x;
+		if (position.x >= max_range_right.x - boomerang_rect.w)
+			movement_stage = move_stage::BACKWARDS_MOVE_STAGE;	
+	}
+	else
+	{	
+		position.x -= speed_vect.x;
+		if (position.x <= max_range_left.x)
+			movement_stage = move_stage::BACKWARDS_MOVE_STAGE;		
 	}
 
 	UpdateColliderPosition();
-	return ret;
+}
+
+void Boomerang::BackwardStage()
+{
+	if (moving_right)
+	{
+		position.x -= speed_vect.x;
+
+		if (position.x >= start_pos.x + 2 * (max_range_right.x - boomerang_rect.w - start_pos.x) / 3)
+		{
+			position.y += speed_vect.y;
+		}
+		else if (position.x <= start_pos.x + (max_range_right.x - boomerang_rect.w - start_pos.x) / 3)
+		{
+			position.y -= speed_vect.y;
+		}
+
+		if (position.x <= start_pos.x)
+		{
+			movement_stage = move_stage::RECOVER_BOOMERANG;
+		}
+	}
+	else
+	{
+		position.x += speed_vect.x;
+
+		if (position.x <= max_range_left.x + (start_pos.x - max_range_left.x) / 3)
+		{
+			position.y += speed_vect.y;
+		}
+		else if (position.x >= max_range_left.x + 2 * (start_pos.x - max_range_left.x) / 3)
+		{
+			position.y -= speed_vect.y;
+		}
+
+		if (position.x >= start_pos.x)
+		{
+			movement_stage = move_stage::RECOVER_BOOMERANG;
+		}		
+	}
+
+	UpdateColliderPosition();
+}
+
+void Boomerang::RecoverBoomerang()
+{
+	to_delete = true;
+	collider->to_delete = true;
+	antonio->recover_boomerang = true;
+	antonio->carrying_boomerang = true;
 }
 
 void Boomerang::LoadSoundFX()
@@ -94,7 +141,7 @@ void Boomerang::LoadStats()
 {
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", "boomerang", "speed");
 	speed_vect.x = speed;
-	speed_vect.y = speed;
+	speed_vect.y = speed/2;
 }
 
 void Boomerang::LoadParticleAnimations()
@@ -130,11 +177,11 @@ HitEffect::HitEffect(const HitEffect &effect) : Particle(effect.texture, effect.
 
 HitEffect::~HitEffect() {}
 
-bool HitEffect::Update()
+void HitEffect::Update()
 {
-	bool ret = true;
+	
 	//create hit effect behaviour
-	return ret;
+	
 }
 
 void HitEffect::LoadSoundFX()
@@ -200,10 +247,12 @@ update_status ModuleParticles::PreUpdate()
 		if ((*it)->to_delete)
 		{
 			RELEASE(*it);
-			active.erase(it);
+			it = active.erase(it);
 		}
 		else
+		{
 			it++;
+		}
 	}
 
 	return UPDATE_CONTINUE;
