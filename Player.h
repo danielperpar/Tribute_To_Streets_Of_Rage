@@ -32,7 +32,8 @@ public:
 	
 	int speed = 0;
 	int life = 0;	
-
+	//distance in x-axis from the upper left corner of the sprite to the player's head upper point used as a point of reference or origin of coordinates
+	int ref_x = 70;
 
 	//jump
 	bool jump_up = true;
@@ -86,7 +87,6 @@ public:
 	SDL_Rect body_rect;
 	SDL_Rect hit_rect;
 
-	//int ref_x = 70;
 	int body_collider_offset_right = 0;
 	int hit_collider_offset_right = 0;
 	int body_collider_offset_left = 0;

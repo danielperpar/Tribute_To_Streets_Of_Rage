@@ -9,6 +9,7 @@
 #include "Antonio.h"
 #include "AntonioFSM.h"
 #include "Enemy.h"
+#include "ModuleRender.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
@@ -331,10 +332,13 @@ void PlayerFSM::Walk()
 	//set position
 	if (the_player->walk_left)
 	{
-		the_player->facing_right = false;
-		temp.x -= the_player->speed;
-		the_player->position = temp;
-		UpdateColliderPosition();
+		if (the_player->position.x + the_player->ref_x > App->renderer->left_limit)
+		{
+			the_player->facing_right = false;
+			temp.x -= the_player->speed;
+			the_player->position = temp;
+			UpdateColliderPosition();
+		}
 	}
 	if (the_player->walk_right)
 	{

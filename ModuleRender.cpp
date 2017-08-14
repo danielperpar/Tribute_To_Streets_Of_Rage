@@ -53,31 +53,20 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	// debug camera
-
-	/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-	{
-		camera.y += camera_speed;		
-	}
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		camera.y -= camera_speed;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	{
-		camera.x += camera_speed;
-		moving = -1;
-	}
+	//Camera moves forward only when player is beyond the middle of the screen
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		camera.x -= camera_speed;
-		moving = 1;
+		if ((App->player->the_player->position.x + App->player->the_player->ref_x) * SCREEN_SIZE + camera.x >= (SCREEN_SIZE * SCREEN_WIDTH) / 2)
+		{
+			camera.x -= SCREEN_SIZE * camera_speed;
+		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		moving = 0;
-	}*/
+		left_limit = -camera.x / SCREEN_SIZE;
+	}
+	
 
 	return UPDATE_CONTINUE;
 }
