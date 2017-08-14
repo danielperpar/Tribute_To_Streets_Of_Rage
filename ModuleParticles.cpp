@@ -228,14 +228,13 @@ bool ModuleParticles::Start()
 bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
-	App->textures->Unload(graphics_hit_effect);
-	App->textures->Unload(graphics_boomerang);
-
 	for (list<Particle*>::iterator it = active.begin(); it != active.end(); ++it)
 	{
 		RELEASE(*it);
 	}
 	active.clear();
+	RELEASE(hit_effect_prototype);
+	RELEASE(boomerang_prototype);
 
 	return true;
 }
