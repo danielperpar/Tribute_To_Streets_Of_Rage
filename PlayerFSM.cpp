@@ -444,14 +444,27 @@ void PlayerFSM::Jump()
 		
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
+			bool depth_condition = false;
+			
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				if (((Enemy*)((*it).second.collider->entity))->knocked_down == false)
+				if (!strcmp("antonio", (*it).second.collider->entity->name))
 				{
-					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage * 2);
+					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
+						depth_condition = true;
 				}
-				
-				((Enemy*)((*it).second.collider->entity))->knocked_down = true;
+				else
+					depth_condition = true; //no depth condition for garcia
+
+				if (depth_condition == true)
+				{
+					if (((Enemy*)((*it).second.collider->entity))->knocked_down == false)
+					{
+						((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage * 2);
+					}
+
+					((Enemy*)((*it).second.collider->entity))->knocked_down = true;
+				}
 			}
 		}
 		
@@ -573,8 +586,20 @@ void PlayerFSM::CboHighPunch()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				((Enemy*)((*it).second.collider->entity))->damaged = true;
-				((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				bool depth_condition = false;
+				if (!strcmp("antonio", (*it).second.collider->entity->name))
+				{
+					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
+						depth_condition = true;
+				}
+				else
+					depth_condition = true; //no depth condition for garcia
+
+				if (depth_condition == true)
+				{
+					((Enemy*)((*it).second.collider->entity))->damaged = true;
+					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				}
 			}
 		}
 	}
@@ -606,8 +631,20 @@ void PlayerFSM::CboLowPunch()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				((Enemy*)((*it).second.collider->entity))->damaged = true;
-				((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				bool depth_condition = false;
+				if (!strcmp("antonio", (*it).second.collider->entity->name))
+				{
+					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
+						depth_condition = true;
+				}
+				else
+					depth_condition = true; //no depth condition for garcia
+
+				if (depth_condition == true)
+				{
+					((Enemy*)((*it).second.collider->entity))->damaged = true;
+					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				}
 			}
 		}
 	}
@@ -634,8 +671,20 @@ void PlayerFSM::CboKick()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				((Enemy*)((*it).second.collider->entity))->knocked_down = true;
-				((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				bool depth_condition = false;
+				if (!strcmp("antonio", (*it).second.collider->entity->name))
+				{
+					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
+						depth_condition = true;
+				}
+				else
+					depth_condition = true; //no depth condition for garcia
+
+				if (depth_condition == true)
+				{
+					((Enemy*)((*it).second.collider->entity))->knocked_down = true;
+					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
+				}
 			}
 		}
 		
