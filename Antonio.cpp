@@ -16,7 +16,7 @@ Antonio::Antonio(SDL_Texture *texture,
 	LoadStats();
 }
 
-Antonio::Antonio(const Antonio &antonio) : Enemy(antonio.texture, antonio.curr_anim, antonio.name, antonio.type, antonio.position, antonio.depth)
+Antonio::Antonio(const Antonio &antonio) : Enemy(antonio)
 {
 	life = antonio.life;
 	speed = antonio.speed;

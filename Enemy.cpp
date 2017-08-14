@@ -6,6 +6,16 @@ Enemy::Enemy(SDL_Texture *texture, Animation *curr_anim, const char *name, entit
 	LoadColliders(name);
 }
 
+Enemy::Enemy(const Enemy &enemy) : Entity(enemy.texture, enemy.curr_anim, enemy.name, enemy.type, enemy.position, enemy.depth)
+{
+	body_rect = enemy.body_rect;
+	hit_rect = enemy.hit_rect;
+	body_collider_offset_right = enemy.body_collider_offset_right;
+	hit_collider_offset_right = enemy.hit_collider_offset_right;
+	body_collider_offset_left = enemy.body_collider_offset_left;
+	hit_collider_offset_left = enemy.hit_collider_offset_left;
+}
+
 Enemy::~Enemy() {}
 
 void Enemy::LoadColliders(const char *name)

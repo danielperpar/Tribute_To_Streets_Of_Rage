@@ -16,7 +16,7 @@ Garcia::Garcia(SDL_Texture *texture,
 	LoadStats();
 }
 
-Garcia::Garcia(const Garcia &garcia) : Enemy(garcia.texture, garcia.curr_anim, garcia.name, garcia.type, garcia.position, garcia.depth)
+Garcia::Garcia(const Garcia &garcia) : Enemy(garcia)
 {
 	life = garcia.life;
 	speed = garcia.speed;
