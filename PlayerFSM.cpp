@@ -342,10 +342,13 @@ void PlayerFSM::Walk()
 	}
 	if (the_player->walk_right)
 	{
-		the_player->facing_right = true;
-		temp.x += the_player->speed;
-		the_player->position = temp;
-		UpdateColliderPosition();
+		if (the_player->position.x + the_player->ref_x < App->renderer->right_limit)
+		{
+			the_player->facing_right = true;
+			temp.x += the_player->speed;
+			the_player->position = temp;
+			UpdateColliderPosition();
+		}
 	}
 	if (the_player->walk_up)
 	{

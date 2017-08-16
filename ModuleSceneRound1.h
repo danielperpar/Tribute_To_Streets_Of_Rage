@@ -32,7 +32,16 @@ public:
 	//-------------------- SCENE BOUNDARIES -------------------
 	int upper_limit = 90;
 	int lower_limit = 160;
+	int right_limit = 3400;
 
+	//-------------------- SCENE STOP POINTS -----------------
+	int first_stop_x = 1537;
+	int second_stop_x = 2306;
+	int third_stop_x = 3075;
+
+	bool first_stop_reached = false;
+	bool second_stop_reached = false;
+	bool third_stop_reached = false;
 	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
 	bool first_trigger_reached = false;
 

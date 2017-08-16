@@ -7,6 +7,7 @@
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "Player.h"
+#include "ModuleSceneRound1.h"
 
 ModuleRender::ModuleRender()
 {
@@ -58,7 +59,8 @@ update_status ModuleRender::Update()
 	{
 		if ((App->player->the_player->position.x + App->player->the_player->ref_x) * SCREEN_SIZE + camera.x >= (SCREEN_SIZE * SCREEN_WIDTH) / 2)
 		{
-			camera.x -= SCREEN_SIZE * camera_speed;
+			if(allow_camera_movement)
+				camera.x -= SCREEN_SIZE * camera_speed;
 		}
 	}
 
@@ -67,6 +69,35 @@ update_status ModuleRender::Update()
 		left_limit = -camera.x / SCREEN_SIZE;
 	}
 	
+	//Checking scene stop points
+	if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->first_stop_x * SCREEN_SIZE && !App->scene_round1->first_stop_reached)
+	{
+		allow_camera_movement = false;
+		App->scene_round1->first_stop_reached = true;
+		right_limit = App->scene_round1->first_stop_x;
+	}
+
+	if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->second_stop_x * SCREEN_SIZE && !App->scene_round1->second_stop_reached)
+	{
+		allow_camera_movement = false;
+		App->scene_round1->second_stop_reached = true;
+		right_limit = App->scene_round1->second_stop_x;
+	}
+
+	if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->third_stop_x * SCREEN_SIZE && !App->scene_round1->third_stop_reached)
+	{
+		allow_camera_movement = false;
+		App->scene_round1->third_stop_reached = true;
+		right_limit = App->scene_round1->third_stop_x;
+	}
+
+
+	//Debug - release camera 
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
+	{
+		allow_camera_movement = true;
+		right_limit = App->scene_round1->right_limit;//scene right limit
+	}
 
 	return UPDATE_CONTINUE;
 }
