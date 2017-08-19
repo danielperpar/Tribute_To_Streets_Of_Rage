@@ -33,7 +33,6 @@ void Player::LoadStats()
 	life = JSONDataLoader::GetNumber("assets/json/config.json", "player", "life");
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "speed");
 	jump_speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "jump_speed");
-
 }
 
 void Player::UpdateFSM()

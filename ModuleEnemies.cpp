@@ -10,6 +10,7 @@
 #include "Antonio.h"
 #include "AntonioFSM.h"
 #include "ModuleRender.h"
+#include "Player.h"
 
 ModuleEnemies::ModuleEnemies(bool active) : Module(active) {}
 
@@ -19,7 +20,6 @@ ModuleEnemies::~ModuleEnemies()
 // Load assets
 bool ModuleEnemies::Start()
 {
-
 	LOG("Loading enemies prototypes");
 	tx_enemies = App->textures->Load("assets/spritesheets/enemies.png");
 
@@ -28,6 +28,65 @@ bool ModuleEnemies::Start()
 	antonio_prototype->cast_left = { -App->renderer->camera.x * App->renderer ->camera_speed/SCREEN_SIZE - antonio_prototype->offset_cast_x_left, antonio_prototype->offset_cast_y };
 	antonio_prototype->cast_right = { -App->renderer->camera.x * App->renderer->camera_speed /SCREEN_SIZE + SCREEN_WIDTH - antonio_prototype->offset_cast_x_right, antonio_prototype->offset_cast_y };
 	antonio_prototype->spawn_position = { -App->renderer->camera.x * App->renderer->camera_speed /SCREEN_SIZE + SCREEN_WIDTH, antonio_prototype->offset_cast_y };
+	
+	//Initialize spawnpoints array
+	spawn_points = new iPoint*[max_spawn_points];
+	spawn_points[0] = new iPoint[amount_at_point_0];
+	spawn_points[1] = new iPoint[amount_at_point_1];
+	spawn_points[2] = new iPoint[amount_at_point_2];	
+	spawn_points[3] = new iPoint[amount_at_point_3];
+	spawn_points[4] = new iPoint[amount_at_point_4];
+	spawn_points[5] = new iPoint[amount_at_point_5];	
+	spawn_points[6] = new iPoint[amount_at_point_6];
+
+	spawn_points[0][0] = iPoint(player_trigger_0 + offset_spawn_right, spawn_0_0_y);
+	
+	spawn_points[1][0] = iPoint(player_trigger_1 + offset_spawn_right, spawn_1_0_y);
+	spawn_points[1][1] = iPoint(player_trigger_1 - offset_spawn_left, spawn_1_1_y);
+
+	spawn_points[2][0] = iPoint(player_trigger_2 + offset_spawn_right, spawn_2_0_y);
+	spawn_points[2][1] = iPoint(player_trigger_2 - offset_spawn_left, spawn_2_1_y);
+	spawn_points[2][2] = iPoint(player_trigger_2 + offset_spawn_left, spawn_2_2_y);
+
+	spawn_points[3][0] = iPoint(player_trigger_3 + offset_spawn_right, spawn_3_0_y);
+	spawn_points[3][1] = iPoint(player_trigger_3 - offset_spawn_left, spawn_3_1_y);
+	spawn_points[3][2] = iPoint(player_trigger_3 + offset_spawn_right, spawn_3_2_y);
+
+	spawn_points[4][0] = iPoint(player_trigger_4 - offset_spawn_left, spawn_4_0_y);
+	spawn_points[4][1] = iPoint(player_trigger_4 + offset_spawn_right, spawn_4_1_y);
+	spawn_points[4][2] = iPoint(player_trigger_4 - offset_spawn_left, spawn_4_2_y);
+	spawn_points[4][3] = iPoint(player_trigger_4 + offset_spawn_right, spawn_4_3_y);
+
+	spawn_points[5][0] = iPoint(player_trigger_5 - offset_spawn_left, spawn_5_0_y);
+	spawn_points[5][1] = iPoint(player_trigger_5 + offset_spawn_right, spawn_5_1_y);
+
+	spawn_points[6][0] = iPoint(player_trigger_6 + offset_spawn_right, spawn_6_0_y);
+	spawn_points[6][1] = iPoint(player_trigger_6 + offset_spawn_right, spawn_6_1_y);
+
+	//Initialize array of amount of enemies at each spawn point
+	amount_at_points = new int[max_spawn_points];
+	amount_at_points[0] = amount_at_point_0;
+	amount_at_points[1] = amount_at_point_1;
+	amount_at_points[2] = amount_at_point_2;
+	amount_at_points[3] = amount_at_point_3;
+	amount_at_points[4] = amount_at_point_4;
+	amount_at_points[5] = amount_at_point_5;
+	amount_at_points[6] = amount_at_point_6;
+
+	//Initialize trigger array
+	triggers = new int[max_spawn_points];
+	triggers[0] = player_trigger_0;
+	triggers[1] = player_trigger_1;
+	triggers[2] = player_trigger_2;
+	triggers[3] = player_trigger_3;
+	triggers[4] = player_trigger_4;
+	triggers[5] = player_trigger_5;
+	triggers[6] = player_trigger_6;
+	
+	//Initialize reached_triggers array
+	reached_triggers = new int[max_spawn_points];
+	memset(reached_triggers, 0, max_spawn_points * sizeof(int));
+
 	return true;
 }
 
@@ -37,6 +96,17 @@ bool ModuleEnemies::CleanUp()
 	LOG("Unloading enemies");
 	RELEASE(garcia_prototype);
 	RELEASE(antonio_prototype);
+	
+	for (int i = 0; i < max_spawn_points; i++)
+	{
+		RELEASE_ARRAY(spawn_points[i]);
+	}
+
+	RELEASE_ARRAY(spawn_points);
+	RELEASE_ARRAY(amount_at_points);
+	RELEASE_ARRAY(triggers);
+	RELEASE_ARRAY(reached_triggers);
+
 	return true;
 }
 
@@ -48,35 +118,45 @@ update_status ModuleEnemies::Update()
 	{
 		first_trigger_reached = true;
 	}
-
 	if (first_trigger_reached)
 	{
 		first_trigger_reached = false;
-		/*Garcia* garcia = (Garcia*)GenerateEnemy(entity_type::GARCIA, { 800, 150 }, App->player->the_player, App->scene_round1->dynamic_entities);		
-		
-		LOG("Adding garcia colliders to ModuleCollision");
-		garcia->body_collider = App->collision->AddCollider(garcia->body_rect, garcia, collider_type::ENEMY_BODY);
-		garcia->hit_collider = App->collision->AddCollider(garcia->hit_rect, garcia, collider_type::ENEMY_HIT);
-		garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
-		garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
-		*/
-		Antonio* antonio = (Antonio*)GenerateEnemy(entity_type::ANTONIO, antonio_prototype->spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
-		
-		LOG("Adding antonio colliders to ModuleCollision");
-		antonio->body_collider = App->collision->AddCollider(antonio->body_rect, antonio, collider_type::ENEMY_BODY);
-		antonio->hit_collider = App->collision->AddCollider(antonio->hit_rect, antonio, collider_type::ENEMY_HIT);
-		antonio->body_collider->SetPos(antonio->position.x + antonio->body_collider_offset_left, antonio->position.y + antonio->body_collider_offset_y);
-		antonio->hit_collider->SetPos(antonio->position.x + antonio->hit_collider_offset_left, antonio->position.y + antonio->hit_collider_offset_y);
-
+		GenerateEnemy(entity_type::GARCIA, { 800, 150 }, App->player->the_player, App->scene_round1->dynamic_entities);
+		GenerateEnemy(entity_type::ANTONIO, antonio_prototype->spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
 	}
+
+	LOG("player x=%d", App->player->the_player->position.x);
+	//----------
+	
+	//Trigger enemies generation
+	for (int i = 0; i < max_spawn_points; i++)
+	{
+		if (App->player->the_player->position.x >= triggers[i] && reached_triggers[i] == 0)
+		{
+			SpawnEnemies(i, amount_at_points[i], entity_type::GARCIA);
+			reached_triggers[i] = 1;
+			break;
+		}
+	}
+
 	return UPDATE_CONTINUE;
 }
 
 //--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------
 
-Entity* ModuleEnemies::GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities)
+void ModuleEnemies::SpawnEnemies(int spawn_point, int amount, entity_type type)
 {
-	Entity *enemy = nullptr;
+	for (int i = 0; i < amount; i++)
+	{	
+		//debug test
+		iPoint spwn = spawn_points[spawn_point][i];
+
+		GenerateEnemy(type, spawn_points[spawn_point][i], App->player->the_player, App->scene_round1->dynamic_entities);
+	}
+}
+
+void ModuleEnemies::GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities)
+{
 	switch (type)
 	{
 	case entity_type::GARCIA:
@@ -86,8 +166,14 @@ Entity* ModuleEnemies::GenerateEnemy(entity_type type, iPoint position, Player *
 			garcia->depth = position.y;
 			garcia->garcia_fsm = new GarciaFSM(garcia);
 			garcia->SetPlayer(player);
-			dynamic_entities.push_back(garcia);
-			enemy = garcia;
+
+			LOG("Adding garcia colliders to ModuleCollision");
+			garcia->body_collider = App->collision->AddCollider(garcia->body_rect, garcia, collider_type::ENEMY_BODY);
+			garcia->hit_collider = App->collision->AddCollider(garcia->hit_rect, garcia, collider_type::ENEMY_HIT);
+			garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
+			garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
+
+			dynamic_entities.push_back(garcia);			
 			break;
 		}
 	case entity_type::ANTONIO:
@@ -97,13 +183,17 @@ Entity* ModuleEnemies::GenerateEnemy(entity_type type, iPoint position, Player *
 			antonio->depth = position.y + antonio->ref_y;
 			antonio->antonio_fsm = new AntonioFSM(antonio);
 			antonio->SetPlayer(player);
-			dynamic_entities.push_back(antonio);
-			enemy = antonio;
+
+			LOG("Adding antonio colliders to ModuleCollision");
+			antonio->body_collider = App->collision->AddCollider(antonio->body_rect, antonio, collider_type::ENEMY_BODY);
+			antonio->hit_collider = App->collision->AddCollider(antonio->hit_rect, antonio, collider_type::ENEMY_HIT);
+			antonio->body_collider->SetPos(antonio->position.x + antonio->body_collider_offset_left, antonio->position.y + antonio->body_collider_offset_y);
+			antonio->hit_collider->SetPos(antonio->position.x + antonio->hit_collider_offset_left, antonio->position.y + antonio->hit_collider_offset_y);
+
+			dynamic_entities.push_back(antonio);			
 			break;
 		}
 	}
-
-	return enemy;
 }
 
 

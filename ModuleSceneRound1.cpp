@@ -81,7 +81,7 @@ bool ModuleSceneRound1::Start()
 	
 	foreground = new ScenarioElement(tx_foreground, nullptr, "foreground", entity_type::SCENARIO, { 0,32 }, 0);
 	gui = new GUI(tx_gui, nullptr, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
-	
+	go_sign = new GUI(tx_go_sign, &goSignBlink, "go_sign", entity_type::GUI, { 800, 160 }, 0); //follows the camera
 	//---------------------------------------------------------------------------------------
 	
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
@@ -159,6 +159,17 @@ update_status ModuleSceneRound1::Update()
 	App->renderer->Blit(foreground->texture, foreground->position.x, foreground->position.y, nullptr);
 	App->renderer->Blit(gui->texture, gui->position.x, gui->position.y, nullptr, true);
 
+	if (show_go)
+	{
+		App->renderer->Blit(go_sign->texture, go_sign->position.x, go_sign->position.y, &go_sign->curr_anim->GetCurrentFrame(), true);
+		go_sign_show_counter++;
+		if (go_sign_show_counter == go_sign_show_frames)
+		{
+			go_sign_show_counter = 0;
+			show_go = false;
+		}
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -183,6 +194,7 @@ bool ModuleSceneRound1::CleanUp()
 
 	RELEASE(foreground);
 	RELEASE(gui);
+	RELEASE(go_sign);
 
 	return true;
 }
@@ -195,6 +207,7 @@ void ModuleSceneRound1::LoadSceneAssets()
 	tx_foreground = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_foreground.png");
 	tx_neons = App->textures->Load("assets/spritesheets/neones.png");
 	tx_gui = App->textures->Load("assets/spritesheets/gui.png");
+	tx_go_sign = App->textures->Load("assets/spritesheets/round1_ground_items.png");
 
 	//------------------------------------ LOAD SCENE ANIMATIONS ----------------------------------------------
 	//Scenario 
@@ -227,6 +240,16 @@ void ModuleSceneRound1::LoadSceneAssets()
 		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neonCafeRestaurant);
 		neonCafeRestaurant.loop = true;
 		neonCafeRestaurant.speed = 0.05f;
+		Utilities::free_list(animation_list);
+
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSign", animation_list, goSignBlink);
+		goSignBlink.loop = true;
+		goSignBlink.speed = 0.1f;
+		Utilities::free_list(animation_list);
+
+		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSignTransparent", animation_list, goSignTransparent);
+		goSignTransparent.loop = true;
+		goSignTransparent.speed = 0.1f;
 		Utilities::free_list(animation_list);
 	}
 	

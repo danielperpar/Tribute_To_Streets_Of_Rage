@@ -77,20 +77,58 @@ update_status ModuleRender::Update()
 		right_limit = App->scene_round1->first_stop_x;
 	}
 
-	if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->second_stop_x * SCREEN_SIZE && !App->scene_round1->second_stop_reached)
+	else if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->second_stop_x * SCREEN_SIZE && !App->scene_round1->second_stop_reached)
 	{
 		allow_camera_movement = false;
 		App->scene_round1->second_stop_reached = true;
 		right_limit = App->scene_round1->second_stop_x;
 	}
 
-	if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->third_stop_x * SCREEN_SIZE && !App->scene_round1->third_stop_reached)
+	else if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->third_stop_x * SCREEN_SIZE && !App->scene_round1->third_stop_reached)
 	{
 		allow_camera_movement = false;
 		App->scene_round1->third_stop_reached = true;
 		right_limit = App->scene_round1->third_stop_x;
 	}
+	else if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->right_limit * SCREEN_SIZE)
+	{
+		allow_camera_movement = false;
+		right_limit = App->scene_round1->right_limit;
+	}
 
+	//Release the camera when the area is free of enemies
+	if (App->scene_round1->first_stop_reached && !App->scene_round1->first_area_clear)
+	{
+		if (App->scene_round1->dynamic_entities.size() == 1)
+		{
+			App->scene_round1->first_area_clear = true;
+			App->scene_round1->show_go = true;
+			allow_camera_movement = true;
+			right_limit = App->scene_round1->right_limit;//scene right limit
+		}
+	}
+
+	else if (App->scene_round1->second_stop_reached && !App->scene_round1->second_area_clear)
+	{
+		if (App->scene_round1->dynamic_entities.size() == 1)
+		{
+			App->scene_round1->second_area_clear = true;
+			App->scene_round1->show_go = true;
+			allow_camera_movement = true;
+			right_limit = App->scene_round1->right_limit;//scene right limit
+		}
+	}
+
+	else if (App->scene_round1->third_stop_reached && !App->scene_round1->third_area_clear)
+	{
+		if (App->scene_round1->dynamic_entities.size() == 1)
+		{
+			App->scene_round1->third_area_clear = true;
+			App->scene_round1->show_go = true;
+			allow_camera_movement = true;
+			right_limit = App->scene_round1->right_limit;//scene right limit
+		}
+	}
 
 	//Debug - release camera 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
@@ -134,8 +172,8 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, b
 	}
 	else
 	{
-		rect.x = 0;
-		rect.y = 0;
+		rect.x = x;
+		rect.y = y;
 	}
 
 	if(section != nullptr)
