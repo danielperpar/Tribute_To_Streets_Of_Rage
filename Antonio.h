@@ -16,8 +16,8 @@ class Antonio : public Enemy
 private:
 
 	std::list<int*> animation_list;
-	void LoadStats();
 	void LoadAntonioAnimations();
+	void LoadOffsets();
 
 public:
 
@@ -33,9 +33,6 @@ public:
 	void ApplyDamage(int damage);
 
 	AntonioFSM *antonio_fsm = nullptr;
-	int life = 400;
-	iPoint speed_vect = { 1,1 };
-	int speed = 0;
 	Player *the_player = nullptr;
 	bool entered_knocked_down = false;
 	bool carrying_boomerang = true;

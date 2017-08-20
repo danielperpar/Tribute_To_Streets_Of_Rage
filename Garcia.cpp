@@ -13,15 +13,10 @@ Garcia::Garcia(SDL_Texture *texture,
 	int depth) : Enemy(texture, curr_anim, name, type, position, depth) 
 {
 	LoadGarciaAnimations();
-	LoadStats();
 }
 
 Garcia::Garcia(const Garcia &garcia) : Enemy(garcia)
 {
-	life = garcia.life;
-	speed = garcia.speed;
-	speed_vect = garcia.speed_vect;
-
 	garcia_idle_right = garcia.garcia_idle_right;
 	garcia_idle_left = garcia.garcia_idle_left;
 
@@ -78,14 +73,6 @@ void Garcia::SetPlayer(Player *player)
 void Garcia::ApplyDamage(int damage)
 {
 	life -= damage;
-}
-
-void Garcia::LoadStats()
-{
-	life = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "life");
-	speed = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "speed");
-	speed_vect.x = speed;
-	speed_vect.y = speed;
 }
 
 void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)

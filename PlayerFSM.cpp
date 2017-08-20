@@ -719,7 +719,11 @@ void PlayerFSM::LowKick()
 		((Enemy*)(the_player->grabbed_enemy))->damaged = true;
 		((Enemy*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
 		the_player->curr_anim->Reset();
-		curr_state = State::GRAB;
+
+		if(((Enemy*)(the_player->grabbed_enemy))->life > 0)
+			curr_state = State::GRAB;
+		else
+			curr_state = State::IDLE;
 	}
 
 }

@@ -17,7 +17,6 @@ class Garcia : public Enemy
 
 private:
 	std::list<int*> animation_list;
-	void LoadStats();
 	void LoadGarciaAnimations();
 
 public:
@@ -36,9 +35,6 @@ public:
 	int frames_counter = 0;
 
 	GarciaFSM *garcia_fsm = nullptr;
-	int life = 100;
-	iPoint speed_vect = { 1,1 };
-	int speed = 0;
 	Player *the_player = nullptr;
 	size_t punch_hits = 0;
 

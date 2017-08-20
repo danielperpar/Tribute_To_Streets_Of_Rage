@@ -13,15 +13,11 @@ Antonio::Antonio(SDL_Texture *texture,
 	int depth) : Enemy(texture, curr_anim, name, type, position, depth) 
 {
 	LoadAntonioAnimations();
-	LoadStats();
+	LoadOffsets();
 }
 
 Antonio::Antonio(const Antonio &antonio) : Enemy(antonio)
-{
-	life = antonio.life;
-	speed = antonio.speed;
-	speed_vect = antonio.speed_vect;
-	
+{	
 	antonio_boomerang_idle_right = antonio.antonio_boomerang_idle_right;
 	antonio_boomerang_idle_left = antonio.antonio_boomerang_idle_left;
 
@@ -94,12 +90,8 @@ void Antonio::ApplyDamage(int damage)
 	life -= damage;
 }
 
-void Antonio::LoadStats()
+void Antonio::LoadOffsets()
 {
-	life = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "life");
-	speed = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "speed");
-	speed_vect.x = speed;
-	speed_vect.y = speed;
 	ref_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "ref_y");
 	body_collider_offset_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_offset_y");
 	hit_collider_offset_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "hit_collider_offset_y");

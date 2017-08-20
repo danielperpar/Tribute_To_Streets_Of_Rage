@@ -13,6 +13,11 @@ public:
 	Enemy(const Enemy& enemy);
 	~Enemy();
 
+	//---------------------------------------- STATS ---------------------------------------
+	int life = 0;
+	int speed = 0;
+	iPoint speed_vect;
+
 	//---------------------------------------- COLLIDERS -----------------------------------------------
 	Collider *body_collider = nullptr;
 	Collider *hit_collider = nullptr;
@@ -62,7 +67,7 @@ public:
 
 private:
 	void LoadColliders(const char *name);
-
+	void LoadStats(const char *name);
 };
 
 #endif // !__ENEMY_H__
