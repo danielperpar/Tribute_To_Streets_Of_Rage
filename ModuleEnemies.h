@@ -33,7 +33,7 @@ private:
 	iPoint **spawn_points;
 	int max_spawn_points = 7;
 	int *amount_at_points;
-	int *triggers;
+	int starting_trigger = 800;
 	int *reached_triggers;
 	
 	//----------------- AMOUNT OF ENEMIES AT EACH SPAWN POINT
@@ -55,7 +55,7 @@ private:
 	
 	int spawn_1_0_y = 100;  //spawn point 1 enemy 0
 	int spawn_1_1_y = 110;  //spawn point 1 enemy 1
-
+							
 	int spawn_2_0_y = 100;
 	int spawn_2_1_y = 150;
 	int spawn_2_2_y = 200;
@@ -76,15 +76,6 @@ private:
 	int spawn_6_1_y = 400;
 
 	
-	//Enemies spawn triggers
-	int player_trigger_0 = 800;
-	int player_trigger_1 = 900;
-	int player_trigger_2 = 1000;
-	int player_trigger_3 = 1100;
-	int player_trigger_4 = 1200;
-	int player_trigger_5 = 1300;
-	int player_trigger_6 = 1400;
-
 	bool trigger_0_reached = false;
 	bool trigger_1_reached = false;
 	bool trigger_2_reached = false;
