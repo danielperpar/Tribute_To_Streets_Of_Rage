@@ -303,19 +303,27 @@ void GarciaFSM::Chase()
 		if (distance_x < garcia->speed_vect.x)
 		{
 			garcia->speed_vect.x = 1;
+			garcia->garcia_walk_left.speed = 0.1f;
+			garcia->garcia_walk_right.speed = 0.1f;
 		}
 		else
 		{
 			garcia->speed_vect.x = 2;
+			garcia->garcia_walk_left.speed = 0.2f;
+			garcia->garcia_walk_right.speed = 0.2f;
 		}
 
 		if (distance_y < garcia->speed_vect.y)
 		{
 			garcia->speed_vect.y = 1;
+			garcia->garcia_walk_left.speed = 0.1f;
+			garcia->garcia_walk_right.speed = 0.1f;
 		}
 		else
 		{
 			garcia->speed_vect.y = 2;
+			garcia->garcia_walk_left.speed = 0.2f;
+			garcia->garcia_walk_right.speed = 0.2f;
 		}
 	}
 	else
