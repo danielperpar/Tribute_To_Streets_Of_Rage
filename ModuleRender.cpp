@@ -93,6 +93,7 @@ update_status ModuleRender::Update()
 	else if (-camera.x + SCREEN_WIDTH * SCREEN_SIZE >= App->scene_round1->right_limit * SCREEN_SIZE)
 	{
 		allow_camera_movement = false;
+		App->scene_round1->end_of_scene_reached = true;
 		right_limit = App->scene_round1->right_limit;
 	}
 
@@ -130,12 +131,20 @@ update_status ModuleRender::Update()
 		}
 	}
 
-	//Debug - release camera 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
+	else if (App->scene_round1->end_of_scene_reached && !App->scene_round1->end_of_scene_clear)
 	{
-		allow_camera_movement = true;
-		right_limit = App->scene_round1->right_limit;//scene right limit
+		if (App->scene_round1->dynamic_entities.size() == 1)
+		{
+			App->scene_round1->end_of_scene_clear = true;
+		}
 	}
+
+	//Debug - release camera 
+	//if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
+	//{
+	//	allow_camera_movement = true;
+	//	right_limit = App->scene_round1->right_limit;//scene right limit
+	//}
 
 	return UPDATE_CONTINUE;
 }

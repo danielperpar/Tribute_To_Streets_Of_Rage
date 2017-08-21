@@ -35,7 +35,7 @@ private:
 	int *amount_at_points;
 	int starting_trigger = 800;
 	int *reached_triggers;
-	
+	bool spawn_boss = true;
 	//----------------- AMOUNT OF ENEMIES AT EACH SPAWN POINT
 
 	int amount_at_point_0 = 1;

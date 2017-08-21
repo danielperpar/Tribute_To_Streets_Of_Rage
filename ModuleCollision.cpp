@@ -139,8 +139,6 @@ update_status ModuleCollision::PreUpdate()
 			++it;
 	}
 
-	
-
 	return UPDATE_CONTINUE;
 }
 

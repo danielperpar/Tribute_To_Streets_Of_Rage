@@ -2,9 +2,7 @@
 #include "Antonio.h"
 #include "Player.h"
 #include "ModuleParticles.h"
-
-//-------------------- test boomerang
-#include "ModuleInput.h"
+#include "ModuleRender.h"
 #include "Application.h"
 
 AntonioFSM::AntonioFSM(Antonio *ant) : antonio(ant) 
@@ -17,15 +15,6 @@ AntonioFSM::~AntonioFSM() {}
 
 void AntonioFSM::Update()
 {
-
-	//test recover boomerang
-	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
-	{
-		antonio->recover_boomerang = true;
-		antonio->carrying_boomerang = true;
-	}
-//--------------------------------------------------
-
 	switch (curr_state)
 	{
 
@@ -636,7 +625,7 @@ void AntonioFSM::ThrowBoomerang()
 			((Boomerang*)particle)->moving_right = true;
 			((Boomerang*)particle)->start_pos = ((Boomerang*)particle)->position;
 			((Boomerang*)particle)->antonio = antonio;
-
+			
 			LOG("Adding boomerang collider to ModuleCollision");
 			((Boomerang*)particle)->collider = App->collision->AddCollider(((Boomerang*)particle)->boomerang_rect, ((Boomerang*)particle), collider_type::BOOMERANG);
 
@@ -652,7 +641,7 @@ void AntonioFSM::ThrowBoomerang()
 			((Boomerang*)particle)->curr_anim = &((Boomerang*)particle)->anim_left;
 			((Boomerang*)particle)->moving_right = false;
 			((Boomerang*)particle)->start_pos = ((Boomerang*)particle)->position;
-			((Boomerang*)particle)->antonio = antonio;
+			((Boomerang*)particle)->antonio = antonio;		
 
 			LOG("Adding boomerang collider to ModuleCollision");
 			((Boomerang*)particle)->collider = App->collision->AddCollider(((Boomerang*)particle)->boomerang_rect, ((Boomerang*)particle), collider_type::BOOMERANG);

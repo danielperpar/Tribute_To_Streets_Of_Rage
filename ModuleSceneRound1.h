@@ -44,10 +44,12 @@ public:
 	bool first_stop_reached = false;
 	bool second_stop_reached = false;
 	bool third_stop_reached = false;
+	bool end_of_scene_reached = false;
 
 	bool first_area_clear = false;
 	bool second_area_clear = false;
 	bool third_area_clear = false;
+	bool end_of_scene_clear = false;
 
 	bool show_go = false;
 	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------

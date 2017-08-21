@@ -37,7 +37,10 @@ public:
 	bool moving_right = false;
 	iPoint start_pos = { 0,0 };
 	Antonio *antonio = nullptr;
-	
+	iPoint max_range_right = { 0,0 };
+	iPoint max_range_left = { 0, 0 };
+	int max_range_y = 50; //antonio->offset_cast_y
+
 	Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Boomerang(const Boomerang &boomerang);
 	virtual ~Boomerang();
@@ -50,12 +53,9 @@ public:
 
 private:
 	std::list<int*> animation_list;
-	
-	iPoint max_range_right = { 0,0 };
-	iPoint max_range_left = { 0, 0 };
 	bool max_distance_reached = false;
 	bool start_position_reached = false;
-	int max_range_y = 50; //antonio->offset_cast_y
+	
 
 	enum class move_stage 
 	{

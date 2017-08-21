@@ -11,6 +11,7 @@
 #include "AntonioFSM.h"
 #include "ModuleRender.h"
 #include "Player.h"
+#include "ModuleParticles.h"
 
 ModuleEnemies::ModuleEnemies(bool active) : Module(active) {}
 
@@ -126,6 +127,19 @@ update_status ModuleEnemies::Update()
 			reached_triggers[i] = 1;
 			break;
 		}
+	}
+
+	if (App->scene_round1->end_of_scene_clear && spawn_boss)
+	{
+		antonio_prototype->cast_left = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE - antonio_prototype->offset_cast_x_left, antonio_prototype->offset_cast_y };
+		antonio_prototype->cast_right = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE + SCREEN_WIDTH - antonio_prototype->offset_cast_x_right, antonio_prototype->offset_cast_y };
+		iPoint spawn_position = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE + SCREEN_WIDTH, antonio_prototype->offset_cast_y };
+		GenerateEnemy(entity_type::ANTONIO, spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
+		spawn_boss = false;
+
+		//Recalculate boomerang ranges with the position of the camera
+		App->particles->boomerang_prototype->max_range_left = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE, App->particles->boomerang_prototype->max_range_y };
+		App->particles->boomerang_prototype->max_range_right = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE + SCREEN_WIDTH, App->particles->boomerang_prototype->max_range_y };		
 	}
 
 	return UPDATE_CONTINUE;
