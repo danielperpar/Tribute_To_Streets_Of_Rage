@@ -178,6 +178,7 @@ void PlayerFSM::Update()
 		}
 		if (the_player->damaged)
 		{
+			the_player->grab_hit_counter = 0;
 			curr_state = State::DAMAGED;
 			break;
 		}
@@ -737,8 +738,11 @@ void PlayerFSM::HeadHit()
 
 	if (the_player->curr_anim->Finished())
 	{
-		((Enemy*)(the_player->grabbed_enemy))->knocked_down = true;
-		((Enemy*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
+		if ((Enemy*)(the_player->grabbed_enemy) != nullptr)
+		{
+			((Enemy*)(the_player->grabbed_enemy))->knocked_down = true;
+			((Enemy*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
+		}
 		the_player->curr_anim->Reset();
 		the_player->enemy_to_grab = false;
 		curr_state = State::IDLE;

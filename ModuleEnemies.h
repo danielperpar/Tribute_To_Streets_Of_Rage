@@ -47,7 +47,7 @@ private:
 	int amount_at_point_6 = 2;
 
 	int offset_spawn_right = 250;
-	int offset_spawn_left = 100;
+	int offset_spawn_left = 150;
 	
 	//---------------- SPAWN POINT COORDINATE-Y
 
