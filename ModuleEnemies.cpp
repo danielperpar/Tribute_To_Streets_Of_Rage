@@ -112,7 +112,7 @@ update_status ModuleEnemies::Update()
 	{
 		first_trigger_reached = false;
 		GenerateEnemy(entity_type::GARCIA, { 800, 150 }, App->player->the_player, App->scene_round1->dynamic_entities);
-		GenerateEnemy(entity_type::ANTONIO, antonio_prototype->spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
+		//GenerateEnemy(entity_type::ANTONIO, antonio_prototype->spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
 	}
 
 	//LOG("player x=%d", App->player->the_player->position.x);

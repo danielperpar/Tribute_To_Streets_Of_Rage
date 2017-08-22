@@ -1042,7 +1042,10 @@ void PlayerFSM::AirAttackReverse()
 			the_player->position = the_player->jump_start_pos;
 			UpdateColliderPosition();
 			//Undo adjustments
-			((Antonio*)the_player->grabbed_enemy)->body_collider->rect.w = ((Antonio*)the_player->grabbed_enemy)->body_collider_original;
+			if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+			{
+				((Antonio*)the_player->grabbed_enemy)->body_collider->rect.w = ((Antonio*)the_player->grabbed_enemy)->body_collider_original;
+			}
 
 		}
 	}
@@ -1126,7 +1129,10 @@ void PlayerFSM::AirAttackReverse()
 			the_player->position = the_player->jump_start_pos;
 			UpdateColliderPosition();
 			//Undo adjustments
-			((Antonio*)the_player->grabbed_enemy)->body_collider->rect.x += ((Antonio*)the_player->grabbed_enemy)->body_collider_adjusted_x;
+			if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
+			{
+				((Antonio*)the_player->grabbed_enemy)->body_collider->rect.x += ((Antonio*)the_player->grabbed_enemy)->body_collider_adjusted_x;
+			}
 		}
 	}
 }
