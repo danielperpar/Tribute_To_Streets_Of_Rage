@@ -115,7 +115,7 @@ update_status ModuleEnemies::Update()
 		GenerateEnemy(entity_type::ANTONIO, antonio_prototype->spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
 	}
 
-	LOG("player x=%d", App->player->the_player->position.x);
+	//LOG("player x=%d", App->player->the_player->position.x);
 	//----------
 	
 	//Trigger enemies generation

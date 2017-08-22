@@ -24,6 +24,10 @@ void PlayerFSM::Update()
 	{
 		
 	case State::IDLE:
+		
+		if (the_player->damaged && prev_state == State::JUMP)
+			the_player->damaged = false;
+
 		Idle();
 		prev_state = curr_state;
 		if (
@@ -45,8 +49,7 @@ void PlayerFSM::Update()
 			break;
 		}
 		if (the_player->damaged)
-		{
-			LOG("entro damage");
+		{		
 			curr_state = State::DAMAGED;
 			break;
 		}
@@ -717,11 +720,14 @@ void PlayerFSM::LowKick()
 
 	if (the_player->curr_anim->Finished())
 	{
-		((Enemy*)(the_player->grabbed_enemy))->damaged = true;
-		((Enemy*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
+		if ((Enemy*)(the_player->grabbed_enemy) != nullptr)
+		{
+			((Enemy*)(the_player->grabbed_enemy))->damaged = true;
+			((Enemy*)(the_player->grabbed_enemy))->ApplyDamage(the_player->simple_damage);
+		}
 		the_player->curr_anim->Reset();
 
-		if(((Enemy*)(the_player->grabbed_enemy))->life > 0)
+		if((Enemy*)(the_player->grabbed_enemy) != nullptr && ((Enemy*)(the_player->grabbed_enemy))->life > 0)
 			curr_state = State::GRAB;
 		else
 			curr_state = State::IDLE;
