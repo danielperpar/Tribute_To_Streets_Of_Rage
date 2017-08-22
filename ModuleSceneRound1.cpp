@@ -170,6 +170,9 @@ update_status ModuleSceneRound1::Update()
 		}
 	}
 
+	//test debug
+	int test = dynamic_entities.size();
+
 	return UPDATE_CONTINUE;
 }
 

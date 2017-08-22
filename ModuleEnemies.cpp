@@ -171,10 +171,10 @@ void ModuleEnemies::GenerateEnemy(entity_type type, iPoint position, Player *pla
 			garcia->SetPlayer(player);
 
 			LOG("Adding garcia colliders to ModuleCollision");
-			garcia->body_collider = App->collision->AddCollider(garcia->body_rect, garcia, collider_type::ENEMY_BODY);
-			garcia->hit_collider = App->collision->AddCollider(garcia->hit_rect, garcia, collider_type::ENEMY_HIT);
-			garcia->body_collider->SetPos(garcia->position.x + garcia->body_collider_offset_right, garcia->position.y);
-			garcia->hit_collider->SetPos(garcia->position.x + garcia->hit_collider_offset_right, garcia->position.y);
+			garcia->body_collider = App->collision->AddCollider(garcia_prototype->body_rect, garcia, collider_type::ENEMY_BODY);
+			garcia->hit_collider = App->collision->AddCollider(garcia_prototype->hit_rect, garcia, collider_type::ENEMY_HIT);
+			garcia->body_collider->SetPos(garcia->position.x + garcia_prototype->body_collider_offset_right, garcia->position.y);
+			garcia->hit_collider->SetPos(garcia->position.x + garcia_prototype->hit_collider_offset_right, garcia->position.y);
 
 			dynamic_entities.push_back(garcia);			
 			break;
@@ -188,10 +188,10 @@ void ModuleEnemies::GenerateEnemy(entity_type type, iPoint position, Player *pla
 			antonio->SetPlayer(player);
 
 			LOG("Adding antonio colliders to ModuleCollision");
-			antonio->body_collider = App->collision->AddCollider(antonio->body_rect, antonio, collider_type::ENEMY_BODY);
-			antonio->hit_collider = App->collision->AddCollider(antonio->hit_rect, antonio, collider_type::ENEMY_HIT);
-			antonio->body_collider->SetPos(antonio->position.x + antonio->body_collider_offset_left, antonio->position.y + antonio->body_collider_offset_y);
-			antonio->hit_collider->SetPos(antonio->position.x + antonio->hit_collider_offset_left, antonio->position.y + antonio->hit_collider_offset_y);
+			antonio->body_collider = App->collision->AddCollider(antonio_prototype->body_rect, antonio, collider_type::ENEMY_BODY);
+			antonio->hit_collider = App->collision->AddCollider(antonio_prototype->hit_rect, antonio, collider_type::ENEMY_HIT);
+			antonio->body_collider->SetPos(antonio->position.x + antonio_prototype->body_collider_offset_left, antonio->position.y + antonio_prototype->body_collider_offset_y);
+			antonio->hit_collider->SetPos(antonio->position.x + antonio_prototype->hit_collider_offset_left, antonio->position.y + antonio_prototype->hit_collider_offset_y);
 
 			dynamic_entities.push_back(antonio);			
 			break;
