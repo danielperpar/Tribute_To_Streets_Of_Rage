@@ -16,6 +16,10 @@
 		"hit_collider_offset_left" : 35,
 		"release_grab_offset" : 3
 	},
+	"enemy" :
+	{
+		"depth_margin" : 3
+	},
 	"garcia" :
 	{	
 		"life" : 100,

@@ -458,15 +458,10 @@ void PlayerFSM::Jump()
 			bool depth_condition = false;
 			
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
-			{
-				if (!strcmp("antonio", (*it).second.collider->entity->name))
-				{
-					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
-						depth_condition = true;
-				}
-				else
-					depth_condition = true; //no depth condition for garcia
-
+			{		
+				if ((*it).second.collider->entity->depth <= the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Enemy*)((*it).second.collider->entity))->depth_margin)
+					depth_condition = true;
+				
 				if (depth_condition == true)
 				{
 					if (((Enemy*)((*it).second.collider->entity))->knocked_down == false)
@@ -597,15 +592,10 @@ void PlayerFSM::CboHighPunch()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				bool depth_condition = false;
-				if (!strcmp("antonio", (*it).second.collider->entity->name))
-				{
-					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
-						depth_condition = true;
-				}
-				else
-					depth_condition = true; //no depth condition for garcia
-
+				bool depth_condition = false;				
+				if ((*it).second.collider->entity->depth <= the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Enemy*)((*it).second.collider->entity))->depth_margin)
+					depth_condition = true;
+				
 				if (depth_condition == true)
 				{
 					((Enemy*)((*it).second.collider->entity))->damaged = true;
@@ -642,15 +632,10 @@ void PlayerFSM::CboLowPunch()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				bool depth_condition = false;
-				if (!strcmp("antonio", (*it).second.collider->entity->name))
-				{
-					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
-						depth_condition = true;
-				}
-				else
-					depth_condition = true; //no depth condition for garcia
-
+				bool depth_condition = false;				
+				if ((*it).second.collider->entity->depth <= the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Enemy*)((*it).second.collider->entity))->depth_margin)
+					depth_condition = true;
+				
 				if (depth_condition == true)
 				{
 					((Enemy*)((*it).second.collider->entity))->damaged = true;
@@ -682,15 +667,10 @@ void PlayerFSM::CboKick()
 		{
 			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 			{
-				bool depth_condition = false;
-				if (!strcmp("antonio", (*it).second.collider->entity->name))
-				{
-					if ((*it).second.collider->entity->depth < the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Antonio*)((*it).second.collider->entity))->depth_margin)
-						depth_condition = true;
-				}
-				else
-					depth_condition = true; //no depth condition for garcia
-
+				bool depth_condition = false;				
+				if ((*it).second.collider->entity->depth <= the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Enemy*)((*it).second.collider->entity))->depth_margin)
+					depth_condition = true;
+				
 				if (depth_condition == true)
 				{
 					((Enemy*)((*it).second.collider->entity))->knocked_down = true;

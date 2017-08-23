@@ -25,12 +25,14 @@ public:
 	SDL_Rect hit_rect;
 
 	//---------------------------------------- X OFFSETS ------------------------
-	//int ref_x = 70;
+	
 	int body_collider_offset_right = 0;
 	int hit_collider_offset_right = 0;
 	int body_collider_offset_left = 0;
 	int hit_collider_offset_left = 0;
 
+	// ---------------------------- DEPTH MARGIN TO ALLOW ATTACK
+	int depth_margin = 0;
 	// ---------------------------------------- COLLISION ----------------------------------------
 	bool right_collision = false;
 	bool left_collision = false;
@@ -68,6 +70,7 @@ public:
 private:
 	void LoadColliders(const char *name);
 	void LoadStats(const char *name);
+	void LoadCommon();
 };
 
 #endif // !__ENEMY_H__

@@ -66,7 +66,6 @@ public:
 	iPoint start_pos = { 0,0 };
 	bool offset_applied = false;
 	bool offset_applied_2 = false;
-	int depth_margin = 3;
 	int body_collider_wide = 36;
 	int body_collider_original = 18;
 	int body_collider_adjusted_x = 10;

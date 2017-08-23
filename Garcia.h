@@ -48,11 +48,11 @@ public:
 	int down_inflection = 10;
 	bool up = false;
 
-	// -------------- Offsets in somersault animation -> TODO:poner valores en el json
 	iPoint start_pos = { 0,0 };
 	bool offset_applied = false;
 	bool offset_applied_2 = false;
 
+	//---------------------------------- OFFSETS IN SOMERSAULT ATTACK ------------------
 	//right
 	int offset_right_x_2 = 10;
 	

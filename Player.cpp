@@ -102,20 +102,9 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 		}
 
 		bool right_depth = false;
-		if (enemy->type == entity_type::GARCIA)
-		{
-			if (enemy->depth == depth)
-				right_depth = true;
-		}
-		else if(enemy->type == entity_type::ANTONIO)
-		{
-			//debug
-			LOG("antonio depth = %d    player depth = %d", enemy->depth, depth);
-
-			if(enemy->depth < depth && enemy->depth >= depth - ((Antonio*)(enemy))->depth_margin)
-				right_depth = true;
-		}
-
+		if(enemy->depth <= depth && enemy->depth >= depth - enemy->depth_margin)
+			right_depth = true;
+		
 		if (right_depth && allow_grab)
 		{
 			enemy_to_grab = true;

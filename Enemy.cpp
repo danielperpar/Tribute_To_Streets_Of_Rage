@@ -5,6 +5,7 @@ Enemy::Enemy(SDL_Texture *texture, Animation *curr_anim, const char *name, entit
 {	
 	LoadColliders(name);
 	LoadStats(name);
+	LoadCommon();
 }
 
 Enemy::Enemy(const Enemy &enemy) : Entity(enemy.texture, enemy.curr_anim, enemy.name, enemy.type, enemy.position, enemy.depth)
@@ -18,6 +19,7 @@ Enemy::Enemy(const Enemy &enemy) : Entity(enemy.texture, enemy.curr_anim, enemy.
 	hit_collider_offset_right = enemy.hit_collider_offset_right;
 	body_collider_offset_left = enemy.body_collider_offset_left;
 	hit_collider_offset_left = enemy.hit_collider_offset_left;
+	depth_margin = enemy.depth_margin;
 }
 
 Enemy::~Enemy() {}
@@ -40,4 +42,8 @@ void Enemy::LoadStats(const char *name)
 	speed_vect.y = speed;
 }
 
+void Enemy::LoadCommon()
+{
+	depth_margin = JSONDataLoader::GetNumber("assets/json/config.json", "enemy", "depth_margin");
+}
 
