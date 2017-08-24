@@ -5,8 +5,7 @@
 
 enum class entity_type
 {
-	FOOD,
-	WEAPON,
+	HEALTH_CHICKEN,
 	DESTROYABLE_ITEM,
 	PLAYER,
 	GARCIA,

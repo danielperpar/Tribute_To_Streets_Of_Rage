@@ -28,10 +28,8 @@ bool ModuleCollision::Start()
 	collision_matrix[ENEMY_BODY][PLAYER_HIT] = 1;
 	collision_matrix[ENEMY_BODY][DESTROYABLE] = 1;
 	collision_matrix[ENEMY_HIT][PLAYER_BODY] = 1;
-	collision_matrix[COLLECTABLE][PLAYER_BODY] = 1;
 	collision_matrix[PLAYER_BODY][ENEMY_BODY] = 1;
 	collision_matrix[PLAYER_BODY][ENEMY_HIT] = 1;
-	collision_matrix[PLAYER_BODY][COLLECTABLE] = 1;
 	collision_matrix[PLAYER_BODY][DESTROYABLE] = 1;
 	collision_matrix[PLAYER_BODY][BOOMERANG] = 1;
 	collision_matrix[PLAYER_HIT][ENEMY_BODY] = 1;
@@ -39,6 +37,8 @@ bool ModuleCollision::Start()
 	collision_matrix[DESTROYABLE][ENEMY_BODY] = 1;
 	collision_matrix[DESTROYABLE][PLAYER_BODY] = 1;
 	collision_matrix[BOOMERANG][PLAYER_BODY] = 1;
+	collision_matrix[PLAYER_BODY][HEALTH_CHICKEN] = 1;
+	collision_matrix[HEALTH_CHICKEN][PLAYER_BODY] = 1;
 
 	return true;
 }
@@ -179,8 +179,10 @@ void ModuleCollision::DebugDraw()
 	{
 		if((*it)->type == collider_type::PLAYER_BODY || (*it)->type == collider_type::PLAYER_HIT)
 			App->renderer->DrawQuad((*it)->rect, 0, 255, 0, 80);
-		else
+		else if ((*it)->type == collider_type::ENEMY_BODY || (*it)->type == collider_type::ENEMY_HIT)
 			App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+		else //Draw health chicken collider
+			App->renderer->DrawQuad((*it)->rect, 255, 0, 255, 90);
 	}
 }
 

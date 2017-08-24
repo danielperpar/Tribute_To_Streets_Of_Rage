@@ -5,6 +5,8 @@
 #include <list>
 #include <vector>
 #include "Animation.h"
+#include "HealthChicken.h"
+#include "Point.h"
 
 struct SDL_Texture;
 class ScenarioElement;
@@ -25,9 +27,12 @@ public:
 	bool CleanUp();
 
 	void LoadSceneAssets();
-
+	void GenerateChicken(iPoint position, int depth);
+	
 	GUI *gui = nullptr;
 	GUI *go_sign = nullptr;
+
+	HealthChicken *health_chicken_prototype = nullptr;
 
 	Entity *foreground = nullptr;
 
@@ -70,8 +75,8 @@ private:
 	SDL_Texture *tx_neons = nullptr;
 	SDL_Texture *tx_gui = nullptr;
 	SDL_Texture *tx_garcia = nullptr;
-	SDL_Texture *tx_go_sign = nullptr;
-	
+	SDL_Texture *tx_ground_items = nullptr;
+
 	Animation neonPinEPot;
 	Animation neonBreakfastDiner;
 	Animation neonLDevo;

@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 #include "Entity.h"
+#include <list>
 #include "ModuleCollision.h"
 
 class Animation;

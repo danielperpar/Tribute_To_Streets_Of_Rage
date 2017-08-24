@@ -76,34 +76,16 @@
     <ClInclude Include="PlayerFSM.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Punky.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Nora.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="GarciaKnife.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Garcia.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Food.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="DestroyableItem.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="Antonio.h">
@@ -125,6 +107,9 @@
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="AntonioFSM.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthChicken.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -180,34 +165,16 @@
     <ClCompile Include="PlayerFSM.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Punky.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Nora.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="GarciaKnife.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Garcia.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Food.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="DestroyableItem.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="Antonio.cpp">
@@ -226,6 +193,9 @@
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="AntonioFSM.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthChicken.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,6 +11,8 @@
 #include <algorithm>
 #include "Enemy.h"
 #include "ModuleParticles.h"
+#include "ModuleCollision.h"
+
 
 ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
@@ -81,9 +83,14 @@ bool ModuleSceneRound1::Start()
 	
 	foreground = new ScenarioElement(tx_foreground, nullptr, "foreground", entity_type::SCENARIO, { 0,32 }, 0);
 	gui = new GUI(tx_gui, nullptr, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
-	go_sign = new GUI(tx_go_sign, &goSignBlink, "go_sign", entity_type::GUI, { 800, 160 }, 0); //follows the camera
+	go_sign = new GUI(tx_ground_items, &goSignBlink, "go_sign", entity_type::GUI, { 800, 160 }, 0); //follows the camera
 	//---------------------------------------------------------------------------------------
 	
+
+	//-------------------------------- HEALTH CHICKENS ---------------------------------
+	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
+	GenerateChicken({ 800, 150 }, 150 - 50);//offset depth = 50
+
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
 	return true;
@@ -170,9 +177,6 @@ update_status ModuleSceneRound1::Update()
 		}
 	}
 
-	//test debug
-	int test = dynamic_entities.size();
-
 	return UPDATE_CONTINUE;
 }
 
@@ -210,50 +214,62 @@ void ModuleSceneRound1::LoadSceneAssets()
 	tx_foreground = App->textures->Load("assets/spritesheets/StreetsOfRage_round1_foreground.png");
 	tx_neons = App->textures->Load("assets/spritesheets/neones.png");
 	tx_gui = App->textures->Load("assets/spritesheets/gui.png");
-	tx_go_sign = App->textures->Load("assets/spritesheets/round1_ground_items.png");
+	tx_ground_items = App->textures->Load("assets/spritesheets/round1_ground_items.png");
 
 	//------------------------------------ LOAD SCENE ANIMATIONS ----------------------------------------------
 	//Scenario 
-	{
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonPinEPot", animation_list, neonPinEPot);
-		neonPinEPot.loop = true;
-		neonPinEPot.speed = 0.05f;
-		Utilities::free_list(animation_list);
-
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonBreakfastDiner", animation_list, neonBreakfastDiner);
-		neonBreakfastDiner.loop = true;
-		neonBreakfastDiner.speed = 0.05f;
-		Utilities::free_list(animation_list);
-
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonLDevo", animation_list, neonLDevo);
-		neonLDevo.loop = true;
-		neonLDevo.speed = 0.05f;
-		Utilities::free_list(animation_list);
-
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonRachShop", animation_list, neonRachShop);
-		neonRachShop.loop = true;
-		neonRachShop.speed = 0.05f;
-		Utilities::free_list(animation_list);
-
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonAbcShop", animation_list, neonAbcShop);
-		neonAbcShop.loop = true;
-		neonAbcShop.speed = 0.05f;
-		Utilities::free_list(animation_list);
-
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neonCafeRestaurant);
-		neonCafeRestaurant.loop = true;
-		neonCafeRestaurant.speed = 0.05f;
-		Utilities::free_list(animation_list);
-
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSign", animation_list, goSignBlink);
-		goSignBlink.loop = true;
-		goSignBlink.speed = 0.1f;
-		Utilities::free_list(animation_list);
-
-		JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSignTransparent", animation_list, goSignTransparent);
-		goSignTransparent.loop = true;
-		goSignTransparent.speed = 0.1f;
-		Utilities::free_list(animation_list);
-	}
 	
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonPinEPot", animation_list, neonPinEPot);
+	neonPinEPot.loop = true;
+	neonPinEPot.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonBreakfastDiner", animation_list, neonBreakfastDiner);
+	neonBreakfastDiner.loop = true;
+	neonBreakfastDiner.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonLDevo", animation_list, neonLDevo);
+	neonLDevo.loop = true;
+	neonLDevo.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonRachShop", animation_list, neonRachShop);
+	neonRachShop.loop = true;
+	neonRachShop.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonAbcShop", animation_list, neonAbcShop);
+	neonAbcShop.loop = true;
+	neonAbcShop.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neonCafeRestaurant);
+	neonCafeRestaurant.loop = true;
+	neonCafeRestaurant.speed = 0.05f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSign", animation_list, goSignBlink);
+	goSignBlink.loop = true;
+	goSignBlink.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSignTransparent", animation_list, goSignTransparent);
+	goSignTransparent.loop = true;
+	goSignTransparent.speed = 0.1f;
+	Utilities::free_list(animation_list);
+		
+}
+
+void ModuleSceneRound1::GenerateChicken(iPoint position, int depth)
+{
+	HealthChicken *chicken = new HealthChicken(*health_chicken_prototype);
+	chicken->position = position;
+	chicken->depth = depth;
+	chicken->curr_anim = &chicken->chicken_animation;
+
+	LOG("Adding chicken collider to ModuleCollision");
+	chicken->chicken_collider = App->collision->AddCollider(health_chicken_prototype->chicken_collider_rect, chicken, collider_type::HEALTH_CHICKEN);
+	chicken->chicken_collider->SetPos(position.x, position.y);
+	dynamic_entities.push_back(chicken);
 }

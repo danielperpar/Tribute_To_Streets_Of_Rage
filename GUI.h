@@ -7,7 +7,7 @@ class GUI : public Entity
 {
 public:
 	GUI(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int m_depth);
-	~GUI();
+	virtual ~GUI();
 
 
 };

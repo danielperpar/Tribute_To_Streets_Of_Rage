@@ -22,11 +22,11 @@ enum collider_type
 {
 	ENEMY_BODY,
 	ENEMY_HIT,
-	COLLECTABLE,
 	PLAYER_BODY,
 	PLAYER_HIT,
 	DESTROYABLE,
-	BOOMERANG
+	BOOMERANG,
+	HEALTH_CHICKEN
 };
 
 enum contact_direction
