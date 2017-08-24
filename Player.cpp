@@ -7,6 +7,7 @@
 #include "Antonio.h"
 #include "AntonioFSM.h"
 #include "Enemy.h"
+#include "ModuleParticles.h"
 
 Player::Player(
 	SDL_Texture *texture, 
@@ -132,6 +133,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::BOOMERANG)
 	{
 		knocked_down = true;
+		life -= ((Boomerang*)(((Particle*)(col_info_other.collider->entity))))->boomerang_damage;
 	}
 
 }
@@ -548,6 +550,16 @@ void Player::LoadPlayerAnimations()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "upLeft", animation_list, anim_up_left);
 	anim_up_left.loop = false;
 	anim_up_left.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffectRight", animation_list, anim_deadBlink_right);
+	anim_deadBlink_right.loop = true;
+	anim_deadBlink_right.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffectLeft", animation_list, anim_deadBlink_left);
+	anim_deadBlink_left.loop = true;
+	anim_deadBlink_left.speed = 0.1f;
 	Utilities::free_list(animation_list);
 }
 

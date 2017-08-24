@@ -14,17 +14,24 @@
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
 	prev_state = State::START;
-	curr_state = State::IDLE;	
+	curr_state = State::START;	
 }
 // ------------------------------- UPDATE THE FSM -------------------------------------------------------
 void PlayerFSM::Update()
 {
 
+	LOG("player life=%d", the_player->life);//debug test-----------------------------------------
+
 	switch (curr_state)
 	{
-		
+	case State::START:
+		Start();		
+		if (the_player->start == false)
+			curr_state = State::IDLE;
+
+		break;
+
 	case State::IDLE:
-		
 		if (the_player->damaged && prev_state == State::JUMP)
 			the_player->damaged = false;
 
@@ -62,7 +69,7 @@ void PlayerFSM::Update()
 		{
 			curr_state = State::GRAB;
 			break;
-		}
+		}		
 		break;
 
 	case State::WALK:
@@ -127,7 +134,7 @@ void PlayerFSM::Update()
 		prev_state = curr_state;
 		if (!the_player->damaged)
 		{
-			curr_state = State::IDLE;						
+			curr_state = the_player->life > 0 ? State::IDLE : State::DEAD;
 		}
 		break;
 		
@@ -247,10 +254,28 @@ void PlayerFSM::Update()
 			curr_state = State::GRAB;
 		}
 		break;
+
+	case State::DEAD:
+		Dead();
+		if (the_player->start == true)
+		{
+			curr_state = State::START;
+			break;
+		}
+
+		break;
 	}
 }
 
 // ------------------------------- ACTIONS TO PERFORM IN EVERY STATE ------------------------------------
+void PlayerFSM::Start()
+{
+	LOG("inside start");
+	//the_player->start = false;
+
+
+}
+
 void PlayerFSM::Idle()
 {	
 	if (prev_state != State::IDLE)
@@ -1457,6 +1482,34 @@ void PlayerFSM::KnockedDown()
 				the_player->down_count = 0;
 				the_player->position.y = the_player->pos_before_knockdown.y;
 				the_player->depth = the_player->position.y;
+			}
+		}
+	}
+}
+
+void PlayerFSM::Dead()
+{
+	if (the_player->facing_right)
+		the_player->curr_anim = &the_player->anim_deadBlink_right;
+	else
+		the_player->curr_anim = &the_player->anim_deadBlink_left;
+
+	if (the_player->curr_anim->Finished())
+	{
+		the_player->curr_anim->Reset();
+		the_player->dead_times++;
+		if (the_player->dead_times == the_player->dead_max_times)
+		{
+			//player respawn
+			the_player->start = true;
+			the_player->dead_times = 0;
+
+			for each(Entity *entity in App->scene_round1->dynamic_entities)
+			{
+				if (entity->type == entity_type::GARCIA || entity->type == entity_type::ANTONIO)
+				{
+					((Enemy*)entity)->knocked_down = true;
+				}
 			}
 		}
 	}

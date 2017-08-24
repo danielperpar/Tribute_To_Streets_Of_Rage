@@ -23,7 +23,8 @@
 	"garcia" :
 	{	
 		"life" : 100,
-		"speed" : 1,	
+		"speed" : 1,
+		"punch_damage" : 5,
 		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 25},{ "h" : 63}],
 		"hit_collider" : [{"x" : 0},{ "y" : 0},{ "w" : 25},{ "h" : 33}],
 		"body_collider_offset_right" : 60,
@@ -35,6 +36,7 @@
 	{
 		"life" : 400,
 		"speed" : 1,
+		"kick_damage" : 10,
 		"ref_y" : 51, 
 		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 18},{ "h" : 63}],
 		"hit_collider" : [{"x" : 0},{ "y" : 0},{ "w" : 25},{ "h" : 33}],
@@ -48,7 +50,8 @@
 	"boomerang" :
 	{
 		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 45},{ "h" : 20}],
-		"speed" : 2
+		"speed" : 2,
+		"boomerang_damage" : 10
 	},
 	"healthChicken" :
 	{

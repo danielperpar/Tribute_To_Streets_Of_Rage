@@ -101,22 +101,21 @@ update_status ModulePlayer::Update()
 		the_player->hit_down = true;
 	}
 
-	//test damaged
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-	{
-		the_player->damaged = true;
-	}
+	////test damaged
+	//if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	//{
+	//	the_player->damaged = true;
+	//}
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-	{
-		the_player->knocked_down = true;
-	}
+	//if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	//{
+	//	the_player->knocked_down = true;
+	//}
 
-	//test particles
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	//test dead
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
-		Particle *particle = App->particles->GenerateParticle(entity_type::PARTICLE_BOOMERANG, the_player->position);
-		((HitEffect*)particle)->curr_anim = &((HitEffect*)particle)->anim_left;
+		the_player->life = 0;
 	}
 	
 

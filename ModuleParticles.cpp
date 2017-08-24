@@ -13,7 +13,7 @@
 
 Particle::Particle(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Entity(texture, curr_anim, name, type, position, depth){}
 Particle::~Particle(){}
-
+void Particle::Update() {}
 //--------------------------------- BOOMERANG ----------------------
 
 Boomerang::Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Particle(texture, curr_anim, name, type, position, depth) 
@@ -29,6 +29,7 @@ Boomerang::Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *nam
 
 Boomerang::Boomerang(const Boomerang &boomerang) : Particle(boomerang.texture, boomerang.curr_anim, boomerang.name, boomerang.type, boomerang.position, boomerang.depth)
 {
+	boomerang_damage = boomerang.boomerang_damage;
 	speed_vect = boomerang.speed_vect;
 	anim_right = boomerang.anim_right;
 	anim_left = boomerang.anim_left;
@@ -142,6 +143,7 @@ void Boomerang::LoadStats()
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", "boomerang", "speed");
 	speed_vect.x = speed;
 	speed_vect.y = speed/2;
+	boomerang_damage = JSONDataLoader::GetNumber("assets/json/config.json", "boomerang", "boomerang_damage");
 }
 
 void Boomerang::LoadParticleAnimations()

@@ -202,7 +202,7 @@ bool ModuleSceneRound1::CleanUp()
 	RELEASE(foreground);
 	RELEASE(gui);
 	RELEASE(go_sign);
-
+	RELEASE(health_chicken_prototype);
 	return true;
 }
 

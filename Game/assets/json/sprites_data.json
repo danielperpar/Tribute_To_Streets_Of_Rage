@@ -676,6 +676,24 @@
 		  "sprite" : [{"x" : 1696},{"y" : 253},{"w" : 87},{"h" : 63}]
 		}
 	],
+	"deadBlinkEffectRight" :
+	[
+		{
+		  "sprite" : [{"x" : 312}, {"y" : 256}, {"w" : 86}, {"h" : 63}]	
+		},
+		{
+		  "sprite" : [{"x" : 1}, {"y" : 1}, {"w" : 1}, {"h" : 1}]	
+		}
+	],
+	"deadBlinkEffectLeft" :
+	[
+		{
+		  "sprite" : [{"x" : 2064}, {"y" : 256}, {"w" : 123}, {"h" : 63}]	
+		},
+		{
+		  "sprite" : [{"x" : 1}, {"y" : 1}, {"w" : 1}, {"h" : 1}]	
+		}
+	],
 	"npcGarciaIdleRight" :
 	[
 		{

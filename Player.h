@@ -32,8 +32,12 @@ public:
 	
 	int speed = 0;
 	int life = 0;	
-	//distance in x-axis from the upper left corner of the sprite to the player's head upper point used as a point of reference or origin of coordinates
+	//distance in x-axis from the upper left corner of the sprite 
+	//to the player's head upper point used as a point of reference or origin of coordinates
 	int ref_x = 70;
+
+	//start - respawn position
+	iPoint respawn_position;
 
 	//jump
 	bool jump_up = true;
@@ -62,24 +66,13 @@ public:
 	bool up = false;
 	iPoint pos_before_knockdown = { 0,0 };
 
-	size_t m_kick_hits = 0;
-	bool m_continue_combo_grab = false;
-
-	bool m_carrying_weapon_pipe = false;
-	bool m_carrying_weapon_knife = false;
-
-	bool m_restart_animation = true;
-
-	bool m_float_attack = false;
-
-	bool m_looking_each_other = false;
-
-	bool m_dead = false;
-
 	//------------------------------- ATTACKS DAMAGES----------------
 	int simple_damage = 35;
 	int air_finisher_damage = 100;
 
+	//------------------------------- DEAD ANIMATION COUNTER--------------
+	int dead_max_times = 3;
+	int dead_times = 0;
 
 	//----------------------------------------  PLAYER COLLIDERS -----------------------------------------------
 	Collider *body_collider = nullptr;
@@ -157,6 +150,7 @@ public:
 	std::list<std::pair<CollisionInfo, CollisionInfo>> player_collision_status;
 
 	// ----------------------------------  VARIABLES THAT CONTROL PLAYER FSM LOGIC -----------------------------------
+	bool start = false;
 	bool facing_right = true;
 	bool idle = true;
 	bool walk_left = false;
@@ -282,6 +276,9 @@ public:
 
 	Animation anim_up_right;
 	Animation anim_up_left;
+
+	Animation anim_deadBlink_right;
+	Animation anim_deadBlink_left;
 
 };
 

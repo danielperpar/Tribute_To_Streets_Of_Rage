@@ -19,6 +19,7 @@ private:
 	std::list<int*> animation_list;
 	void LoadAntonioAnimations();
 	void LoadOffsets();
+	void LoadDamage();
 
 public:
 
@@ -37,9 +38,11 @@ public:
 	Player *the_player = nullptr;
 	bool entered_knocked_down = false;
 	bool carrying_boomerang = true;
+	int kick_damage = 0;
 
 	// ----------------------------- SPRITE HEIGHT REFERENCE ----------------------
 	int ref_y = 50;
+
 	// ----------------------------- COLLIDER Y OFFSET ---------------------------
 	int body_collider_offset_y = 47;
 	int hit_collider_offset_y = 70;

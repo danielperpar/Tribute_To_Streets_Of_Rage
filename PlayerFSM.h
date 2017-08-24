@@ -24,6 +24,7 @@ public:
 		BACK_PUNCH,
 		DAMAGED,
 		KNOCKED_DOWN,
+		DEAD
 	};
 
 	enum class CboPunchStage
@@ -50,6 +51,7 @@ public:
 	void Update();
 
 	//-----------------------------  ACTIONS TO PERFORM IN EACH STATE ------------------------------------
+	void Start();
 	void Idle();
 	void Walk();
 	void Jump();
@@ -68,6 +70,7 @@ public:
 	void BackPunch();
 	void Damaged();
 	void KnockedDown();
+	void Dead();
 
 	State GetCurrState() const;
 	void SetCurrState(State state);

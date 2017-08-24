@@ -18,6 +18,7 @@ class Garcia : public Enemy
 private:
 	std::list<int*> animation_list;
 	void LoadGarciaAnimations();
+	void LoadDamage();
 
 public:
 	Garcia(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
@@ -36,7 +37,8 @@ public:
 
 	GarciaFSM *garcia_fsm = nullptr;
 	Player *the_player = nullptr;
-	size_t punch_hits = 0;
+	int punch_hits = 0;
+	int punch_damage = 0;
 
 	int evasive_v_offset = 20;
 	int evasive_h_offset = 120;

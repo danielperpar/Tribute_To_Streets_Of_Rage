@@ -593,6 +593,7 @@ void AntonioFSM::Kick()
 		if (antonio->prekick)
 		{
 			antonio->the_player->knocked_down = true;
+			antonio->the_player->life -= antonio->kick_damage;
 		}
 		antonio->kick = false;
 
