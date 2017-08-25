@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "ModuleParticles.h"
 
+
 Player::Player(
 	SDL_Texture *texture, 
 	Animation *curr_anim, 
@@ -31,7 +32,8 @@ Player::~Player() {
 
 void Player::LoadStats()
 {
-	life = JSONDataLoader::GetNumber("assets/json/config.json", "player", "life");
+	max_life = JSONDataLoader::GetNumber("assets/json/config.json", "player", "max_life");
+	life = max_life;
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "speed");
 	jump_speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "jump_speed");
 }

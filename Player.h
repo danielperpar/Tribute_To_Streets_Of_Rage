@@ -31,7 +31,8 @@ public:
 	void OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair);
 	
 	int speed = 0;
-	int life = 0;	
+	int life = 0;
+	int max_life = 0;
 	bool god_mode = false;
 	//distance in x-axis from the upper left corner of the sprite 
 	//to the player's head upper point used as a point of reference or origin of coordinates
@@ -151,7 +152,7 @@ public:
 	std::list<std::pair<CollisionInfo, CollisionInfo>> player_collision_status;
 
 	// ----------------------------------  VARIABLES THAT CONTROL PLAYER FSM LOGIC -----------------------------------
-	bool start = false;
+	bool respawn = true;
 	bool facing_right = true;
 	bool idle = true;
 	bool walk_left = false;

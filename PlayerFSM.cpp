@@ -21,19 +21,30 @@ void PlayerFSM::Update()
 {
 
 	LOG("player life=%d", the_player->life);//debug test-----------------------------------------
+	LOG("player position=(%d,%d)", the_player->position.x, the_player->position.y);
+
 
 	switch (curr_state)
 	{
 	case State::START:
+		LOG("damaged=%d", the_player->damaged);//debug
 		Start();		
-		if (the_player->start == false)
+		if (the_player->respawn == false)
+		{
+			prev_state = State::START;
 			curr_state = State::IDLE;
-
+		}
 		break;
 
 	case State::IDLE:
-		if (the_player->damaged && prev_state == State::JUMP)
+		if (the_player->damaged && (prev_state == State::JUMP || prev_state == State::START))
+		{
 			the_player->damaged = false;
+		}
+		if (the_player->knocked_down && prev_state == State::START)
+		{
+			the_player->knocked_down = false;
+		}
 
 		Idle();
 		prev_state = curr_state;
@@ -143,7 +154,7 @@ void PlayerFSM::Update()
 		prev_state = curr_state;
 		if (!the_player->knocked_down)
 		{
-			curr_state = State::IDLE;					
+			curr_state = the_player->life > 0 ? State::IDLE : State::DEAD;
 		}
 		break;
 		
@@ -257,8 +268,8 @@ void PlayerFSM::Update()
 
 	case State::DEAD:
 		Dead();
-		if (the_player->start == true)
-		{
+		if (the_player->respawn == true)
+		{	
 			curr_state = State::START;
 			break;
 		}
@@ -270,10 +281,20 @@ void PlayerFSM::Update()
 // ------------------------------- ACTIONS TO PERFORM IN EVERY STATE ------------------------------------
 void PlayerFSM::Start()
 {
-	LOG("inside start");
-	//the_player->start = false;
+	the_player->curr_anim = &the_player->anim_jump_right2;
 
+	if (the_player->position.y < 100)
+	{
+		the_player->position.y += 3 * the_player->speed;
+		the_player->depth = the_player->position.y;
+	}
+	else
+	{
+		the_player->respawn = false;
+		the_player->curr_anim->Reset();
+	}
 
+	UpdateColliderPosition();
 }
 
 void PlayerFSM::Idle()
@@ -1501,8 +1522,13 @@ void PlayerFSM::Dead()
 		if (the_player->dead_times == the_player->dead_max_times)
 		{
 			//player respawn
-			the_player->start = true;
+			the_player->respawn = true;
+			the_player->respawn_position = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE - 60, -5 };
+			the_player->position = the_player->respawn_position;
+			the_player->life = the_player->max_life;
 			the_player->dead_times = 0;
+			the_player->facing_right = true;
+			the_player->curr_anim = &the_player->anim_jump_right2;
 
 			for each(Entity *entity in App->scene_round1->dynamic_entities)
 			{

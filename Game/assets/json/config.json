@@ -1,7 +1,7 @@
 {
 	"player" :
 	{
-		"life" : 100,
+		"max_life" : 100,
 		"speed" : 1,
 		"jump_speed" : 2,
 		"max_jump_height" : 20,

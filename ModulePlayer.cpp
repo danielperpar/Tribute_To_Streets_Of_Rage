@@ -6,9 +6,7 @@
 #include "PlayerFSM.h"
 #include "ModuleSceneRound1.h"
 #include "ModuleTextures.h"
-
-//---------------- test particles
-#include "ModuleParticles.h"
+#include "ModuleRender.h"
 
 ModulePlayer::ModulePlayer(bool active) : Module(active) {}
 
@@ -20,7 +18,10 @@ bool ModulePlayer::Start()
 	tx_player = App->textures->Load("assets/spritesheets/axel.png");
 
 	LOG("Creating the player");
-	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, {720, 100}, 100); //depth = position.y
+	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, {0, 0}, 0); //depth = position.y
+	the_player->respawn_position = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE - 60, -5};
+	the_player->position = the_player->respawn_position;
+	the_player->depth = the_player->position.y;
 
 	LOG("Adding the player colliders to ModuleCollision");
 	the_player->body_collider = App->collision->AddCollider(the_player->body_rect, the_player, collider_type::PLAYER_BODY);
