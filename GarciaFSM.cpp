@@ -372,8 +372,11 @@ void GarciaFSM::Attack()
 
 				if (garcia->attack)
 				{
-					garcia->the_player->damaged = true;	//Damage the player
-					garcia->the_player->life -= garcia->punch_damage;
+					garcia->the_player->damaged = true;	//Damage the player					
+					if (garcia->the_player->god_mode == false)
+					{
+						garcia->the_player->life -= garcia->punch_damage;
+					}
 					garcia->the_player->enemy_attacker = garcia;	//enemy to react to					
 					garcia->punch_hits++;
 				}
@@ -409,7 +412,10 @@ void GarciaFSM::Attack()
 				if (garcia->attack)
 				{
 					garcia->the_player->knocked_down = true;	//Knock down the player
-					garcia->the_player->life -= garcia->punch_damage;
+					if (garcia->the_player->god_mode == false)
+					{
+						garcia->the_player->life -= garcia->punch_damage;
+					}
 					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
 					garcia->punch_hits = 0;
 					garcia->evasive = true;

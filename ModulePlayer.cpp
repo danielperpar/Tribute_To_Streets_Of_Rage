@@ -101,6 +101,12 @@ update_status ModulePlayer::Update()
 		the_player->hit_down = true;
 	}
 
+	//god mode
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+	{
+		the_player->god_mode = !the_player->god_mode;
+	}
+
 	////test damaged
 	//if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	//{

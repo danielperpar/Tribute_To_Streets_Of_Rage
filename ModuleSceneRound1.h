@@ -57,8 +57,6 @@ public:
 	bool end_of_scene_clear = false;
 
 	bool show_go = false;
-	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
-	bool first_trigger_reached = false;
 
 	std::list<Entity*> dynamic_entities;
 	bool entity_erased = false;

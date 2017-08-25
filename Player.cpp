@@ -133,7 +133,8 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::BOOMERANG)
 	{
 		knocked_down = true;
-		life -= ((Boomerang*)(((Particle*)(col_info_other.collider->entity))))->boomerang_damage;
+		if(god_mode == false)
+			life -= ((Boomerang*)(((Particle*)(col_info_other.collider->entity))))->boomerang_damage;
 	}
 
 }

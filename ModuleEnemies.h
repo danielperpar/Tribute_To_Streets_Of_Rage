@@ -20,9 +20,6 @@ public:
 	bool CleanUp();
 	update_status Update();
 
-	//------------------------------------ENEMIES SPAWN TRIGGERS ----------------------------------------
-	bool first_trigger_reached = false;
-	
 private:
 	SDL_Texture *tx_enemies = nullptr;
 	Garcia *garcia_prototype = nullptr;

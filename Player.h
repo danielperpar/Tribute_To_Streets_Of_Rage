@@ -32,6 +32,7 @@ public:
 	
 	int speed = 0;
 	int life = 0;	
+	bool god_mode = false;
 	//distance in x-axis from the upper left corner of the sprite 
 	//to the player's head upper point used as a point of reference or origin of coordinates
 	int ref_x = 70;
