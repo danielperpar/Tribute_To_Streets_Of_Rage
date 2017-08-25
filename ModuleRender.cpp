@@ -100,7 +100,16 @@ update_status ModuleRender::Update()
 	//Release the camera when the area is free of enemies
 	if (App->scene_round1->first_stop_reached && !App->scene_round1->first_area_clear)
 	{
-		if (App->scene_round1->dynamic_entities.size() == 1)
+		bool enemies_dead = true;
+		for each(Entity* entity in App->scene_round1->dynamic_entities)
+		{
+			if (entity->type == entity_type::GARCIA)
+			{
+				enemies_dead = false;
+				break;
+			}
+		}
+		if (enemies_dead)
 		{
 			App->scene_round1->first_area_clear = true;
 			App->scene_round1->show_go = true;
@@ -111,7 +120,16 @@ update_status ModuleRender::Update()
 
 	else if (App->scene_round1->second_stop_reached && !App->scene_round1->second_area_clear)
 	{
-		if (App->scene_round1->dynamic_entities.size() == 1)
+		bool enemies_dead = true;
+		for each(Entity* entity in App->scene_round1->dynamic_entities)
+		{
+			if (entity->type == entity_type::GARCIA)
+			{
+				enemies_dead = false;
+				break;
+			}
+		}
+		if (enemies_dead)
 		{
 			App->scene_round1->second_area_clear = true;
 			App->scene_round1->show_go = true;
@@ -122,7 +140,16 @@ update_status ModuleRender::Update()
 
 	else if (App->scene_round1->third_stop_reached && !App->scene_round1->third_area_clear)
 	{
-		if (App->scene_round1->dynamic_entities.size() == 1)
+		bool enemies_dead = true;
+		for each(Entity* entity in App->scene_round1->dynamic_entities)
+		{
+			if (entity->type == entity_type::GARCIA)
+			{
+				enemies_dead = false;
+				break;
+			}
+		}
+		if (enemies_dead)
 		{
 			App->scene_round1->third_area_clear = true;
 			App->scene_round1->show_go = true;
@@ -133,7 +160,16 @@ update_status ModuleRender::Update()
 
 	else if (App->scene_round1->end_of_scene_reached && !App->scene_round1->end_of_scene_clear)
 	{
-		if (App->scene_round1->dynamic_entities.size() == 1)
+		bool enemies_dead = true;
+		for each(Entity* entity in App->scene_round1->dynamic_entities)
+		{
+			if (entity->type == entity_type::GARCIA)
+			{
+				enemies_dead = false;
+				break;
+			}
+		}
+		if (enemies_dead)
 		{
 			App->scene_round1->end_of_scene_clear = true;
 		}
