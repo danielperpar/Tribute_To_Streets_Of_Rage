@@ -31,5 +31,10 @@ void HealthChicken::LoadSprite()
 
 void HealthChicken::LoadCollider()
 {
-	JSONDataLoader::LoadColliderRect("assets/json/config.json", "healthChicken", "collider", chicken_collider_rect);
+	JSONDataLoader::LoadColliderRect("assets/json/config.json", "health_chicken", "collider", chicken_collider_rect);
+}
+
+void HealthChicken::LoadOffset()
+{
+	JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "depth_offset");
 }

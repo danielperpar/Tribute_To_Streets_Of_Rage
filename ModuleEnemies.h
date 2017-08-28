@@ -5,7 +5,7 @@
 #include <list>
 #include "Point.h"
 #include "Entity.h"
-
+#include "ModuleWindow.h"
 
 class Garcia;
 class Antonio;

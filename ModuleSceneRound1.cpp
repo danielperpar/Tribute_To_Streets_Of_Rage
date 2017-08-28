@@ -89,7 +89,7 @@ bool ModuleSceneRound1::Start()
 
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
 	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
-	GenerateChicken({ 800, 150 }, 150 - 50);//offset depth = 50
+	GenerateChicken({ 800, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
 
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 

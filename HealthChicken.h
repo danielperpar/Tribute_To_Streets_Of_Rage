@@ -18,7 +18,9 @@ public:
 	virtual ~HealthChicken();
 	void LoadSprite();
 	void LoadCollider();
+	void LoadOffset();
 	
+	int depth_offset = 46;
 	Collider *chicken_collider = nullptr;
 	SDL_Rect chicken_collider_rect;
 	Animation chicken_animation;

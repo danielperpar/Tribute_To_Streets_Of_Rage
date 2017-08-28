@@ -7,6 +7,7 @@
 #include "ModuleSceneRound1.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
+#include "ModuleWindow.h"
 
 ModulePlayer::ModulePlayer(bool active) : Module(active) {}
 

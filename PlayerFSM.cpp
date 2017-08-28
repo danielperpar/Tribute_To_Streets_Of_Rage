@@ -10,6 +10,7 @@
 #include "AntonioFSM.h"
 #include "Enemy.h"
 #include "ModuleRender.h"
+#include "ModuleWindow.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {

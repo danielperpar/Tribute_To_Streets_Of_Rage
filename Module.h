@@ -3,6 +3,13 @@
 
 #include "Globals.h"
 
+enum update_status
+{
+	UPDATE_CONTINUE = 1,
+	UPDATE_STOP,
+	UPDATE_ERROR
+};
+
 class Module
 {
 public:

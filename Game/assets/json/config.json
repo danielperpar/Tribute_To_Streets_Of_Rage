@@ -53,8 +53,9 @@
 		"speed" : 2,
 		"boomerang_damage" : 10
 	},
-	"healthChicken" :
+	"health_chicken" :
 	{
-		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 15},{ "h" : 15}]
+		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 15},{ "h" : 15}],
+		"depth_offset" : 46
 	}
 }

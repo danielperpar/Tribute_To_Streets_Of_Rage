@@ -7,6 +7,26 @@
 #include "ModuleParticles.h"
 #include "Globals.h"
 
+enum collider_type
+{
+	ENEMY_BODY,
+	ENEMY_HIT,
+	PLAYER_BODY,
+	PLAYER_HIT,
+	DESTROYABLE,
+	BOOMERANG,
+	HEALTH_CHICKEN
+};
+
+enum contact_direction
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN
+};
+
+
 class Entity;
 struct CollisionInfo;
 struct Collider
