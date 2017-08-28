@@ -8,6 +8,7 @@
 #include "AntonioFSM.h"
 #include "Enemy.h"
 #include "ModuleParticles.h"
+#include "HealthChicken.h"
 
 
 Player::Player(
@@ -74,6 +75,16 @@ void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionIn
 
 	if (!found)
 		OnCollisionEnter(col_info_player, col_info_other);
+
+	if (col_info_other.collider->type == collider_type::HEALTH_CHICKEN && col_info_player.collider->type == collider_type::PLAYER_BODY)
+	{
+		HealthChicken* chicken = (HealthChicken*)(col_info_other.collider->entity);
+		if (chicken->depth >= depth - chicken->depth_margin && chicken->depth <= depth + chicken->depth_margin)
+		{
+			pickable_chicken = chicken;
+			pick_up = true;
+		}
+	}
 	
 }
 
@@ -87,7 +98,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 
 	if (grabbed_enemy == nullptr && col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::ENEMY_BODY)
 	{
-		Enemy *enemy = ((Enemy*)(col_info_other.collider->entity));
+		Enemy *enemy = (Enemy*)(col_info_other.collider->entity);
 		allow_grab = true;
 
 		//Don't allow grab when enemy is knocked down
@@ -138,7 +149,6 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 		if(god_mode == false)
 			life -= ((Boomerang*)(((Particle*)(col_info_other.collider->entity))))->boomerang_damage;
 	}
-
 }
 
 void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair)

@@ -90,6 +90,7 @@ bool ModuleSceneRound1::Start()
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
 	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
 	GenerateChicken({ 800, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
+	GenerateChicken({ 900, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
 
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
@@ -103,17 +104,14 @@ update_status ModuleSceneRound1::PreUpdate()
 		for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end();)
 		{
 			entity_erased = false;
-			
-			if ((*it)->type == entity_type::GARCIA || (*it)->type == entity_type::ANTONIO)
+					
+			if ((*it)->destroy_this)
 			{
-				if (((Enemy*)(*it))->destroy_this)
-				{
-					RELEASE(*it);
-					it = dynamic_entities.erase(it);
-					entity_erased = true;
-				}			
-			}
-
+				RELEASE(*it);
+				it = dynamic_entities.erase(it);
+				entity_erased = true;
+			}			
+			
 			if (!entity_erased)
 				it++;
 		}

@@ -56,6 +56,7 @@
 	"health_chicken" :
 	{
 		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 15},{ "h" : 15}],
-		"depth_offset" : 46
+		"depth_offset" : 46,
+		"depth_margin" : 4
 	}
 }

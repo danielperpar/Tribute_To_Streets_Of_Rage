@@ -24,7 +24,8 @@ public:
 		BACK_PUNCH,
 		DAMAGED,
 		KNOCKED_DOWN,
-		DEAD
+		DEAD,
+		PICK_UP,
 	};
 
 	enum class CboPunchStage
@@ -71,6 +72,7 @@ public:
 	void Damaged();
 	void KnockedDown();
 	void Dead();
+	void PickUp();
 
 	State GetCurrState() const;
 	void SetCurrState(State state);

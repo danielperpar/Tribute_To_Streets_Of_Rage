@@ -11,6 +11,7 @@
 
 struct SDL_Texture;
 class PlayerFSM;
+class HealthChicken;
 class Player : public Entity{
 
 private:
@@ -151,6 +152,9 @@ public:
 	//colliders colliding with player's body or hit area
 	std::list<std::pair<CollisionInfo, CollisionInfo>> player_collision_status;
 
+	//pickable chicken
+	HealthChicken* pickable_chicken = nullptr;
+
 	// ----------------------------------  VARIABLES THAT CONTROL PLAYER FSM LOGIC -----------------------------------
 	bool respawn = true;
 	bool facing_right = true;
@@ -168,6 +172,9 @@ public:
 	bool knocked_down = false;
 	bool somersault_finished = false;
 	bool finisher_finished = false;
+	bool pick_up = false;
+	bool picked_up = false;
+	
 	//----------------------------------------------------------------------------------------------------------
 	
 	//---------------------------------------- PLAYER ANIMATIONS ---------------------------------------------

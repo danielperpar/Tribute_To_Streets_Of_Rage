@@ -19,8 +19,11 @@ public:
 	void LoadSprite();
 	void LoadCollider();
 	void LoadOffset();
+
+	void OnPickup();
 	
 	int depth_offset = 46;
+	int depth_margin = 3;
 	Collider *chicken_collider = nullptr;
 	SDL_Rect chicken_collider_rect;
 	Animation chicken_animation;

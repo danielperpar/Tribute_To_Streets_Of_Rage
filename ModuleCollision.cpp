@@ -225,11 +225,6 @@ void ModuleCollision::NotifyCollision(const CollisionInfo &col_info1, const Coll
 	switch (collider1->type)
 	{
 		case collider_type::PLAYER_BODY:
-		{
-			Player *player = (Player*)(collider1->entity);
-			player->OnCollision(col_info1, col_info2);
-			break;
-		}
 		case collider_type::PLAYER_HIT:
 		{
 			Player *player = (Player*)(collider1->entity);

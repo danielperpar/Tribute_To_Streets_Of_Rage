@@ -11,12 +11,15 @@ HealthChicken::HealthChicken(SDL_Texture *texture,
 {
 	LoadSprite();
 	LoadCollider();
+	LoadOffset();
 }
 
 HealthChicken::HealthChicken(const HealthChicken &chicken) : Entity(chicken.texture, chicken.curr_anim, chicken.name, chicken.type, chicken.position, chicken.depth)
 {
 	chicken_collider_rect = chicken.chicken_collider_rect;
 	chicken_animation = chicken.chicken_animation;
+	depth_margin = chicken.depth_margin;
+	depth_offset = chicken.depth_offset;
 }
 
 HealthChicken::~HealthChicken() {}
@@ -36,5 +39,12 @@ void HealthChicken::LoadCollider()
 
 void HealthChicken::LoadOffset()
 {
-	JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "depth_offset");
+	depth_offset = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "depth_offset");
+	depth_margin = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "depth_margin");
+}
+
+void HealthChicken::OnPickup()
+{
+	destroy_this = true;
+	chicken_collider->to_delete = true;
 }

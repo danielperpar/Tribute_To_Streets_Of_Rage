@@ -81,7 +81,7 @@ void PlayerFSM::Update()
 		{
 			curr_state = State::GRAB;
 			break;
-		}		
+		}	
 		break;
 
 	case State::WALK:
@@ -133,6 +133,11 @@ void PlayerFSM::Update()
 		break;
 
 	case State::CBO_PUNCH:
+		if(the_player->pick_up)
+		{
+			curr_state = State::PICK_UP;
+			break;
+		}
 		Punch();
 		prev_state = curr_state;
 		if (the_player->attack_finished)
@@ -272,6 +277,15 @@ void PlayerFSM::Update()
 		if (the_player->respawn == true)
 		{	
 			curr_state = State::START;
+			break;
+		}
+	case State::PICK_UP:
+		PickUp();
+		if (the_player->picked_up)
+		{
+			prev_state = State::PICK_UP;
+			curr_state = State::IDLE;
+			the_player->picked_up = false;
 			break;
 		}
 
@@ -1539,6 +1553,24 @@ void PlayerFSM::Dead()
 				}
 			}
 		}
+	}
+}
+
+void PlayerFSM::PickUp()
+{
+	if (the_player->facing_right)
+		the_player->curr_anim = &the_player->anim_up_right;
+	else
+		the_player->curr_anim = &the_player->anim_up_left;
+
+	if (the_player->curr_anim->Finished())
+	{
+		the_player->curr_anim->Reset();
+		the_player->life = the_player->max_life;
+		the_player->pickable_chicken->chicken_collider->to_delete = true;
+		the_player->pickable_chicken->destroy_this = true;
+		the_player->pick_up = false;
+		the_player->picked_up = true;
 	}
 }
 
