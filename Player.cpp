@@ -170,6 +170,12 @@ void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col
 		}
 		
 	}
+
+	if (col_info_pair.first.collider->type == PLAYER_BODY && col_info_pair.second.collider->type == HEALTH_CHICKEN)
+	{
+		pickable_chicken = nullptr;
+		pick_up = false;
+	}
 	
 }
 
