@@ -8,6 +8,7 @@
 #include "Utilities.h"
 #include "ScenarioElement.h"
 #include "GUI.h"
+#include "HealthBar.h"
 #include <algorithm>
 #include "Enemy.h"
 #include "ModuleParticles.h"
@@ -82,9 +83,9 @@ bool ModuleSceneRound1::Start()
 	//--------------------------------- FOREGROUND ELEMENTS ---------------------------------
 	
 	foreground = new ScenarioElement(tx_foreground, nullptr, "foreground", entity_type::SCENARIO, { 0,32 }, 0);
-	gui = new GUI(tx_gui, nullptr, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
+	gui = new GUI(tx_gui, &gui_background, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
 	go_sign = new GUI(tx_ground_items, &goSignBlink, "go_sign", entity_type::GUI, { 800, 160 }, 0); //follows the camera
-	//---------------------------------------------------------------------------------------
+	player_HP = new HealthBar(anim_player_HP.GetCurrentFrame().w, tx_gui, &anim_player_HP, "player_health_bar", entity_type::GUI, { 24, 51 }, 0);//follows the camera
 	
 
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
@@ -162,8 +163,8 @@ update_status ModuleSceneRound1::Update()
 
 	//Draw foreground elements
 	App->renderer->Blit(foreground->texture, foreground->position.x, foreground->position.y, nullptr);
-	App->renderer->Blit(gui->texture, gui->position.x, gui->position.y, nullptr, true);
-
+	App->renderer->Blit(gui->texture, gui->position.x, gui->position.y, &gui_background.GetCurrentFrame(), true);
+	App->renderer->Blit(gui->texture, player_HP->position.x, player_HP->position.y, &anim_player_HP.GetCurrentFrame(), true);
 	if (show_go)
 	{
 		App->renderer->Blit(go_sign->texture, go_sign->position.x, go_sign->position.y, &go_sign->curr_anim->GetCurrentFrame(), true);
@@ -201,6 +202,7 @@ bool ModuleSceneRound1::CleanUp()
 	RELEASE(gui);
 	RELEASE(go_sign);
 	RELEASE(health_chicken_prototype);
+	RELEASE(player_HP);
 	return true;
 }
 
@@ -255,6 +257,16 @@ void ModuleSceneRound1::LoadSceneAssets()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSignTransparent", animation_list, goSignTransparent);
 	goSignTransparent.loop = true;
 	goSignTransparent.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "guiBackground", animation_list, gui_background);
+	gui_background.loop = true;
+	gui_background.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "playerHealthBar", animation_list, anim_player_HP);
+	anim_player_HP.loop = true;
+	anim_player_HP.speed = 0.1f;
 	Utilities::free_list(animation_list);
 		
 }

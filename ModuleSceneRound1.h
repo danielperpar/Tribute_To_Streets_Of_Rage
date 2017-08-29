@@ -14,6 +14,7 @@ class Entity;
 class GUI;
 class Player;
 class Garcia;
+class HealthBar;
 class ModuleSceneRound1 : public Module
 {
 public:
@@ -31,6 +32,7 @@ public:
 	
 	GUI *gui = nullptr;
 	GUI *go_sign = nullptr;
+	HealthBar *player_HP = nullptr;
 
 	HealthChicken *health_chicken_prototype = nullptr;
 
@@ -83,6 +85,9 @@ private:
 	Animation neonCafeRestaurant;
 	Animation goSignBlink;
 	Animation goSignTransparent;
+
+	Animation gui_background;
+	Animation anim_player_HP;
 };
 
 #endif // __MODULESCENEROUND1_H__

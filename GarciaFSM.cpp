@@ -4,6 +4,8 @@
 #include "Point.h"
 #include "Application.h"
 #include "ModuleSceneRound1.h"
+#include "ModuleSceneRound1.h"
+#include "HealthBar.h"
 
 GarciaFSM::GarciaFSM(Garcia *grc) : garcia(grc) 
 {
@@ -376,6 +378,7 @@ void GarciaFSM::Attack()
 					if (garcia->the_player->god_mode == false)
 					{
 						garcia->the_player->life -= garcia->punch_damage;
+						App->scene_round1->player_HP->ScaleHPBar(garcia->the_player->life, garcia->the_player->max_life);
 					}
 					garcia->the_player->enemy_attacker = garcia;	//enemy to react to					
 					garcia->punch_hits++;
@@ -415,6 +418,7 @@ void GarciaFSM::Attack()
 					if (garcia->the_player->god_mode == false)
 					{
 						garcia->the_player->life -= garcia->punch_damage;
+						App->scene_round1->player_HP->ScaleHPBar(garcia->the_player->life, garcia->the_player->max_life);
 					}
 					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
 					garcia->punch_hits = 0;

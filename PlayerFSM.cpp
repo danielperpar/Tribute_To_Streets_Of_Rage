@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "HealthBar.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
@@ -279,6 +280,8 @@ void PlayerFSM::Update()
 			curr_state = State::START;
 			break;
 		}
+		break;
+
 	case State::PICK_UP:
 		PickUp();
 		if (the_player->picked_up)
@@ -298,6 +301,7 @@ void PlayerFSM::Start()
 {
 	the_player->curr_anim = &the_player->anim_jump_right2;
 
+	//player falls down at speed=3
 	if (the_player->position.y < 100)
 	{
 		the_player->position.y += 3 * the_player->speed;
@@ -1541,6 +1545,7 @@ void PlayerFSM::Dead()
 			the_player->respawn_position = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE - 60, -5 };
 			the_player->position = the_player->respawn_position;
 			the_player->life = the_player->max_life;
+			App->scene_round1->player_HP->ScaleHPBar(the_player->life, the_player->max_life);
 			the_player->dead_times = 0;
 			the_player->facing_right = true;
 			the_player->curr_anim = &the_player->anim_jump_right2;
@@ -1567,6 +1572,7 @@ void PlayerFSM::PickUp()
 	{
 		the_player->curr_anim->Reset();
 		the_player->life = the_player->max_life;
+		App->scene_round1->player_HP->ScaleHPBar(the_player->life, the_player->max_life);
 		the_player->pickable_chicken->chicken_collider->to_delete = true;
 		the_player->pickable_chicken->destroy_this = true;
 		the_player->pick_up = false;

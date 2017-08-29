@@ -77,6 +77,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GarciaFSM.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HealthChicken.h" />
     <ClInclude Include="PlayerFSM.h" />
     <ClInclude Include="Garcia.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GarciaFSM.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HealthChicken.cpp" />
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="Garcia.cpp" />

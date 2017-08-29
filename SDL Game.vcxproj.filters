@@ -112,6 +112,9 @@
     <ClInclude Include="HealthChicken.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -196,6 +199,9 @@
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="HealthChicken.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>
