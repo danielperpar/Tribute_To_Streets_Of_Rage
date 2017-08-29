@@ -37,10 +37,10 @@ private:
 
 	int amount_at_point_0 = 1;
 	int amount_at_point_1 = 2;
-	int amount_at_point_2 = 3;
-	int amount_at_point_3 = 3;
-	int amount_at_point_4 = 4;
-	int amount_at_point_5 = 2;
+	int amount_at_point_2 = 2;
+	int amount_at_point_3 = 1;
+	int amount_at_point_4 = 2;
+	int amount_at_point_5 = 1;
 	int amount_at_point_6 = 2;
 
 	int offset_spawn_right = 250;
@@ -54,20 +54,14 @@ private:
 	int spawn_1_1_y = 110;  //spawn point 1 enemy 1
 							
 	int spawn_2_0_y = 100;
-	int spawn_2_1_y = 150;
-	int spawn_2_2_y = 200;
+	int spawn_2_1_y = 200;
 
 	int spawn_3_0_y = 300;
-	int spawn_3_1_y = 200;
-	int spawn_3_2_y = 100;
-
+	
 	int spawn_4_0_y = 500;
-	int spawn_4_1_y = 400;
-	int spawn_4_2_y = 300;
-	int spawn_4_3_y = 200;
-
+	int spawn_4_1_y = 300;
+	
 	int spawn_5_0_y = 200;
-	int spawn_5_1_y = 300;
 
 	int spawn_6_0_y = 200;
 	int spawn_6_1_y = 400;

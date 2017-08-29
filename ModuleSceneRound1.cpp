@@ -86,7 +86,7 @@ bool ModuleSceneRound1::Start()
 	gui = new GUI(tx_gui, &gui_background, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
 	go_sign = new GUI(tx_ground_items, &goSignBlink, "go_sign", entity_type::GUI, { 800, 160 }, 0); //follows the camera
 	player_HP = new HealthBar(anim_player_HP.GetCurrentFrame().w, tx_gui, &anim_player_HP, "player_health_bar", entity_type::GUI, { 24, 51 }, 0);//follows the camera
-	boss_HP = new HealthBar(anim_boss_HP.GetCurrentFrame().w, tx_gui, &goSignBlink, "antonio_health_bar", entity_type::ANTONIO, { 550, 51 }, 0);//follows the camera
+	boss_HP = new HealthBar(anim_boss_HP.GetCurrentFrame().w, tx_gui, &anim_boss_HP, "antonio_health_bar", entity_type::ANTONIO, { 550, 51 }, 0);//follows the camera
 	
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
 	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);

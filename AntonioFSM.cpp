@@ -4,6 +4,8 @@
 #include "ModuleParticles.h"
 #include "ModuleRender.h"
 #include "Application.h"
+#include "ModuleSceneRound1.h"
+#include "HealthBar.h"
 
 AntonioFSM::AntonioFSM(Antonio *ant) : antonio(ant) 
 {
@@ -15,6 +17,8 @@ AntonioFSM::~AntonioFSM() {}
 
 void AntonioFSM::Update()
 {
+	LOG("antonio life=%d", antonio->life);//debug test-----------------------------------------
+
 	switch (curr_state)
 	{
 
@@ -594,7 +598,10 @@ void AntonioFSM::Kick()
 		{
 			antonio->the_player->knocked_down = true;
 			if (antonio->the_player->god_mode == false)
+			{
 				antonio->the_player->life -= antonio->kick_damage;
+				App->scene_round1->player_HP->ScaleHPBar(antonio->the_player->life, antonio->the_player->max_life);
+			}
 		}
 		antonio->kick = false;
 

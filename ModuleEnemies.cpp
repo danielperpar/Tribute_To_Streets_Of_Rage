@@ -47,20 +47,14 @@ bool ModuleEnemies::Start()
 
 	spawn_points[2][0] = iPoint(starting_trigger + 200 + offset_spawn_right, spawn_2_0_y);
 	spawn_points[2][1] = iPoint(starting_trigger + 200 - offset_spawn_left, spawn_2_1_y);
-	spawn_points[2][2] = iPoint(starting_trigger + 200 + offset_spawn_left, spawn_2_2_y);
 
 	spawn_points[3][0] = iPoint(starting_trigger + 300 + offset_spawn_right, spawn_3_0_y);
-	spawn_points[3][1] = iPoint(starting_trigger + 300 - offset_spawn_left, spawn_3_1_y);
-	spawn_points[3][2] = iPoint(starting_trigger + 300 + offset_spawn_right, spawn_3_2_y);
-
+	
 	spawn_points[4][0] = iPoint(starting_trigger + 400 - offset_spawn_left, spawn_4_0_y);
 	spawn_points[4][1] = iPoint(starting_trigger + 400 + offset_spawn_right, spawn_4_1_y);
-	spawn_points[4][2] = iPoint(starting_trigger + 400 - offset_spawn_left, spawn_4_2_y);
-	spawn_points[4][3] = iPoint(starting_trigger + 400 + offset_spawn_right, spawn_4_3_y);
 
 	spawn_points[5][0] = iPoint(starting_trigger + 500 - offset_spawn_left, spawn_5_0_y);
-	spawn_points[5][1] = iPoint(starting_trigger + 500 + offset_spawn_right, spawn_5_1_y);
-
+	
 	spawn_points[6][0] = iPoint(starting_trigger + 600 +offset_spawn_right, spawn_6_0_y);
 	spawn_points[6][1] = iPoint(starting_trigger + 600 +offset_spawn_right, spawn_6_1_y);
 
@@ -114,7 +108,7 @@ update_status ModuleEnemies::Update()
 	//----------
 	
 	//Trigger enemies generation
-	for (int i = 0; i < max_spawn_points; i++)
+	/*for (int i = 0; i < max_spawn_points; i++)
 	{
 		if (App->player->the_player->position.x >= starting_trigger + i * 100 && reached_triggers[i] == 0)
 		{
@@ -122,7 +116,7 @@ update_status ModuleEnemies::Update()
 			reached_triggers[i] = 1;
 			break;
 		}
-	}
+	}*/
 
 	if (App->scene_round1->end_of_scene_clear && spawn_boss)
 	{

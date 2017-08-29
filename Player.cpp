@@ -9,7 +9,9 @@
 #include "Enemy.h"
 #include "ModuleParticles.h"
 #include "HealthChicken.h"
-
+#include "Application.h"
+#include "ModuleSceneRound1.h"
+#include "HealthBar.h"
 
 Player::Player(
 	SDL_Texture *texture, 
@@ -146,8 +148,11 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::BOOMERANG)
 	{
 		knocked_down = true;
-		if(god_mode == false)
+		if (god_mode == false)
+		{
 			life -= ((Boomerang*)(((Particle*)(col_info_other.collider->entity))))->boomerang_damage;
+			App->scene_round1->player_HP->ScaleHPBar(life, max_life);
+		}
 	}
 }
 

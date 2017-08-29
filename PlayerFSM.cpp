@@ -22,14 +22,13 @@ PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 void PlayerFSM::Update()
 {
 
-	LOG("player life=%d", the_player->life);//debug test-----------------------------------------
-	LOG("player position=(%d,%d)", the_player->position.x, the_player->position.y);
+	//LOG("player life=%d", the_player->life);//debug test-----------------------------------------
+	//LOG("player position=(%d,%d)", the_player->position.x, the_player->position.y);
 
 
 	switch (curr_state)
 	{
 	case State::START:
-		LOG("damaged=%d", the_player->damaged);//debug
 		Start();		
 		if (the_player->respawn == false)
 		{
