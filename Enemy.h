@@ -15,6 +15,7 @@ public:
 
 	//---------------------------------------- STATS ---------------------------------------
 	int life = 0;
+	int max_life = 0;
 	int speed = 0;
 	iPoint speed_vect;
 

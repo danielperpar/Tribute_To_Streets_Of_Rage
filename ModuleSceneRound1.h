@@ -33,6 +33,7 @@ public:
 	GUI *gui = nullptr;
 	GUI *go_sign = nullptr;
 	HealthBar *player_HP = nullptr;
+	HealthBar *boss_HP = nullptr;
 
 	HealthChicken *health_chicken_prototype = nullptr;
 
@@ -59,6 +60,7 @@ public:
 	bool end_of_scene_clear = false;
 
 	bool show_go = false;
+	bool show_boss_health_bar = false;
 
 	std::list<Entity*> dynamic_entities;
 	bool entity_erased = false;
@@ -88,6 +90,7 @@ private:
 
 	Animation gui_background;
 	Animation anim_player_HP;
+	Animation anim_boss_HP;
 };
 
 #endif // __MODULESCENEROUND1_H__

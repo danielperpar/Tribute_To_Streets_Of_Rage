@@ -22,7 +22,7 @@
 	},
 	"garcia" :
 	{	
-		"life" : 100,
+		"max_life" : 100,
 		"speed" : 1,
 		"punch_damage" : 5,
 		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 25},{ "h" : 63}],
@@ -34,7 +34,7 @@
 	},
 	"antonio" :
 	{
-		"life" : 400,
+		"max_life" : 400,
 		"speed" : 1,
 		"kick_damage" : 10,
 		"ref_y" : 51, 

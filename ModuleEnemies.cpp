@@ -135,6 +135,9 @@ update_status ModuleEnemies::Update()
 		//Recalculate boomerang ranges with the position of the camera
 		App->particles->boomerang_prototype->max_range_left = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE, App->particles->boomerang_prototype->max_range_y };
 		App->particles->boomerang_prototype->max_range_right = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE + SCREEN_WIDTH, App->particles->boomerang_prototype->max_range_y };		
+	
+		App->scene_round1->show_boss_health_bar = true;
+	
 	}
 
 	return UPDATE_CONTINUE;

@@ -86,8 +86,8 @@ bool ModuleSceneRound1::Start()
 	gui = new GUI(tx_gui, &gui_background, "gui", entity_type::GUI, { 0, 0 }, 0); //GUI follows the camera
 	go_sign = new GUI(tx_ground_items, &goSignBlink, "go_sign", entity_type::GUI, { 800, 160 }, 0); //follows the camera
 	player_HP = new HealthBar(anim_player_HP.GetCurrentFrame().w, tx_gui, &anim_player_HP, "player_health_bar", entity_type::GUI, { 24, 51 }, 0);//follows the camera
+	boss_HP = new HealthBar(anim_boss_HP.GetCurrentFrame().w, tx_gui, &goSignBlink, "antonio_health_bar", entity_type::ANTONIO, { 550, 51 }, 0);//follows the camera
 	
-
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
 	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
 	GenerateChicken({ 800, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
@@ -165,6 +165,12 @@ update_status ModuleSceneRound1::Update()
 	App->renderer->Blit(foreground->texture, foreground->position.x, foreground->position.y, nullptr);
 	App->renderer->Blit(gui->texture, gui->position.x, gui->position.y, &gui_background.GetCurrentFrame(), true);
 	App->renderer->Blit(gui->texture, player_HP->position.x, player_HP->position.y, &anim_player_HP.GetCurrentFrame(), true);
+
+	if (show_boss_health_bar)
+	{
+		App->renderer->Blit(gui->texture, boss_HP->position.x, boss_HP->position.y, &anim_boss_HP.GetCurrentFrame(), true);
+	}
+
 	if (show_go)
 	{
 		App->renderer->Blit(go_sign->texture, go_sign->position.x, go_sign->position.y, &go_sign->curr_anim->GetCurrentFrame(), true);
@@ -203,6 +209,7 @@ bool ModuleSceneRound1::CleanUp()
 	RELEASE(go_sign);
 	RELEASE(health_chicken_prototype);
 	RELEASE(player_HP);
+	RELEASE(boss_HP);
 	return true;
 }
 
@@ -268,7 +275,11 @@ void ModuleSceneRound1::LoadSceneAssets()
 	anim_player_HP.loop = true;
 	anim_player_HP.speed = 0.1f;
 	Utilities::free_list(animation_list);
-		
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "bossHealthBar", animation_list, anim_boss_HP);
+	anim_boss_HP.loop = true;
+	anim_boss_HP.speed = 0.1f;
+	Utilities::free_list(animation_list);
 }
 
 void ModuleSceneRound1::GenerateChicken(iPoint position, int depth)

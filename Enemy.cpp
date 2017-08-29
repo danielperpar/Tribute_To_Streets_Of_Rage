@@ -10,7 +10,8 @@ Enemy::Enemy(SDL_Texture *texture, Animation *curr_anim, const char *name, entit
 
 Enemy::Enemy(const Enemy &enemy) : Entity(enemy.texture, enemy.curr_anim, enemy.name, enemy.type, enemy.position, enemy.depth)
 {
-	life = enemy.life;
+	max_life = enemy.max_life;
+	life = max_life;
 	speed = enemy.speed;
 	speed_vect = enemy.speed_vect;
 	body_rect = enemy.body_rect;
@@ -36,7 +37,7 @@ void Enemy::LoadColliders(const char *name)
 
 void Enemy::LoadStats(const char *name)
 {
-	life = JSONDataLoader::GetNumber("assets/json/config.json", name, "life");
+	max_life = JSONDataLoader::GetNumber("assets/json/config.json", name, "max_life");
 	speed = JSONDataLoader::GetNumber("assets/json/config.json", name, "speed");
 	speed_vect.x = speed;
 	speed_vect.y = speed;

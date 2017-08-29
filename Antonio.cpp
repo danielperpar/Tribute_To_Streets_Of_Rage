@@ -4,6 +4,9 @@
 #include "ModuleCollision.h"
 #include "Player.h"
 #include "AntonioFSM.h"
+#include "Application.h"
+#include "ModuleSceneRound1.h"
+#include "HealthBar.h"
 
 Antonio::Antonio(SDL_Texture *texture, 
 	Animation *curr_anim, 
@@ -91,6 +94,7 @@ void Antonio::SetPlayer(Player *player)
 void Antonio::ApplyDamage(int damage)
 {
 	life -= damage;
+	App->scene_round1->boss_HP->ScaleHPBar(life, max_life);
 }
 
 void Antonio::LoadOffsets()
