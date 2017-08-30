@@ -175,13 +175,6 @@ update_status ModuleRender::Update()
 		}
 	}
 
-	//Debug - release camera 
-	//if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
-	//{
-	//	allow_camera_movement = true;
-	//	right_limit = App->scene_round1->right_limit;//scene right limit
-	//}
-
 	return UPDATE_CONTINUE;
 }
 

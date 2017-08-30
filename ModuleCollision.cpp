@@ -155,8 +155,6 @@ update_status ModuleCollision::Update()
 					bool collision = (*it1)->CheckCollision(*it2, collision_info1, collision_info2);
 					if (collision)
 					{
-						//DEBUG
-						//LOG("it1 = (%d, %d, %d, %d) it2=(%d, %d, %d, %d)", (*it1)->m_rect.x, (*it1)->m_rect.y, (*it1)->m_rect.w, (*it1)->m_rect.h, (*it2)->m_rect.x, (*it2)->m_rect.y, (*it2)->m_rect.w, (*it2)->m_rect.h)
 						OnCollision(collision_info1, collision_info2);
 					}
 				}
@@ -164,7 +162,7 @@ update_status ModuleCollision::Update()
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		debug = !debug;
 
 	if (debug == true)

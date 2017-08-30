@@ -36,6 +36,10 @@ public:
 	HealthBar *boss_HP = nullptr;
 	GUI *boss_white_bar = nullptr;
 	GUI *boss_title = nullptr;
+	GUI *help_text = nullptr;
+	GUI *help_menu = nullptr;
+	GUI *help_panel = nullptr;
+	GUI *god_mode_text = nullptr;
 
 	HealthChicken *health_chicken_prototype = nullptr;
 
@@ -74,6 +78,8 @@ private:
 	int go_sign_show_frames = 180;
 	int go_sign_show_counter = 0;
 
+	bool show_help = false;
+
 	SDL_Texture *tx_background = nullptr;
 	SDL_Texture *tx_foreground = nullptr;
 	SDL_Texture *tx_neons = nullptr;
@@ -95,6 +101,9 @@ private:
 	Animation anim_boss_HP;
 	Animation anim_boss_white_bar;
 	Animation anim_boss_title;
+	Animation anim_help_text;
+	Animation anim_help_panel;
+	Animation anim_god_mode_text;
 };
 
 #endif // __MODULESCENEROUND1_H__

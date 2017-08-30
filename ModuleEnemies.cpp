@@ -98,17 +98,14 @@ update_status ModuleEnemies::Update()
 {
 	//---------------------------------------- GENERATE ENEMIES --------------------------------------------------------------------
 	//test enemies spawn
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		//GenerateEnemy(entity_type::GARCIA, { 800, 150 }, App->player->the_player, App->scene_round1->dynamic_entities);
+		GenerateEnemy(entity_type::GARCIA, { 800, 150 }, App->player->the_player, App->scene_round1->dynamic_entities);
 		GenerateEnemy(entity_type::ANTONIO, antonio_prototype->spawn_position, App->player->the_player, App->scene_round1->dynamic_entities);
-	}
+	}*/
 
-	//LOG("player x=%d", App->player->the_player->position.x);
-	//----------
-	
 	//Trigger enemies generation
-	/*for (int i = 0; i < max_spawn_points; i++)
+	for (int i = 0; i < max_spawn_points; i++)
 	{
 		if (App->player->the_player->position.x >= starting_trigger + i * 100 && reached_triggers[i] == 0)
 		{
@@ -116,7 +113,7 @@ update_status ModuleEnemies::Update()
 			reached_triggers[i] = 1;
 			break;
 		}
-	}*/
+	}
 
 	if (App->scene_round1->end_of_scene_clear && spawn_boss)
 	{
@@ -143,9 +140,6 @@ void ModuleEnemies::SpawnEnemies(int spawn_point, int amount, entity_type type)
 {
 	for (int i = 0; i < amount; i++)
 	{	
-		//debug test
-		iPoint spwn = spawn_points[spawn_point][i];
-
 		GenerateEnemy(type, spawn_points[spawn_point][i], App->player->the_player, App->scene_round1->dynamic_entities);
 	}
 }

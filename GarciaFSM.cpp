@@ -18,6 +18,12 @@ GarciaFSM::~GarciaFSM() {}
 
 void GarciaFSM::Update()
 {
+
+	//temporary solution for colliders bug
+	if ((garcia->body_collider->to_delete == true || garcia->hit_collider->to_delete == true) && garcia->life > 0)
+		curr_state = State::DEAD;
+	//---------------------------------------------
+
 	switch (curr_state)
 	{
 	case State::IDLE:
