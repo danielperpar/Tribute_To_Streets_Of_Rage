@@ -34,6 +34,8 @@ public:
 	GUI *go_sign = nullptr;
 	HealthBar *player_HP = nullptr;
 	HealthBar *boss_HP = nullptr;
+	GUI *boss_white_bar = nullptr;
+	GUI *boss_title = nullptr;
 
 	HealthChicken *health_chicken_prototype = nullptr;
 
@@ -79,18 +81,20 @@ private:
 	SDL_Texture *tx_garcia = nullptr;
 	SDL_Texture *tx_ground_items = nullptr;
 
-	Animation neonPinEPot;
-	Animation neonBreakfastDiner;
-	Animation neonLDevo;
-	Animation neonRachShop;
-	Animation neonAbcShop;
-	Animation neonCafeRestaurant;
-	Animation goSignBlink;
-	Animation goSignTransparent;
+	Animation neon_pinepot;
+	Animation neon_breakfast_dinner;
+	Animation neon_ldevo;
+	Animation neon_ranch_shop;
+	Animation neon_abc_shop;
+	Animation neon_cafe_restaurant;
+	Animation go_sign_blink;
+	Animation go_sign_transparent;
 
 	Animation gui_background;
 	Animation anim_player_HP;
 	Animation anim_boss_HP;
+	Animation anim_boss_white_bar;
+	Animation anim_boss_title;
 };
 
 #endif // __MODULESCENEROUND1_H__
