@@ -103,6 +103,9 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 		Enemy *enemy = (Enemy*)(col_info_other.collider->entity);
 		allow_grab = true;
 
+		if (enemy->life <= 0)
+			allow_grab = false;
+
 		//Don't allow grab when enemy is knocked down
 		if (enemy->knocked_down)
 			allow_grab = false;

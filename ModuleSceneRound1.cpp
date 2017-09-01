@@ -108,29 +108,6 @@ bool ModuleSceneRound1::Start()
 	return true;
 }
 
-update_status ModuleSceneRound1::PreUpdate()
-{
-	if (dynamic_entities.size() != 0)
-	{
-		for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end();)
-		{
-			entity_erased = false;
-					
-			if ((*it)->destroy_this)
-			{
-				RELEASE(*it);
-				it = dynamic_entities.erase(it);
-				entity_erased = true;
-			}			
-			
-			if (!entity_erased)
-				it++;
-		}
-	}
-
-	return UPDATE_CONTINUE;
-}
-
 
 // Update: draw background
 update_status ModuleSceneRound1::Update()
@@ -214,6 +191,29 @@ update_status ModuleSceneRound1::Update()
 	return UPDATE_CONTINUE;
 }
 
+
+update_status ModuleSceneRound1::PostUpdate()
+{
+	if (dynamic_entities.size() != 0)
+	{
+		for (std::list<Entity*>::iterator it = dynamic_entities.begin(); it != dynamic_entities.end();)
+		{
+			entity_erased = false;
+
+			if ((*it)->destroy_this)
+			{
+				RELEASE(*it);
+				it = dynamic_entities.erase(it);
+				entity_erased = true;
+			}
+
+			if (!entity_erased)
+				it++;
+		}
+	}
+
+	return UPDATE_CONTINUE;
+}
 
 // UnLoad assets
 bool ModuleSceneRound1::CleanUp()
