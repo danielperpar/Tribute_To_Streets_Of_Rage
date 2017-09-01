@@ -45,7 +45,6 @@ bool ModuleCollision::Start()
 
 update_status ModuleCollision::PreUpdate()
 {
-	
 	CollisionInfo ci1;
 	CollisionInfo ci2;
 	//update player collision status
@@ -126,7 +125,6 @@ update_status ModuleCollision::PreUpdate()
 		}
 	}
 	
-
 	// Remove all colliders scheduled for deletion
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end();)
 	{
@@ -138,6 +136,7 @@ update_status ModuleCollision::PreUpdate()
 		else
 			++it;
 	}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -167,7 +166,7 @@ update_status ModuleCollision::Update()
 
 	if (debug == true)
 		DebugDraw();
-	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -193,9 +192,6 @@ bool ModuleCollision::CleanUp()
 		RELEASE(*it);
 
 	colliders.clear();
-
-	//RELEASE_ARRAY(collision_matrix);
-
 	return true;
 }
 

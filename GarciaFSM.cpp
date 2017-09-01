@@ -18,12 +18,6 @@ GarciaFSM::~GarciaFSM() {}
 
 void GarciaFSM::Update()
 {
-
-	//temporary solution for colliders bug
-	if ((garcia->body_collider->to_delete == true || garcia->hit_collider->to_delete == true) && garcia->life > 0)
-		curr_state = State::DEAD;
-	//---------------------------------------------
-
 	switch (curr_state)
 	{
 	case State::IDLE:
@@ -1001,13 +995,6 @@ void GarciaFSM::KnockedDown()
 
 void GarciaFSM::Dead()
 {
-	//Mark colliders as deleteable
-	if(garcia->body_collider != nullptr)
-		garcia->body_collider->to_delete = true;
-	
-	if (garcia->hit_collider != nullptr)
-		garcia->hit_collider->to_delete = true;
-
 	if (garcia->facing_right)
 	{
 		if (garcia->blink)
@@ -1031,6 +1018,10 @@ void GarciaFSM::Dead()
 		garcia->blink_times_counter++;
 		if (garcia->blink_times_counter > garcia->blink_max_times)
 		{
+			//Mark colliders as deleteable	
+			garcia->body_collider->to_delete = true;
+			garcia->hit_collider->to_delete = true;
+
 			//destroy de entity
 			garcia->destroy_this = true;			
 		}

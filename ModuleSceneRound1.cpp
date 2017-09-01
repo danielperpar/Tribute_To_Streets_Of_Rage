@@ -17,6 +17,7 @@
 #include "ModulePlayer.h"
 #include "Player.h"
 
+
 ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
 ModuleSceneRound1::~ModuleSceneRound1(){}
@@ -99,8 +100,8 @@ bool ModuleSceneRound1::Start()
 
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
 	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
-	GenerateChicken({ 800, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
-	GenerateChicken({ 900, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
+	//GenerateChicken({ 800, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
+	//GenerateChicken({ 900, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
 
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
@@ -126,6 +127,7 @@ update_status ModuleSceneRound1::PreUpdate()
 				it++;
 		}
 	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -133,7 +135,6 @@ update_status ModuleSceneRound1::PreUpdate()
 // Update: draw background
 update_status ModuleSceneRound1::Update()
 {
-
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		show_help = !show_help;
