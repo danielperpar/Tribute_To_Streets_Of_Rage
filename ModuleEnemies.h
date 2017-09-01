@@ -35,7 +35,7 @@ private:
 	bool spawn_boss = true;
 	
 	int offset_spawn_right = 250;
-	int offset_spawn_left = 150;
+	int offset_spawn_left = 250;
 };
 
 #endif

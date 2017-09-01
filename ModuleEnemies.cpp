@@ -35,7 +35,7 @@ bool ModuleEnemies::Start()
 
 	for (int i = 0; i < max_spawn_points; i++)
 	{		
-		amount_at_points[i] = (i % 2) + 2;
+		amount_at_points[i] = (i % 2) + 1;
 	}
 
 	//Initialize spawnpoints array
@@ -53,7 +53,9 @@ bool ModuleEnemies::Start()
 			int offset;
 			i % 2 == 0 ? offset = offset_spawn_right : offset = -offset_spawn_left;
 			//spawn points each 100 + offset units in axis 0X and 100,200,300 units in axis 0Y 
-			spawn_points[i][j] = iPoint(starting_trigger + i * 100 + j * 100 + offset, ((i % 3) + 1) * 100);
+			spawn_points[i][j] = iPoint(starting_trigger + i * 100 + j * 100 + offset, ((i % 3) + 1) * 100 + ((i % 3) + 1) * 30);
+
+			//LOG("spawn point[%d][%d] = (%d,%d)", i, j, spawn_points[i][j].x, spawn_points[i][j].y);
 		}
 	}
 
