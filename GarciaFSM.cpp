@@ -753,7 +753,6 @@ void GarciaFSM::GrabbedThirdStage()
 void GarciaFSM::GrabbedFourthStage()
 {
 	garcia->offset_applied = false; //reset flag
-	//falta poner offsets
 
 	if (garcia->facing_right)
 	{
@@ -777,7 +776,6 @@ void GarciaFSM::GrabbedFourthStage()
 
 void GarciaFSM::GrabbedFifthStage()
 {
-	//falta poner offsets
 
 	if (garcia->facing_right)
 	{
