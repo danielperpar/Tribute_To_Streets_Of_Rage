@@ -90,7 +90,8 @@ void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionIn
 		bool attackable_state = false;
 		if (the_player->player_fsm->GetCurrState() == PlayerFSM::State::IDLE ||
 			the_player->player_fsm->GetCurrState() == PlayerFSM::State::WALK ||
-			the_player->player_fsm->GetCurrState() == PlayerFSM::State::GRAB)
+			the_player->player_fsm->GetCurrState() == PlayerFSM::State::GRAB ||
+			the_player->player_fsm->GetCurrState() == PlayerFSM::State::POST_AIR_ATTACK)
 		{
 			attackable_state = true;
 		}
