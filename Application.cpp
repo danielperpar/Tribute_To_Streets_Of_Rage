@@ -10,6 +10,7 @@
 #include "ModuleSceneRound1.h"
 #include "ModulePlayer.h"
 #include "ModuleEnemies.h"
+#include "ModuleTitle.h"
 
 
 using namespace std;
@@ -25,7 +26,8 @@ Application::Application()
 	modules.push_back(audio = new ModuleAudio());
 
 	// Game Modules
-	modules.push_back(scene_round1 = new ModuleSceneRound1(true));
+	modules.push_back(title = new ModuleTitle(true));
+	modules.push_back(scene_round1 = new ModuleSceneRound1(false));
 	modules.push_back(player = new ModulePlayer(true));
 	modules.push_back(enemies = new ModuleEnemies(true));
 
@@ -55,7 +57,7 @@ bool Application::Init()
 	}
 
 	// Start the first scene --
-	fade->FadeToBlack(scene_round1, nullptr, 3.0f);
+	//fade->FadeToBlack(scene_round1, nullptr, 3.0f);
 
 	return ret;
 }

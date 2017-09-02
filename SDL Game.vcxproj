@@ -79,6 +79,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HealthChicken.h" />
+    <ClInclude Include="ModuleTitle.h" />
     <ClInclude Include="PlayerFSM.h" />
     <ClInclude Include="Garcia.h" />
     <ClInclude Include="Globals.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HealthChicken.cpp" />
+    <ClCompile Include="ModuleTitle.cpp" />
     <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="Garcia.cpp" />
     <ClCompile Include="JSONDataLoader.cpp" />

@@ -17,8 +17,6 @@ AntonioFSM::~AntonioFSM() {}
 
 void AntonioFSM::Update()
 {
-	LOG("antonio life=%d", antonio->life);//debug test-----------------------------------------
-
 	switch (curr_state)
 	{
 
