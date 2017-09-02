@@ -38,15 +38,6 @@ void PlayerFSM::Update()
 		break;
 
 	case State::IDLE:
-		if (the_player->damaged && (prev_state == State::JUMP || prev_state == State::START))
-		{
-			the_player->damaged = false;
-		}
-		if (the_player->knocked_down && prev_state == State::START)
-		{
-			the_player->knocked_down = false;
-		}
-
 		Idle();
 		prev_state = curr_state;
 		if (

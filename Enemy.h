@@ -61,7 +61,7 @@ public:
 	bool kick = false;
 	bool throw_boomerang = false;
 	bool recover_boomerang = false;
-	bool player_in_sight = true; // test
+	bool player_in_sight = true;
 
 	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 	virtual void OnCollision(const CollisionInfo &col_info_this, const CollisionInfo &col_info_other) = 0;

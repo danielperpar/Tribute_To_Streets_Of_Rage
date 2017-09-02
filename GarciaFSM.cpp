@@ -64,7 +64,7 @@ void GarciaFSM::Update()
 		Chase();
 		if (garcia->attack)
 		{
-			curr_state = State::ATTACK;
+			curr_state = State::IDLE;
 			break;
 		}
 		if (garcia->grabbed)
@@ -359,7 +359,7 @@ void GarciaFSM::Chase()
 	
 void GarciaFSM::Attack()
 {
-	if (garcia->punch_hits == 0 || garcia->punch_hits == 1)
+	if (garcia->punch_hits < 2)
 	{
 		if (!punch_wait)
 		{

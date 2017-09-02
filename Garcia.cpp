@@ -4,6 +4,7 @@
 #include "GarciaFSM.h"
 #include "ModuleCollision.h"
 #include "Player.h"
+#include "PlayerFSM.h"
 
 Garcia::Garcia(SDL_Texture *texture,
 	Animation *curr_anim, 
@@ -85,7 +86,16 @@ void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionIn
 	if (col_info_other.collider->type == collider_type::PLAYER_BODY)
 	{		
 		OnCollisionEnter(col_info_garcia, col_info_other);
-		if (depth == col_info_other.collider->entity->depth && !the_player->jump && !the_player->knocked_down)
+
+		bool attackable_state = false;
+		if (the_player->player_fsm->GetCurrState() == PlayerFSM::State::IDLE ||
+			the_player->player_fsm->GetCurrState() == PlayerFSM::State::WALK ||
+			the_player->player_fsm->GetCurrState() == PlayerFSM::State::GRAB)
+		{
+			attackable_state = true;
+		}
+
+		if (depth == col_info_other.collider->entity->depth && attackable_state)
 		{
 			attack = true;
 		}
@@ -94,7 +104,6 @@ void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionIn
 			attack = false;
 		}
 	}
-	
 }
 
 void Garcia::OnCollisionEnter(const CollisionInfo &col_info_garcia, const CollisionInfo &col_info_other)
