@@ -27,9 +27,6 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	void LoadSceneAssets();
-	void GenerateChicken(iPoint position, int depth);
-	
 	GUI *gui = nullptr;
 	GUI *go_sign = nullptr;
 	HealthBar *player_HP = nullptr;
@@ -42,6 +39,9 @@ public:
 	GUI *god_mode_text = nullptr;
 
 	HealthChicken *health_chicken_prototype = nullptr;
+	iPoint chicken_first_area;
+	iPoint chicken_second_area;
+	iPoint chicken_third_area;
 
 	Entity *foreground = nullptr;
 
@@ -74,6 +74,9 @@ public:
 private:
 	std::list<int*> animation_list;
 	std::vector<Entity*> scenario_entities;
+	void LoadConfigInfo();
+	void LoadSceneAssets();
+	void GenerateChicken(iPoint position, int depth);
 	
 	int go_sign_show_frames = 180;
 	int go_sign_show_counter = 0;

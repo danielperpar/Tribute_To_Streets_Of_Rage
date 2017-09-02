@@ -26,6 +26,7 @@ bool ModuleSceneRound1::Init()
 {
 	LOG("Loading assets for scene round1");
 	LoadSceneAssets();
+	LoadConfigInfo();
 	return true;
 }
 
@@ -100,9 +101,10 @@ bool ModuleSceneRound1::Start()
 
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
 	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
-	//GenerateChicken({ 800, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
-	//GenerateChicken({ 900, 150 }, 150 - health_chicken_prototype->depth_offset);//offset depth = 46
-
+	GenerateChicken(chicken_first_area, chicken_first_area.y - health_chicken_prototype->depth_offset);
+	GenerateChicken(chicken_second_area, chicken_second_area.y - health_chicken_prototype->depth_offset);
+	GenerateChicken(chicken_third_area, chicken_third_area.y - health_chicken_prototype->depth_offset);
+	
 	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
 
 	return true;
@@ -341,6 +343,16 @@ void ModuleSceneRound1::LoadSceneAssets()
 	anim_god_mode_text.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
+}
+
+void ModuleSceneRound1::LoadConfigInfo()
+{
+	chicken_first_area.x = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_first_area_x");
+	chicken_first_area.y = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_first_area_y");
+	chicken_second_area.x = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_second_area_x");
+	chicken_second_area.y = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_second_area_y");
+	chicken_third_area.x = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_third_area_x");
+	chicken_third_area.y = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_third_area_y");
 }
 
 void ModuleSceneRound1::GenerateChicken(iPoint position, int depth)

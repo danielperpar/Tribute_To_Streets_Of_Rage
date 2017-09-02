@@ -57,6 +57,12 @@
 	{
 		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 15},{ "h" : 15}],
 		"depth_offset" : 46,
-		"depth_margin" : 4
+		"depth_margin" : 4,
+		"chicken_first_area_x" : 1537,
+		"chicken_first_area_y" : 150,
+		"chicken_second_area_x" : 2306,
+		"chicken_second_area_y" : 200,
+		"chicken_third_area_x" : 3075,
+		"chicken_third_area_y" : 150
 	}
 }
