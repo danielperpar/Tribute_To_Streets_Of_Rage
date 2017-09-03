@@ -50,9 +50,9 @@ public:
 	int jump_count = 0;
 
 	//combo
+	bool enemy_at_range = false;
 	int combo_max_frames = 60;
 	int punch_combo_hits = 0;
-	bool enemy_at_range = true;
 	bool start_combo_timer = false;
 	int combo_timer_count = 0;
 

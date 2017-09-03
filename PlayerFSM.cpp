@@ -575,20 +575,26 @@ void PlayerFSM::Jump()
 void PlayerFSM::Punch()
 {
 	the_player->enemy_at_range = false;
-
 	for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 	{
 		if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
 		{
 			the_player->enemy_at_range = true;
+
+			//Check whether new punched enemy or not
+			if ((*it).second.collider->entity != the_player->punched_enemy)
+			{
+				//reset punch combo
+				the_player->combo_timer_count = 0;
+				the_player->punch_combo_hits = 0;
+				cbo_punch_stage = CboPunchStage::HIGH_PUNCH;
+			}
 			the_player->punched_enemy = (*it).second.collider->entity;
 			break;
 		}
 	}
 
-	Enemy *enemy = (Enemy*)(the_player->punched_enemy);
-
-	if (the_player->enemy_at_range && enemy->knocked_down == false)
+	if (the_player->enemy_at_range && ((Enemy*)(the_player->punched_enemy))->knocked_down == false)
 	{	
 		switch (cbo_punch_stage)
 		{
@@ -606,7 +612,7 @@ void PlayerFSM::Punch()
 		}	
 	}
 	else
-	{
+	{	//simple punch without enemy
 		if (the_player->facing_right)
 			the_player->curr_anim = &(the_player->anim_punch_combo_right1);
 
@@ -638,20 +644,16 @@ void PlayerFSM::CboHighPunch()
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
 
-		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+		bool depth_condition = false;
+		Enemy *enemy = (Enemy*)(the_player->punched_enemy);
+
+		if (enemy->depth <= the_player->depth && enemy->depth >= the_player->depth - enemy->depth_margin)
+			depth_condition = true;
+
+		if (depth_condition == true)
 		{
-			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
-			{
-				bool depth_condition = false;				
-				if ((*it).second.collider->entity->depth <= the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Enemy*)((*it).second.collider->entity))->depth_margin)
-					depth_condition = true;
-				
-				if (depth_condition == true)
-				{
-					((Enemy*)((*it).second.collider->entity))->damaged = true;
-					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
-				}
-			}
+			enemy->damaged = true;
+			enemy->ApplyDamage(the_player->simple_damage);
 		}
 	}
 
@@ -678,20 +680,16 @@ void PlayerFSM::CboLowPunch()
 		the_player->start_combo_timer = true;
 		the_player->combo_timer_count = 0;
 
-		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+		bool depth_condition = false;
+		Enemy *enemy = (Enemy*)(the_player->punched_enemy);
+
+		if (enemy->depth <= the_player->depth && enemy->depth >= the_player->depth - enemy->depth_margin)
+			depth_condition = true;
+
+		if (depth_condition == true)
 		{
-			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
-			{
-				bool depth_condition = false;				
-				if ((*it).second.collider->entity->depth <= the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Enemy*)((*it).second.collider->entity))->depth_margin)
-					depth_condition = true;
-				
-				if (depth_condition == true)
-				{
-					((Enemy*)((*it).second.collider->entity))->damaged = true;
-					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
-				}
-			}
+			enemy->damaged = true;
+			enemy->ApplyDamage(the_player->simple_damage);
 		}
 	}
 }
@@ -713,22 +711,17 @@ void PlayerFSM::CboKick()
 		the_player->start_combo_timer = false;
 		the_player->combo_timer_count = 0;
 
-		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
+		bool depth_condition = false;
+		Enemy *enemy = (Enemy*)(the_player->punched_enemy);
+
+		if (enemy->depth <= the_player->depth && enemy->depth >= the_player->depth - enemy->depth_margin)
+			depth_condition = true;
+
+		if (depth_condition == true)
 		{
-			if ((*it).first.collider->type == collider_type::PLAYER_HIT && (*it).second.collider->type == collider_type::ENEMY_BODY)
-			{
-				bool depth_condition = false;				
-				if ((*it).second.collider->entity->depth <= the_player->depth && (*it).second.collider->entity->depth >= the_player->depth - ((Enemy*)((*it).second.collider->entity))->depth_margin)
-					depth_condition = true;
-				
-				if (depth_condition == true)
-				{
-					((Enemy*)((*it).second.collider->entity))->knocked_down = true;
-					((Enemy*)((*it).second.collider->entity))->ApplyDamage(the_player->simple_damage);
-				}
-			}
-		}
-		
+			enemy->damaged = true;
+			enemy->ApplyDamage(the_player->simple_damage);
+		}	
 	}
 }
 
