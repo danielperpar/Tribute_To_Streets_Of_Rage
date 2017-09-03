@@ -37,6 +37,7 @@ public:
 	GUI *help_menu = nullptr;
 	GUI *help_panel = nullptr;
 	GUI *god_mode_text = nullptr;
+	GUI *thanks_for_playing = nullptr;
 
 	HealthChicken *health_chicken_prototype = nullptr;
 	iPoint chicken_first_area;
@@ -67,6 +68,7 @@ public:
 
 	bool show_go = false;
 	bool show_boss_health_bar = false;
+	bool show_thanks = false;
 
 	std::list<Entity*> dynamic_entities;
 	bool entity_erased = false;
@@ -80,7 +82,7 @@ private:
 	
 	int go_sign_show_frames = 180;
 	int go_sign_show_counter = 0;
-
+	
 	bool show_help = false;
 
 	SDL_Texture *tx_background = nullptr;
@@ -107,6 +109,7 @@ private:
 	Animation anim_help_text;
 	Animation anim_help_panel;
 	Animation anim_god_mode_text;
+	Animation anim_thanks;
 };
 
 #endif // __MODULESCENEROUND1_H__

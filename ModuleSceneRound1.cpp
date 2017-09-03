@@ -16,7 +16,8 @@
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "Player.h"
-
+#include "ModuleFadeToBlack.h"
+#include "ModuleTitle.h"
 
 ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
@@ -98,6 +99,7 @@ bool ModuleSceneRound1::Start()
 	help_text = new GUI(tx_gui, &anim_help_text, "help_text", entity_type::GUI, {266, 20}, 0);
 	help_panel = new GUI(tx_gui, &anim_help_panel, "help_panel", entity_type::GUI, {250, 100}, 0);
 	god_mode_text = new GUI(tx_gui, &anim_god_mode_text, "god_mode_text", entity_type::GUI, {24,69}, 0);
+	thanks_for_playing = new GUI(tx_gui, &anim_thanks, "thanks_for_playing", entity_type::GUI, { 290, 200 }, 0);
 
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
 	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
@@ -162,11 +164,6 @@ update_status ModuleSceneRound1::Update()
 	App->renderer->Blit(gui->texture, player_HP->position.x, player_HP->position.y, &anim_player_HP.GetCurrentFrame(), true);
 	App->renderer->Blit(gui->texture, help_text->position.x, help_text->position.y, &anim_help_text.GetCurrentFrame(), true);
 
-	if (show_help)
-	{
-		App->renderer->Blit(gui->texture, help_panel->position.x, help_panel->position.y, &anim_help_panel.GetCurrentFrame(), true);
-	}
-
 	if (App->player->the_player->god_mode)
 	{
 		App->renderer->Blit(gui->texture, god_mode_text->position.x, god_mode_text->position.y, &anim_god_mode_text.GetCurrentFrame(), true);
@@ -189,7 +186,14 @@ update_status ModuleSceneRound1::Update()
 			show_go = false;
 		}
 	}
-
+	if (show_help)
+	{
+		App->renderer->Blit(gui->texture, help_panel->position.x, help_panel->position.y, &anim_help_panel.GetCurrentFrame(), true);
+	}
+	if (show_thanks)
+	{
+		App->renderer->Blit(thanks_for_playing->texture, thanks_for_playing->position.x, thanks_for_playing->position.y, &thanks_for_playing->curr_anim->GetCurrentFrame(), true);
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -212,8 +216,7 @@ update_status ModuleSceneRound1::PostUpdate()
 			if (!entity_erased)
 				it++;
 		}
-	}
-
+	}	
 	return UPDATE_CONTINUE;
 }
 
@@ -246,6 +249,7 @@ bool ModuleSceneRound1::CleanUp()
 	RELEASE(help_text);
 	RELEASE(help_panel);
 	RELEASE(god_mode_text);
+	RELEASE(thanks_for_playing);
 
 	return true;
 }
@@ -341,6 +345,11 @@ void ModuleSceneRound1::LoadSceneAssets()
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "godModeText", animation_list, anim_god_mode_text);
 	anim_god_mode_text.loop = true;
 	anim_god_mode_text.speed = 0.1f;
+	Utilities::free_list(animation_list);
+
+	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "thanksForPlaying", animation_list, anim_thanks);
+	anim_thanks.loop = true;
+	anim_thanks.speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 }

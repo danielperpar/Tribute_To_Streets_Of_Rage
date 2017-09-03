@@ -1073,6 +1073,7 @@ void AntonioFSM::Dead()
 		{
 			//destroy de entity
 			antonio->destroy_this = true;
+			App->scene_round1->show_thanks = true;
 		}
 	}
 }
