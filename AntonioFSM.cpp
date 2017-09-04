@@ -286,14 +286,14 @@ void AntonioFSM::Update()
 			{
 				if (antonio->facing_right)
 				{
-					antonio->position.x += antonio->offset_right_x1;
-					antonio->position.y -= antonio->offset_right_y1;
+					antonio->position.x += antonio->offset_right_1.x;
+					antonio->position.y -= antonio->offset_right_1.y;
 					antonio->offset_applied = false;
 				}			
 				else
 				{
-					antonio->position.x -= antonio->offset_left_x1;
-					antonio->position.y -= antonio->offset_left_y1;
+					antonio->position.x -= antonio->offset_left_1.x;
+					antonio->position.y -= antonio->offset_left_1.y;
 					antonio->offset_applied = false;
 				}		
 			}						
@@ -383,8 +383,8 @@ void AntonioFSM::Idle()
 
 		if (antonio->offset_applied)
 		{
-			antonio->position.x += antonio->offset_right_x1;
-			antonio->position.y -= antonio->offset_right_y1;
+			antonio->position.x += antonio->offset_right_1.x;
+			antonio->position.y -= antonio->offset_right_1.y;
 			antonio->offset_applied = false;
 		}
 	}
@@ -398,8 +398,8 @@ void AntonioFSM::Idle()
 
 		if (antonio->offset_applied)
 		{
-			antonio->position.x -= antonio->offset_left_x1;
-			antonio->position.y -= antonio->offset_left_y1;
+			antonio->position.x -= antonio->offset_left_1.x;
+			antonio->position.y -= antonio->offset_left_1.y;
 			antonio->offset_applied = false;
 		}
 	}
@@ -729,8 +729,8 @@ void AntonioFSM::GrabbedFirstStage()
 			//in case player is comming from reverse air sommersault, position offsets must be erased
 			antonio->position = antonio->start_pos; 
 			antonio->curr_anim = &antonio->antonio_grabbed_right;
-			antonio->position.x -= antonio->offset_right_x1;
-			antonio->position.y += antonio->offset_right_y1;
+			antonio->position.x -= antonio->offset_right_1.x;
+			antonio->position.y += antonio->offset_right_1.y;
 			antonio->offset_applied = true;			
 		}
 	}
@@ -740,8 +740,8 @@ void AntonioFSM::GrabbedFirstStage()
 		{	
 			antonio->position = antonio->start_pos; //in case player is comming from reverse air sommersault, position offsets must be erased
 			antonio->curr_anim = &antonio->antonio_grabbed_left;
-			antonio->position.x += antonio->offset_left_x1;
-			antonio->position.y += antonio->offset_left_y1;
+			antonio->position.x += antonio->offset_left_1.x;
+			antonio->position.y += antonio->offset_left_1.y;
 			antonio->offset_applied = true;			
 		}
 		
@@ -755,8 +755,8 @@ void AntonioFSM::GrabbedSecondStage()
 		if(antonio->curr_anim != &antonio->antonio_grabbed_finisher_right)
 		{
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_right;
-			antonio->position.x += antonio->offset_right_x2;
-			antonio->position.y += antonio->offset_right_y2;
+			antonio->position.x += antonio->offset_right_2.x;
+			antonio->position.y += antonio->offset_right_2.y;
 		}
 	}
 	else
@@ -764,8 +764,8 @@ void AntonioFSM::GrabbedSecondStage()
 		if (antonio->curr_anim != &antonio->antonio_grabbed_finisher_left)
 		{
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_left;
-			antonio->position.x -= antonio->offset_left_x2;
-			antonio->position.y += antonio->offset_left_y2;
+			antonio->position.x -= antonio->offset_left_2.x;
+			antonio->position.y += antonio->offset_left_2.y;
 		}
 	}
 }
@@ -778,7 +778,7 @@ void AntonioFSM::GrabbedThirdStage()
 		{
 			antonio->offset_applied = false; //reset flag
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_right;
-			antonio->position.x -= antonio->offset_right_x3;
+			antonio->position.x -= antonio->offset_right_3.x;
 			antonio->offset_applied_2 = true;
 		}
 	}
@@ -788,7 +788,7 @@ void AntonioFSM::GrabbedThirdStage()
 		{
 			antonio->offset_applied = false; //reset flag
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_left;
-			antonio->position.x += antonio->offset_left_x3;
+			antonio->position.x += antonio->offset_left_3.x;
 			antonio->offset_applied_2 = true;
 		}
 	}
@@ -802,8 +802,8 @@ void AntonioFSM::GrabbedFourthStage()
 		{
 			antonio->offset_applied_2 = false; //reset flag
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_horiz_right;
-			antonio->position.x += antonio->offset_right_x4;
-			antonio->position.y += antonio->offset_right_y4;
+			antonio->position.x += antonio->offset_right_4.x;
+			antonio->position.y += antonio->offset_right_4.y;
 		}
 	}
 	else
@@ -812,8 +812,8 @@ void AntonioFSM::GrabbedFourthStage()
 		{
 			antonio->offset_applied_2 = false; //reset flag
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_horiz_left;
-			antonio->position.x += antonio->offset_left_x4;
-			antonio->position.y += antonio->offset_left_y4;
+			antonio->position.x += antonio->offset_left_4.x;
+			antonio->position.y += antonio->offset_left_4.y;
 		}
 	}
 }
@@ -825,7 +825,7 @@ void AntonioFSM::GrabbedFifthStage()
 		if (antonio->offset_applied == false)
 		{
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_right;
-			antonio->position.x -= antonio->offset_right_x5;
+			antonio->position.x -= antonio->offset_right_5.x;
 			antonio->offset_applied = true;
 		}
 	}
@@ -836,8 +836,8 @@ void AntonioFSM::GrabbedFifthStage()
 			if (antonio->offset_applied == false)
 			{
 				antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_left;
-				antonio->position.x += antonio->offset_left_x5;
-				antonio->position.y -= antonio->offset_left_y5;
+				antonio->position.x += antonio->offset_left_5.x;
+				antonio->position.y -= antonio->offset_left_5.y;
 				antonio->offset_applied = true;
 			}
 		}
@@ -852,8 +852,8 @@ void AntonioFSM::GrabbedSixthStage()
 		{
 			antonio->curr_anim->Reset();
 			antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_right;
-			antonio->position.x -= antonio->offset_left_x6;
-			antonio->position.y += antonio->offset_left_y6;
+			antonio->position.x -= antonio->offset_right_6.x;
+			antonio->position.y += antonio->offset_right_6.y;
 			antonio->offset_applied_2 = true;
 			antonio->offset_applied = false; //reset flag
 		}
@@ -866,8 +866,8 @@ void AntonioFSM::GrabbedSixthStage()
 			{
 				antonio->curr_anim->Reset();
 				antonio->curr_anim = &antonio->antonio_grabbed_finisher_vert_left;
-				antonio->position.x += antonio->offset_left_x6;
-				antonio->position.y += antonio->offset_left_y6;
+				antonio->position.x += antonio->offset_left_6.x;
+				antonio->position.y += antonio->offset_left_6.y;
 				antonio->offset_applied_2 = true;
 				antonio->offset_applied = false; //reset flag
 			}
@@ -886,7 +886,7 @@ void AntonioFSM::GrabbedSeventhDownStage()
 	if (antonio->facing_right)
 	{
 		antonio->curr_anim = &antonio->antonio_down_right2;
-		antonio->position.x -= antonio->offset_right_x7;
+		antonio->position.x -= antonio->offset_right_7.x;
 		antonio->position.y = antonio->start_pos.y;
 		if (antonio->body_coll_adjustment_made)
 		{

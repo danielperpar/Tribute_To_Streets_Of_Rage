@@ -18,6 +18,7 @@ Antonio::Antonio(SDL_Texture *texture,
 	LoadAntonioAnimations();
 	LoadOffsets();
 	LoadDamage();
+	LoadConfig();
 }
 
 Antonio::Antonio(const Antonio &antonio) : Enemy(antonio)
@@ -107,6 +108,42 @@ void Antonio::LoadOffsets()
 void Antonio::LoadDamage()
 {
 	kick_damage = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "kick_damage");
+}
+
+void Antonio::LoadConfig()
+{
+	bouncing_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "bouncing_frames");
+	bouncing_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "bouncing_inflection");
+	blink_wait_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "blink_wait_frames");
+	blink_max_times = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "blink_max_times");
+	down_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "down_frames");
+	down_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "down_inflection");
+	body_collider_wide = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_wide");
+	body_collider_original = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_original");
+	body_collider_adjusted_x = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_adjusted_x");
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_1", offset_right_1);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_2", offset_right_2);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_3", offset_right_3);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_4", offset_right_4);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_5", offset_right_5);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_6", offset_right_6);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_7", offset_right_7);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_1", offset_left_1);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_2", offset_left_2);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_3", offset_left_3);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_4", offset_left_4);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_5", offset_left_5);
+	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_6", offset_left_6);
+	offset_cast_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "offset_cast_y");
+	offset_cast_x_left = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "offset_cast_x_left");
+	offset_cast_x_right = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "offset_cast_x_right");
+	boomerang_offset_left_x = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_left_x");
+	boomerang_offset_left_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_left_y");
+	boomerang_offset_right_x = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_right_x");
+	boomerang_offset_right_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_right_y");
+	chase_time_out = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "chase_time_out");
+	num_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "num_frames");
+	prekick_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "prekick_frames");
 }
 
 void Antonio::OnCollision(const CollisionInfo &col_info_antonio, const CollisionInfo &col_info_other)

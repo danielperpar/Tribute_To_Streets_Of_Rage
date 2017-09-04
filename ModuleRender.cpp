@@ -8,6 +8,7 @@
 #include "ModulePlayer.h"
 #include "Player.h"
 #include "ModuleSceneRound1.h"
+#include "JSONDataLoader.h"
 
 ModuleRender::ModuleRender()
 {
@@ -40,6 +41,8 @@ bool ModuleRender::Init()
 		LOG("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+
+	LoadConfig();
 
 	return ret;
 }
@@ -262,4 +265,9 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 	}
 
 	return ret;
+}
+
+void ModuleRender::LoadConfig()
+{
+	right_limit = JSONDataLoader::GetNumber("assets/json/config.json", "render", "right_limit");
 }

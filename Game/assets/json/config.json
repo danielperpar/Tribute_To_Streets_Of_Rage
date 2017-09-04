@@ -45,13 +45,46 @@
 		"body_collider_offset_left" : 68,
 		"hit_collider_offset_left" : 37,
 		"body_collider_offset_y" : 47,
-		"hit_collider_offset_y" : 70
+		"hit_collider_offset_y" : 70,
+		"bouncing_frames" : 20,
+		"bouncing_inflection" : 10,
+		"blink_wait_frames" : 10,
+		"blink_max_times" : 5,
+		"down_frames" : 20,
+		"down_inflection" : 10,
+		"body_collider_wide" : 36,
+		"body_collider_original" : 18,
+		"body_collider_adjusted_x" : 10,
+		"offset_right_1" : [{"x" : 10}, {"y" : 5}],
+		"offset_right_2" : [{"x" : 25}, {"y" : 5}],
+		"offset_right_3" : [{"x" : 20}, {"y" : 0}],
+		"offset_right_4" : [{"x" : 20}, {"y" : 10}],
+		"offset_right_5" : [{"x" : 30}, {"y" : 0}],
+		"offset_right_6" : [{"x" : 20}, {"y" : 15}],
+		"offset_right_7" : [{"x" : 90}, {"y" : 0}],
+		"offset_left_1" : [{"x" : 10}, {"y" : 5}],
+		"offset_left_2" : [{"x" : 25}, {"y" : 5}],
+		"offset_left_3" : [{"x" : 15}, {"y" : 0}],
+		"offset_left_4" : [{"x" : 77}, {"y" : 20}],
+		"offset_left_5" : [{"x" : 15}, {"y" : 3}],
+		"offset_left_6" : [{"x" : 50}, {"y" : 40}],
+		"offset_cast_y" : 50,
+		"offset_cast_x_left" : 20,
+		"offset_cast_x_right" : 115,
+		"boomerang_offset_left_x" : 10,
+		"boomerang_offset_left_y" : 40,
+		"boomerang_offset_right_x" : 100,
+		"boomerang_offset_right_y" : 40,
+		"chase_time_out" : 180,
+		"num_frames" : 30,
+		"prekick_frames" : 30
 	},
 	"boomerang" :
 	{
 		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 45},{ "h" : 20}],
 		"speed" : 2,
-		"boomerang_damage" : 10
+		"boomerang_damage" : 10,
+		"max_range_y" : 50
 	},
 	"health_chicken" :
 	{
@@ -64,5 +97,9 @@
 		"chicken_second_area_y" : 200,
 		"chicken_third_area_x" : 3075,
 		"chicken_third_area_y" : 150
+	},
+	"render" :
+	{
+		"right_limit" : 3840
 	}
 }

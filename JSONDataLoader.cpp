@@ -117,3 +117,29 @@ int JSONDataLoader::GetNumber(const char *json_file, const char *entity_name, co
 	json_value_free(root_value);
 	return ret;
 }
+
+bool JSONDataLoader::GetPoint(const char *json_file, const char *entity_name, const char *property_name, iPoint &ipoint)
+{
+	JSON_Value *root_value = nullptr;
+	JSON_Object *root_object = nullptr;
+	JSON_Array *coordinates = nullptr;
+	JSON_Object *point = nullptr;
+
+	root_value = json_parse_file(json_file);
+	if (root_value == NULL)
+		return false;
+
+	root_object = json_value_get_object(root_value);
+	std::string identifier = std::string(entity_name) + "." + std::string(property_name);
+
+	coordinates = json_object_dotget_array(root_object, identifier.c_str());
+
+	point = json_array_get_object(coordinates, 0);
+	ipoint.x = (int)json_object_dotget_number(point, "x");
+
+	point = json_array_get_object(coordinates, 1);
+	ipoint.y = (int)json_object_dotget_number(point, "y");
+
+	json_value_free(root_value);
+	return true;
+}

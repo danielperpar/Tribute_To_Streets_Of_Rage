@@ -23,16 +23,18 @@ public:
 	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, bool followCamera = false, float speed = 1.0f);
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera = true);
 
-public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_Rect camera;
 
-	int m_max_screen_pos_x = 3870;
-	int m_min_screen_pos_x = 700;
+	
 	int camera_speed = 1;
-	bool allow_camera_movement = true;
+	
 	int left_limit = 0;
-	int right_limit = 3400;//scene limit
+	int right_limit = 3840;//scene limit
+
+private:
+	bool allow_camera_movement = true;
+	void LoadConfig();
 };
 
 #endif // __MODULERENDER_H__

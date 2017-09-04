@@ -20,6 +20,7 @@ private:
 	void LoadAntonioAnimations();
 	void LoadOffsets();
 	void LoadDamage();
+	void LoadConfig();
 
 public:
 
@@ -41,7 +42,7 @@ public:
 	int kick_damage = 0;
 
 	// ----------------------------- SPRITE HEIGHT REFERENCE ----------------------
-	int ref_y = 50;
+	int ref_y = 51;
 
 	// ----------------------------- COLLIDER Y OFFSET ---------------------------
 	int body_collider_offset_y = 47;
@@ -54,7 +55,6 @@ public:
 	int bouncing_frames_count = 0;
 
 	//------------------------- DEAD BLINK EFFECT ---------------------------
-
 	bool blink = true;
 	int blink_counter = 0;
 	int blink_wait_frames = 10;
@@ -66,7 +66,8 @@ public:
 	int down_frames = 20;
 	int down_inflection = 10;
 	bool up = false;
-	// -------------- Offsets in somersault animation -> TODO:poner valores en el json
+
+	// -------------- OFFSETS IN SOMERSAULT------------------------ 
 	iPoint start_pos = { 0,0 };
 	bool offset_applied = false;
 	bool offset_applied_2 = false;
@@ -76,31 +77,21 @@ public:
 	bool body_coll_adjustment_made = false;
 
 	//right
-	int offset_right_x1 = 10;
-	int offset_right_y1 = 5;
-	int offset_right_x2 = 25;
-	int offset_right_y2 = 5;
-	int offset_right_x3 = 20;
-	int offset_right_x4 = 20;
-	int offset_right_y4 = 10;
-	int offset_right_x5 = 30;
-	int offset_right_x6 = 20;
-	int offset_right_y6 = 15;
-	int offset_right_x7 = 90;
-	int offset_right_y7 = 0;
+	iPoint offset_right_1 = { 10,5 };
+	iPoint offset_right_2 = { 25,5 };
+	iPoint offset_right_3 = { 20,0 };
+	iPoint offset_right_4 = { 20,10 };
+	iPoint offset_right_5 = { 30,0 };
+	iPoint offset_right_6 = { 20,15 };
+	iPoint offset_right_7 = { 90,0 };
 
 	//left
-	int offset_left_x1 = 10;
-	int offset_left_y1 = 5;
-	int offset_left_x2 = 25;
-	int offset_left_y2 = 5;
-	int offset_left_x3 = 15;
-	int offset_left_x4 = 77;
-	int offset_left_y4 = 20;
-	int offset_left_x5 = 15;
-	int offset_left_y5 = 3;
-	int offset_left_x6 = 50;
-	int offset_left_y6 = 40;
+	iPoint offset_left_1 = { 10,5 };
+	iPoint offset_left_2 = { 25,5 };
+	iPoint offset_left_3 = { 15,0 };
+	iPoint offset_left_4 = { 77,20 };
+	iPoint offset_left_5 = { 15,3 };
+	iPoint offset_left_6 = { 50,40 };
 
 	//-------------------------------- BOOMERANG ATTACK CASTING SPOTS
 	int offset_cast_y = 50;
