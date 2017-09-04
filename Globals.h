@@ -35,4 +35,24 @@ typedef unsigned int uint;
                               \
 	 }
 
+
+enum audio_fx
+{
+	PLAYER_JUMP,
+	PLAYER_LAND,
+	PLAYER_ATTACK_MISS,
+	PLAYER_ATTACK_HIT,
+	PLAYER_ATTACK_HIT_HARD,
+	PLAYER_VOICE_AXEL,
+	PLAYER_DEAD,
+	ENEMY_ATTACK,
+	ENEMY_DEAD,
+	HEALTH_ITEM,
+	GO_ARROW,
+	GROUND_HIT
+};
+
+
+
+
 #endif //__GLOBALS_H__

@@ -63,6 +63,9 @@ public:
 	bool recover_boomerang = false;
 	bool player_in_sight = true;
 
+	// -------------- AUDIO -----
+	bool jump_kick_damage = false;
+
 	CollisionInfo hit_collider_status = CollisionInfo(nullptr, contact_direction::LEFT, contact_direction::DOWN);
 	virtual void OnCollision(const CollisionInfo &col_info_this, const CollisionInfo &col_info_other) = 0;
 	virtual void OnCollisionExit(const CollisionInfo &col_info_other) = 0;

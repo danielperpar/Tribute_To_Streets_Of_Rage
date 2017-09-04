@@ -6,6 +6,7 @@
 #include "ModuleSceneRound1.h"
 #include "ModuleSceneRound1.h"
 #include "HealthBar.h"
+#include "ModuleAudio.h"
 
 GarciaFSM::GarciaFSM(Garcia *grc) : garcia(grc) 
 {
@@ -123,7 +124,8 @@ void GarciaFSM::Update()
 				evasion_upper = true;
 				evasion_lower = false;
 			}
-			curr_state = State::EVASIVE;			
+			curr_state = State::EVASIVE;
+			break;
 		}
 		if (garcia->grabbed)
 		{
@@ -134,7 +136,7 @@ void GarciaFSM::Update()
 			break;
 		}
 		if (garcia->damaged)
-		{								
+		{	
 			garcia->punch_hits = 0;
 			garcia->attack = false;
 
@@ -209,8 +211,8 @@ void GarciaFSM::Update()
 		{
 			if (garcia->life > 0)
 				curr_state = State::IDLE;
-			else
-				curr_state = State::DEAD;
+			else			
+				curr_state = State::DEAD;							
 		}
 		break;
 
@@ -374,7 +376,8 @@ void GarciaFSM::Attack()
 
 				if (garcia->attack)
 				{
-					garcia->the_player->damaged = true;	//Damage the player					
+					garcia->the_player->damaged = true;	//Damage the player	
+					App->audio->PlayFx(audio_fx::ENEMY_ATTACK);
 					if (garcia->the_player->god_mode == false)
 					{
 						garcia->the_player->life -= garcia->punch_damage;
@@ -415,8 +418,9 @@ void GarciaFSM::Attack()
 				if (garcia->attack)
 				{
 					garcia->the_player->knocked_down = true;	//Knock down the player
+					App->audio->PlayFx(audio_fx::ENEMY_ATTACK);
 					if (garcia->the_player->god_mode == false)
-					{
+					{					
 						garcia->the_player->life -= garcia->punch_damage;
 						App->scene_round1->player_HP->ScaleHPBar(garcia->the_player->life, garcia->the_player->max_life);
 					}
@@ -838,6 +842,8 @@ void GarciaFSM::GrabbedSixthStage()
 
 void GarciaFSM::GrabbedSeventhDownStage()
 {
+	App->audio->PlayFx(audio_fx::GROUND_HIT);
+	
 	if (garcia->facing_right)
 	{
 		garcia->curr_anim = &garcia->garcia_down_right2;
@@ -850,7 +856,7 @@ void GarciaFSM::GrabbedSeventhDownStage()
 		garcia->position.x -= garcia->offset_left_x_7;
 		garcia->position.y = garcia->start_pos.y;		
 	}	
-		garcia->knocked_down = true;
+		garcia->knocked_down = true;		
 }
 
 void GarciaFSM::Damaged()
@@ -878,6 +884,17 @@ void GarciaFSM::KnockedDown()
 
 		if (!garcia->facing_right)
 			garcia->curr_anim = &(garcia->garcia_down_left1);
+
+		if (garcia->jump_kick_damage)
+		{
+			App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT);
+			garcia->jump_kick_damage = false;
+		}
+
+		if (garcia->life <= 0)
+		{
+			App->audio->PlayFx(audio_fx::ENEMY_DEAD);
+		}
 	}
 	else
 	{
@@ -930,6 +947,7 @@ void GarciaFSM::KnockedDown()
 			{
 				garcia->curr_anim->Reset();
 				garcia->curr_anim = &(garcia->garcia_down_right2);
+				App->audio->PlayFx(audio_fx::GROUND_HIT);
 			}
 			else if (garcia->curr_anim == &(garcia->garcia_down_right2))
 			{
@@ -962,6 +980,7 @@ void GarciaFSM::KnockedDown()
 			{
 				garcia->curr_anim->Reset();
 				garcia->curr_anim = &(garcia->garcia_down_left2);
+				App->audio->PlayFx(audio_fx::GROUND_HIT);
 			}
 			else if (garcia->curr_anim == &(garcia->garcia_down_left2))
 			{
@@ -1021,7 +1040,7 @@ void GarciaFSM::Dead()
 			garcia->hit_collider->to_delete = true;
 
 			//destroy de entity
-			garcia->destroy_this = true;			
+			garcia->destroy_this = true;	
 		}
 	}
 }

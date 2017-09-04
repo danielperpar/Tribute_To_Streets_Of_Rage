@@ -256,32 +256,32 @@ void Antonio::LoadAntonioAnimations()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownRight1", animation_list, antonio_down_right1);
 	antonio_down_right1.loop = false;
-	antonio_down_right1.speed = 0.1f;
+	antonio_down_right1.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownRight2", animation_list, antonio_down_right2);
 	antonio_down_right2.loop = false;
-	antonio_down_right2.speed = 0.1f;
+	antonio_down_right2.speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownLeft1", animation_list, antonio_down_left1);
 	antonio_down_left1.loop = false;
-	antonio_down_left1.speed = 0.1f;
+	antonio_down_left1.speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownLeft2", animation_list, antonio_down_left2);
 	antonio_down_left2.loop = false;
-	antonio_down_left2.speed = 0.1f;
+	antonio_down_left2.speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioUpRight", animation_list, antonio_up_right);
 	antonio_up_right.loop = false;
-	antonio_up_right.speed = 0.1f;
+	antonio_up_right.speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioUpLeft", animation_list, antonio_up_left);
 	antonio_up_left.loop = false;
-	antonio_up_left.speed = 0.1f;
+	antonio_up_left.speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffect", animation_list, antonio_dead_blink_effect);

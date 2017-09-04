@@ -21,7 +21,6 @@ Boomerang::Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *nam
 {
 	LoadStats();
 	LoadColliders();
-	LoadSoundFX();
 	LoadParticleAnimations();
 
 	max_range_left = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE, max_range_y };
@@ -128,12 +127,6 @@ void Boomerang::RecoverBoomerang()
 	antonio->carrying_boomerang = true;
 }
 
-void Boomerang::LoadSoundFX()
-{
-	//m_hit_effect->m_ai_controller = new AIController();
-	////m_hit_sound = App->audio->LoadFx("rtype/laser.wav");  //cargar sonido boomerang
-}
-
 void Boomerang::LoadColliders()
 {
 	JSONDataLoader::LoadColliderRect("assets/json/config.json", "boomerang", "collider", boomerang_rect);
@@ -168,7 +161,6 @@ void Boomerang::UpdateColliderPosition()
 //--------------------------------- HIT EFFECT --------------
 HitEffect::HitEffect(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth) : Particle(texture, curr_anim, name, type, position, depth) 
 {
-	LoadSoundFX();
 	LoadParticleAnimations();
 }
 
@@ -181,16 +173,8 @@ HitEffect::HitEffect(const HitEffect &effect) : Particle(effect.texture, effect.
 HitEffect::~HitEffect() {}
 
 void HitEffect::Update()
-{
-	
-	//create hit effect behaviour
-	
-}
-
-void HitEffect::LoadSoundFX()
-{
-	//m_hit_effect->m_ai_controller = new AIController();
-	////m_hit_sound = App->audio->LoadFx("rtype/laser.wav");  //cargar sonido puñetazo
+{	
+	//create hit effect behaviour	
 }
 
 void HitEffect::LoadParticleAnimations()

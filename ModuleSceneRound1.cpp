@@ -18,6 +18,7 @@
 #include "Player.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleTitle.h"
+#include "ModuleAudio.h"
 
 ModuleSceneRound1::ModuleSceneRound1(bool active) : Module(active){}
 
@@ -28,6 +29,7 @@ bool ModuleSceneRound1::Init()
 	LOG("Loading assets for scene round1");
 	LoadSceneAssets();
 	LoadConfigInfo();
+	LoadAudio();
 	return true;
 }
 
@@ -107,7 +109,7 @@ bool ModuleSceneRound1::Start()
 	GenerateChicken(chicken_second_area, chicken_second_area.y - health_chicken_prototype->depth_offset);
 	GenerateChicken(chicken_third_area, chicken_third_area.y - health_chicken_prototype->depth_offset);
 	
-	//App->audio->PlayMusic("assets/audio/03_-_Fighting_in_the_Street_stage_1_.ogg", 1.0f);
+	App->audio->PlayMusic("assets/audio/Fighting in the street_ stage1.ogg", 1.0f);
 
 	return true;
 }
@@ -375,4 +377,37 @@ void ModuleSceneRound1::GenerateChicken(iPoint position, int depth)
 	chicken->chicken_collider = App->collision->AddCollider(health_chicken_prototype->chicken_collider_rect, chicken, collider_type::HEALTH_CHICKEN);
 	chicken->chicken_collider->SetPos(position.x, position.y);
 	dynamic_entities.push_back(chicken);
+}
+
+void ModuleSceneRound1::LoadAudio()
+{
+	/* Loading order
+
+	PLAYER_JUMP,
+	PLAYER_LAND,
+	PLAYER_ATTACK_MISS,
+	PLAYER_ATTACK_HIT,
+	PLAYER_ATTACK_HIT_HARD,
+	PLAYER_VOICE_AXEL,
+	PLAYER_DEAD,
+	ENEMY_ATTACK,
+	ENEMY_DEAD,
+	HEALTH_ITEM,
+	GO_ARROW,
+	GROUND_HIT
+	*/
+
+	App->audio->LoadFx("assets/audio/fx_jump.wav");
+	App->audio->LoadFx("assets/audio/fx_land.wav");
+	App->audio->LoadFx("assets/audio/fx_attack_miss.wav");
+	App->audio->LoadFx("assets/audio/fx_attack_hit.wav");
+	App->audio->LoadFx("assets/audio/fx_attack_hit_hard.wav");
+	App->audio->LoadFx("assets/audio/fx_voice_axel.wav");
+	App->audio->LoadFx("assets/audio/fx_voice_axel_death.wav");
+	App->audio->LoadFx("assets/audio/fx_attack_hit_enemy.wav");
+	App->audio->LoadFx("assets/audio/fx_voice_garcia.wav");
+	App->audio->LoadFx("assets/audio/fx_health_item.wav");
+	App->audio->LoadFx("assets/audio/fx_go_arrow.wav");
+	App->audio->LoadFx("assets/audio/fx_ground_hit.wav");
+
 }

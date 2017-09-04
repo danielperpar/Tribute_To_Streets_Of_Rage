@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "ModuleSceneRound1.h"
 #include "HealthBar.h"
+#include "ModuleAudio.h"
 
 AntonioFSM::AntonioFSM(Antonio *ant) : antonio(ant) 
 {
@@ -178,13 +179,15 @@ void AntonioFSM::Update()
 	case State::KICK:
 		if (antonio->grabbed)
 		{
+			antonio->kick_played = false;
 			curr_state = State::GRABBED;
 			antonio->start_pos = antonio->position;
 			antonio->kick = false;
 			break;
 		}
 		if (antonio->kick == false)
-		{								
+		{		
+			antonio->kick_played = false;
 			if (prev_state == State::IDLE)
 			{
 				curr_state = State::IDLE;
@@ -579,7 +582,6 @@ void AntonioFSM::PreKick()
 
 void AntonioFSM::Kick()
 {
-	//kick finished
 	if (antonio->facing_right && antonio->kick)
 	{
 		antonio->curr_anim = &antonio->antonio_kick_right;		
@@ -587,6 +589,12 @@ void AntonioFSM::Kick()
 	else if(!antonio->facing_right && antonio->kick)
 	{
 		antonio->curr_anim = &antonio->antonio_kick_left;		
+	}
+
+	if (antonio->kick_played == false)
+	{
+		App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT_HARD);
+		antonio->kick_played = true;
 	}
 
 	if (antonio->curr_anim->Finished())
@@ -922,6 +930,17 @@ void AntonioFSM::KnockedDown()
 
 		if (!antonio->facing_right)
 			antonio->curr_anim = &(antonio->antonio_down_left1);
+
+		if (antonio->jump_kick_damage)
+		{
+			App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT);
+			antonio->jump_kick_damage = false;
+		}
+
+		if (antonio->life <= 0)
+		{
+			App->audio->PlayFx(audio_fx::ENEMY_DEAD);
+		}
 	}
 	else
 	{
@@ -974,6 +993,7 @@ void AntonioFSM::KnockedDown()
 			{
 				antonio->curr_anim->Reset();
 				antonio->curr_anim = &(antonio->antonio_down_right2);
+				App->audio->PlayFx(audio_fx::GROUND_HIT);
 			}
 			else if (antonio->curr_anim == &(antonio->antonio_down_right2))
 			{
@@ -1009,6 +1029,7 @@ void AntonioFSM::KnockedDown()
 			{
 				antonio->curr_anim->Reset();
 				antonio->curr_anim = &(antonio->antonio_down_left2);
+				App->audio->PlayFx(audio_fx::GROUND_HIT);
 			}
 			else if (antonio->curr_anim == &(antonio->antonio_down_left2))
 			{

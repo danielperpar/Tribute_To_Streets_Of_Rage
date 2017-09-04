@@ -175,6 +175,13 @@ public:
 	bool pick_up = false;
 	bool picked_up = false;
 	
+
+	//---------------------- AUDIO -----------------------
+	bool punch_miss_played = false;
+	bool jump_shout_played = false;
+	bool low_kick_played = false;
+	bool head_hit_played = false;
+	bool pick_played = false;
 	//----------------------------------------------------------------------------------------------------------
 	
 	//---------------------------------------- PLAYER ANIMATIONS ---------------------------------------------

@@ -127,6 +127,9 @@ public:
 	int prekick_frames = 30;
 	int prekick_counter = 0;
 
+	//----------------------- AUDIO-----
+	bool kick_played = false;
+
 	//-------------------------------------- ANIMATIONS --------------------------
 	Animation antonio_boomerang_idle_right;
 	Animation antonio_boomerang_idle_left;

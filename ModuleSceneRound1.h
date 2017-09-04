@@ -73,12 +73,14 @@ public:
 	std::list<Entity*> dynamic_entities;
 	bool entity_erased = false;
 
+
 private:
 	std::list<int*> animation_list;
 	std::vector<Entity*> scenario_entities;
 	void LoadConfigInfo();
 	void LoadSceneAssets();
 	void GenerateChicken(iPoint position, int depth);
+	void LoadAudio();
 	
 	int go_sign_show_frames = 180;
 	int go_sign_show_counter = 0;

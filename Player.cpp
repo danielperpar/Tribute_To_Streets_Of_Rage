@@ -12,6 +12,7 @@
 #include "Application.h"
 #include "ModuleSceneRound1.h"
 #include "HealthBar.h"
+#include "ModuleAudio.h"
 
 Player::Player(
 	SDL_Texture *texture, 
@@ -151,6 +152,7 @@ void Player::OnCollisionEnter(const CollisionInfo &col_info_player, const Collis
 	if (col_info_player.collider->type == collider_type::PLAYER_BODY && col_info_other.collider->type == collider_type::BOOMERANG)
 	{
 		knocked_down = true;
+		App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT_HARD);
 		if (god_mode == false)
 		{
 			life -= ((Boomerang*)(((Particle*)(col_info_other.collider->entity))))->boomerang_damage;

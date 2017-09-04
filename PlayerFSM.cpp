@@ -12,6 +12,7 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "HealthBar.h"
+#include "ModuleAudio.h"
 
 PlayerFSM::PlayerFSM(Player *player) : the_player(player)
 {
@@ -114,7 +115,7 @@ void PlayerFSM::Update()
 		if (the_player->jump_finished)
 		{	
 			the_player->jump_finished = false;
-			curr_state = State::IDLE;					
+			curr_state = State::IDLE;
 		}
 		break;
 
@@ -128,6 +129,7 @@ void PlayerFSM::Update()
 		prev_state = curr_state;
 		if (the_player->attack_finished)
 		{
+			the_player->punch_miss_played = false;
 			curr_state = State::IDLE;
 			the_player->attack_finished = false;			
 		}
@@ -271,6 +273,7 @@ void PlayerFSM::Update()
 		PickUp();
 		if (the_player->picked_up)
 		{
+			the_player->pick_played = false;
 			prev_state = State::PICK_UP;
 			curr_state = State::IDLE;
 			the_player->picked_up = false;
@@ -296,6 +299,8 @@ void PlayerFSM::Start()
 	{
 		the_player->respawn = false;
 		the_player->curr_anim->Reset();
+
+		App->audio->PlayFx(audio_fx::PLAYER_LAND);
 	}
 
 	UpdateColliderPosition();
@@ -465,6 +470,8 @@ void PlayerFSM::Jump()
 
 		if (!the_player->facing_right)
 			the_player->curr_anim = &(the_player->anim_jump_left1);
+
+		App->audio->PlayFx(audio_fx::PLAYER_JUMP);
 	}
 
 	if (the_player->hit_hold == false)
@@ -502,6 +509,12 @@ void PlayerFSM::Jump()
 		{
 			the_player->curr_anim = &(the_player->anim_air_kick_left);
 		}
+
+		if (the_player->jump_shout_played == false)
+		{
+			App->audio->PlayFx(audio_fx::PLAYER_VOICE_AXEL);
+			the_player->jump_shout_played = true;
+		}
 		
 		for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 		{
@@ -520,6 +533,8 @@ void PlayerFSM::Jump()
 					}
 
 					((Enemy*)((*it).second.collider->entity))->knocked_down = true;
+					((Enemy*)((*it).second.collider->entity))->jump_kick_damage = true;
+
 				}
 			}
 		}
@@ -563,6 +578,9 @@ void PlayerFSM::Jump()
 			{
 				the_player->jump_finished = true;
 				the_player->jump_up = true; //reset jump_up
+
+				App->audio->PlayFx(audio_fx::PLAYER_LAND);
+				the_player->jump_shout_played = false;
 			}
 		}
 		
@@ -574,6 +592,13 @@ void PlayerFSM::Jump()
 
 void PlayerFSM::Punch()
 {
+
+	if (the_player->punch_miss_played == false)
+	{
+		App->audio->PlayFx(audio_fx::PLAYER_ATTACK_MISS);
+		the_player->punch_miss_played = true;
+	}
+
 	the_player->enemy_at_range = false;
 	for (std::list<std::pair<CollisionInfo, CollisionInfo>>::iterator it = the_player->player_collision_status.begin(); it != the_player->player_collision_status.end(); it++)
 	{
@@ -612,7 +637,8 @@ void PlayerFSM::Punch()
 		}	
 	}
 	else
-	{	//simple punch without enemy
+	{	
+		//simple punch without enemy
 		if (the_player->facing_right)
 			the_player->curr_anim = &(the_player->anim_punch_combo_right1);
 
@@ -654,6 +680,7 @@ void PlayerFSM::CboHighPunch()
 		{
 			enemy->damaged = true;
 			enemy->ApplyDamage(the_player->simple_damage);
+			App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT);
 		}
 	}
 
@@ -690,6 +717,7 @@ void PlayerFSM::CboLowPunch()
 		{
 			enemy->damaged = true;
 			enemy->ApplyDamage(the_player->simple_damage);
+			App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT);
 		}
 	}
 }
@@ -701,7 +729,6 @@ void PlayerFSM::CboKick()
 
 	if (!the_player->facing_right)
 		the_player->curr_anim = &(the_player->anim_punch_combo_left3);
-
 
 	if (the_player->curr_anim->Finished())
 	{
@@ -721,6 +748,7 @@ void PlayerFSM::CboKick()
 		{
 			enemy->damaged = true;
 			enemy->ApplyDamage(the_player->simple_damage);
+			App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT);
 		}	
 	}
 }
@@ -741,6 +769,12 @@ void PlayerFSM::LowKick()
 	else
 		the_player->curr_anim = &the_player->anim_grab_kick_head_combo_left1;
 
+	if (the_player->low_kick_played == false)
+	{
+		App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT);
+		the_player->low_kick_played = true;
+	}
+
 	if (the_player->curr_anim->Finished())
 	{
 		if ((Enemy*)(the_player->grabbed_enemy) != nullptr)
@@ -754,6 +788,8 @@ void PlayerFSM::LowKick()
 			curr_state = State::GRAB;
 		else
 			curr_state = State::IDLE;
+
+		the_player->low_kick_played = false;
 	}
 
 }
@@ -765,6 +801,12 @@ void PlayerFSM::HeadHit()
 	else
 		the_player->curr_anim = &the_player->anim_grab_kick_head_combo_left2;
 
+	if (the_player->curr_anim->GetCurrentFrameCount() == 1 && the_player->head_hit_played == false)
+	{
+		App->audio->PlayFx(audio_fx::PLAYER_ATTACK_HIT_HARD);
+		the_player->head_hit_played = true;
+	}
+
 	if (the_player->curr_anim->Finished())
 	{
 		if ((Enemy*)(the_player->grabbed_enemy) != nullptr)
@@ -775,6 +817,7 @@ void PlayerFSM::HeadHit()
 		the_player->curr_anim->Reset();
 		the_player->enemy_to_grab = false;
 		curr_state = State::IDLE;
+		the_player->head_hit_played = false;
 	}
 }
 
@@ -794,6 +837,8 @@ void PlayerFSM::AirAttack()
 			the_player->position.x = the_player->jump_start_pos.x - the_player->offset_left_x_1;
 			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_left_y_1;
 		}
+
+		App->audio->PlayFx(audio_fx::PLAYER_JUMP);
 	}
 
 	//Right animations
@@ -984,6 +1029,8 @@ void PlayerFSM::AirAttackReverse()
 			the_player->position.x = the_player->jump_start_pos.x + the_player->offset_right_x_7;
 			the_player->position.y = the_player->jump_start_pos.y - the_player->offset_right_y_7;
 		}
+
+		App->audio->PlayFx(audio_fx::PLAYER_JUMP);
 	}
 
 	//Right animations
@@ -1174,7 +1221,8 @@ void PlayerFSM::Finisher()
 			((Garcia*)the_player->grabbed_enemy)->garcia_fsm->grab_stage = GarciaFSM::GrabStage::THIRD_STAGE;
 		else if (the_player->grabbed_enemy->type == entity_type::ANTONIO)
 			((Antonio*)the_player->grabbed_enemy)->antonio_fsm->grab_stage = AntonioFSM::GrabStage::THIRD_STAGE;
-
+		
+		App->audio->PlayFx(audio_fx::PLAYER_VOICE_AXEL);
 	}
 
 	//right animations
@@ -1430,6 +1478,7 @@ void PlayerFSM::KnockedDown()
 				{
 					the_player->curr_anim->Reset();
 					the_player->curr_anim = &(the_player->anim_ground_right1);
+					App->audio->PlayFx(audio_fx::GROUND_HIT);
 					the_player->up = false;					
 				}				 
 			}
@@ -1471,6 +1520,7 @@ void PlayerFSM::KnockedDown()
 				{
 					the_player->curr_anim->Reset();
 					the_player->curr_anim = &(the_player->anim_ground_left1);
+					App->audio->PlayFx(audio_fx::GROUND_HIT);
 					the_player->up = false;
 				}				
 			}
@@ -1545,6 +1595,12 @@ void PlayerFSM::PickUp()
 		the_player->curr_anim = &the_player->anim_up_right;
 	else
 		the_player->curr_anim = &the_player->anim_up_left;
+
+	if (the_player->pick_played == false)
+	{
+		App->audio->PlayFx(audio_fx::HEALTH_ITEM);
+		the_player->pick_played = true;
+	}
 
 	if (the_player->curr_anim->Finished())
 	{

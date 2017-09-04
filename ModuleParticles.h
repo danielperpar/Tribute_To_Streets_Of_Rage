@@ -47,7 +47,6 @@ public:
 	virtual ~Boomerang();
 	virtual void Update();
 	void LoadParticleAnimations();
-	void LoadSoundFX();
 	void LoadColliders();
 	void LoadStats();
 	void UpdateColliderPosition();
@@ -86,7 +85,6 @@ public:
 	virtual ~HitEffect();
 	virtual void Update();
 	void LoadParticleAnimations();
-	void LoadSoundFX();
 	
 
 private:
