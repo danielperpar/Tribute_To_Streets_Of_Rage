@@ -619,7 +619,9 @@ void PlayerFSM::Punch()
 		}
 	}
 
-	if (the_player->enemy_at_range && ((Enemy*)(the_player->punched_enemy))->knocked_down == false)
+	if (the_player->enemy_at_range && 
+		((Enemy*)(the_player->punched_enemy))->knocked_down == false && 
+		((Enemy*)(the_player->punched_enemy))->life > 0)
 	{	
 		switch (cbo_punch_stage)
 		{
@@ -676,7 +678,7 @@ void PlayerFSM::CboHighPunch()
 		if (enemy->depth <= the_player->depth && enemy->depth >= the_player->depth - enemy->depth_margin)
 			depth_condition = true;
 
-		if (depth_condition == true)
+		if (enemy->life > 0 && depth_condition == true)
 		{
 			enemy->damaged = true;
 			enemy->ApplyDamage(the_player->simple_damage);
@@ -713,7 +715,7 @@ void PlayerFSM::CboLowPunch()
 		if (enemy->depth <= the_player->depth && enemy->depth >= the_player->depth - enemy->depth_margin)
 			depth_condition = true;
 
-		if (depth_condition == true)
+		if (enemy->life > 0 && depth_condition == true)
 		{
 			enemy->damaged = true;
 			enemy->ApplyDamage(the_player->simple_damage);
@@ -744,7 +746,7 @@ void PlayerFSM::CboKick()
 		if (enemy->depth <= the_player->depth && enemy->depth >= the_player->depth - enemy->depth_margin)
 			depth_condition = true;
 
-		if (depth_condition == true)
+		if (enemy->life > 0 && depth_condition == true)
 		{
 			enemy->damaged = true;
 			enemy->ApplyDamage(the_player->simple_damage);
