@@ -19,6 +19,7 @@ public:
 	~ModulePlayer();
 	bool Start();
 	update_status Update();
+	bool CleanUp();
 
 	Player *the_player = nullptr;
 

@@ -112,5 +112,15 @@ update_status ModulePlayer::Update()
 	return UPDATE_CONTINUE;
 }
 
+bool ModulePlayer::CleanUp()
+{
+	for (std::list<Entity*>::iterator it = App->scene_round1->dynamic_entities.begin(); it != App->scene_round1->dynamic_entities.end(); it++)
+	{
+		RELEASE(*it);
+	}
+	App->scene_round1->dynamic_entities.clear();
+	return true;
+}
+
 
 
