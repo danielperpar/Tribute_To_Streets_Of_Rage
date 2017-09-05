@@ -12,18 +12,25 @@
 #include "ModuleRender.h"
 #include "Player.h"
 #include "ModuleParticles.h"
+#include "JSONDataLoader.h"
 
 ModuleEnemies::ModuleEnemies(bool active) : Module(active) {}
 
 ModuleEnemies::~ModuleEnemies()
 {}
 
-// Load assets
+bool ModuleEnemies::Init()
+{
+	LoadConfig();
+	return true;
+}
+
 bool ModuleEnemies::Start()
 {
-	LOG("Loading enemies prototypes");
+	LOG("Loading enemies textures");
 	tx_enemies = App->textures->Load("assets/spritesheets/enemies.png");
 
+	LOG("Creating enemies prototypes");
 	garcia_prototype = new Garcia(tx_enemies, nullptr, "garcia", entity_type::GARCIA, { 0, 0 }, 0);
 	antonio_prototype = new Antonio(tx_enemies, nullptr, "antonio", entity_type::ANTONIO, { 0, 0 }, 0);
 	antonio_prototype->cast_left = { -App->renderer->camera.x * App->renderer ->camera_speed/SCREEN_SIZE - antonio_prototype->offset_cast_x_left, antonio_prototype->offset_cast_y };
@@ -125,6 +132,14 @@ update_status ModuleEnemies::Update()
 	return UPDATE_CONTINUE;
 }
 
+void ModuleEnemies::LoadConfig()
+{
+	max_spawn_points = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "max_spawn_points");
+	starting_trigger = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "starting_trigger");
+	offset_spawn_right = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "offset_spawn_right");
+	offset_spawn_left = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "offset_spawn_left");
+}
+
 //--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------
 
 void ModuleEnemies::SpawnEnemies(int spawn_point, int amount, entity_type type)
@@ -175,6 +190,3 @@ void ModuleEnemies::GenerateEnemy(entity_type type, iPoint position, Player *pla
 		}
 	}
 }
-
-
-

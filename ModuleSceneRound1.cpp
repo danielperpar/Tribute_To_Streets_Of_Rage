@@ -28,7 +28,7 @@ bool ModuleSceneRound1::Init()
 {
 	LOG("Loading assets for scene round1");
 	LoadSceneAssets();
-	LoadConfigInfo();
+	LoadConfig();
 	LoadAudio();
 	return true;
 }
@@ -356,7 +356,7 @@ void ModuleSceneRound1::LoadSceneAssets()
 
 }
 
-void ModuleSceneRound1::LoadConfigInfo()
+void ModuleSceneRound1::LoadConfig()
 {
 	chicken_first_area.x = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_first_area_x");
 	chicken_first_area.y = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_first_area_y");
@@ -364,6 +364,13 @@ void ModuleSceneRound1::LoadConfigInfo()
 	chicken_second_area.y = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_second_area_y");
 	chicken_third_area.x = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_third_area_x");
 	chicken_third_area.y = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "chicken_third_area_y");
+	upper_limit = JSONDataLoader::GetNumber("assets/json/config.json", "scene_round1", "upper_limit");
+	lower_limit = JSONDataLoader::GetNumber("assets/json/config.json", "scene_round1", "lower_limit");
+	right_limit = JSONDataLoader::GetNumber("assets/json/config.json", "scene_round1", "right_limit");
+	first_stop_x = JSONDataLoader::GetNumber("assets/json/config.json", "scene_round1", "first_stop_x");
+	second_stop_x = JSONDataLoader::GetNumber("assets/json/config.json", "scene_round1", "second_stop_x");
+	third_stop_x = JSONDataLoader::GetNumber("assets/json/config.json", "scene_round1", "third_stop_x");
+	go_sign_show_frames = JSONDataLoader::GetNumber("assets/json/config.json", "scene_round1", "go_sign_show_frames");
 }
 
 void ModuleSceneRound1::GenerateChicken(iPoint position, int depth)

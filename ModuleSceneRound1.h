@@ -54,7 +54,7 @@ public:
 	//-------------------- SCENE STOP POINTS -----------------
 	int first_stop_x = 1537;
 	int second_stop_x = 2306;
-	int third_stop_x = 3075;
+	int third_stop_x = 0;// 3075;
 
 	bool first_stop_reached = false;
 	bool second_stop_reached = false;
@@ -77,7 +77,7 @@ public:
 private:
 	std::list<int*> animation_list;
 	std::vector<Entity*> scenario_entities;
-	void LoadConfigInfo();
+	void LoadConfig();
 	void LoadSceneAssets();
 	void GenerateChicken(iPoint position, int depth);
 	void LoadAudio();

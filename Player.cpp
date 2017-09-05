@@ -26,7 +26,7 @@ Player::Player(
 		LoadPlayerAnimations();
 		LoadStats();
 		LoadColliders();
-		LoadOtherParameters();
+		LoadConfig();
 	}
 
 Player::~Player() {
@@ -34,32 +34,9 @@ Player::~Player() {
 	RELEASE(player_fsm);
 }
 
-void Player::LoadStats()
-{
-	max_life = JSONDataLoader::GetNumber("assets/json/config.json", "player", "max_life");
-	life = max_life;
-	speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "speed");
-	jump_speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "jump_speed");
-}
-
 void Player::UpdateFSM()
 {
 	player_fsm->Update();	
-}
-
-void Player::LoadColliders()
-{
-	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "body_collider", body_rect);
-	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "hit_collider", hit_rect);
-	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "body_collider_offset_right");
-	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hit_collider_offset_right");
-	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "body_collider_offset_left");
-	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hit_collider_offset_left");
-}
-
-void Player::LoadOtherParameters()
-{
-	release_grab_offset = JSONDataLoader::GetNumber("assets/json/config.json", "player", "release_grab_offset");
 }
 
 void Player::OnCollision(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other)
@@ -187,6 +164,52 @@ void Player:: OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col
 		pick_up = false;
 	}
 	
+}
+
+void Player::LoadStats()
+{
+	max_life = JSONDataLoader::GetNumber("assets/json/config.json", "player", "max_life");
+	life = max_life;
+	speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "speed");
+	jump_speed = JSONDataLoader::GetNumber("assets/json/config.json", "player", "jump_speed");
+	max_jump_height = JSONDataLoader::GetNumber("assets/json/config.json", "player", "max_jump_height");
+}
+
+void Player::LoadColliders()
+{
+	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "body_collider", body_rect);
+	JSONDataLoader::LoadColliderRect("assets/json/config.json", "player", "hit_collider", hit_rect);
+	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "body_collider_offset_right");
+	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hit_collider_offset_right");
+	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "body_collider_offset_left");
+	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", "player", "hit_collider_offset_left");
+}
+
+void Player::LoadConfig()
+{
+	ref_x = JSONDataLoader::GetNumber("assets/json/config.json", "player", "ref_x");
+	combo_max_frames = JSONDataLoader::GetNumber("assets/json/config.json", "player", "combo_max_frames");
+	max_grab_kick = JSONDataLoader::GetNumber("assets/json/config.json", "player", "max_grab_kick");
+	down_frames = JSONDataLoader::GetNumber("assets/json/config.json", "player", "down_frames");
+	down_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "player", "down_inflection");
+	simple_damage = JSONDataLoader::GetNumber("assets/json/config.json", "player", "simple_damage");
+	air_finisher_damage = JSONDataLoader::GetNumber("assets/json/config.json", "player", "air_finisher_damage");
+	dead_max_times = JSONDataLoader::GetNumber("assets/json/config.json", "player", "dead_max_times");
+	release_grab_offset = JSONDataLoader::GetNumber("assets/json/config.json", "player", "release_grab_offset");
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_right_1", offset_right_1);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_right_2", offset_right_2);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_right_3", offset_right_3);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_right_4", offset_right_4);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_right_5", offset_right_5);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_right_6", offset_right_6);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_right_7", offset_right_7);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_left_1", offset_left_1);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_left_2", offset_left_2);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_left_3", offset_left_3);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_left_4", offset_left_4);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_left_5", offset_left_5);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_left_6", offset_left_6);
+	JSONDataLoader::GetPoint("assets/json/config.json", "player", "offset_left_7", offset_left_7);
 }
 
 void Player::LoadPlayerAnimations()

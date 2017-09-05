@@ -17,10 +17,10 @@ class Player : public Entity{
 private:
 	std::list<int*> animation_list;
 	
-	void LoadPlayerAnimations();
 	void LoadStats();
 	void LoadColliders();
-	void LoadOtherParameters();
+	void LoadConfig();
+	void LoadPlayerAnimations();
 	
 public:
 	Player(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
@@ -31,13 +31,15 @@ public:
 	void OnCollisionEnter(const CollisionInfo &col_info_player, const CollisionInfo &col_info_other);
 	void OnCollisionExit(const std::pair<CollisionInfo, CollisionInfo> &col_info_pair);
 	
-	int speed = 0;
-	int life = 0;
-	int max_life = 0;
-	bool god_mode = false;
 	//distance in x-axis from the upper left corner of the sprite 
 	//to the player's head upper point used as a point of reference or origin of coordinates
 	int ref_x = 70;
+
+	int max_life = 100;
+	int speed = 0;
+	int life = 0;
+	bool god_mode = false;
+	
 
 	//start - respawn position
 	iPoint respawn_position;
@@ -62,7 +64,6 @@ public:
 	int max_grab_kick = 2;
 
 	//knocked down
-	int down_vel = 1;
 	int down_count = 0;
 	int down_frames = 20;
 	int down_inflection = 10;
@@ -99,48 +100,22 @@ public:
 
 	//------ position offsets in air somersault -------- TODO: Poner valores en el json
 	//right
-	int offset_right_x_1 = 6;
-	int offset_right_y_1 = 5;
-
-	int offset_right_x_2 = 0;
-	int offset_right_y_2 = 40;
-
-	int offset_right_x_3 = 4;
-	int offset_right_y_3 = 65;
-	
-	int offset_right_x_4 = 4;
-	int offset_right_y_4 = 65;
-
-	int offset_right_x_5 = 0;
-	int offset_right_y_5 = 40;
-
-	int offset_right_x_6 = 0;
-	int offset_right_y_6 = 6;
-
-	int offset_right_x_7 = 40;
-	int offset_right_y_7 = 0;
+	iPoint offset_right_1 = { 6,5 };
+	iPoint offset_right_2 = { 0,40 };
+	iPoint offset_right_3 = { 4,65 };
+	iPoint offset_right_4 = { 4,65 };
+	iPoint offset_right_5 = { 0,40 };
+	iPoint offset_right_6 = { 0,6 };
+	iPoint offset_right_7 = { 40,0 };
 
 	//left
-	int offset_left_x_1 = 6;
-	int offset_left_y_1 = 5;
-
-	int offset_left_x_2 = 0;
-	int offset_left_y_2 = 40;
-
-	int offset_left_x_3 = 2;
-	int offset_left_y_3 = 65;
-
-	int offset_left_x_4 = 2;
-	int offset_left_y_4 = 65;
-
-	int offset_left_x_5 = 0;
-	int offset_left_y_5 = 40;
-
-	int offset_left_x_6 = 3;
-	int offset_left_y_6 = 6;
-
-	int offset_left_x_7 = 40;
-	int offset_left_y_7 = 0;
+	iPoint offset_left_1 = { 6,5 };
+	iPoint offset_left_2 = { 0,40 };
+	iPoint offset_left_3 = { 2,65 };
+	iPoint offset_left_4 = { 2,65 };
+	iPoint offset_left_5 = { 0,40 };
+	iPoint offset_left_6 = { 3,6 };
+	iPoint offset_left_7 = { 0,0 };// { 40, 0 };
 
 	//Enemy to react to
 	Entity *enemy_attacker = nullptr;

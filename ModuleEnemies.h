@@ -16,6 +16,7 @@ class ModuleEnemies : public Module
 public:
 	ModuleEnemies(bool active = true);
 	~ModuleEnemies();
+	bool Init();
 	bool Start();
 	bool CleanUp();
 	update_status Update();
@@ -24,9 +25,10 @@ private:
 	SDL_Texture *tx_enemies = nullptr;
 	Garcia *garcia_prototype = nullptr;
 	Antonio *antonio_prototype = nullptr;
-	void GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities);
+	void LoadConfig();
 	void SpawnEnemies(int spawn_point, int amount, entity_type type);
-
+	void GenerateEnemy(entity_type type, iPoint position, Player *player, std::list<Entity*> &dynamic_entities);
+	
 	iPoint **spawn_points;
 	int max_spawn_points = 21;
 	int *amount_at_points;
