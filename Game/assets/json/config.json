@@ -197,6 +197,23 @@
 	},
 	"scene_round1" :
 	{
+		"background_pos" : [{"x" : 0}, {"y" : 32}],
+		"pinepot1_pos" : [{"x" : 768}, {"y" : 32}],
+		"pinepot2_pos" : [{"x" : 3605}, {"y" : 32}],
+		"breakfastdinner1_pos" : [{"x" : 1028}, {"y" : 31}],
+		"breakfastdinner2_pos" : [{"x" : 1604}, {"y" : 31}],
+		"LDevo1_pos" : [{"x" : 1338}, {"y" : 32}],
+		"LDevo2_pos" : [{"x" : 1850}, {"y" : 32}],
+		"ranchShop1_pos" : [{"x" : 0}, {"y" : 32}],
+		"ranchShop2_pos" : [{"x" : 2053}, {"y" : 32}],
+		"abcShop1_pos" : [{"x" : 567}, {"y" : 32}],
+		"abcShop2_pos" : [{"x" : 2875}, {"y" : 32}],
+		"cafeRestaurant1_pos" : [{"x" : 132}, {"y" : 96}],
+		"cafeRestaurant2_pos" : [{"x" : 1864}, {"y" : 96}],
+		"cafeRestaurant3_pos" : [{"x" : 2440}, {"y" : 96}],
+		"cafeRestaurant4_pos" : [{"x" : 3128}, {"y" : 48}],
+		"cafeRestaurant5_pos" : [{"x" : 3224}, {"y" : 48}],
+		"neon_anim_speed" : 0.05,
 		"upper_limit" : 90,
 		"lower_limit" : 160,
 		"right_limit" : 3840,
@@ -204,5 +221,9 @@
 		"second_stop_x" : 2306,
 		"third_stop_x" : 3075,
 		"go_sign_show_frames" : 180
+	},
+	"press_to_play" : 
+	{
+		"anim_press_to_play_speed" : 0.05
 	}
 }

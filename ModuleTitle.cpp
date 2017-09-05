@@ -57,12 +57,11 @@ void ModuleTitle::LoadSceneAssets()
 	tx_title_screen = App->textures->Load("assets/spritesheets/title_screen.png");
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "titleScreen", animation_list, anim_title_screen);
-	anim_title_screen.loop = true;
-	anim_title_screen.speed = 0.1f;
+	anim_title_screen.loop = true; //default speed = 1.0f
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "pressEnterToPlay", animation_list, anim_press_enter);
 	anim_press_enter.loop = true;
-	anim_press_enter.speed = 0.05f;
+	anim_press_enter.speed = JSONDataLoader::GetFloat("assets/json/config.json", "press_to_play", "anim_press_to_play_speed"); //speed = 0.05f
 	Utilities::free_list(animation_list);
 }

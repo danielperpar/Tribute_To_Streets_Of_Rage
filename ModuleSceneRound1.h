@@ -87,6 +87,35 @@ private:
 	
 	bool show_help = false;
 
+	int zero_depth = 0;
+	iPoint background_pos = { 0,32 };
+	iPoint pinepot1_pos = { 768,32 };
+	iPoint pinepot2_pos = { 3605,32 };
+	iPoint breakfastdinner1_pos = { 1028, 31 };
+	iPoint breakfastdinner2_pos = { 1604, 31 };
+	iPoint LDevo1_pos = { 1338, 32 };
+	iPoint LDevo2_pos = { 1850, 32 };
+	iPoint ranchShop1_pos = { 0, 32 };
+	iPoint ranchShop2_pos = { 2053, 32 };
+	iPoint abcShop1_pos = { 567, 32 };
+	iPoint abcShop2_pos = { 2875, 32 };
+	iPoint cafeRestaurant1_pos = { 132, 96 };
+	iPoint cafeRestaurant2_pos = { 1864, 96 };
+	iPoint cafeRestaurant3_pos = { 2440, 96 };
+	iPoint cafeRestaurant4_pos = { 3128, 48 };
+	iPoint cafeRestaurant5_pos = { 3224, 48 };
+
+	iPoint foreground_pos = { 0,32 };
+	iPoint gui_pos = { 0, 0 };
+	iPoint go_sign_pos = { 800, 160 };
+	iPoint player_HP_pos = { 24, 51 };
+	iPoint boss_HP_pos = { 575, 51 };
+	iPoint boss_title_pos = { 575, 24 };
+	iPoint help_text_pos = { 266, 20 };
+	iPoint help_panel_pos = { 250, 100 };
+	iPoint god_mode_text_pos = { 24,69 };
+	iPoint thanks_for_playing_pos = { 290, 200 };
+	
 	SDL_Texture *tx_background = nullptr;
 	SDL_Texture *tx_foreground = nullptr;
 	SDL_Texture *tx_neons = nullptr;

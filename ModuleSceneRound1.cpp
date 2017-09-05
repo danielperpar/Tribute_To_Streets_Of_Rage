@@ -27,8 +27,8 @@ ModuleSceneRound1::~ModuleSceneRound1(){}
 bool ModuleSceneRound1::Init()
 {
 	LOG("Loading assets for scene round1");
-	LoadSceneAssets();
 	LoadConfig();
+	LoadSceneAssets();
 	LoadAudio();
 	return true;
 }
@@ -38,73 +38,70 @@ bool ModuleSceneRound1::Start()
 	LOG("Creating scenario entities");
 	
 	//Order matters, rendered following instantiation order
-	Entity *background = new ScenarioElement(tx_background, nullptr, "background", entity_type::SCENARIO, { 0,32 }, 0);
+	Entity *background = new ScenarioElement(tx_background, nullptr, "background", entity_type::SCENARIO, background_pos, zero_depth);
 	scenario_entities.push_back(background);
 
-	Entity *pinepot1 = new ScenarioElement(tx_neons, &neon_pinepot, "pinepot1", entity_type::SCENARIO, { 768, 32 }, 0);
+	Entity *pinepot1 = new ScenarioElement(tx_neons, &neon_pinepot, "pinepot1", entity_type::SCENARIO, pinepot1_pos, zero_depth);
 	scenario_entities.push_back(pinepot1);
 
-	Entity *pinepot2 = new ScenarioElement(tx_neons, &neon_pinepot, "pinepot2", entity_type::SCENARIO, { 3605, 32 }, 0);
+	Entity *pinepot2 = new ScenarioElement(tx_neons, &neon_pinepot, "pinepot2", entity_type::SCENARIO, pinepot2_pos, zero_depth);
 	scenario_entities.push_back(pinepot2);
 
-	Entity *breakfastdinner1 = new ScenarioElement(tx_neons, &neon_breakfast_dinner, "breakfastdinner1", entity_type::SCENARIO, { 1028, 31 }, 0);
+	Entity *breakfastdinner1 = new ScenarioElement(tx_neons, &neon_breakfast_dinner, "breakfastdinner1", entity_type::SCENARIO, breakfastdinner1_pos, zero_depth);
 	scenario_entities.push_back(breakfastdinner1);
 
-	Entity *breakfastdinner2 = new ScenarioElement(tx_neons, &neon_breakfast_dinner, "breakfastdinner2", entity_type::SCENARIO, { 1604, 31 }, 0);
+	Entity *breakfastdinner2 = new ScenarioElement(tx_neons, &neon_breakfast_dinner, "breakfastdinner2", entity_type::SCENARIO, breakfastdinner2_pos, zero_depth);
 	scenario_entities.push_back(breakfastdinner2);
 
-	Entity *LDevo1 = new ScenarioElement(tx_neons, &neon_ldevo, "LDevo1", entity_type::SCENARIO, { 1338, 32 }, 0);
+	Entity *LDevo1 = new ScenarioElement(tx_neons, &neon_ldevo, "LDevo1", entity_type::SCENARIO, LDevo1_pos, zero_depth);
 	scenario_entities.push_back(LDevo1);
 
-	Entity *LDevo2 = new ScenarioElement(tx_neons, &neon_ldevo, "LDevo2", entity_type::SCENARIO, { 1850, 32 }, 0);
+	Entity *LDevo2 = new ScenarioElement(tx_neons, &neon_ldevo, "LDevo2", entity_type::SCENARIO, LDevo2_pos, zero_depth);
 	scenario_entities.push_back(LDevo2);
 
-	Entity *ranchShop1 = new ScenarioElement(tx_neons, &neon_ranch_shop, "ranchShop1", entity_type::SCENARIO, { 0, 32 }, 0);
+	Entity *ranchShop1 = new ScenarioElement(tx_neons, &neon_ranch_shop, "ranchShop1", entity_type::SCENARIO, ranchShop1_pos, zero_depth);
 	scenario_entities.push_back(ranchShop1);
 
-	Entity *ranchShop2 = new ScenarioElement(tx_neons, &neon_ranch_shop, "ranchSop2", entity_type::SCENARIO, { 2053, 32 }, 0);
+	Entity *ranchShop2 = new ScenarioElement(tx_neons, &neon_ranch_shop, "ranchSop2", entity_type::SCENARIO, ranchShop2_pos, zero_depth);
 	scenario_entities.push_back(ranchShop2);
 
-	Entity *abcShop1 = new ScenarioElement(tx_neons, &neon_abc_shop, "abcShop1", entity_type::SCENARIO, { 567, 32 }, 0);
+	Entity *abcShop1 = new ScenarioElement(tx_neons, &neon_abc_shop, "abcShop1", entity_type::SCENARIO, abcShop1_pos, zero_depth);
 	scenario_entities.push_back(abcShop1);
 
-	Entity *abcShop2 = new ScenarioElement(tx_neons, &neon_abc_shop, "abcShop2", entity_type::SCENARIO, { 2875, 32 }, 0);
+	Entity *abcShop2 = new ScenarioElement(tx_neons, &neon_abc_shop, "abcShop2", entity_type::SCENARIO, abcShop2_pos, zero_depth);
 	scenario_entities.push_back(abcShop2);
 
-	Entity *cafeRestaurant1 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant1", entity_type::SCENARIO, { 132, 96 }, 0);
+	Entity *cafeRestaurant1 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant1", entity_type::SCENARIO, cafeRestaurant1_pos, zero_depth);
 	scenario_entities.push_back(cafeRestaurant1);
 
-	Entity *cafeRestaurant2 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant2", entity_type::SCENARIO, { 1864, 96 }, 0);
+	Entity *cafeRestaurant2 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant2", entity_type::SCENARIO, cafeRestaurant2_pos, zero_depth);
 	scenario_entities.push_back(cafeRestaurant2);
 
-	Entity *cafeRestaurant3 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant3", entity_type::SCENARIO, { 2440, 96 }, 0);
+	Entity *cafeRestaurant3 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant3", entity_type::SCENARIO, cafeRestaurant3_pos, zero_depth);
 	scenario_entities.push_back(cafeRestaurant3);
 
-	Entity *cafeRestaurant4 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant4", entity_type::SCENARIO, { 3128, 48 }, 0);
+	Entity *cafeRestaurant4 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant4", entity_type::SCENARIO, cafeRestaurant4_pos, zero_depth);
 	scenario_entities.push_back(cafeRestaurant4);
 
-	Entity *cafeRestaurant5 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant5", entity_type::SCENARIO, { 3224, 48 }, 0);
+	Entity *cafeRestaurant5 = new ScenarioElement(tx_neons, &neon_cafe_restaurant, "cafeRestaurant5", entity_type::SCENARIO, cafeRestaurant5_pos, zero_depth);
 	scenario_entities.push_back(cafeRestaurant5);
 
-
-	//--------------------------------- FOREGROUND ELEMENTS ---------------------------------
-	
-	foreground = new ScenarioElement(tx_foreground, nullptr, "foreground", entity_type::SCENARIO, { 0,32 }, 0);
+	foreground = new ScenarioElement(tx_foreground, nullptr, "foreground", entity_type::SCENARIO, foreground_pos, zero_depth);
 
 	//GUI elements follow camera
-	gui = new GUI(tx_gui, &gui_background, "gui", entity_type::GUI, { 0, 0 }, 0); 
-	go_sign = new GUI(tx_ground_items, &go_sign_blink, "go_sign", entity_type::GUI, { 800, 160 }, 0); //follows the camera
-	player_HP = new HealthBar(anim_player_HP.GetCurrentFrame().w, tx_gui, &anim_player_HP, "player_health_bar", entity_type::GUI, { 24, 51 }, 0);
-	boss_HP = new HealthBar(anim_boss_HP.GetCurrentFrame().w, tx_gui, &anim_boss_HP, "antonio_health_bar", entity_type::ANTONIO, { 575, 51 }, 0);
-	boss_white_bar = new GUI(tx_gui, &anim_boss_white_bar, "boss_white_bar", entity_type::GUI, boss_HP->position, 0);
-	boss_title = new GUI(tx_gui, &anim_boss_title, "boss_title", entity_type::GUI, { 575, 24 }, 0);
-	help_text = new GUI(tx_gui, &anim_help_text, "help_text", entity_type::GUI, {266, 20}, 0);
-	help_panel = new GUI(tx_gui, &anim_help_panel, "help_panel", entity_type::GUI, {250, 100}, 0);
-	god_mode_text = new GUI(tx_gui, &anim_god_mode_text, "god_mode_text", entity_type::GUI, {24,69}, 0);
-	thanks_for_playing = new GUI(tx_gui, &anim_thanks, "thanks_for_playing", entity_type::GUI, { 290, 200 }, 0);
+	gui = new GUI(tx_gui, &gui_background, "gui", entity_type::GUI, gui_pos, zero_depth);
+	go_sign = new GUI(tx_ground_items, &go_sign_blink, "go_sign", entity_type::GUI, go_sign_pos, zero_depth); //follows the camera
+	player_HP = new HealthBar(anim_player_HP.GetCurrentFrame().w, tx_gui, &anim_player_HP, "player_health_bar", entity_type::GUI, player_HP_pos, zero_depth);
+	boss_HP = new HealthBar(anim_boss_HP.GetCurrentFrame().w, tx_gui, &anim_boss_HP, "antonio_health_bar", entity_type::ANTONIO, boss_HP_pos, zero_depth);
+	boss_white_bar = new GUI(tx_gui, &anim_boss_white_bar, "boss_white_bar", entity_type::GUI, boss_HP->position, zero_depth);
+	boss_title = new GUI(tx_gui, &anim_boss_title, "boss_title", entity_type::GUI, boss_title_pos, zero_depth);
+	help_text = new GUI(tx_gui, &anim_help_text, "help_text", entity_type::GUI, help_text_pos, zero_depth);
+	help_panel = new GUI(tx_gui, &anim_help_panel, "help_panel", entity_type::GUI, help_panel_pos, zero_depth);
+	god_mode_text = new GUI(tx_gui, &anim_god_mode_text, "god_mode_text", entity_type::GUI, god_mode_text_pos, zero_depth);
+	thanks_for_playing = new GUI(tx_gui, &anim_thanks, "thanks_for_playing", entity_type::GUI, thanks_for_playing_pos, zero_depth);
 
 	//-------------------------------- HEALTH CHICKENS ---------------------------------
-	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, 0);
+	health_chicken_prototype = new HealthChicken(tx_ground_items, nullptr, "health_chiken", entity_type::HEALTH_CHICKEN, { 0,0 }, zero_depth);
 	GenerateChicken(chicken_first_area, chicken_first_area.y - health_chicken_prototype->depth_offset);
 	GenerateChicken(chicken_second_area, chicken_second_area.y - health_chicken_prototype->depth_offset);
 	GenerateChicken(chicken_third_area, chicken_third_area.y - health_chicken_prototype->depth_offset);
@@ -271,93 +268,109 @@ void ModuleSceneRound1::LoadSceneAssets()
 	
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonPinEPot", animation_list, neon_pinepot);
 	neon_pinepot.loop = true;
-	neon_pinepot.speed = 0.05f;
+	neon_pinepot.speed = JSONDataLoader::GetFloat("assets/json/config.json", "scene_round1", "neon_anim_speed");//speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonBreakfastDiner", animation_list, neon_breakfast_dinner);
 	neon_breakfast_dinner.loop = true;
-	neon_breakfast_dinner.speed = 0.05f;
+	neon_breakfast_dinner.speed = neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonLDevo", animation_list, neon_ldevo);
 	neon_ldevo.loop = true;
-	neon_ldevo.speed = 0.05f;
+	neon_ldevo.speed = neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonRachShop", animation_list, neon_ranch_shop);
 	neon_ranch_shop.loop = true;
-	neon_ranch_shop.speed = 0.05f;
+	neon_ranch_shop.speed = neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonAbcShop", animation_list, neon_abc_shop);
 	neon_abc_shop.loop = true;
-	neon_abc_shop.speed = 0.05f;
+	neon_abc_shop.speed = neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "neonCafeRestaurant", animation_list, neon_cafe_restaurant);
 	neon_cafe_restaurant.loop = true;
-	neon_cafe_restaurant.speed = 0.05f;
+	neon_cafe_restaurant.speed = neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSign", animation_list, go_sign_blink);
 	go_sign_blink.loop = true;
-	go_sign_blink.speed = 0.1f;
+	go_sign_blink.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSignTransparent", animation_list, go_sign_transparent);
 	go_sign_transparent.loop = true;
-	go_sign_transparent.speed = 0.1f;
+	go_sign_transparent.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "guiBackground", animation_list, gui_background);
 	gui_background.loop = true;
-	gui_background.speed = 0.1f;
+	gui_background.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "playerHealthBar", animation_list, anim_player_HP);
 	anim_player_HP.loop = true;
-	anim_player_HP.speed = 0.1f;
+	anim_player_HP.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "bossHealthBar", animation_list, anim_boss_HP);
 	anim_boss_HP.loop = true;
-	anim_boss_HP.speed = 0.1f;
+	anim_boss_HP.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "bossTitle", animation_list, anim_boss_title);
 	anim_boss_title.loop = true;
-	anim_boss_title.speed = 0.1f;
+	anim_boss_title.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "bossWhiteBar", animation_list, anim_boss_white_bar);
 	anim_boss_white_bar.loop = true;
-	anim_boss_white_bar.speed = 0.1f;
+	anim_boss_white_bar.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "helpText", animation_list, anim_help_text);
 	anim_help_text.loop = true;
-	anim_help_text.speed = 0.1f;
+	anim_help_text.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "helpPanel", animation_list, anim_help_panel);
 	anim_help_panel.loop = true;
-	anim_help_panel.speed = 0.1f;
+	anim_help_panel.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "godModeText", animation_list, anim_god_mode_text);
 	anim_god_mode_text.loop = true;
-	anim_god_mode_text.speed = 0.1f;
+	anim_god_mode_text.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "thanksForPlaying", animation_list, anim_thanks);
 	anim_thanks.loop = true;
-	anim_thanks.speed = 0.1f;
+	anim_thanks.speed = 2 * neon_pinepot.speed;
 	Utilities::free_list(animation_list);
-
 }
 
 void ModuleSceneRound1::LoadConfig()
 {
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "background_pos", background_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "pinepot1_pos", pinepot1_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "pinepot2_pos", pinepot2_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "breakfastdinner1_pos", breakfastdinner1_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "breakfastdinner2_pos", breakfastdinner2_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "LDevo1_pos", LDevo1_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "LDevo2_pos", LDevo2_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "ranchShop1_pos", ranchShop1_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "ranchShop2_pos", ranchShop2_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "abcShop1_pos", abcShop1_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "abcShop2_pos", abcShop2_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "cafeRestaurant1_pos", cafeRestaurant1_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "cafeRestaurant2_pos", cafeRestaurant2_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "cafeRestaurant3_pos", cafeRestaurant3_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "cafeRestaurant4_pos", cafeRestaurant4_pos);
+	JSONDataLoader::GetPoint("assets/json/config.json", "scene_round1", "cafeRestaurant5_pos", cafeRestaurant5_pos);
+
 	chicken_first_area.x = JSONDataLoader::GetInt("assets/json/config.json", "health_chicken", "chicken_first_area_x");
 	chicken_first_area.y = JSONDataLoader::GetInt("assets/json/config.json", "health_chicken", "chicken_first_area_y");
 	chicken_second_area.x = JSONDataLoader::GetInt("assets/json/config.json", "health_chicken", "chicken_second_area_x");
