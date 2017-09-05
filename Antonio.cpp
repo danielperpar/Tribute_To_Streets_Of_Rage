@@ -135,27 +135,27 @@ void Antonio::ApplyDamage(int damage)
 
 void Antonio::LoadOffsets()
 {
-	ref_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "ref_y");
-	body_collider_offset_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_offset_y");
-	hit_collider_offset_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "hit_collider_offset_y");
+	ref_y = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "ref_y");
+	body_collider_offset_y = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "body_collider_offset_y");
+	hit_collider_offset_y = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "hit_collider_offset_y");
 }
 
 void Antonio::LoadDamage()
 {
-	kick_damage = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "kick_damage");
+	kick_damage = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "kick_damage");
 }
 
 void Antonio::LoadConfig()
 {
-	bouncing_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "bouncing_frames");
-	bouncing_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "bouncing_inflection");
-	blink_wait_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "blink_wait_frames");
-	blink_max_times = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "blink_max_times");
-	down_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "down_frames");
-	down_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "down_inflection");
-	body_collider_wide = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_wide");
-	body_collider_original = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_original");
-	body_collider_adjusted_x = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "body_collider_adjusted_x");
+	bouncing_frames = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "bouncing_frames");
+	bouncing_inflection = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "bouncing_inflection");
+	blink_wait_frames = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "blink_wait_frames");
+	blink_max_times = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "blink_max_times");
+	down_frames = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "down_frames");
+	down_inflection = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "down_inflection");
+	body_collider_wide = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "body_collider_wide");
+	body_collider_original = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "body_collider_original");
+	body_collider_adjusted_x = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "body_collider_adjusted_x");
 	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_1", offset_right_1);
 	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_2", offset_right_2);
 	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_right_3", offset_right_3);
@@ -169,16 +169,16 @@ void Antonio::LoadConfig()
 	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_4", offset_left_4);
 	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_5", offset_left_5);
 	JSONDataLoader::GetPoint("assets/json/config.json", "antonio", "offset_left_6", offset_left_6);
-	offset_cast_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "offset_cast_y");
-	offset_cast_x_left = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "offset_cast_x_left");
-	offset_cast_x_right = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "offset_cast_x_right");
-	boomerang_offset_left_x = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_left_x");
-	boomerang_offset_left_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_left_y");
-	boomerang_offset_right_x = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_right_x");
-	boomerang_offset_right_y = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "boomerang_offset_right_y");
-	chase_time_out = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "chase_time_out");
-	num_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "num_frames");
-	prekick_frames = JSONDataLoader::GetNumber("assets/json/config.json", "antonio", "prekick_frames");
+	offset_cast_y = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "offset_cast_y");
+	offset_cast_x_left = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "offset_cast_x_left");
+	offset_cast_x_right = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "offset_cast_x_right");
+	boomerang_offset_left_x = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "boomerang_offset_left_x");
+	boomerang_offset_left_y = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "boomerang_offset_left_y");
+	boomerang_offset_right_x = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "boomerang_offset_right_x");
+	boomerang_offset_right_y = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "boomerang_offset_right_y");
+	chase_time_out = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "chase_time_out");
+	num_frames = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "num_frames");
+	prekick_frames = JSONDataLoader::GetInt("assets/json/config.json", "antonio", "prekick_frames");
 }
 
 void Antonio::OnCollision(const CollisionInfo &col_info_antonio, const CollisionInfo &col_info_other)
@@ -218,156 +218,156 @@ void Antonio::LoadAntonioAnimations()
 {
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioBoomerangIdleRight", animation_list, antonio_boomerang_idle_right);
 	antonio_boomerang_idle_right.loop = false;
-	antonio_boomerang_idle_right.speed = 1.0f;
+	antonio_boomerang_idle_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_boom_idle_speed");//speed = 1.0f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioIdleRight", animation_list, antonio_idle_right);
-	antonio_boomerang_idle_right.loop = false;
-	antonio_boomerang_idle_right.speed = 1.0f;
+	antonio_idle_right.loop = false;
+	antonio_idle_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_idle_speed");//speed = 1.0f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioBoomerangIdleLeft", animation_list, antonio_boomerang_idle_left);
 	antonio_boomerang_idle_left.loop = false;
-	antonio_boomerang_idle_left.speed = 1.0f;
+	antonio_boomerang_idle_left.speed = antonio_boomerang_idle_right.speed;//speed = 1.0f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioIdleLeft", animation_list, antonio_idle_left);
 	antonio_idle_left.loop = false;
-	antonio_idle_left.speed = 1.0f;
+	antonio_idle_left.speed = antonio_idle_right.speed;//speed = 1.0f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioBoomerangWalkRight", animation_list, antonio_boomerang_walk_right);
 	antonio_boomerang_walk_right.loop = true;
-	antonio_boomerang_walk_right.speed = 0.1f;
+	antonio_boomerang_walk_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_boom_walk_speed");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioWalkRight", animation_list, antonio_walk_right);
 	antonio_walk_right.loop = true;
-	antonio_walk_right.speed = 0.1f;
+	antonio_walk_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_walk_speed");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioBoomerangWalkLeft", animation_list, antonio_boomerang_walk_left);
 	antonio_boomerang_walk_left.loop = true;
-	antonio_boomerang_walk_left.speed = 0.1f;
+	antonio_boomerang_walk_left.speed = antonio_boomerang_walk_right.speed;//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioWalkLeft", animation_list, antonio_walk_left);
 	antonio_walk_left.loop = true;
-	antonio_walk_left.speed = 0.1f;
+	antonio_walk_left.speed = antonio_walk_right.speed;//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioKickRight", animation_list, antonio_kick_right);
 	antonio_kick_right.loop = false;
-	antonio_kick_right.speed = 0.1f;
+	antonio_kick_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_kick_speed");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioKickLeft", animation_list, antonio_kick_left);
 	antonio_kick_left.loop = false;
-	antonio_kick_left.speed = 0.1f;
+	antonio_kick_left.speed = antonio_kick_right.speed;//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioThrowBoomerangRight", animation_list, antonio_throw_boomerang_right);
 	antonio_throw_boomerang_right.loop = false;
-	antonio_throw_boomerang_right.speed = 0.1f;
+	antonio_throw_boomerang_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_throw_boom_speed");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioThrowBoomerangLeft", animation_list, antonio_throw_boomerang_left);
 	antonio_throw_boomerang_left.loop = false;
-	antonio_throw_boomerang_left.speed = 0.1f;
+	antonio_throw_boomerang_left.speed = antonio_throw_boomerang_right.speed;//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioRecoverBoomerangRight", animation_list, antonio_recover_boomerang_right);
 	antonio_recover_boomerang_right.loop = false;
-	antonio_recover_boomerang_right.speed = 0.1f;
+	antonio_recover_boomerang_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_recov_boom_speed");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioRecoverBoomerangLeft", animation_list, antonio_recover_boomerang_left);
 	antonio_recover_boomerang_left.loop = false;
-	antonio_recover_boomerang_left.speed = 0.1f;
+	antonio_recover_boomerang_left.speed = antonio_recover_boomerang_right.speed;//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedRight", animation_list, antonio_grabbed_right);
 	antonio_grabbed_right.loop = false;
-	antonio_grabbed_right.speed = 0.1f;
+	antonio_grabbed_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_grabbed_speed");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedLeft", animation_list, antonio_grabbed_left);
 	antonio_grabbed_left.loop = false;
-	antonio_grabbed_left.speed = 0.1f;
+	antonio_grabbed_left.speed = antonio_grabbed_right.speed;//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherRight", animation_list, antonio_grabbed_finisher_right);
 	antonio_grabbed_finisher_right.loop = false;
-	antonio_grabbed_finisher_right.speed = 0.1f;
+	antonio_grabbed_finisher_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_grabbed_finisher");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherLeft", animation_list, antonio_grabbed_finisher_left);
 	antonio_grabbed_finisher_left.loop = false;
-	antonio_grabbed_finisher_left.speed = 0.1f;
+	antonio_grabbed_finisher_left.speed = antonio_grabbed_finisher_right.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherHorizRight", animation_list, antonio_grabbed_finisher_horiz_right);
 	antonio_grabbed_finisher_horiz_right.loop = false;
-	antonio_grabbed_finisher_horiz_right.speed = 0.1f;
+	antonio_grabbed_finisher_horiz_right.speed = antonio_grabbed_finisher_right.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherHorizLeft", animation_list, antonio_grabbed_finisher_horiz_left);
 	antonio_grabbed_finisher_horiz_left.loop = false;
-	antonio_grabbed_finisher_horiz_left.speed = 0.1f;
+	antonio_grabbed_finisher_horiz_left.speed = antonio_grabbed_finisher_right.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherVertRight", animation_list, antonio_grabbed_finisher_vert_right);
 	antonio_grabbed_finisher_vert_right.loop = false;
-	antonio_grabbed_finisher_vert_right.speed = 0.1f;
+	antonio_grabbed_finisher_vert_right.speed = antonio_grabbed_finisher_right.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioGrabbedFinisherVertLeft", animation_list, antonio_grabbed_finisher_vert_left);
 	antonio_grabbed_finisher_vert_left.loop = false;
-	antonio_grabbed_finisher_vert_left.speed = 0.1f;
+	antonio_grabbed_finisher_vert_left.speed = antonio_grabbed_finisher_right.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownRight1", animation_list, antonio_down_right1);
 	antonio_down_right1.loop = false;
-	antonio_down_right1.speed = 0.05f;
+	antonio_down_right1.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_down_1");//speed = 0.05f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownRight2", animation_list, antonio_down_right2);
 	antonio_down_right2.loop = false;
-	antonio_down_right2.speed = 0.07f;
+	antonio_down_right2.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_down_2");//speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownLeft1", animation_list, antonio_down_left1);
 	antonio_down_left1.loop = false;
-	antonio_down_left1.speed = 0.05f;
+	antonio_down_left1.speed = antonio_down_right1.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDownLeft2", animation_list, antonio_down_left2);
 	antonio_down_left2.loop = false;
-	antonio_down_left2.speed = 0.07f;
+	antonio_down_left2.speed = antonio_down_right2.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioUpRight", animation_list, antonio_up_right);
 	antonio_up_right.loop = false;
-	antonio_up_right.speed = 0.07f;
+	antonio_up_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_up");//speed = 0.07f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioUpLeft", animation_list, antonio_up_left);
 	antonio_up_left.loop = false;
-	antonio_up_left.speed = 0.07f;
+	antonio_up_left.speed = antonio_up_right.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "deadBlinkEffect", animation_list, antonio_dead_blink_effect);
 	antonio_dead_blink_effect.loop = false;
-	antonio_dead_blink_effect.speed = 0.1f;
+	antonio_dead_blink_effect.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_dead_blink");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDamageReceivedRight", animation_list, antonio_damaged_right);
 	antonio_damaged_right.loop = false;
-	antonio_damaged_right.speed = 0.1f;
+	antonio_damaged_right.speed = JSONDataLoader::GetFloat("assets/json/config.json", "antonio", "anim_antonio_damaged");//speed = 0.1f;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "npcAntonioDamageReceivedLeft", animation_list, antonio_damaged_left);
 	antonio_damaged_left.loop = false;
-	antonio_damaged_left.speed = 0.1f;
+	antonio_damaged_left.speed = antonio_damaged_right.speed;
 	Utilities::free_list(animation_list);
 }

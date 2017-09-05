@@ -269,5 +269,5 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 
 void ModuleRender::LoadConfig()
 {
-	right_limit = JSONDataLoader::GetNumber("assets/json/config.json", "render", "right_limit");
+	right_limit = JSONDataLoader::GetInt("assets/json/config.json", "render", "right_limit");
 }

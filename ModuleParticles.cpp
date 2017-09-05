@@ -134,11 +134,11 @@ void Boomerang::LoadColliders()
 
 void Boomerang::LoadStats()
 {
-	speed = JSONDataLoader::GetNumber("assets/json/config.json", "boomerang", "speed");
+	speed = JSONDataLoader::GetInt("assets/json/config.json", "boomerang", "speed");
 	speed_vect.x = speed;
 	speed_vect.y = speed/2;
-	boomerang_damage = JSONDataLoader::GetNumber("assets/json/config.json", "boomerang", "boomerang_damage");
-	max_range_y = JSONDataLoader::GetNumber("assets/json/config.json", "boomerang", "max_range_y");
+	boomerang_damage = JSONDataLoader::GetInt("assets/json/config.json", "boomerang", "boomerang_damage");
+	max_range_y = JSONDataLoader::GetInt("assets/json/config.json", "boomerang", "max_range_y");
 }
 
 void Boomerang::LoadParticleAnimations()

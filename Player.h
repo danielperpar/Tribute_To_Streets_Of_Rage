@@ -186,15 +186,6 @@ public:
 	Animation anim_punch_combo_left2;
 	Animation anim_punch_combo_left3;
 
-	size_t punch_combo_timeout = 15;
-
-	Animation anim_back_punch_right1;
-	Animation anim_back_punch_right2;
-
-	Animation anim_back_punch_left1;
-	Animation anim_back_punch_left2;
-
-
 	Animation anim_grab_right;
 	Animation anim_grab_kick_head_combo_right1;
 	Animation anim_grab_kick_head_combo_right2;
@@ -233,26 +224,6 @@ public:
 	Animation anim_grab_air_spin_combo_finisher_left4;
 	Animation anim_grab_air_spin_combo_finisher_left5;
 	Animation anim_grab_air_spin_combo_finisher_left6;
-
-	Animation anim_weapon_pipe_idle_right;
-	Animation anim_weapon_pipe_walk_right;
-	Animation anim_weapon_pipe_attack_right;
-	Animation anim_weapon_pipe_throw_right;
-
-	Animation anim_weapon_pipe_idle_left;
-	Animation anim_weapon_pipe_walk_left;
-	Animation anim_weapon_pipe_attack_left;
-	Animation anim_weapon_pipe_throw_left;
-
-	Animation anim_weapon_knife_idle_right;
-	Animation anim_weapon_knife_walk_right;
-	Animation anim_weapon_knife_attack_right;
-	Animation anim_weapon_knife_throw_right;
-
-	Animation anim_weapon_knife_idle_left;
-	Animation anim_weapon_knife_walk_left;
-	Animation anim_weapon_knife_attack_left;
-	Animation anim_weapon_knife_throw_left;
 
 	Animation anim_damage_received_right;
 	Animation anim_damage_received_left;

@@ -29,22 +29,22 @@ void Enemy::LoadColliders(const char *name)
 {
 	JSONDataLoader::LoadColliderRect("assets/json/config.json", name, "body_collider", body_rect);
 	JSONDataLoader::LoadColliderRect("assets/json/config.json", name, "hit_collider", hit_rect);
-	body_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", name, "body_collider_offset_right");
-	hit_collider_offset_right = JSONDataLoader::GetNumber("assets/json/config.json", name, "hit_collider_offset_right");
-	body_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", name, "body_collider_offset_left");
-	hit_collider_offset_left = JSONDataLoader::GetNumber("assets/json/config.json", name, "hit_collider_offset_left");
+	body_collider_offset_right = JSONDataLoader::GetInt("assets/json/config.json", name, "body_collider_offset_right");
+	hit_collider_offset_right = JSONDataLoader::GetInt("assets/json/config.json", name, "hit_collider_offset_right");
+	body_collider_offset_left = JSONDataLoader::GetInt("assets/json/config.json", name, "body_collider_offset_left");
+	hit_collider_offset_left = JSONDataLoader::GetInt("assets/json/config.json", name, "hit_collider_offset_left");
 }
 
 void Enemy::LoadStats(const char *name)
 {
-	max_life = JSONDataLoader::GetNumber("assets/json/config.json", name, "max_life");
-	speed = JSONDataLoader::GetNumber("assets/json/config.json", name, "speed");
+	max_life = JSONDataLoader::GetInt("assets/json/config.json", name, "max_life");
+	speed = JSONDataLoader::GetInt("assets/json/config.json", name, "speed");
 	speed_vect.x = speed;
 	speed_vect.y = speed;
 }
 
 void Enemy::LoadCommon()
 {
-	depth_margin = JSONDataLoader::GetNumber("assets/json/config.json", "enemy", "depth_margin");
+	depth_margin = JSONDataLoader::GetInt("assets/json/config.json", "enemy", "depth_margin");
 }
 

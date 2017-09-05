@@ -144,16 +144,16 @@ void Garcia::OnCollisionExit(const CollisionInfo &col_info_other)
 
 void Garcia::LoadDamage()
 {
-	punch_damage = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "punch_damage");
+	punch_damage = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "punch_damage");
 }
 
 void Garcia::LoadConfig()
 {
-	num_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "num_frames");
-	evasive_v_offset = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "evasive_v_offset");
-	evasive_h_offset = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "evasive_h_offset");
-	down_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "down_frames");
-	down_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "down_inflection");
+	num_frames = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "num_frames");
+	evasive_v_offset = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "evasive_v_offset");
+	evasive_h_offset = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "evasive_h_offset");
+	down_frames = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "down_frames");
+	down_inflection = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "down_inflection");
 	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_2", offset_right_2);
 	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_3", offset_right_3);
 	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_4", offset_right_4);
@@ -165,10 +165,10 @@ void Garcia::LoadConfig()
 	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_5", offset_left_5);
 	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_6", offset_left_6);
 	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_7", offset_left_7);
-	bouncing_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "bouncing_frames");
-	bouncing_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "bouncing_inflection");
-	blink_wait_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "blink_wait_frames");
-	blink_max_times = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "blink_max_times");
+	bouncing_frames = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "bouncing_frames");
+	bouncing_inflection = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "bouncing_inflection");
+	blink_wait_frames = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "blink_wait_frames");
+	blink_max_times = JSONDataLoader::GetInt("assets/json/config.json", "garcia", "blink_max_times");
 }
 
 void Garcia::LoadGarciaAnimations()

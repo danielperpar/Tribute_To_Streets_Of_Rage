@@ -39,8 +39,8 @@ void HealthChicken::LoadCollider()
 
 void HealthChicken::LoadOffset()
 {
-	depth_offset = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "depth_offset");
-	depth_margin = JSONDataLoader::GetNumber("assets/json/config.json", "health_chicken", "depth_margin");
+	depth_offset = JSONDataLoader::GetInt("assets/json/config.json", "health_chicken", "depth_offset");
+	depth_margin = JSONDataLoader::GetInt("assets/json/config.json", "health_chicken", "depth_margin");
 }
 
 void HealthChicken::OnPickup()

@@ -134,10 +134,10 @@ update_status ModuleEnemies::Update()
 
 void ModuleEnemies::LoadConfig()
 {
-	max_spawn_points = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "max_spawn_points");
-	starting_trigger = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "starting_trigger");
-	offset_spawn_right = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "offset_spawn_right");
-	offset_spawn_left = JSONDataLoader::GetNumber("assets/json/config.json", "module_enemies", "offset_spawn_left");
+	max_spawn_points = JSONDataLoader::GetInt("assets/json/config.json", "module_enemies", "max_spawn_points");
+	starting_trigger = JSONDataLoader::GetInt("assets/json/config.json", "module_enemies", "starting_trigger");
+	offset_spawn_right = JSONDataLoader::GetInt("assets/json/config.json", "module_enemies", "offset_spawn_right");
+	offset_spawn_left = JSONDataLoader::GetInt("assets/json/config.json", "module_enemies", "offset_spawn_left");
 }
 
 //--------------------------------------- PUT ENEMIES ON THE SCENARIO -------------------------------------

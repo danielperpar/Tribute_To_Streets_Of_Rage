@@ -101,7 +101,7 @@ bool JSONDataLoader::LoadColliderRect(const char *json_file, const char *entity_
 	return true;
 }
 
-int JSONDataLoader::GetNumber(const char *json_file, const char *entity_name, const char *property_name)
+int JSONDataLoader::GetInt(const char *json_file, const char *entity_name, const char *property_name)
 {
 	JSON_Value *root_value = nullptr;
 	JSON_Object *root_object = nullptr;
@@ -113,6 +113,23 @@ int JSONDataLoader::GetNumber(const char *json_file, const char *entity_name, co
 	root_object = json_value_get_object(root_value);
 	std::string identifier = std::string(entity_name) + "." + std::string(property_name);
 	int ret = (int)json_object_dotget_number(root_object, identifier.c_str());
+
+	json_value_free(root_value);
+	return ret;
+}
+
+float JSONDataLoader::GetFloat(const char *json_file, const char *entity_name, const char *property_name)
+{
+	JSON_Value *root_value = nullptr;
+	JSON_Object *root_object = nullptr;
+
+	root_value = json_parse_file(json_file);
+	if (root_value == NULL)
+		return false;
+
+	root_object = json_value_get_object(root_value);
+	std::string identifier = std::string(entity_name) + "." + std::string(property_name);
+	float ret = (float)json_object_dotget_number(root_object, identifier.c_str());
 
 	json_value_free(root_value);
 	return ret;
