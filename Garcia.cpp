@@ -21,6 +21,26 @@ Garcia::Garcia(SDL_Texture *texture,
 Garcia::Garcia(const Garcia &garcia) : Enemy(garcia)
 {
 	punch_damage = garcia.punch_damage;
+	num_frames = garcia.num_frames;
+	evasive_v_offset = garcia.evasive_v_offset;
+	evasive_h_offset = garcia.evasive_h_offset;
+	down_frames = garcia.down_frames;
+	down_inflection = garcia.down_inflection;
+	offset_right_2 = garcia.offset_right_2;
+	offset_right_3 = garcia.offset_right_3;
+	offset_right_4 = garcia.offset_right_4;
+	offset_right_5 = garcia.offset_right_5;
+	offset_right_6 = garcia.offset_right_6;
+	offset_right_7 = garcia.offset_right_7;
+	offset_left_3 = garcia.offset_left_3;
+	offset_left_4 = garcia.offset_left_4;
+	offset_left_5 = garcia.offset_left_5;
+	offset_left_6 = garcia.offset_left_6;
+	offset_left_7 = garcia.offset_left_7;
+	bouncing_frames = garcia.bouncing_frames;
+	bouncing_inflection = garcia.bouncing_inflection;
+	blink_wait_frames = garcia.blink_wait_frames;
+	blink_max_times = garcia.blink_max_times;
 
 	garcia_idle_right = garcia.garcia_idle_right;
 	garcia_idle_left = garcia.garcia_idle_left;
@@ -92,7 +112,9 @@ void Garcia::OnCollision(const CollisionInfo &col_info_garcia, const CollisionIn
 		if (the_player->player_fsm->GetCurrState() == PlayerFSM::State::IDLE ||
 			the_player->player_fsm->GetCurrState() == PlayerFSM::State::WALK ||
 			the_player->player_fsm->GetCurrState() == PlayerFSM::State::GRAB ||
-			the_player->player_fsm->GetCurrState() == PlayerFSM::State::POST_AIR_ATTACK)
+			the_player->player_fsm->GetCurrState() == PlayerFSM::State::POST_AIR_ATTACK ||
+			the_player->player_fsm->GetCurrState() == PlayerFSM::State::DAMAGED
+			)
 		{
 			attackable_state = true;
 		}
@@ -132,6 +154,21 @@ void Garcia::LoadConfig()
 	evasive_h_offset = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "evasive_h_offset");
 	down_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "down_frames");
 	down_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "down_inflection");
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_2", offset_right_2);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_3", offset_right_3);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_4", offset_right_4);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_5", offset_right_5);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_6", offset_right_6);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_right_7", offset_right_7);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_3", offset_left_3);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_4", offset_left_4);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_5", offset_left_5);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_6", offset_left_6);
+	JSONDataLoader::GetPoint("assets/json/config.json", "garcia", "offset_left_7", offset_left_7);
+	bouncing_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "bouncing_frames");
+	bouncing_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "bouncing_inflection");
+	blink_wait_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "blink_wait_frames");
+	blink_max_times = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "blink_max_times");
 }
 
 void Garcia::LoadGarciaAnimations()

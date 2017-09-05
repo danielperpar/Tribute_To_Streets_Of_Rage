@@ -36,6 +36,7 @@ public:
 	//frames to allow attack animation to finish before transition
 	int num_frames = 0;// 60;
 	int frames_counter = 0;
+	bool punch_finished = false;
 
 	GarciaFSM *garcia_fsm = nullptr;
 	Player *the_player = nullptr;
@@ -58,37 +59,20 @@ public:
 
 	//---------------------------------- OFFSETS IN SOMERSAULT ATTACK ------------------
 	//right
-
-	int offset_right_x_2 = 10;
+	iPoint offset_right_2 = { 10,0 };
+	iPoint offset_right_3 = { 15,0 };
+	iPoint offset_right_4 = { 25,15 };
+	iPoint offset_right_5 = { 20,20 };
+	iPoint offset_right_6 = { 20,40 };
+	iPoint offset_right_7 = { 50,0 };
 	
-	int offset_right_x_3 = 15;
-	
-	int offset_right_x_4 = 25;
-	int offset_right_y_4 = 15;
+	//left
+	iPoint offset_left_3 = { 15,0 };
+	iPoint offset_left_4 = { 40,15 };
+	iPoint offset_left_5 = { 65,20 };
+	iPoint offset_left_6 = { 20,40 };
+	iPoint offset_left_7 = { 50,0 };
 
-	int offset_right_x_5 = 20;
-	int offset_right_y_5 = 20;
-
-	int offset_right_x_6 = 20;
-	int offset_right_y_6 = 40;
-
-	int offset_right_x_7 = 50;
-	
-
-	//left	
-	int offset_left_x_3 = 15;
-
-	int offset_left_x_4 = 40;
-	int offset_left_y_4 = 15;
-
-	int offset_left_x_5 = 65;
-	int offset_left_y_5 = 20;
-
-	int offset_left_x_6 = 20;
-	int offset_left_y_6 = 40;
-
-	int offset_left_x_7 = 50;
-	
 	//------------------- KNOCKDOWN MOVEMENT -------------------------
 
 	bool bouncing_down = false;

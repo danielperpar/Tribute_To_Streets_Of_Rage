@@ -33,9 +33,24 @@
 		"hit_collider_offset_left" : 37,
 		"num_frames" : 60,
 		"evasive_v_offset" : 20,
-		"evasve_h_offset" : 120,
+		"evasive_h_offset" : 120,
 		"down_frames" : 20,
-		"down_inflection" : 10
+		"down_inflection" : 10,
+		"offset_right_2" : [{"x" : 10}, {"y" : 0}],
+		"offset_right_3" : [{"x" : 15}, {"y" : 0}],
+		"offset_right_4" : [{"x" : 25}, {"y" : 15}],
+		"offset_right_5" : [{"x" : 20}, {"y" : 20}],
+		"offset_right_6" : [{"x" : 20}, {"y" : 40}],
+		"offset_right_7" : [{"x" : 50}, {"y" : 0}],
+		"offset_left_3" : [{"x" : 15}, {"y" : 0}],
+		"offset_left_4" : [{"x" : 40}, {"y" : 15}],
+		"offset_left_5" : [{"x" : 65}, {"y" : 20}],
+		"offset_left_6" : [{"x" : 20}, {"y" : 40}],
+		"offset_left_7" : [{"x" : 50}, {"y" : 0}],
+		"bouncing_frames" : 20,
+		"bouncing_inflection" : 10,
+		"blink_wait_frames" : 10,
+		"blink_max_times" : 5
 	},
 	"antonio" :
 	{

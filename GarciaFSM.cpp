@@ -96,15 +96,12 @@ void GarciaFSM::Update()
 	case State::ATTACK:			
 		Attack();
 		
-		if (garcia->attack == false)
+		if (garcia->attack == false && garcia->punch_finished)
 		{
-			garcia->frames_counter++;
-			if (garcia->frames_counter >= garcia->num_frames)
-			{
-				curr_state = State::IDLE;
-				garcia->frames_counter = 0;
-				garcia->punch_hits = 0;
-			}
+			curr_state = State::IDLE;
+			garcia->punch_hits = 0;
+			garcia->punch_finished = false;
+			break;
 		}
 		if (garcia->evasive)
 		{
@@ -361,90 +358,72 @@ void GarciaFSM::Chase()
 	
 void GarciaFSM::Attack()
 {
-	if (garcia->punch_hits < 2)
-	{
-		if (!punch_wait)
-		{
-			if(garcia->facing_right)
-				garcia->curr_anim = &garcia->garcia_punch_right1;
-			else
-				garcia->curr_anim = &garcia->garcia_punch_left1;
-
-			if (garcia->curr_anim->Finished())
-			{
-				garcia->curr_anim->Reset();
-
-				if (garcia->attack)
-				{
-					garcia->the_player->damaged = true;	//Damage the player	
-					App->audio->PlayFx(audio_fx::ENEMY_ATTACK);
-					if (garcia->the_player->god_mode == false)
-					{
-						garcia->the_player->life -= garcia->punch_damage;
-						App->scene_round1->player_HP->ScaleHPBar(garcia->the_player->life, garcia->the_player->max_life);
-					}
-					garcia->the_player->enemy_attacker = garcia;	//enemy to react to					
-					garcia->punch_hits++;
-				}
-				punch_wait = true;
-			}
-		}
+	if (garcia->punch_hits < 2 && !punch_wait)
+	{	
+		if(garcia->facing_right)
+			garcia->curr_anim = &garcia->garcia_punch_right1;
 		else
-		{
-			if(garcia->facing_right)
-				garcia->curr_anim = &garcia->garcia_idle_right;
-			else
-				garcia->curr_anim = &garcia->garcia_idle_left;
+			garcia->curr_anim = &garcia->garcia_punch_left1;
 
-			if (garcia->curr_anim->Finished())
+		if (garcia->curr_anim->Finished())
+		{
+			garcia->curr_anim->Reset();
+
+			if (garcia->attack)
 			{
-				garcia->curr_anim->Reset();
-				punch_wait = false;
+				garcia->the_player->damaged = true;	//Damage the player	
+				App->audio->PlayFx(audio_fx::ENEMY_ATTACK);
+				if (garcia->the_player->god_mode == false)
+				{
+					garcia->the_player->life -= garcia->punch_damage;
+					App->scene_round1->player_HP->ScaleHPBar(garcia->the_player->life, garcia->the_player->max_life);
+				}
+				garcia->the_player->enemy_attacker = garcia;	//enemy to react to					
+				garcia->punch_hits++;
 			}
+			punch_wait = true;
 		}		
 	}
-	if (garcia->punch_hits == 2)
-	{
-		if (!punch_wait)
-		{
-			if(garcia->facing_right)
-				garcia->curr_anim = &garcia->garcia_punch_right2;
-			else
-				garcia->curr_anim = &garcia->garcia_punch_left2;
-
-			if (garcia->curr_anim->Finished())
-			{
-				garcia->curr_anim->Reset();
-				if (garcia->attack)
-				{
-					garcia->the_player->knocked_down = true;	//Knock down the player
-					App->audio->PlayFx(audio_fx::ENEMY_ATTACK);
-					if (garcia->the_player->god_mode == false)
-					{					
-						garcia->the_player->life -= garcia->punch_damage;
-						App->scene_round1->player_HP->ScaleHPBar(garcia->the_player->life, garcia->the_player->max_life);
-					}
-					garcia->the_player->enemy_attacker = garcia;	//enemy to react to
-					garcia->punch_hits = 0;
-					garcia->evasive = true;
-				}
-				punch_wait = true;
-			}
-		}
+	if (garcia->punch_hits == 2 && !punch_wait)
+	{	
+		if(garcia->facing_right)
+			garcia->curr_anim = &garcia->garcia_punch_right2;
 		else
-		{
-			if(garcia->facing_right)
-				garcia->curr_anim = &garcia->garcia_idle_right;
-			else
-				garcia->curr_anim = &garcia->garcia_idle_left;
+			garcia->curr_anim = &garcia->garcia_punch_left2;
 
-			if (garcia->curr_anim->Finished())
+		if (garcia->curr_anim->Finished())
+		{
+			garcia->curr_anim->Reset();
+			if (garcia->attack)
 			{
-				garcia->curr_anim->Reset();
-				punch_wait = false;
+				garcia->the_player->knocked_down = true;	//Knock down the player
+				App->audio->PlayFx(audio_fx::ENEMY_ATTACK);
+				if (garcia->the_player->god_mode == false)
+				{					
+					garcia->the_player->life -= garcia->punch_damage;
+					App->scene_round1->player_HP->ScaleHPBar(garcia->the_player->life, garcia->the_player->max_life);
+				}
+				garcia->the_player->enemy_attacker = garcia;	//enemy to react to
+				garcia->punch_hits = 0;
+				garcia->evasive = true;
 			}
+			punch_wait = true;
 		}			
-	}		
+	}
+	if (punch_wait)
+	{
+		if (garcia->facing_right)
+			garcia->curr_anim = &garcia->garcia_idle_right;
+		else
+			garcia->curr_anim = &garcia->garcia_idle_left;
+
+		if (garcia->curr_anim->Finished())
+		{
+			garcia->curr_anim->Reset();
+			punch_wait = false;
+			garcia->punch_finished = true;
+		}
+	}
 }
 
 void GarciaFSM::Evasive()
@@ -708,7 +687,7 @@ void GarciaFSM::GrabbedFirstStage()
 
 		if (from_second_stage)
 		{
-			garcia->position.x -= garcia->offset_right_x_2;
+			garcia->position.x -= garcia->offset_right_2.x;
 			from_second_stage = false;
 		}
 	}
@@ -723,7 +702,7 @@ void GarciaFSM::GrabbedSecondStage()
 		if (garcia->curr_anim != &garcia->garcia_grabbed_finisher_right)
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
-			garcia->position.x += garcia->offset_right_x_2;
+			garcia->position.x += garcia->offset_right_2.x;
 			from_second_stage = true;
 		}
 	}
@@ -739,7 +718,7 @@ void GarciaFSM::GrabbedThirdStage()
 		if (garcia->offset_applied == false)
 		{			
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_right;
-			garcia->position.x -= garcia->offset_right_x_3;
+			garcia->position.x -= garcia->offset_right_3.x;
 			garcia->offset_applied = true;
 		}
 	}
@@ -748,7 +727,7 @@ void GarciaFSM::GrabbedThirdStage()
 		if (garcia->offset_applied == false)
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_left;
-			garcia->position.x += garcia->offset_left_x_3;
+			garcia->position.x += garcia->offset_left_3.x;
 			garcia->offset_applied = true;
 		}
 	}
@@ -762,8 +741,8 @@ void GarciaFSM::GrabbedFourthStage()
 	{
 		if (garcia->curr_anim != &garcia->garcia_grabbed_finisher_horiz_right)
 		{
-			garcia->position.x -= garcia->offset_right_x_4;
-			garcia->position.y -= garcia->offset_right_y_4;
+			garcia->position.x -= garcia->offset_right_4.x;
+			garcia->position.y -= garcia->offset_right_4.y;
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_horiz_right;
 		}
 	}
@@ -772,8 +751,8 @@ void GarciaFSM::GrabbedFourthStage()
 		if (garcia->curr_anim != &garcia->garcia_grabbed_finisher_horiz_left)
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_horiz_left;
-			garcia->position.x += garcia->offset_left_x_4;
-			garcia->position.y -= garcia->offset_left_y_4;
+			garcia->position.x += garcia->offset_left_4.x;
+			garcia->position.y -= garcia->offset_left_4.y;
 		}
 	}
 }
@@ -786,8 +765,8 @@ void GarciaFSM::GrabbedFifthStage()
 		if (garcia->offset_applied == false)
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_right;
-			garcia->position.x += garcia->offset_right_x_5;
-			garcia->position.y -= garcia->offset_right_y_5;
+			garcia->position.x += garcia->offset_right_5.x;
+			garcia->position.y -= garcia->offset_right_5.y;
 			garcia->offset_applied = true;
 		}
 	}
@@ -796,8 +775,8 @@ void GarciaFSM::GrabbedFifthStage()
 		if (garcia->offset_applied == false)
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_left;
-			garcia->position.x += garcia->offset_left_x_5;
-			garcia->position.y -= garcia->offset_left_y_5;
+			garcia->position.x += garcia->offset_left_5.x;
+			garcia->position.y -= garcia->offset_left_5.y;
 			garcia->offset_applied = true;
 		}
 	}
@@ -817,8 +796,8 @@ void GarciaFSM::GrabbedSixthStage()
 		if (garcia->offset_applied_2 == false)
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_right;
-			garcia->position.x -= garcia->offset_right_x_6;
-			garcia->position.y += garcia->offset_right_y_6;
+			garcia->position.x -= garcia->offset_right_6.x;
+			garcia->position.y += garcia->offset_right_6.y;
 			garcia->offset_applied_2 = true;
 		}
 	}
@@ -827,8 +806,8 @@ void GarciaFSM::GrabbedSixthStage()
 		if (garcia->offset_applied_2 == false)
 		{
 			garcia->curr_anim = &garcia->garcia_grabbed_finisher_vert_left;
-			garcia->position.x += garcia->offset_left_x_6;
-			garcia->position.y += garcia->offset_left_y_6;
+			garcia->position.x += garcia->offset_left_6.x;
+			garcia->position.y += garcia->offset_left_6.y;
 			garcia->offset_applied_2 = true;
 		}
 	}
@@ -847,13 +826,13 @@ void GarciaFSM::GrabbedSeventhDownStage()
 	if (garcia->facing_right)
 	{
 		garcia->curr_anim = &garcia->garcia_down_right2;
-		garcia->position.x -= garcia->offset_right_x_7;
+		garcia->position.x -= garcia->offset_right_7.x;
 		garcia->position.y = garcia->start_pos.y;	
 	}
 	else
 	{
 		garcia->curr_anim = &garcia->garcia_down_left2;
-		garcia->position.x -= garcia->offset_left_x_7;
+		garcia->position.x -= garcia->offset_left_7.x;
 		garcia->position.y = garcia->start_pos.y;		
 	}	
 		garcia->knocked_down = true;		
