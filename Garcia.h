@@ -6,6 +6,7 @@
 #include <list>
 #include "SDL/include/SDL.h"
 #include "ModuleCollision.h"
+#include "Point.h"
 
 class Animation;
 class GarciaFSM;
@@ -19,6 +20,7 @@ private:
 	std::list<int*> animation_list;
 	void LoadGarciaAnimations();
 	void LoadDamage();
+	void LoadConfig();
 
 public:
 	Garcia(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
@@ -32,7 +34,7 @@ public:
 	virtual void ApplyDamage(int damage);
 
 	//frames to allow attack animation to finish before transition
-	int num_frames = 60;
+	int num_frames = 0;// 60;
 	int frames_counter = 0;
 
 	GarciaFSM *garcia_fsm = nullptr;
@@ -56,6 +58,7 @@ public:
 
 	//---------------------------------- OFFSETS IN SOMERSAULT ATTACK ------------------
 	//right
+
 	int offset_right_x_2 = 10;
 	
 	int offset_right_x_3 = 15;

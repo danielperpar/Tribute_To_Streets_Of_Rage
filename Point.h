@@ -64,6 +64,13 @@ public:
 		return (x != v.x || y != v.y);
 	}
 
+	Point& operator=(const Point &v)
+	{
+		this->x = v.x;
+		this->y = v.y;
+		return *this;
+	}
+
 	// Utils ------------------------------------------------
 	bool IsZero() const
 	{

@@ -30,7 +30,12 @@
 		"body_collider_offset_right" : 60,
 		"hit_collider_offset_right" : 60,
 		"body_collider_offset_left" : 62,
-		"hit_collider_offset_left" : 37
+		"hit_collider_offset_left" : 37,
+		"num_frames" : 60,
+		"evasive_v_offset" : 20,
+		"evasve_h_offset" : 120,
+		"down_frames" : 20,
+		"down_inflection" : 10
 	},
 	"antonio" :
 	{

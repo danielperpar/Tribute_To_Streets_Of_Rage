@@ -15,6 +15,7 @@ Garcia::Garcia(SDL_Texture *texture,
 {
 	LoadGarciaAnimations();
 	LoadDamage();
+	LoadConfig();
 }
 
 Garcia::Garcia(const Garcia &garcia) : Enemy(garcia)
@@ -122,6 +123,15 @@ void Garcia::OnCollisionExit(const CollisionInfo &col_info_other)
 void Garcia::LoadDamage()
 {
 	punch_damage = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "punch_damage");
+}
+
+void Garcia::LoadConfig()
+{
+	num_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "num_frames");
+	evasive_v_offset = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "evasive_v_offset");
+	evasive_h_offset = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "evasive_h_offset");
+	down_frames = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "down_frames");
+	down_inflection = JSONDataLoader::GetNumber("assets/json/config.json", "garcia", "down_inflection");
 }
 
 void Garcia::LoadGarciaAnimations()

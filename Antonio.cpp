@@ -24,6 +24,41 @@ Antonio::Antonio(SDL_Texture *texture,
 Antonio::Antonio(const Antonio &antonio) : Enemy(antonio)
 {	
 	kick_damage = antonio.kick_damage;
+	ref_y = antonio.ref_y;
+	body_collider_offset_y = antonio.body_collider_offset_y;
+	hit_collider_offset_y = antonio.hit_collider_offset_y;
+	bouncing_frames = antonio.bouncing_frames;
+	bouncing_inflection = antonio.bouncing_inflection;
+	blink_wait_frames = antonio.blink_wait_frames;
+	blink_max_times = antonio.blink_max_times;
+	down_frames = antonio.down_frames;
+	down_inflection = antonio.down_inflection;
+	body_collider_wide = antonio.body_collider_wide;
+	body_collider_original = antonio.body_collider_original;
+	body_collider_adjusted_x = antonio.body_collider_adjusted_x;
+	offset_right_1 = antonio.offset_right_1;
+	offset_right_2 = antonio.offset_right_2;
+	offset_right_3 = antonio.offset_right_3;
+	offset_right_4 = antonio.offset_right_4;
+	offset_right_5 = antonio.offset_right_5;
+	offset_right_6 = antonio.offset_right_6;
+	offset_right_7 = antonio.offset_right_7;
+	offset_left_1 = antonio.offset_left_1;
+	offset_left_2 = antonio.offset_left_2;
+	offset_left_3 = antonio.offset_left_3;
+	offset_left_4 = antonio.offset_left_4;
+	offset_left_5 = antonio.offset_left_5;
+	offset_left_6 = antonio.offset_left_6;
+	offset_cast_y = antonio.offset_cast_y;
+	offset_cast_x_left = antonio.offset_cast_x_left;
+	offset_cast_x_right = antonio.offset_cast_x_right;
+	boomerang_offset_left_x = antonio.boomerang_offset_left_x;
+	boomerang_offset_left_y = antonio.boomerang_offset_left_y;
+	boomerang_offset_right_x = antonio.boomerang_offset_right_x;
+	boomerang_offset_right_y = antonio.boomerang_offset_right_y;
+	chase_time_out = antonio.chase_time_out;
+	num_frames = antonio.num_frames;
+	prekick_frames = antonio.prekick_frames;
 
 	antonio_boomerang_idle_right = antonio.antonio_boomerang_idle_right;
 	antonio_boomerang_idle_left = antonio.antonio_boomerang_idle_left;

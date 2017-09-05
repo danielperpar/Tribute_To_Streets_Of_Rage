@@ -77,7 +77,7 @@ public:
 	bool body_coll_adjustment_made = false;
 
 	//right
-	iPoint offset_right_1 = { 10,5 };
+	iPoint offset_right_1 = { 0,0 };// { 10, 5 };
 	iPoint offset_right_2 = { 25,5 };
 	iPoint offset_right_3 = { 20,0 };
 	iPoint offset_right_4 = { 20,10 };
