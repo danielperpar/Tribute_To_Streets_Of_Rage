@@ -8,10 +8,17 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "JSONDataLoader.h"
 
 ModulePlayer::ModulePlayer(bool active) : Module(active) {}
 
 ModulePlayer::~ModulePlayer(){}
+
+bool ModulePlayer::Init()
+{
+	LoadConfig();
+	return true;
+}
 
 bool ModulePlayer::Start()
 {
@@ -20,7 +27,7 @@ bool ModulePlayer::Start()
 
 	LOG("Creating the player");
 	the_player = new Player(tx_player, nullptr, "player", entity_type::PLAYER, {0, 0}, 0); //depth = position.y
-	the_player->respawn_position = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE - 60, -5};
+	the_player->respawn_position = { -App->renderer->camera.x * App->renderer->camera_speed / SCREEN_SIZE - start_offset_x, -start_offset_y };
 	the_player->position = the_player->respawn_position;
 	the_player->depth = the_player->position.y;
 
@@ -120,6 +127,12 @@ bool ModulePlayer::CleanUp()
 	}
 	App->scene_round1->dynamic_entities.clear();
 	return true;
+}
+
+void ModulePlayer::LoadConfig()
+{
+	start_offset_x = JSONDataLoader::GetInt("assets/json/config.json", "module_player", "start_offset_x");
+	start_offset_y = JSONDataLoader::GetInt("assets/json/config.json", "module_player", "start_offset_y");
 }
 
 

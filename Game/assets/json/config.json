@@ -195,6 +195,11 @@
 		"offset_spawn_right" : 250,
 		"offset_spawn_left" : 250
 	},
+	"module_player" : 
+	{
+		"start_offset_x" : 60,
+		"start_offset_y" : 5
+	},
 	"scene_round1" :
 	{
 		"background_pos" : [{"x" : 0}, {"y" : 32}],
