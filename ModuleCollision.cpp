@@ -253,14 +253,14 @@ bool Collider::CheckCollision(const Collider *collider, CollisionInfo &col_info1
 	CollisionInfo collision_info1 = CollisionInfo(this, contact_direction::LEFT, contact_direction::DOWN);
 	CollisionInfo collision_info2 = CollisionInfo(collider, contact_direction::LEFT, contact_direction::DOWN);
 
-	bool collisionX = false;
-	bool collisionY = false;
+	bool collision_x = false;
+	bool collision_y = false;
 
 	if (r.x >= this->rect.x)
 	{
 		if (r.x - this->rect.x <= this->rect.w)
 		{
-			collisionX = true;
+			collision_x = true;
 			collision_info1.contact_direction_x = contact_direction::RIGHT;
 			collision_info2.contact_direction_x = contact_direction::LEFT;
 		}
@@ -269,7 +269,7 @@ bool Collider::CheckCollision(const Collider *collider, CollisionInfo &col_info1
 	{
 		if (this->rect.x - r.x <= r.w)
 		{
-			collisionX = true;
+			collision_x = true;
 			collision_info1.contact_direction_x = contact_direction::LEFT;
 			collision_info2.contact_direction_x = contact_direction::RIGHT;
 		}
@@ -279,7 +279,7 @@ bool Collider::CheckCollision(const Collider *collider, CollisionInfo &col_info1
 	{
 		if (r.y - this->rect.y <= this->rect.h) 
 		{
-			collisionY = true;
+			collision_y = true;
 			collision_info1.contact_direction_y = contact_direction::DOWN;
 			collision_info2.contact_direction_y = contact_direction::UP;
 		}
@@ -288,7 +288,7 @@ bool Collider::CheckCollision(const Collider *collider, CollisionInfo &col_info1
 	{
 		if (this->rect.y - r.y <= r.h)
 		{
-			collisionY = true;
+			collision_y = true;
 			collision_info1.contact_direction_y = contact_direction::UP;
 			collision_info2.contact_direction_y = contact_direction::DOWN;
 		}
@@ -299,7 +299,7 @@ bool Collider::CheckCollision(const Collider *collider, CollisionInfo &col_info1
 	col_info2 = collision_info2;
 	
 
-	return collisionX && collisionY;
+	return collision_x && collision_y;
 
 }
 

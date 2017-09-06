@@ -127,6 +127,4 @@ public:
 
 	Animation garcia_dead_blink_effect;
 };
-
-
 #endif

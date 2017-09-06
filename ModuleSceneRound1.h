@@ -84,6 +84,7 @@ private:
 	
 	int go_sign_show_frames = 180;
 	int go_sign_show_counter = 0;
+	bool go_sign_played = false;
 	
 	bool show_help = false;
 

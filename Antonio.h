@@ -39,7 +39,7 @@ public:
 	Player *the_player = nullptr;
 	bool entered_knocked_down = false;
 	bool carrying_boomerang = true;
-	int kick_damage = 0;
+	int kick_damage = 20;
 
 	// ----------------------------- SPRITE HEIGHT REFERENCE ----------------------
 	int ref_y = 51;
@@ -169,7 +169,4 @@ public:
 	Animation antonio_damaged_right;
 	Animation antonio_damaged_left;
 };
-
-
-
 #endif

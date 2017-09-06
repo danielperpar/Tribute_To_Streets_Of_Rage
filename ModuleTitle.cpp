@@ -16,6 +16,7 @@ ModuleTitle::~ModuleTitle() {}
 bool ModuleTitle::Init()
 {
 	LOG("Loading assets for the title");
+	LoadConfig();
 	LoadSceneAssets();
 	
 	return true;
@@ -23,8 +24,8 @@ bool ModuleTitle::Init()
 
 bool ModuleTitle::Start()
 {
-	title_screen = new GUI(tx_title_screen, &anim_title_screen, "title_screen", entity_type::GUI, { 0,0 }, 0);
-	press_enter = new GUI(tx_title_screen, &anim_press_enter, "press_enter", entity_type::GUI, { 260, 500 }, 0);
+	title_screen = new GUI(tx_title_screen, &anim_title_screen, "title_screen", entity_type::GUI, { zero_depth,zero_depth }, zero_depth);
+	press_enter = new GUI(tx_title_screen, &anim_press_enter, "press_enter", entity_type::GUI, press_enter_pos, zero_depth);
 
 	return true;
 }
@@ -64,4 +65,9 @@ void ModuleTitle::LoadSceneAssets()
 	anim_press_enter.loop = true;
 	anim_press_enter.speed = JSONDataLoader::GetFloat("assets/json/config.json", "press_to_play", "anim_press_to_play_speed"); //speed = 0.05f
 	Utilities::free_list(animation_list);
+}
+
+void ModuleTitle::LoadConfig()
+{
+	JSONDataLoader::GetPoint("assets/json/config.json", "press_to_play", "press_enter_pos", press_enter_pos);
 }

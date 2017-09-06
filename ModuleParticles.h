@@ -40,7 +40,7 @@ public:
 	iPoint max_range_right = { 0,0 };
 	iPoint max_range_left = { 0, 0 };
 	int max_range_y = 50; //antonio->offset_cast_y
-	int boomerang_damage = 0;
+	int boomerang_damage = 20;
 
 	Boomerang(SDL_Texture *texture, Animation *curr_anim, const char *name, entity_type type, iPoint position, int depth);
 	Boomerang(const Boomerang &boomerang);

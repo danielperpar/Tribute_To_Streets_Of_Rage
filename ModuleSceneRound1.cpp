@@ -177,12 +177,21 @@ update_status ModuleSceneRound1::Update()
 
 	if (show_go)
 	{
+		if (go_sign->curr_anim->GetCurrentFrameCount() == 0 && go_sign_played == false)
+		{
+			App->audio->PlayFx(audio_fx::GO_ARROW);	
+			go_sign_played = true;
+		}
+		if (go_sign->curr_anim->GetCurrentFrameCount() == 1)
+			go_sign_played = false;
+
 		App->renderer->Blit(go_sign->texture, go_sign->position.x, go_sign->position.y, &go_sign->curr_anim->GetCurrentFrame(), true);
 		go_sign_show_counter++;
 		if (go_sign_show_counter == go_sign_show_frames)
 		{
 			go_sign_show_counter = 0;
 			show_go = false;
+			go_sign_played = false;
 		}
 	}
 	if (show_help)
@@ -298,7 +307,7 @@ void ModuleSceneRound1::LoadSceneAssets()
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSign", animation_list, go_sign_blink);
 	go_sign_blink.loop = true;
-	go_sign_blink.speed = 2 * neon_pinepot.speed;
+	go_sign_blink.speed = neon_pinepot.speed;
 	Utilities::free_list(animation_list);
 
 	JSONDataLoader::LoadAnimRect("assets/json/sprites_data.json", "goSignTransparent", animation_list, go_sign_transparent);

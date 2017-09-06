@@ -108,7 +108,7 @@
 	{
 		"max_life" : 600,
 		"speed" : 1,
-		"kick_damage" : 10,
+		"kick_damage" : 20,
 		"ref_y" : 51, 
 		"body_collider" : [{"x" : 0}, {"y" : 0},{ "w" : 18},{ "h" : 63}],
 		"hit_collider" : [{"x" : 0},{ "y" : 0},{ "w" : 25},{ "h" : 33}],
@@ -169,7 +169,7 @@
 	{
 		"collider" : [{"x" : 0}, {"y" : 0},{ "w" : 45},{ "h" : 20}],
 		"speed" : 2,
-		"boomerang_damage" : 10,
+		"boomerang_damage" : 20,
 		"max_range_y" : 50
 	},
 	"health_chicken" :
@@ -229,6 +229,7 @@
 	},
 	"press_to_play" : 
 	{
-		"anim_press_to_play_speed" : 0.05
+		"anim_press_to_play_speed" : 0.05,
+		"press_enter_pos" : [{"x" : 260},{"y" : 500}]
 	}
 }
