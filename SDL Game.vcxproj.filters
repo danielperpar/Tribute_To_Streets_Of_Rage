@@ -16,198 +16,198 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ModuleRender.h">
+    <ClInclude Include="3rdparty\parson.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Antonio.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemy.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleCollision.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleTextures.h">
-      <Filter>Core Modules</Filter>
+    <ClInclude Include="src\AntonioFSM.h">
+      <Filter>Game Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleWindow.h">
-      <Filter>Core Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>Core Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
+    <ClInclude Include="src\Application.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
+    <ClInclude Include="src\Entity.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Garcia.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GarciaFSM.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Globals.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleAudio.h">
+    <ClInclude Include="src\GUI.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HealthBar.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HealthChicken.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONDataLoader.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemLeaks.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Module.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleFadeToBlack.h">
+    <ClInclude Include="src\ModuleAudio.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="ModulePlayer.h">
+    <ClInclude Include="src\ModuleEnemies.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleInput.h">
+    <ClInclude Include="src\ModuleFadeToBlack.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="MemLeaks.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleParticles.h">
+    <ClInclude Include="src\ModuleInput.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleCollision.h">
+    <ClInclude Include="src\ModuleParticles.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneRound1.h">
+    <ClInclude Include="src\ModulePlayer.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
-    <ClInclude Include="JSONDataLoader.h">
+    <ClInclude Include="src\ModuleRender.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleSceneRound1.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleTextures.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleTitle.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModuleWindow.h">
+      <Filter>Core Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlayerFSM.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Point.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="parson.h">
+    <ClInclude Include="src\ScenarioElement.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utilities.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleEnemies.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFSM.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Garcia.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Antonio.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ScenarioElement.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTimer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="GarciaFSM.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="AntonioFSM.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthChicken.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthBar.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleTitle.h">
-      <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="3rdparty\parson.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Antonio.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemy.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleCollision.cpp">
+      <Filter>Core Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AntonioFSM.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Application.cpp">
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameTimer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Garcia.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GarciaFSM.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HealthBar.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HealthChicken.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONDataLoader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Log.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleRender.cpp">
+    <ClCompile Include="src\ModuleAudio.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleTextures.cpp">
+    <ClCompile Include="src\ModuleEnemies.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleFadeToBlack.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleWindow.cpp">
+    <ClCompile Include="src\ModuleInput.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleAudio.cpp">
+    <ClCompile Include="src\ModuleParticles.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleFadeToBlack.cpp">
+    <ClCompile Include="src\ModulePlayer.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleRender.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="ModulePlayer.cpp">
+    <ClCompile Include="src\ModuleSceneRound1.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleInput.cpp">
+    <ClCompile Include="src\ModuleTextures.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleParticles.cpp">
+    <ClCompile Include="src\ModuleTitle.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModuleWindow.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleCollision.cpp">
-      <Filter>Core Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleSceneRound1.cpp">
+    <ClCompile Include="src\Player.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
-    <ClCompile Include="parson.c">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="JSONDataLoader.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleEnemies.cpp">
+    <ClCompile Include="src\PlayerFSM.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerFSM.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Garcia.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Antonio.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ScenarioElement.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTimer.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="GarciaFSM.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="AntonioFSM.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthChicken.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthBar.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleTitle.cpp">
+    <ClCompile Include="src\ScenarioElement.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,6 +14,7 @@
     <ProjectGuid>{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}</ProjectGuid>
     <RootNamespace>SDLGame</RootNamespace>
     <ProjectName>Tribute to SoR</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,7 +40,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <SourcePath>D:\GitHub\Tribute to Streets of Rage\src;$(SourcePath)</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -69,72 +72,72 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="Antonio.h" />
-    <ClInclude Include="AntonioFSM.h" />
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="GarciaFSM.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="HealthBar.h" />
-    <ClInclude Include="HealthChicken.h" />
-    <ClInclude Include="ModuleTitle.h" />
-    <ClInclude Include="PlayerFSM.h" />
-    <ClInclude Include="Garcia.h" />
-    <ClInclude Include="Globals.h" />
-    <ClInclude Include="JSONDataLoader.h" />
-    <ClInclude Include="MemLeaks.h" />
-    <ClInclude Include="Module.h" />
-    <ClInclude Include="ModuleAudio.h" />
-    <ClInclude Include="ModuleCollision.h" />
-    <ClInclude Include="ModuleEnemies.h" />
-    <ClInclude Include="ModuleFadeToBlack.h" />
-    <ClInclude Include="ModuleInput.h" />
-    <ClInclude Include="ModuleParticles.h" />
-    <ClInclude Include="ModulePlayer.h" />
-    <ClInclude Include="ModuleRender.h" />
-    <ClInclude Include="ModuleSceneRound1.h" />
-    <ClInclude Include="ModuleTextures.h" />
-    <ClInclude Include="ModuleWindow.h" />
-    <ClInclude Include="parson.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="ScenarioElement.h" />
-    <ClInclude Include="GameTimer.h" />
-    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="src\Animation.h" />
+    <ClInclude Include="src\Antonio.h" />
+    <ClInclude Include="src\AntonioFSM.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Enemy.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\GarciaFSM.h" />
+    <ClInclude Include="src\GUI.h" />
+    <ClInclude Include="src\HealthBar.h" />
+    <ClInclude Include="src\HealthChicken.h" />
+    <ClInclude Include="src\ModuleTitle.h" />
+    <ClInclude Include="src\PlayerFSM.h" />
+    <ClInclude Include="src\Garcia.h" />
+    <ClInclude Include="src\Globals.h" />
+    <ClInclude Include="src\JSONDataLoader.h" />
+    <ClInclude Include="src\MemLeaks.h" />
+    <ClInclude Include="src\Module.h" />
+    <ClInclude Include="src\ModuleAudio.h" />
+    <ClInclude Include="src\ModuleCollision.h" />
+    <ClInclude Include="src\ModuleEnemies.h" />
+    <ClInclude Include="src\ModuleFadeToBlack.h" />
+    <ClInclude Include="src\ModuleInput.h" />
+    <ClInclude Include="src\ModuleParticles.h" />
+    <ClInclude Include="src\ModulePlayer.h" />
+    <ClInclude Include="src\ModuleRender.h" />
+    <ClInclude Include="src\ModuleSceneRound1.h" />
+    <ClInclude Include="src\ModuleTextures.h" />
+    <ClInclude Include="src\ModuleWindow.h" />
+    <ClInclude Include="3rdparty\parson.h" />
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Point.h" />
+    <ClInclude Include="src\ScenarioElement.h" />
+    <ClInclude Include="src\GameTimer.h" />
+    <ClInclude Include="src\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Antonio.cpp" />
-    <ClCompile Include="AntonioFSM.cpp" />
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="GameTimer.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="GarciaFSM.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="HealthBar.cpp" />
-    <ClCompile Include="HealthChicken.cpp" />
-    <ClCompile Include="ModuleTitle.cpp" />
-    <ClCompile Include="PlayerFSM.cpp" />
-    <ClCompile Include="Garcia.cpp" />
-    <ClCompile Include="JSONDataLoader.cpp" />
-    <ClCompile Include="Log.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ModuleAudio.cpp" />
-    <ClCompile Include="ModuleCollision.cpp" />
-    <ClCompile Include="ModuleEnemies.cpp" />
-    <ClCompile Include="ModuleFadeToBlack.cpp" />
-    <ClCompile Include="ModuleInput.cpp" />
-    <ClCompile Include="ModuleParticles.cpp" />
-    <ClCompile Include="ModulePlayer.cpp" />
-    <ClCompile Include="ModuleRender.cpp" />
-    <ClCompile Include="ModuleSceneRound1.cpp" />
-    <ClCompile Include="ModuleTextures.cpp" />
-    <ClCompile Include="ModuleWindow.cpp" />
-    <ClCompile Include="parson.c" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="ScenarioElement.cpp" />
+    <ClCompile Include="src\Antonio.cpp" />
+    <ClCompile Include="src\AntonioFSM.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\GameTimer.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\GarciaFSM.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
+    <ClCompile Include="src\HealthBar.cpp" />
+    <ClCompile Include="src\HealthChicken.cpp" />
+    <ClCompile Include="src\ModuleTitle.cpp" />
+    <ClCompile Include="src\PlayerFSM.cpp" />
+    <ClCompile Include="src\Garcia.cpp" />
+    <ClCompile Include="src\JSONDataLoader.cpp" />
+    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\ModuleAudio.cpp" />
+    <ClCompile Include="src\ModuleCollision.cpp" />
+    <ClCompile Include="src\ModuleEnemies.cpp" />
+    <ClCompile Include="src\ModuleFadeToBlack.cpp" />
+    <ClCompile Include="src\ModuleInput.cpp" />
+    <ClCompile Include="src\ModuleParticles.cpp" />
+    <ClCompile Include="src\ModulePlayer.cpp" />
+    <ClCompile Include="src\ModuleRender.cpp" />
+    <ClCompile Include="src\ModuleSceneRound1.cpp" />
+    <ClCompile Include="src\ModuleTextures.cpp" />
+    <ClCompile Include="src\ModuleWindow.cpp" />
+    <ClCompile Include="3rdparty\parson.c" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\ScenarioElement.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
