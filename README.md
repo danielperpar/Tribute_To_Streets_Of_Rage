@@ -1,6 +1,8 @@
 # Tribute to Streets of Rage
 This is a tribute to the arcade game Streets of Rage. Enjoy!
-<img src="images/capture_tribute_sor.png"/>
+
+<img src="https://i.imgur.com/LCdPNif.png">
+
 ## Author
 Daniel Pérez Paraíso   
 ![linkedin profile](https://www.linkedin.com/in/danielperpar)    
