@@ -139,7 +139,15 @@ void PlayerFSM::Update()
 		prev_state = curr_state;
 		if (!the_player->damaged)
 		{
-			curr_state = the_player->life > 0 ? State::IDLE : State::DEAD;
+			if (the_player->life > 0)
+			{
+				curr_state = State::IDLE;
+			}
+			else
+			{
+				curr_state = State::KNOCKED_DOWN;
+				the_player->knocked_down = true;
+			}
 		}
 		break;
 		
@@ -1490,15 +1498,25 @@ void PlayerFSM::KnockedDown()
 			if (the_player->curr_anim->Finished())
 			{
 				the_player->curr_anim->Reset();
-				the_player->curr_anim = &(the_player->anim_ground_right2);
+				if (the_player->life > 0)  
+				{
+					the_player->curr_anim = &(the_player->anim_ground_right2);
+				}
+				else
+				{
+					the_player->knocked_down = false;
+					the_player->down_count = 0;
+					the_player->position.y = the_player->pos_before_knockdown.y;
+					the_player->depth = the_player->position.y;
+				}		
 			}
 		}
 		else if (the_player->curr_anim == &(the_player->anim_ground_right2))
 		{
 			if (the_player->curr_anim->Finished())
 			{
-				the_player->curr_anim->Reset();
-				the_player->curr_anim = &(the_player->anim_up_right);
+				the_player->curr_anim->Reset();		
+				the_player->curr_anim = &(the_player->anim_up_right);	
 			}
 		}
 		else if (the_player->curr_anim == &(the_player->anim_up_right))
@@ -1532,7 +1550,17 @@ void PlayerFSM::KnockedDown()
 			if (the_player->curr_anim->Finished())
 			{
 				the_player->curr_anim->Reset();
-				the_player->curr_anim = &(the_player->anim_ground_left2);
+				if (the_player->life > 0)
+				{
+					the_player->curr_anim = &(the_player->anim_ground_left2);
+				}
+				else
+				{
+					the_player->knocked_down = false;
+					the_player->down_count = 0;
+					the_player->position.y = the_player->pos_before_knockdown.y;
+					the_player->depth = the_player->position.y;
+				}
 			}
 		}
 		else if (the_player->curr_anim == &(the_player->anim_ground_left2))
@@ -1540,7 +1568,7 @@ void PlayerFSM::KnockedDown()
 			if (the_player->curr_anim->Finished())
 			{
 				the_player->curr_anim->Reset();
-				the_player->curr_anim = &(the_player->anim_up_left);
+				the_player->curr_anim = &(the_player->anim_up_left);		
 			}
 		}
 		else if (the_player->curr_anim == &(the_player->anim_up_left))
