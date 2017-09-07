@@ -6,7 +6,7 @@ This is a tribute to the arcade game Streets of Rage. Enjoy!
 ## Author
 Daniel Pérez Paraíso   
 
-![linkedin profile](https://www.linkedin.com/in/danielperpar)    
+[linkedin](https://www.linkedin.com/in/danielperpar)    
 
 ## Keyboard bindings
 
